@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse Login</title>
+  <script type="module" src="../js/pages/login/login.js" defer></script>
+</head>
+<body>
+
+<div class="card">
+  <h2>Warehouse Login</h2>
+  <form id="loginForm">
+    <div class="mb-3">
+      <label for="emailLogin" class="form-label">Email</label>
+      <input type="email" class="form-control" id="emailLogin" placeholder="Enter your email" required>
+    </div>
+    <div class="mb-3">
+      <label for="passwordLogin" class="form-label">Password</label>
+      <input type="password" class="form-control" id="passwordLogin" placeholder="Enter your password" required>
+    </div>
+    <div class="mb-3 forgot-password">
+      <a href="#" id="forgotPassword" data-bs-toggle="modal" data-bs-target="#forgotModal">Forgot Password?</a>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Login</button>
+    <p class="text-center mt-3">Don't have an account? <a href="signup.html">Sign Up</a></p>
+  </form>
+</div>
+
+<!-- MODAL 1: Send OTP-->
+<div class="modal fade" id="forgotModal" tabindex="-1" aria-labelledby="forgotModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="forgotModalLabel">Reset Password</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="sendOtpForm">
+          <div class="mb-3">
+            <label for="resetEmail" class="form-label">Enter your registered email</label>
+            <input type="email" class="form-control" id="resetEmail" placeholder="your@email.com" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Send OTP</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2: Verify OTP + Reset -->
+<div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="verifyModalLabel">Verify OTP & Reset Password</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="verifyOtpForm">
+          <div class="mb-3">
+            <label for="otpCode" class="form-label">Enter OTP</label>
+            <input type="text" class="form-control" id="otpCode" placeholder="Enter the OTP sent to your email" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPassword" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="newPassword" placeholder="Enter new password" required>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Reset Password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
