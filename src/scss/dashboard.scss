@@ -76,53 +76,6 @@ body {
   color: $color-text;
 }
 
-/* SIDEBAR */
-
-.sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 260px;
-  background: $color-white;
-  padding: 30px 0;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-  z-index: 1000;
-
-  .sidebar-brand {
-    padding: 0 30px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $color-text;
-    margin-bottom: 40px;
-  }
-
-  .sidebar-menu {
-    list-style: none;
-
-    li {
-      margin-bottom: 5px;
-    }
-
-    a {
-      @include flex(flex-start, center);
-      padding: 14px 30px;
-      color: $color-text-light;
-      text-decoration: none;
-      font-weight: 500;
-      transition: $transition;
-      border-left: 3px solid transparent;
-
-      &:hover,
-      &.active {
-        background: #f8f7fc;
-        color: $color-primary;
-        border-left-color: $color-primary;
-      }
-    }
-  }
-}
-
 .main-content {
   margin-left: 260px;
   padding: 30px 40px;
