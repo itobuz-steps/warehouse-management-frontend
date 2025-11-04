@@ -5,17 +5,7 @@ $color-text-light: #666666;
 $color-hover-bg: #f5f6ff;
 $color-border: rgba(0, 0, 0, 0.05);
 
-$font-stack:
-  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-  Arial, sans-serif;
-
 $transition: all 0.25s ease;
-
-@mixin flex($align: center, $justify: flex-start) {
-  display: flex;
-  align-items: $align;
-  justify-content: $justify;
-}
 
 * {
   margin: 0;
@@ -24,7 +14,9 @@ $transition: all 0.25s ease;
 }
 
 body {
-  font-family: $font-stack;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
   background: $color-bg;
   min-height: 100vh;
   color: $color-text;
@@ -39,9 +31,9 @@ body {
   background: $color-bg;
   border-right: 1px solid $color-border;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-  padding-left: 10px;
   padding-top: 25px;
   z-index: 1000;
+  transition: transform 0.3s ease;
 
   .sidebar-brand {
     padding: 0 25px;
@@ -53,16 +45,14 @@ body {
 
   .sidebar-menu {
     list-style: none;
-    margin: 0;
-    padding: 0;
 
     li {
       margin-bottom: 5px;
     }
 
     a {
-      @include flex(center, flex-start);
-      width: 100%;
+      display: flex;
+      align-items: center;
       padding: 14px 25px;
       color: $color-text-light;
       text-decoration: none;
@@ -83,16 +73,15 @@ body {
 .main-content {
   margin-left: 250px;
   padding: 30px;
-  min-height: 100vh;
   background: #f9fafc;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
 }
 
 @media (max-width: 992px) {
   .sidebar {
-    width: 220px;
     transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    position: fixed;
+    width: 220px;
   }
 
   .sidebar.active {
@@ -106,15 +95,15 @@ body {
 
   .sidebar-toggle {
     position: fixed;
-    top: 15px;
-    left: 15px;
-    background: $color-primary;
-    color: white;
+    top: 5px;
+    left: 5px;
+    color: $color-primary;
     border: none;
     border-radius: 4px;
     padding: 8px 12px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     cursor: pointer;
+    width: auto;
     z-index: 1100;
   }
 }
