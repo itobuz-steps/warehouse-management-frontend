@@ -14,6 +14,7 @@
       src="../js/pages/dashboard/dashboard.js"
       defer
     ></script>
+    <script type="module" src="../js/common/sidebar.js" defer></script>
   </head>
   <body>
 
@@ -57,16 +58,7 @@
 </div>
 
     <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-brand">Warehouse</div>
-      <ul class="sidebar-menu">
-        <li><a href="#" class="active">Dashboard</a></li>
-        <li><a href="#">Inventory</a></li>
-        <li><a href="#">Reports</a></li>
-        <li><a href="#">Orders</a></li>
-        <li><a href="#">Settings</a></li>
-      </ul>
-    </aside>
+    <div id="sidebar-container"></div>
 
     <!-- Main Dashboard -->
     <main class="main-content">
