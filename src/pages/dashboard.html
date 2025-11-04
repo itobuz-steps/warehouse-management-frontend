@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <title>Inventory Dashboard</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="../scss/dashboard.scss" rel="stylesheet" />
     <script
       type="module"
       src="../js/pages/dashboard/dashboard.js"
@@ -11,48 +16,176 @@
     ></script>
   </head>
   <body>
-    <div class="container">
-      <h1>Hello {Admin} / {Manager}, Welcome to your Inventory</h1>
 
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        Add Manager
-      </button>
-
-      <!-- Modal -->
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5">Add a Manager</h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form method="post" class="add-manager-form">
-                <div class="mb-3">
-                  <input type="email" name="email" class="email form-control" />
-                </div>
-                <button type="submit" class="btn btn-primary">Add +</button>
-              </form>
-            </div>
+    <!-- Add Manager Modal -->
+   <div
+    class="modal fade"
+    id="addManagerModal"
+    tabindex="-1"
+    aria-labelledby="addManagerModalLabel"
+    aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addManagerModalLabel">Add New Manager</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="addManagerForm" class="add-manager-form">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              class="form-control"
+              placeholder="Enter manager email"
+              required
+            />
           </div>
-        </div>
+
+          <button type="submit" class="btn-primary">Add Manager</button>
+        </form>
       </div>
     </div>
+  </div>
+</div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">Warehouse</div>
+      <ul class="sidebar-menu">
+        <li><a href="#" class="active">Dashboard</a></li>
+        <li><a href="#">Inventory</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Orders</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Dashboard -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div>
+          <h1>Hello <span class="user-role">Admin</span>, Welcome Back 👋</h1>
+          <p>Here's an overview of your warehouse performance</p>
+        </div>
+        <div class="header-actions">
+          <button class="add-manager-btn" 
+          data-bs-toggle="modal"
+          data-bs-target="#addManagerModal">
+          Add Manager
+          </button>
+          <div class="user-avatar">A</div>
+        </div>
+      </div>
+
+      <!-- Overview Cards -->
+      <section class="overview-grid">
+        <div class="overview-card purple">
+          <div class="card-title">Sales Overview</div>
+          <div class="card-value">₹18,300</div>
+          <div class="card-sub">Profit: ₹1,742 | Cost: ₹12,432</div>
+        </div>
+        <div class="overview-card blue">
+          <div class="card-title">Purchase Overview</div>
+          <div class="card-value">₹13,573</div>
+          <div class="card-sub">82 Purchases | 5 Canceled</div>
+        </div>
+        <div class="overview-card green">
+          <div class="card-title">Inventory Summary</div>
+          <div class="card-value">888</div>
+          <div class="card-sub">200 To Receive</div>
+        </div>
+        <div class="overview-card orange">
+          <div class="card-title">Product Summary</div>
+          <div class="card-value">31 Suppliers</div>
+          <div class="card-sub">21 Categories</div>
+        </div>
+      </section>
+
+      <!-- Static Charts -->
+      <section class="charts-grid">
+        <!-- Sales & Purchase Chart -->
+        <div class="chart-card">
+          <h5>Sales & Purchase</h5>
+          
+          </div>
+        </div>
+
+        <!-- Order Summary Chart -->
+        <div class="chart-card">
+          <h5>Order Summary</h5>
+          <div class="line-chart"></div>
+        </div>
+      </section>
+
+      <!-- Tables -->
+      <section class="stock-grid">
+        <div class="table-card">
+          <h5>Top Selling Stock</h5>
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Sold Qty</th>
+                <th>Remaining</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Surf Excel</td>
+                <td>30</td>
+                <td>12</td>
+                <td>₹120</td>
+              </tr>
+              <tr>
+                <td>Rin</td>
+                <td>15</td>
+                <td>17</td>
+                <td>₹105</td>
+              </tr>
+              <tr>
+                <td>Parle G</td>
+                <td>19</td>
+                <td>17</td>
+                <td>₹105</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-card">
+          <h5>Low Quantity Stock</h5>
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Remaining</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tata Salt</td>
+                <td>10 packets</td>
+                <td><span class="badge bg-danger">Low</span></td>
+              </tr>
+              <tr>
+                <td>Lays</td>
+                <td>15 packets</td>
+                <td><span class="badge bg-danger">Low</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
