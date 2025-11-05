@@ -76,6 +76,10 @@ body {
   color: $color-text;
 }
 
+.sidebar-container {
+  width: 250px;
+}
+
 .main-content {
   margin-left: 260px;
   padding: 30px 40px;
@@ -192,7 +196,7 @@ body {
 /* TABLES */
 
 .stock-grid {
-  @include grid(auto-fit, 350px);
+  @include grid(auto-fit, 280px);
 }
 
 .table-card {
