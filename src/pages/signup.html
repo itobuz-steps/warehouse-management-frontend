@@ -4,12 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Account</title>
-    <link rel="stylesheet" href="../scss/auth.scss" />
+    <!-- <link rel="stylesheet" href="../scss/auth.scss" /> -->
   </head>
   <body
     class="d-flex align-items-center justify-content-center min-vh-100 bg-light"
   >
-    <div class="main-container">
+    <div id="toastSection">
+      <!-- custom toast message -->
+    </div>
+
+    <div id="unauthorizedMessage" class="d-none">
+      <img
+        src="../assets/images/unauthorized.svg"
+        class="w-100 d-block"
+        alt="unauthorized"
+      />
+    </div>
+
+    <div id="expiredMessage" class="d-none">
+      <img
+        src="../assets/images/expired.png"
+        class="d-block"
+        height="300"
+        width="300"
+        alt="unauthorized"
+      />
+    </div>
+
+    <div class="main-container d-none" id="signupContainer">
       <div class="left-panel text-center">
         <h1>Welcome to Warehouse &lt;3</h1>
       </div>

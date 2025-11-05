@@ -23,9 +23,33 @@ $font-family-base:
   box-shadow: $shadow;
 }
 
+.toast {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  color: #eee;
+  width: 300px;
+  font-weight: 700;
+  z-index: 1000;
+  animation: toast 500ms forwards;
+}
+
+@keyframes toast {
+  from {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .main-container {
   @include display-flex;
   max-width: 1100px;
+  margin: 0px 15px;
   width: 100%;
   background: $white;
   border-radius: 20px;

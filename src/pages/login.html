@@ -4,11 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="../scss/auth.scss" />
+    <!-- <link rel="stylesheet" href="../scss/auth.scss" /> -->
   </head>
   <body
     class="d-flex align-items-center justify-content-center min-vh-100 bg-light"
   >
+    <div id="toastSection">
+      <!-- custom toast message -->
+    </div>
+
     <div class="main-container">
       <div class="left-panel text-center">
         <h1>Welcome to Warehouse &lt;3</h1>
@@ -43,7 +47,9 @@
           </div>
 
           <div class="remember-me d-flex justify-content-end mb-3">
-            <a href="#" class="text-muted forget-password">Forgot Password?</a>
+            <a href="/pages/forgot.html" class="text-muted forget-password"
+              >Forgot Password?</a
+            >
           </div>
 
           <button type="submit" class="btn login-btn">Login</button>
