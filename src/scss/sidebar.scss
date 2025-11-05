@@ -45,6 +45,7 @@ body {
 
   .sidebar-menu {
     list-style: none;
+    padding-left: 0;
 
     li {
       margin-bottom: 5px;
@@ -71,6 +72,7 @@ body {
 }
 
 .main-content {
+  margin-top: 0;
   margin-left: 250px;
   padding: 30px;
   background: #f9fafc;
