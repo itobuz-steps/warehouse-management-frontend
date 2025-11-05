@@ -23,14 +23,11 @@ signupSelection.signupForm.addEventListener('submit', signupSubscribe);
 
 async function tokenValidator(token) {
   try {
-    const response = await axios.post(
-      `${config.AUTH_BASE_URL}/signup/${token}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    await axios.post(`${config.AUTH_BASE_URL}/signup/${token}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   } catch (err) {
     if (err.response.data.message == 'Link Expired') {
       expiredMessage.classList.remove('d-none');

@@ -16,7 +16,7 @@ const signupSubscribe = async (event) => {
     const signupData = { name, password };
 
     const response = await axios.post(
-      `${config.AUTH_BASE_URL}/signup/${token}`,
+      `${config.AUTH_BASE_URL}/signup/set-password/${token}`,
       signupData,
       {
         headers: {
