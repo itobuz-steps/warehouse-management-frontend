@@ -196,7 +196,7 @@ body {
 /* TABLES */
 
 .stock-grid {
-  @include grid(auto-fit, 350px);
+  @include grid(auto-fit, 280px);
 }
 
 .table-card {

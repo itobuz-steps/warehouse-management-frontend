@@ -84,20 +84,22 @@ body {
   .sidebar {
     transform: translateX(-100%);
     width: 220px;
+    transition: transform 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    background: $color-bg;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
   }
 
   .sidebar.active {
     transform: translateX(0);
   }
 
-  .main-content {
-    margin-left: 0;
-    padding: 20px;
-  }
-
   .sidebar-toggle {
     position: fixed;
-    top: 5px;
     left: 5px;
     color: $color-primary;
     border: none;
@@ -105,7 +107,16 @@ body {
     padding: 8px 12px;
     font-size: 1.2rem;
     cursor: pointer;
-    width: auto;
-    z-index: 1100;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  .sidebar-toggle {
+    display: none;
   }
 }
