@@ -114,6 +114,10 @@ body {
       @include button();
     }
 
+    .add-warehouse-btn {
+      @include button();
+    }
+
     .user-avatar {
       width: 45px;
       height: 45px;
@@ -225,7 +229,7 @@ body {
   padding: 25px;
 }
 
-.add-manager-form {
+.add-form {
   .form-label {
     font-weight: 600;
     color: $color-text;
