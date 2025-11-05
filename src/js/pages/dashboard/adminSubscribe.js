@@ -1,12 +1,16 @@
 import axios from 'axios';
 import config from '../../../config/config.js';
 import Choices from 'choices.js';
+import Templates from '../../common/Templates.js';
+
+const displayToast = new Templates();
+const toastSection = document.getElementById('toastSection');
 
 const managerSelect = new Choices('#managers', {
   removeItemButton: true,
   searchEnabled: true,
-  placeholderValue: 'Type or select a skill',
-  noResultsText: 'No matching skills found',
+  placeholderValue: 'Search Managers',
+  noResultsText: 'No managers found',
 });
 
 export const addManagerSubscribe = async (event) => {
@@ -21,8 +25,13 @@ export const addManagerSubscribe = async (event) => {
     });
 
     console.log(response);
+    toastSection.innerHTML = displayToast.successToast(response.data.message);
   } catch (err) {
-    console.log(err);
+    toastSection.innerHTML = displayToast.errorToast(err.response.data.message);
+  } finally {
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
   }
 };
 
@@ -61,7 +70,47 @@ export const addWarehouseSubscribe = async (event) => {
     );
 
     console.log(response);
+    toastSection.innerHTML = displayToast.successToast(response.data.message);
   } catch (err) {
-    console.log(err);
+    toastSection.innerHTML = displayToast.errorToast(err.response.data.message);
+  } finally {
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
+export const showManagerOptions = async () => {
+  console.log('Add Warehouse');
+
+  try {
+    const response = await axios.get(`${config.ADMIN_BASE_URL}/get-managers`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
+
+    const managers = response.data.managers;
+    console.log('Fetched managers:', managers);
+
+    // Update Choices.js dropdown directly
+    managerSelect.clearChoices(); // clear previous ones
+
+    managerSelect.setChoices(
+      managers.map((manager) => ({
+        value: manager._id,
+        label: manager.name,
+        selected: false,
+        disabled: false,
+      })),
+      'value',
+      'label',
+      false
+    );
+
+    console.log('Manager options updated in Choices.js');
+  } catch (error) {
+    console.error('Error fetching managers:', error);
   }
 };
