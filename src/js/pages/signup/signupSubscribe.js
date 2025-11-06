@@ -1,4 +1,4 @@
-import config from '../../../config/config';
+import config from '../../config/config.js';
 import axios from 'axios';
 import token from './signup';
 import Templates from '../../common/Templates.js';

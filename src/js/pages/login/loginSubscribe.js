@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../../../config/config.js';
+import config from '../../config/config.js';
 import Templates from '../../common/Templates.js';
 
 const displayToast = new Templates();
