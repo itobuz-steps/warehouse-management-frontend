@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../api/interceptor.js';
 import config from '../../config/config.js';
 import Choices from 'choices.js';
 import Templates from '../../common/Templates.js';
@@ -20,7 +20,7 @@ export const addManagerSubscribe = async (event) => {
     const managerFormData = new FormData(event.target);
     const email = managerFormData.get('email');
 
-    const response = await axios.post(`${config.AUTH_BASE_URL}/signup`, {
+    const response = await api.post(`${config.AUTH_BASE_URL}/signup`, {
       email,
     });
 
@@ -58,7 +58,7 @@ export const addWarehouseSubscribe = async (event) => {
 
     console.log(warehouse);
 
-    const response = await axios.post(
+    const response = await api.post(
       `${config.ADMIN_BASE_URL}/add-warehouse`,
       warehouse,
       {
@@ -84,7 +84,7 @@ export const showManagerOptions = async () => {
   console.log('Add Warehouse');
 
   try {
-    const response = await axios.get(`${config.ADMIN_BASE_URL}/get-managers`, {
+    const response = await api.get(`${config.ADMIN_BASE_URL}/get-managers`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
