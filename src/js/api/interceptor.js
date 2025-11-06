@@ -1,7 +1,8 @@
 import axios from 'axios';
+import config from '../config/config';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/user',
+  baseURL: `${config.BASE_URL}/user`,
 }); // instance create
 
 api.interceptors.request.use(
@@ -55,7 +56,7 @@ api.interceptors.response.use(
       const refreshToken = localStorage.getItem('refresh_token');
       try {
         const res = await axios.post(
-          'http://localhost:3000/user/auth/refresh',
+          `${config.AUTH_BASE_URL}/refresh`,
           {},
           {
             headers: { Authorization: `Bearer ${refreshToken}` },
@@ -82,7 +83,7 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (err) {
         processQueue(err, null);
-        window.location.href = 'src/pages/login.html';
+        window.location.href = '/pages/login.html';
         return Promise.reject(err);
       } finally {
         isRefreshing = false;

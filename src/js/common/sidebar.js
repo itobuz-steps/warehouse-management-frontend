@@ -1,3 +1,7 @@
+import '../../scss/sidebar.scss';
+// eslint-disable-next-line no-unused-vars
+import * as bootstrap from 'bootstrap';
+
 document.addEventListener('DOMContentLoaded', () => {
   fetch('sidebar.html')
     .then((response) => {
