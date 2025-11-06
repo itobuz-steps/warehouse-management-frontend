@@ -8,17 +8,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link href="../scss/dashboard.scss" rel="stylesheet" />
-    <script
-      type="module"
-      src="../js/pages/dashboard/dashboard.js"
-      defer
-    ></script>
-    <script
-      type="module"
-      src="../js/pages/dashboard/adminSubscribe.js"
-      defer
-    ></script>
+    <!-- <link href="../scss/dashboard.scss" rel="stylesheet" /> -->
     <script type="module" src="../js/common/sidebar.js" defer></script>
     <link
       rel="stylesheet"
@@ -27,6 +17,10 @@
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
   </head>
   <body>
+    <div id="toastSection">
+      <!-- custom toast message -->
+    </div>
+
     <!-- Add Manager Modal -->
     <div
       class="modal fade"
@@ -128,27 +122,16 @@
                 />
               </div>
 
-              <div class="mb-3">
-                <label for="managers[]" class="form-label"
-                  >Select Managers</label
-                >
+              <div class="mb-3" id="xyz">
+                <label for="managers" class="form-label">Select Managers</label>
 
-                <select id="managers" name="managers[]" multiple>
-                  <option value="manager1-id" class="manager-option">
-                    Manager1
-                  </option>
-                  <option value="manager2-id" class="manager-option">
-                    Manager2
-                  </option>
-                  <option value="manager3-id" class="manager-option">
-                    Manager3
-                  </option>
-                  <option value="manager4-id" class="manager-option">
-                    Manager4
-                  </option>
-                  <option value="manager5-id" class="manager-option">
-                    Manager5
-                  </option>
+                <select
+                  id="managers"
+                  name="managers"
+                  class="managers-option"
+                  multiple
+                >
+                  <!-- All Manager Options -->
                 </select>
               </div>
 
@@ -289,5 +272,15 @@
         </div>
       </section>
     </main>
+
+    <script type="module" src="../js/pages/dashboard/dashboard.js"></script>
+    <script
+      type="module"
+      src="../js/pages/dashboard/adminSubscribe.js"
+    ></script>
+    <script
+      type="module"
+      src="../js/pages/dashboard/dashboardSelector.js"
+    ></script>
   </body>
 </html>
