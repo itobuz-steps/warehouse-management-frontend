@@ -51,7 +51,7 @@ export const addWarehouseSubscribe = async (event) => {
 
     const warehouse = {
       name,
-      location: address,
+      address,
       description,
       managers: selectedManagers,
     };

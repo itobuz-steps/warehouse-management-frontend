@@ -2,20 +2,48 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link href="../scss/sidebar.scss" rel="stylesheet" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <script src="../js/common/sidebar.js" defer></script>
   </head>
   <body>
     <aside class="sidebar">
       <div class="sidebar-brand">Warehouse</div>
       <ul class="sidebar-menu">
-        <li><a href="dashboard.html" class="active">Dashboard</a></li>
-        <li><a href="inventory.html">Inventory</a></li>
-        <li><a href="reports.html">Reports</a></li>
-        <li><a href="orders.html">Orders</a></li>
-        <li><a href="settings.html">Settings</a></li>
+        <li>
+          <a href="dashboard.html" class="active"
+            ><i class="fa fa-dashboard pr-2"></i>Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="inventory.html">
+            <i class="fa-solid fa-warehouse pr-2"></i>
+            Manage Warehouse</a
+          >
+        </li>
+        <li>
+          <a href=""><i class="fa fa-user pr-2"></i>User Management</a>
+        </li>
+        <li>
+          <a href="reports.html">
+            <i class="fa fa-bar-chart pr-2"></i>Reports</a
+          >
+        </li>
+        <li>
+          <a href="orders.html">
+            <i class="fas fa-chart-line pr-2"></i>Manage Stocks</a
+          >
+        </li>
+        <li>
+          <a href="settings.html"><i class="fa fa-gear pr-2"></i></i>Settings</a>
+        </li>
+        <li><a href=""><i class="fa fa-sign-out pr-2"></i>Logout</a></li>
       </ul>
     </aside>
   </body>
