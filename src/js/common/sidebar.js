@@ -52,6 +52,7 @@ function initializeSidebar() {
   logoutButton.addEventListener('click', () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    console.log('Profile Logged Out');
     window.location.href = '../../pages/login.html';
   });
 }
