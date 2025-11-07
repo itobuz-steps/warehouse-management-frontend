@@ -46,4 +46,12 @@ function initializeSidebar() {
     const linkPath = link.getAttribute('href').split('/').pop();
     link.classList.toggle('active', linkPath === currentPath);
   });
+
+  const logoutButton = document.querySelector('.logout-button');
+
+  logoutButton.addEventListener('click', () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    window.location.href = '../../pages/login.html';
+  });
 }
