@@ -12,4 +12,7 @@ export default class Templates {
     <p class="m-0">${msg}</p>
   </div>`;
   };
+
+  
+
 }

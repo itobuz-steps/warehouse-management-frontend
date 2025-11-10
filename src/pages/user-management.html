@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+    <link rel="stylesheet" href="../scss/user-management.scss" />
+  </head>
+
+  <body>
+    <div id="toastSection">
+      <!-- custom toast message -->
+    </div>
+
+    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+    <div id="sidebar-container"></div>
+
+    <!-- Main Section -->
+    <main class="main-content user-management">
+      <div class="user-profile-card">
+        <div class="user-info">
+          <img
+            src="../assets/default-avatar.png"
+            alt="User Profile"
+            class="user-avatar-lg"
+          />
+          <div class="user-details">
+            <h2 class="user-name">Naziya Begum</h2>
+            <p class="user-email">naziya.begum@example.com</p>
+            <p class="user-role-badge">Admin</p>
+          </div>
+        </div>
+
+        <div class="user-actions">
+          <button class="btn-edit">Edit Profile</button>
+          <button class="btn-delete">Delete User</button>
+        </div>
+      </div>
+
+      <section class="manager-list-section">
+        <h3>All Managers</h3>
+        <div class="manager-grid">
+          <div class="manager-card">
+            <img
+              src="../assets/default-avatar.png"
+              alt="Manager"
+              class="manager-avatar"
+            />
+            <div class="manager-info">
+              <h5 class="manager-name">John Doe</h5>
+              <p class="manager-email">john.doe@example.com</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+    <script
+      type="module"
+      src="../js/pages/user-management/userManagement.js"
+    ></script>
+  </body>
+</html>

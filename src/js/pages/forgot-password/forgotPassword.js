@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = emailInput.value.trim();
     try {
       const res = await axios.post(`${API_BASE}/send-otp`, { email });
+
       if (res.data.success) {
         emailForm.style.display = 'none';
         otpForm.style.display = 'block';
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'OTP sent! Check your email.'
         );
       }
+      
     } catch (err) {
       toastSection.innerHTML = toastMessage.errorToast(err.message);
     } finally {
