@@ -10,7 +10,11 @@ const userManagementSelection = {
     createdAt: document.querySelector(".created-at"),
     updatedAt: document.querySelector(".updated-at"),
     managerView: document.querySelectorAll(".manager-list-section"),
-    deleteOk: document.querySelector("#confirmDelete")
+    confirmDelete: document.querySelector("#confirmDelete"),
+    confirmUpdate: document.querySelector("#confirmUpdate"),
+    profileImg: document.querySelector("#profileImg"),
+    name: document.querySelector('#name'),
+    updateProfileForm: document.querySelector("#updateProfile")
 }
 
 export default userManagementSelection;

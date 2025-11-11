@@ -16,10 +16,10 @@ export const getUserDetailsSubscribe = async () => {
     console.log(res);
 
     const data = res.data.data;
+
     const user = data.user;
     const verifiedManagers = data.verifiedManagers;
     const unverifiedManagers = data.unverifiedManagers;
-    console.log(unverifiedManagers);
 
     userManagementSelection.userName.innerText = user.name;
     userManagementSelection.userEmail.innerText = user.email;
@@ -54,27 +54,19 @@ export const getUserDetailsSubscribe = async () => {
 
     if (unverifiedManagers.length != 0) {
       unverifiedManagers.forEach((manager) => {
-        let card;
-
-        if (!manager.profileImage) {
-          card = unverifiedManagerCard(manager.email);
-        } else {
-          card = unverifiedManagerCard(manager.email);
-        }
+        const card = unverifiedManagerCard(manager.email);
 
         userManagementSelection.notVerifiedManagerGrid.innerHTML += card;
       });
     }
 
-    if(user.role === 'manager') {
-      userManagementSelection.managerView.forEach(element => {
+    if (user.role === 'manager') {
+      userManagementSelection.managerView.forEach((element) => {
         element.style.display = 'none';
       });
     }
-    
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
-    console.log(err);
   } finally {
     setTimeout(() => {
       toastSection.innerHTML = '';
@@ -82,16 +74,28 @@ export const getUserDetailsSubscribe = async () => {
   }
 };
 
-export const updateUserSubscribe = async () => {
+export const updateUserSubscribe = async (event) => {
+  event.preventDefault();
+  const formData = new FormData(userManagementSelection.updateProfileForm);
   try {
-    const res = await api.patch(`${config.PROFILE_BASE_URL}/update-profile`);
+    const res = await api.patch(
+      `${config.PROFILE_BASE_URL}/update-profile`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
     console.log(res);
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
+    console.log(err);
   } finally {
     setTimeout(() => {
       toastSection.innerHTML = '';
     }, 3000);
+    window.location.reload();
   }
 };
 
