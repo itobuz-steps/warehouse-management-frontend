@@ -87,6 +87,8 @@ $transition: all 0.3s ease;
 }
 
 .user-management {
+  
+
   .user-profile-card {
     @include card($radius-lg, 25px 30px, $shadow-md);
     @include flex(space-between, center, row, 20px);
@@ -97,8 +99,8 @@ $transition: all 0.3s ease;
       @include flex(flex-start, center, row, 20px);
 
       .user-avatar-lg {
-        width: 100px;
-        height: 100px;
+        width: 130px;
+        height: 130px;
         border-radius: 50%;
         object-fit: cover;
         box-shadow: $shadow-sm;
@@ -124,6 +126,12 @@ $transition: all 0.3s ease;
           font-size: 0.85rem;
           font-weight: 600;
         }
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .user-info {
+        @include flex(flex-start, center, column, 20px);
       }
     }
 
@@ -180,7 +188,6 @@ $transition: all 0.3s ease;
     }
   }
 
-  /* RESPONSIVE DESIGN */
   @include responsive {
     .user-profile-card {
       flex-direction: column;

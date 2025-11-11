@@ -8,19 +8,55 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <script type="module" src="../js/common/sidebar.js" defer></script>
     <link rel="stylesheet" href="../scss/user-management.scss" />
   </head>
 
   <body>
-    <div id="toastSection">
-      <!-- custom toast message -->
+    <div id="toastSection"></div>
+
+    <div class="modal fade" tabindex="-1" id="delete-user">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-danger">Confirm Action</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body text-center">
+            <p class="fs-4">Are you sure you want to delete user?</p>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary fs-5"
+              data-bs-dismiss="modal"
+            >
+              Discard
+            </button>
+            <button type="button" class="btn btn-danger fs-5" id="confirmDelete">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+
+    
 
     <button class="sidebar-toggle" id="sidebarToggle">☰</button>
     <div id="sidebar-container"></div>
 
-    <!-- Main Section -->
     <main class="main-content user-management">
       <div class="user-profile-card">
         <div class="user-info">
@@ -28,36 +64,49 @@
             src="../assets/default-avatar.png"
             alt="User Profile"
             class="user-avatar-lg"
+            style="border: 2px solid #b97a87"
           />
+
           <div class="user-details">
-            <h2 class="user-name">Naziya Begum</h2>
-            <p class="user-email">naziya.begum@example.com</p>
-            <p class="user-role-badge">Admin</p>
+            <span
+            >
+              <h2 class="user-name d-inline-block"></h2>
+              <i class="fas fa-check-circle fs-5" style="color: #1da1f2"></i>
+            </span>
+
+            <p class="user-email mb-3"></p>
+            <p class="user-role-badge"></p>
+            <p class="my-0">
+              Created on:
+              <span class="created-at"></span>
+            </p>
+            <p>
+              Updated on:
+              <span class="updated-at"></span>
+            </p>
           </div>
         </div>
 
         <div class="user-actions">
           <button class="btn-edit">Edit Profile</button>
-          <button class="btn-delete">Delete User</button>
+          <button
+            class="btn-delete"
+            data-bs-toggle="modal"
+            data-bs-target="#delete-user"
+          >
+            Delete User
+          </button>
         </div>
       </div>
 
       <section class="manager-list-section">
-        <h3>All Managers</h3>
-        <div class="manager-grid">
-          <div class="manager-card">
-            <img
-              src="../assets/default-avatar.png"
-              alt="Manager"
-              class="manager-avatar"
-            />
-            <div class="manager-info">
-              <h5 class="manager-name">John Doe</h5>
-              <p class="manager-email">john.doe@example.com</p>
-            </div>
-          </div>
+        <h3>Verified Managers</h3>
+        <div class="manager-grid" id="verified-manager-grid"></div>
+      </section>
 
-        </div>
+      <section class="manager-list-section mt-4">
+        <h3>Pending Verifications</h3>
+        <div class="manager-grid" id="not-verified-manager-grid"></div>
       </section>
     </main>
     <script
