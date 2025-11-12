@@ -1,6 +1,7 @@
 @import 'bootstrap/scss/bootstrap';
 
 $primary: #b97a87;
+$color-primary-dark: #864a5b;
 $body-bg: linear-gradient(135deg, #efe1e1 0%, #fafafa 100%);
 $body-color: #1a1a1a;
 $font-family-base:
@@ -216,4 +217,13 @@ $font-family-base:
       }
     }
   }
+}
+
+.reset-password-btn {
+  background-color: $primary;
+  border: 2px solid $primary;
+}
+.reset-password-btn:hover {
+  background-color: $color-primary-dark;
+  border: 2px solid $color-primary-dark;
 }
