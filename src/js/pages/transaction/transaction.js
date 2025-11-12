@@ -155,6 +155,9 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
       body = {
         products: collectProducts('outProductsContainer'),
         customerName: document.getElementById('customerName').value,
+        customerEmail: document.getElementById('customerEmail').value,
+        customerPhone: document.getElementById('customerPhone').value,
+        customerAddress: document.getElementById('customerAddress').value,
         orderNumber: document.getElementById('orderNumber').value,
         sourceWarehouse: document.getElementById('outSourceWarehouse').value,
         notes: document.getElementById('outNotes').value,
@@ -189,7 +192,6 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
       break;
   }
 
-  // ✅ Correct Axios usage
   try {
     const token = localStorage.getItem('access_token');
     const res = await api.post(url, body, {

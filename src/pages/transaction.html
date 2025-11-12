@@ -72,17 +72,33 @@
           >
             + Add Product
           </button>
+
           <input
             id="customerName"
             class="form-control mb-2"
             placeholder="Customer Name"
           />
           <input
+            id="customerEmail"
+            type="email"
+            class="form-control mb-2"
+            placeholder="Customer Email"
+          />
+          <input
+            id="customerPhone"
+            class="form-control mb-2"
+            placeholder="Customer Phone"
+          />
+          <input
+            id="customerAddress"
+            class="form-control mb-2"
+            placeholder="Customer Address"
+          />
+          <input
             id="orderNumber"
             class="form-control mb-2"
             placeholder="Order Number"
           />
-          
           <input id="outNotes" class="form-control mb-2" placeholder="Notes" />
         </div>
 
@@ -104,6 +120,7 @@
           >
             Load Products
           </button>
+          <div id="transferProductsContainer"></div>
 
           <button
             id="addTransferProduct"
