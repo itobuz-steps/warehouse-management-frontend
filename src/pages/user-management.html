@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+    <link rel="stylesheet" href="../scss/user-management.scss" />
+  </head>
+
+  <body>
+    <div id="toastSection"></div>
+
+    <div class="modal fade" tabindex="-1" id="delete-user">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-danger">Confirm Action</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body text-center">
+            <p class="fs-4">Are you sure you want to delete user?</p>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary fs-5"
+              data-bs-dismiss="modal"
+            >
+              Discard
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger fs-5"
+              id="confirmDelete"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="update-profile"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Details</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <form id="updateProfile" class="update-profile-form">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" name="name" id="name" class="form-control" />
+
+                <label for="profile-image" class="form-label mt-4"
+                  >Profile Image</label
+                >
+                <input type="file" class="form-control mb-4" id="profileImg" name="profile-img"/>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary fs-5"
+                  data-bs-dismiss="modal"
+                >
+                  Discard
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary fs-5"
+                  id="confirmUpdate"
+                >
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+    <div id="sidebar-container"></div>
+
+    <main class="main-content user-management">
+      <div class="user-profile-card">
+        <div class="user-info">
+          <img
+            src="../assets/default-avatar.png"
+            alt="User Profile"
+            class="user-avatar-lg"
+            style="border: 2px solid #b97a87"
+          />
+
+          <div class="user-details">
+            <span>
+              <h2 class="user-name d-inline-block"></h2>
+              <i class="fas fa-check-circle fs-5" style="color: #1da1f2"></i>
+            </span>
+
+            <p class="user-email mb-3"></p>
+            <p class="user-role-badge"></p>
+            <p class="my-0">
+              Created on:
+              <span class="created-at"></span>
+            </p>
+            <p>
+              Updated on:
+              <span class="updated-at"></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="user-actions">
+          <button
+            class="btn-edit"
+            data-bs-toggle="modal"
+            data-bs-target="#update-profile"
+          >
+            Edit Profile
+          </button>
+
+          <button
+            class="btn-delete"
+            data-bs-toggle="modal"
+            data-bs-target="#delete-user"
+          >
+            Delete Profile
+          </button>
+        </div>
+      </div>
+
+      <section class="manager-list-section">
+        <h3>Verified Managers</h3>
+        <div class="manager-grid" id="verified-manager-grid"></div>
+      </section>
+
+      <section class="manager-list-section mt-4">
+        <h3>Pending Verifications</h3>
+        <div class="manager-grid" id="not-verified-manager-grid"></div>
+      </section>
+    </main>
+    <script
+      type="module"
+      src="../js/pages/user-management/userManagement.js"
+    ></script>
+  </body>
+</html>

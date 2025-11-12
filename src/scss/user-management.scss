@@ -1,0 +1,202 @@
+$font-stack:
+  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+  Arial, sans-serif;
+
+$color-primary: #b97a87;
+$color-primary-dark: #864a5b;
+$color-secondary: #efe1e1;
+$color-text: #1a1a1a;
+$color-text-light: #666;
+$color-border: #f0f0f0;
+$color-bg: linear-gradient(135deg, #efe1e1 0%, #fafafa 100%);
+$color-white: #ffffff;
+
+$shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
+
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 15px;
+
+$transition: all 0.3s ease;
+
+.toast {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  color: #eee;
+  width: 300px;
+  font-weight: 700;
+  z-index: 100000;
+  animation: toast 500ms forwards;
+}
+
+@keyframes toast {
+  from {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@mixin flex($justify: flex-start, $align: center, $direction: row, $gap: 0) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin card($radius: $radius-md, $padding: 20px, $shadow: $shadow-sm) {
+  background: $color-white;
+  border-radius: $radius;
+  padding: $padding;
+  box-shadow: $shadow;
+}
+
+@mixin button($bg: $color-primary, $hover: $color-primary-dark) {
+  padding: 12px 24px;
+  background: $bg;
+  color: $color-white;
+  border: none;
+  border-radius: $radius-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition;
+
+  &:hover {
+    background: $hover;
+    transform: translateY(-2px);
+  }
+}
+
+@mixin grid($columns: auto-fit, $min: 220px, $gap: 20px) {
+  display: grid;
+  grid-template-columns: repeat($columns, minmax($min, 1fr));
+  gap: $gap;
+}
+
+@mixin responsive {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+.user-management {
+  
+
+  .user-profile-card {
+    @include card($radius-lg, 25px 30px, $shadow-md);
+    @include flex(space-between, center, row, 20px);
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+
+    .user-info {
+      @include flex(flex-start, center, row, 20px);
+
+      .user-avatar-lg {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: $shadow-sm;
+      }
+
+      .user-details {
+        .user-name {
+          font-weight: 700;
+          font-size: 1.5rem;
+          color: $color-text;
+        }
+        .user-email {
+          color: $color-text-light;
+          font-size: 0.95rem;
+          margin-bottom: 5px;
+        }
+        .user-role-badge {
+          display: inline-block;
+          background: $color-primary;
+          color: $color-white;
+          padding: 5px 12px;
+          border-radius: $radius-sm;
+          font-size: 0.85rem;
+          font-weight: 600;
+        }
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .user-info {
+        @include flex(flex-start, center, column, 20px);
+      }
+    }
+
+    .user-actions {
+      @include flex(flex-end, center, row, 10px);
+      flex-wrap: wrap;
+
+      .btn-edit {
+        @include button($color-primary, $color-primary-dark);
+      }
+      .btn-delete {
+        @include button($color-primary, $color-primary-dark);
+      }
+    }
+  }
+
+  /* Manager Section */
+  .manager-list-section {
+    @include card($radius-md, 25px 30px);
+    h3 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: $color-text;
+    }
+
+    .manager-grid {
+      @include grid(auto-fit, 220px);
+
+      .manager-card {
+        @include card($radius-md, 15px);
+        text-align: center;
+        transition: $transition;
+        &:hover {
+          transform: translateY(-5px);
+        }
+
+        .manager-avatar {
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          margin-bottom: 10px;
+        }
+
+        .manager-name {
+          font-weight: 600;
+          color: $color-text;
+        }
+
+        .manager-email {
+          color: $color-text-light;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  @include responsive {
+    .user-profile-card {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+
+      .user-actions {
+        justify-content: center;
+      }
+    }
+  }
+}

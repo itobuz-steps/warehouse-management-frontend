@@ -20,6 +20,8 @@ const loginSubscribe = async (event) => {
       loginData
     );
 
+    console.log(response);
+
     localStorage.setItem('access_token', response.data.accessToken);
     localStorage.setItem('refresh_token', response.data.refreshToken);
 
@@ -27,7 +29,7 @@ const loginSubscribe = async (event) => {
 
     setTimeout(() => {
       window.location.href = '/pages/dashboard.html';
-    }, 1000);
+    }, 3000);
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.response.data.message);
   } finally {
