@@ -23,7 +23,8 @@ export const getUserDetailsSubscribe = async () => {
 
     userManagementSelection.userName.innerText = user.name;
     userManagementSelection.userEmail.innerText = user.email;
-    userManagementSelection.userImg.src = user.profileImage;
+    userManagementSelection.userImg.src =
+      user.profileImage || '../../../assets/images/profile_default.svg';
     userManagementSelection.userRole.innerText = user.role;
     userManagementSelection.createdAt.innerText = new Date(
       user.createdAt
