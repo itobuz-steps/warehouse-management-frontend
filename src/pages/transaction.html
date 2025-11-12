@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Management</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+    <link href="../scss/transaction.scss" rel="stylesheet" />
+  </head>
+
+  <body>
+    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="transaction-card">
+        <h2 class="text-center mb-4">Transaction Management</h2>
+
+        <!-- Transaction Type -->
+        <div class="mb-3">
+          <label for="type" class="form-label">Transaction Type</label>
+          <select id="type" class="form-select">
+            <option value="">Select Type</option>
+            <option value="IN">Stock In</option>
+            <option value="OUT">Stock Out</option>
+            <option value="TRANSFER">Transfer</option>
+            <option value="ADJUSTMENT">Adjustment</option>
+          </select>
+        </div>
+
+        <!-- IN Fields -->
+        <div id="inFields" class="hidden">
+          <div class="mb-3">
+            <label>Destination Warehouse ID</label>
+            <input id="inDestinationWarehouse" class="form-control" />
+          </div>
+          <button id="loadInProducts" class="btn btn-sm btn-secondary mb-3">
+            Load Products
+          </button>
+          <div id="inProductsContainer"></div>
+          <button id="addInProduct" class="btn btn-outline-primary btn-sm mb-3">
+            + Add Product
+          </button>
+          <div class="mb-3">
+            <label>Supplier</label>
+            <input id="supplier" class="form-control" />
+          </div>
+          <input id="inNotes" class="form-control mb-2" placeholder="Notes" />
+        </div>
+
+        <!-- OUT Fields -->
+        <div id="outFields" class="hidden">
+          <input
+            id="outSourceWarehouse"
+            class="form-control mb-2"
+            placeholder="Source Warehouse ID"
+          />
+          <button id="loadOutProducts" class="btn btn-sm btn-secondary mb-3">
+            Load Products
+          </button>
+          <div id="outProductsContainer"></div>
+          <button
+            id="addOutProduct"
+            class="btn btn-outline-primary btn-sm mb-3"
+          >
+            + Add Product
+          </button>
+          <input
+            id="customerName"
+            class="form-control mb-2"
+            placeholder="Customer Name"
+          />
+          <input
+            id="orderNumber"
+            class="form-control mb-2"
+            placeholder="Order Number"
+          />
+          
+          <input id="outNotes" class="form-control mb-2" placeholder="Notes" />
+        </div>
+
+        <!-- TRANSFER Fields -->
+        <div id="transferFields" class="hidden">
+          <input
+            id="sourceWarehouse"
+            class="form-control mb-2"
+            placeholder="Source Warehouse ID"
+          />
+          <input
+            id="destinationWarehouse"
+            class="form-control mb-2"
+            placeholder="Destination Warehouse ID"
+          />
+          <button
+            id="loadTransferProducts"
+            class="btn btn-sm btn-secondary mb-3"
+          >
+            Load Products
+          </button>
+
+          <button
+            id="addTransferProduct"
+            class="btn btn-outline-primary btn-sm mb-3"
+          >
+            + Add Product
+          </button>
+          <input
+            id="transferNotes"
+            class="form-control mb-2"
+            placeholder="Notes"
+          />
+        </div>
+
+        <!-- ADJUSTMENT Fields -->
+        <div id="adjustmentFields" class="hidden">
+          <input
+            id="adjustWarehouseId"
+            class="form-control mb-2"
+            placeholder="Warehouse ID"
+          />
+          <button id="loadAdjustProducts" class="btn btn-sm btn-secondary mb-3">
+            Load Products
+          </button>
+          <div id="adjustProductsContainer"></div>
+          <input
+            id="adjustReason"
+            class="form-control mb-2"
+            placeholder="Reason"
+          />
+          <input
+            id="adjustNotes"
+            class="form-control mb-2"
+            placeholder="Notes"
+          />
+        </div>
+
+        <button id="submitBtn" class="btn btn-primary mt-3 w-100">
+          Submit Transaction
+        </button>
+      </div>
+    </main>
+
+    <script type="module" src="../js/pages/transaction/transaction.js"></script>
+  </body>
+</html>
