@@ -1,0 +1,50 @@
+@import 'bootstrap/scss/bootstrap';
+
+.btn-primary {
+  background-color: #b97a87 !important;
+  border: none;
+}
+
+.text-heading {
+  color: #b97a87;
+}
+.table-header {
+  th {
+    background-color: #b97a87;
+    color: #eee;
+  }
+  th:first-child {
+    border-top-left-radius: 10px;
+  }
+  th:last-child {
+    border-top-right-radius: 10px;
+  }
+}
+
+.active {
+  color: #bc2745 !important;
+  background-color: transparent !important;
+}
+
+.toast {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  color: #eee;
+  width: 300px;
+  font-weight: 700;
+  z-index: 100000;
+  animation: toast 500ms forwards;
+}
+
+@keyframes toast {
+  from {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
