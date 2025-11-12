@@ -1,29 +1,76 @@
-@import 'bootstrap/scss/bootstrap';
+/* Enhanced CSS with sexy design improvements */
+:root {
+  --primary-color: #b97a87;
+  --primary-dark: #a86a77;
+  --light-bg: #f8f9fa;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
 
 .btn-primary {
-  background-color: #b97a87 !important;
-  border: none;
+  background-color: var(--primary-color) !important;
+  border: none !important;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  padding: 8px 16px;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(185, 122, 135, 0.3);
 }
 
 .text-heading {
-  color: #b97a87;
-}
-.table-header {
-  th {
-    background-color: #b97a87;
-    color: #eee;
-  }
-  th:first-child {
-    border-top-left-radius: 10px;
-  }
-  th:last-child {
-    border-top-right-radius: 10px;
-  }
+  color: var(--primary-color);
 }
 
-.active {
+.table-header th {
+  background-color: var(--primary-color);
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 15px;
+  border: none;
+}
+
+.table-header th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.table-header th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+
+  width: 100%;
+  box-shadow: var(--card-shadow);
+  border-radius: 12px;
+}
+
+.table tbody tr {
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f0f2;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.table tbody td {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.active-warehouse {
   color: #bc2745 !important;
   background-color: transparent !important;
+  font-weight: 600;
 }
 
 .toast {
@@ -35,6 +82,8 @@
   font-weight: 700;
   z-index: 100000;
   animation: toast 500ms forwards;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes toast {
@@ -42,9 +91,159 @@
     opacity: 0;
     transform: translateX(120%);
   }
-
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+/* Card enhancements */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--hover-shadow);
+}
+
+.card-header {
+  background-color: white;
+  border-bottom: 1px solid #eaeaea;
+  padding: 16px 20px;
+  font-weight: 600;
+  color: #333;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Modal enhancements */
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  border-bottom: 1px solid #eaeaea;
+  padding: 16px 20px;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+/* Form enhancements */
+.form-control {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(185, 122, 135, 0.2);
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+/* Button enhancements */
+.btn {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn i {
+  margin-right: 5px;
+}
+
+.btn.p-0 {
+  padding: 8px !important;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.btn.p-0:hover {
+  background-color: rgba(185, 122, 135, 0.1);
+}
+
+/* Dropdown enhancements */
+.dropdown-menu {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(185, 122, 135, 0.1);
+}
+
+/* Manager tags in modal */
+.manager {
+  display: inline-block;
+  background-color: rgba(185, 122, 135, 0.1);
+  color: var(--primary-color);
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Status badge */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-active {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+}
+
+.status-inactive {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 15px;
+  }
+
+  .table {
+    font-size: 0.9rem;
+  }
+
+  .table tbody td {
+    padding: 10px 8px;
+  }
+
+  .card-body {
+    padding: 15px;
   }
 }

@@ -32,7 +32,7 @@
         <div class="card-header fw-bold">Manage Warehouse</div>
         <div class="card-body">
           <p class="card-text">
-            Click the button bellow to add a new warehouse.
+            Click the button below to add a new warehouse.
           </p>
           <button
             class="btn btn-primary"
@@ -48,7 +48,7 @@
 
       <!-- list of warehouse section -->
       <div
-        class="list-warehouse-head d-flex justify-content-between mt-3 flex-column gap-2 flex-sm-row"
+        class="list-warehouse-head d-flex justify-content-between mt-4 flex-column gap-2 flex-sm-row"
       >
         <h5 class="ms-2 m-auto">Warehouse Details</h5>
         <div class="dropdown ms-2 ms-sm-0">
@@ -64,7 +64,9 @@
 
           <ul class="dropdown-menu p-0">
             <li>
-              <a class="dropdown-item border-bottom active" href="#">All</a>
+              <a class="dropdown-item border-bottom active-warehouse" href="#"
+                >All</a
+              >
             </li>
             <li><a class="dropdown-item border-bottom" href="#">Active</a></li>
             <li><a class="dropdown-item" href="#">Inactive</a></li>
@@ -73,50 +75,141 @@
       </div>
 
       <!-- warehouse details table -->
+      <div class="table-responsive mt-3">
+        <table class="table">
+          <thead>
+            <tr class="table-header">
+              <th scope="col">Name</th>
+              <th scope="col">Address</th>
+              <th scope="col">Actions</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <td>Warehouse - B</td>
+              <td>24/C, Jagadish Mukherjee Road, Kolkata - 700028</td>
+              <td class="">
+                <div class="d-flex flex-column gap-2 flex-sm-row">
+                  <button
+                    type="button"
+                    class="btn p-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#viewWarehouse"
+                    data-bs-whatever="@getbootstrap"
+                  >
+                    <i class="fa fa-eye"></i>
+                  </button>
 
-      <table class="table mt-3">
-        <thead>
-          <tr class="table-header">
-            <th scope="col">Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          <tr>
-            <td>Warehouse A</td>
-            <td>1/A, ABC Road</td>
-            <td class="">
-              <div class="d-flex flex-column gap-2 flex-sm-row">
-                <button class="btn p-0" title="View Details">
-                  <i class="fa fa-eye"></i>
-                </button>
-                <button class="btn p-0" title="Edit Details">
-                  <i class="fa fa-edit"></i>
-                </button>
-                <button class="btn p-0 text-danger">
-                  <i class="fa fa-trash-o"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
+                  <button class="btn p-0"><i class="fa fa-edit"></i></button>
+                  <button class="btn p-0 text-danger">
+                    <i class="fa fa-trash-o"></i>
+                  </button>
+                </div>
+              </td>
+              <td><span class="status-badge status-active">Active</span></td>
+            </tr>
+            <tr>
+              <td>Warehouse - A</td>
+              <td>15/B, Park Street, Kolkata - 700016</td>
+              <td class="">
+                <div class="d-flex flex-column gap-2 flex-sm-row">
+                  <button
+                    type="button"
+                    class="btn p-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#viewWarehouse"
+                    data-bs-whatever="@getbootstrap"
+                  >
+                    <i class="fa fa-eye"></i>
+                  </button>
 
-          <tr>
-            <td>Warehouse - B</td>
-            <td>24/C, Jagadish Mukherjee Road, Kolkata - 700028</td>
-            <td class="">
-              <div class="d-flex flex-column gap-2 flex-sm-row">
-                <button class="btn p-0"><i class="fa fa-eye"></i></button>
-                <button class="btn p-0"><i class="fa fa-edit"></i></button>
-                <button class="btn p-0 text-danger">
-                  <i class="fa fa-trash-o"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                  <button class="btn p-0"><i class="fa fa-edit"></i></button>
+                  <button class="btn p-0 text-danger">
+                    <i class="fa fa-trash-o"></i>
+                  </button>
+                </div>
+              </td>
+              <td><span class="status-badge status-active">Active</span></td>
+            </tr>
+            <tr>
+              <td>Warehouse - C</td>
+              <td>42/D, Salt Lake City, Kolkata - 700091</td>
+              <td class="">
+                <div class="d-flex flex-column gap-2 flex-sm-row">
+                  <button
+                    type="button"
+                    class="btn p-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#viewWarehouse"
+                    data-bs-whatever="@getbootstrap"
+                  >
+                    <i class="fa fa-eye"></i>
+                  </button>
+
+                  <button class="btn p-0"><i class="fa fa-edit"></i></button>
+                  <button class="btn p-0 text-danger">
+                    <i class="fa fa-trash-o"></i>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <span class="status-badge status-inactive">Inactive</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </main>
+
+    <!-- view warehouse modal -->
+    <div
+      class="modal fade"
+      id="viewWarehouse"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Warehouse - B
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="" class="fw-bold">Address:</label>
+              <textarea name="" id="" class="w-100 rounded-2 p-2 mt-1" disabled>
+24/C, Jagadish Mukherjee Road, Kolkata - 700028
+              </textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="" class="fw-bold">Details:</label>
+              <textarea name="" id="" class="w-100 rounded-2 p-2 mt-1" disabled>
+Second Warehouse with more enhanced storing options of Food & Beverages
+              </textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="" class="fw-bold d-block mb-2">Managers:</label>
+              <div class="d-flex flex-wrap gap-2">
+                <div class="manager">Sanket</div>
+                <div class="manager">Esha</div>
+                <div class="manager">Devjyoti</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Add Warehouse Modal -->
     <div
@@ -190,7 +283,7 @@
                 </select>
               </div>
 
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary w-100">
                 Add Warehouse
               </button>
             </form>
