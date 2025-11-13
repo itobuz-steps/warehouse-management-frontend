@@ -4,28 +4,6 @@ import config from '../../config/config';
 
 const productGrid = document.getElementById('productGrid');
 
-// async function fetchProducts() {
-//   try {
-//     const res = await api.get(config.PRODUCT_BASE_URL);
-//     const { success, data } = res.data;
-
-//     if (!success || !data) {
-//       showEmptyState();
-//       return;
-//     }
-
-//     if (data.length === 0) {
-//       showEmptyState();
-//       return;
-//     }
-
-//     renderProducts(data);
-//   } catch (err) {
-//     console.error('Error fetching products:', err);
-//     showErrorState();
-//   }
-// }
-
 async function fetchProducts(warehouseId = '690c2b38228835fa4cd40184') {
   try {
     const url = warehouseId
@@ -34,15 +12,18 @@ async function fetchProducts(warehouseId = '690c2b38228835fa4cd40184') {
 
     const res = await api.get(url);
     console.log(res);
-    const { success, data } = res.data;
-    console.log(success, data);
 
-    if (!success || !data || data.length === 0) {
+    const { success, data } = res.data;
+    const products = Array.isArray(data) ? data : data?.data || [];
+
+    console.log(products);
+
+    if (!success || !products || products.length === 0) {
       showEmptyState();
       return;
     }
 
-    renderProducts(data);
+    renderProducts(products);
   } catch (err) {
     console.error('Error fetching products:', err);
     showErrorState();
@@ -54,6 +35,8 @@ function renderProducts(details) {
   productGrid.innerHTML = '';
 
   details.forEach((detail) => {
+    const product = detail.product || detail;
+
     const imgSrc =
       detail.productImage && detail.productImage.length > 0
         ? detail.productImage[0]
@@ -63,15 +46,13 @@ function renderProducts(details) {
     card.classList.add('product-card');
 
     card.innerHTML = `
-      <img src="${imgSrc}" alt="${detail.product.name}" />
+      <img src="${imgSrc}" alt="${product.name}" />
       <div class="card-body">
-        <h5 class="card-title">${detail.product.name}</h5>
-        <p class="card-text">${
-          detail.product.description || 'No description available.'
-        }</p>
+        <h5 class="card-title">${product.name}</h5>
+        <p class="card-text">${product.description || 'No description available.'}</p>
         <div class="info-row">
-          <span class="price">$${detail.product.price ?? 'N/A'}</span>
-          <span class="category">${detail.product.category ?? 'Not Categorized'}</span>
+          <span class="price">$${product.price ?? 'N/A'}</span>
+          <span class="category">${product.category ?? 'Not Categorized'}</span>
         </div>
       </div>
     `;
