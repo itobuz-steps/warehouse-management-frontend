@@ -2,9 +2,13 @@ import api from '../../api/interceptor';
 import config from '../../config/config';
 import Choices from 'choices.js';
 import Templates from '../../common/Templates.js';
+import { displayWarehouse } from './displayWarehouse.js';
+import * as bootstrap from 'bootstrap';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
+const addWarehouseModal = document.getElementById('addWarehouseModal');
+const addModalObject = new bootstrap.Modal(addWarehouseModal);
 
 const managerSelect = new Choices('#addManagers', {
   removeItemButton: true,
@@ -40,7 +44,8 @@ export const addWarehouseSubscribe = async (event) => {
       warehouse
     );
 
-    console.log(response);
+    displayWarehouse();
+    addModalObject.hide();
 
     toastSection.innerHTML = displayToast.successToast(response.data.message);
   } catch (err) {

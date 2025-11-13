@@ -1,8 +1,8 @@
 export default class WarehouseTemplate {
-  activeWarehouse = () => {
+  activeWarehouse = (data) => {
     return `<tr>
-              <td>Warehouse - A</td>
-              <td>15/B, Park Street, Kolkata - 700016</td>
+              <td>${data.name}</td>
+              <td>${data.address}</td>
               <td class="">
                 <div class="d-flex flex-column gap-2 flex-sm-row">
                   <button

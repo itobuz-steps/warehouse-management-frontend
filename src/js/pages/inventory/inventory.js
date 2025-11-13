@@ -3,6 +3,7 @@ import '../../../scss/inventory.scss';
 import * as bootstrap from 'bootstrap';
 
 import { addWarehouseSubscribe, showManagerOptions } from './addWarehouse.js';
+import { displayWarehouse } from './displayWarehouse.js';
 
 const addWarehouseForm = document.getElementById('addWarehouseForm');
 const addWarehouseButton = document.getElementById('addWarehouseBtn');
@@ -12,3 +13,6 @@ addWarehouseForm.addEventListener('submit', addWarehouseSubscribe);
 addWarehouseButton.addEventListener('click', showManagerOptions); // Get all managers when Add-Warehouse button triggered
 
 // display warehouse
+displayWarehouse();
+
+// view warehouse details
