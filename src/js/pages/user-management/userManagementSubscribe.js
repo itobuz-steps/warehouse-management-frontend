@@ -6,7 +6,7 @@ import {
   verifiedManagerCard,
   unverifiedManagerCard,
 } from '../../common/template/profileTemplate.js';
-import addWarehouseDetails from '../../common/template/warehouseDetailstemplate.js';
+import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
