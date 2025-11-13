@@ -23,9 +23,10 @@ async function viewWarehouseDetails(id) {
     viewAddress.innerHTML = warehouse.address;
     viewDetails.innerHTML = warehouse.description;
 
+    viewManagers.innerHTML = '';
     warehouse.managerIds.forEach(
       (manager) =>
-        (viewManagers.innerHTML = `<div class="manager">${manager.name}</div>`)
+        (viewManagers.innerHTML += `<div class="manager">${manager.name}</div>`)
     );
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
