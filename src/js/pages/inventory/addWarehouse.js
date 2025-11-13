@@ -37,8 +37,6 @@ export const addWarehouseSubscribe = async (event) => {
       managers: selectedManagers,
     };
 
-    console.log(selectedManagers);
-
     const response = await api.post(
       `${config.ADMIN_BASE_URL}/add-warehouse`,
       warehouse
@@ -59,12 +57,7 @@ export const addWarehouseSubscribe = async (event) => {
 
 export const showManagerOptions = async () => {
   try {
-    const response = await api.get(`${config.ADMIN_BASE_URL}/get-managers`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-    });
+    const response = await api.get(`${config.ADMIN_BASE_URL}/get-managers`);
 
     const managers = response.data.data;
 

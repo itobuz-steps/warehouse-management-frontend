@@ -44,43 +44,16 @@
           <h5 class="ms-2 m-auto">Warehouse Details</h5>
         </div>
 
-        <div class="btn-group d-flex gap-2">
-          <!-- add warehouse section -->
-          <button
-            class="btn m-auto btn-primary rounded-2"
-            id="addWarehouseBtn"
-            data-bs-toggle="modal"
-            data-bs-target="#addWarehouseModal"
-          >
-            <i class="fa fa-plus"></i>
-            Add Warehouse
-          </button>
-
-          <!-- filter button -->
-          <div class="dropdown m-auto">
-            <a
-              class="btn btn-primary dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Filter
-            </a>
-
-            <ul class="dropdown-menu p-0">
-              <li>
-                <a class="dropdown-item border-bottom active-warehouse" href="#"
-                  >All</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item border-bottom" href="#">Active</a>
-              </li>
-              <li><a class="dropdown-item" href="#">Inactive</a></li>
-            </ul>
-          </div>
-        </div>
+        <!-- add warehouse section -->
+        <button
+          class="btn btn-primary rounded-2"
+          id="addWarehouseBtn"
+          data-bs-toggle="modal"
+          data-bs-target="#addWarehouseModal"
+        >
+          <i class="fa fa-plus"></i>
+          Add Warehouse
+        </button>
       </div>
 
       <!-- warehouse details table -->
@@ -90,7 +63,6 @@
             <tr class="table-header">
               <th scope="col">Name</th>
               <th scope="col">Address</th>
-              <th scope="col">Status</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -149,6 +121,50 @@
             <a href="/pages/products.html" class="btn btn-primary"
               >View Products</a
             >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- delete warehouse modal -->
+    <div
+      class="modal fade"
+      id="deleteWarehouseModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Confirm Delete
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete the Warehouse?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="deleteWarehouseBtn"
+            >
+              Confirm
+            </button>
           </div>
         </div>
       </div>

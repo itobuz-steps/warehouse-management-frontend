@@ -29,6 +29,10 @@ async function viewWarehouseDetails(id) {
     );
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
+  } finally {
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
   }
 }
 

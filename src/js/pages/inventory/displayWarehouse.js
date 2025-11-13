@@ -28,8 +28,6 @@ export async function displayWarehouse() {
     for (let i = rows.length - 1; i > 0; i--) {
       if (rows[i].active) {
         rowsContainer.innerHTML += displayRows.activeWarehouse(rows[i]);
-      } else {
-        rowsContainer.innerHTML += displayRows.inactiveWarehouse(rows[i]);
       }
     }
   } catch (err) {

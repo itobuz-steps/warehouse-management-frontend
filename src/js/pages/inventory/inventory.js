@@ -5,11 +5,11 @@ import './viewWarehouseDetails.js';
 
 import { addWarehouseSubscribe, showManagerOptions } from './addWarehouse.js';
 import { displayWarehouse } from './displayWarehouse.js';
-// import { viewWarehouseDetails } from './viewWarehouseDetails.js';
+import { confirmDelete } from './deleteWarehouse.js';
 
 const addWarehouseForm = document.getElementById('addWarehouseForm');
 const addWarehouseButton = document.getElementById('addWarehouseBtn');
-// const viewWarehouseBtn = document.getElementById('viewWarehouseBtn');
+const deleteWarehouseBtn = document.getElementById('deleteWarehouseBtn');
 
 // add warehouse
 addWarehouseForm.addEventListener('submit', addWarehouseSubscribe);
@@ -17,3 +17,11 @@ addWarehouseButton.addEventListener('click', showManagerOptions); // Get all man
 
 // display warehouse
 displayWarehouse();
+
+//delete warehouse
+function deleteWarehouse(id) {
+  deleteWarehouseBtn.setAttribute('data-id', id);
+  deleteWarehouseBtn.addEventListener('click', confirmDelete);
+}
+
+window.deleteWarehouse = deleteWarehouse;
