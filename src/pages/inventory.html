@@ -85,78 +85,8 @@
               <th scope="col">Status</th>
             </tr>
           </thead>
-          <tbody class="table-group-divider">
-            <tr>
-              <td>Warehouse - B</td>
-              <td>24/C, Jagadish Mukherjee Road, Kolkata - 700028</td>
-              <td class="">
-                <div class="d-flex flex-column gap-2 flex-sm-row">
-                  <button
-                    type="button"
-                    class="btn p-0"
-                    data-bs-toggle="modal"
-                    data-bs-target="#viewWarehouse"
-                    data-bs-whatever="@getbootstrap"
-                  >
-                    <i class="fa fa-eye"></i>
-                  </button>
-
-                  <button class="btn p-0"><i class="fa fa-edit"></i></button>
-                  <button class="btn p-0 text-danger">
-                    <i class="fa fa-trash-o"></i>
-                  </button>
-                </div>
-              </td>
-              <td><span class="status-badge status-active">Active</span></td>
-            </tr>
-            <tr>
-              <td>Warehouse - A</td>
-              <td>15/B, Park Street, Kolkata - 700016</td>
-              <td class="">
-                <div class="d-flex flex-column gap-2 flex-sm-row">
-                  <button
-                    type="button"
-                    class="btn p-0"
-                    data-bs-toggle="modal"
-                    data-bs-target="#viewWarehouse"
-                    data-bs-whatever="@getbootstrap"
-                  >
-                    <i class="fa fa-eye"></i>
-                  </button>
-
-                  <button class="btn p-0"><i class="fa fa-edit"></i></button>
-                  <button class="btn p-0 text-danger">
-                    <i class="fa fa-trash-o"></i>
-                  </button>
-                </div>
-              </td>
-              <td><span class="status-badge status-active">Active</span></td>
-            </tr>
-            <tr>
-              <td>Warehouse - C</td>
-              <td>42/D, Salt Lake City, Kolkata - 700091</td>
-              <td class="">
-                <div class="d-flex flex-column gap-2 flex-sm-row">
-                  <button
-                    type="button"
-                    class="btn p-0"
-                    data-bs-toggle="modal"
-                    data-bs-target="#viewWarehouse"
-                    data-bs-whatever="@getbootstrap"
-                  >
-                    <i class="fa fa-eye"></i>
-                  </button>
-
-                  <button class="btn p-0"><i class="fa fa-edit"></i></button>
-                  <button class="btn p-0 text-danger">
-                    <i class="fa fa-trash-o"></i>
-                  </button>
-                </div>
-              </td>
-              <td>
-                <span class="status-badge status-inactive">Inactive</span>
-              </td>
-            </tr>
+          <tbody class="table-group-divider" id="warehouseTable">
+            <!-- table row will come here -->
           </tbody>
         </table>
       </div>
@@ -206,6 +136,89 @@ Second Warehouse with more enhanced storing options of Food & Beverages
                 <div class="manager">Devjyoti</div>
               </div>
             </div>
+
+            <a href="/pages/products.html" class="btn btn-primary"
+              >View Products</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Warehouse Modal -->
+    <div
+      class="modal fade"
+      id="editWarehouseModal"
+      tabindex="-1"
+      aria-labelledby="addWarehouseModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editWarehouseModalLabel">
+              Edit Warehouse
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editWarehouseForm" class="add-warehouse-form add-form">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="form-control"
+                  placeholder="Enter warehouse name"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  class="form-control"
+                  placeholder="Enter warehouse address"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input
+                  type="text"
+                  name="description"
+                  id="description"
+                  class="form-control"
+                  placeholder="Enter description"
+                  required
+                />
+              </div>
+
+              <div class="mb-3" id="xyz">
+                <label for="managers" class="form-label">Select Managers</label>
+
+                <select
+                  id="managers"
+                  name="managers"
+                  class="managers-option"
+                  multiple
+                ></select>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">
+                Update Details
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -271,11 +284,13 @@ Second Warehouse with more enhanced storing options of Food & Beverages
               </div>
 
               <div class="mb-3" id="xyz">
-                <label for="managers" class="form-label">Select Managers</label>
+                <label for="addManagers" class="form-label"
+                  >Select Managers</label
+                >
 
                 <select
-                  id="managers"
-                  name="managers"
+                  id="addManagers"
+                  name="addManagers"
                   class="managers-option"
                   multiple
                 >
