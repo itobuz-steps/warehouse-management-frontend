@@ -7,6 +7,11 @@
   --hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
+.text-primary {
+  color: var(--primary-color) !important;
+  background-color: transparent;
+}
+
 .btn-primary {
   background-color: var(--primary-color) !important;
   border: none !important;
@@ -158,29 +163,6 @@
 }
 
 /* Button enhancements */
-.btn {
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.btn i {
-  margin-right: 5px;
-}
-
-.btn.p-0 {
-  padding: 8px !important;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-}
-
-.btn.p-0:hover {
-  background-color: rgba(185, 122, 135, 0.1);
-}
 
 /* Dropdown enhancements */
 .dropdown-menu {

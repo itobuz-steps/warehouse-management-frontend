@@ -49,7 +49,7 @@ export const addWarehouseSubscribe = async (event) => {
 
     toastSection.innerHTML = displayToast.successToast(response.data.message);
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.response.data.message);
+    toastSection.innerHTML = displayToast.errorToast(err.message);
   } finally {
     setTimeout(() => {
       toastSection.innerHTML = '';
@@ -85,7 +85,7 @@ export const showManagerOptions = async () => {
 
     console.log(response.data.message);
   } catch (error) {
-    toastSection.innerHTML = displayToast.errorToast(error);
+    toastSection.innerHTML = displayToast.errorToast(error.message);
   } finally {
     setTimeout(() => {
       toastSection.innerHTML = '';

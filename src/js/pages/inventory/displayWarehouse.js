@@ -10,14 +10,11 @@ const rowsContainer = document.getElementById('warehouseTable');
 
 export async function displayWarehouse() {
   try {
+    const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
+    const userId = getUser.data.data.user._id;
+
     const warehouseDetails = await api.get(
-      `${config.ADMIN_BASE_URL}/get-warehouses`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-        },
-      }
+      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${userId}`
     );
 
     const rows = warehouseDetails.data.data;
@@ -26,7 +23,6 @@ export async function displayWarehouse() {
       rowsContainer.innerHTML = displayRows.emptyWarehouse();
     }
 
-    console.log(rows);
     rowsContainer.innerHTML = '';
 
     for (let i = rows.length - 1; i > 0; i--) {

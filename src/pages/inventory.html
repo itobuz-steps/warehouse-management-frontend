@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inventory Products</title>
     <script type="module" src="../js/common/sidebar.js" defer></script>
-    <script type="module" src="../js/pages/inventory/inventory.js"></script>
+    <script
+      type="module"
+      src="../js/pages/inventory/inventory.js"
+      defer
+    ></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -23,19 +27,27 @@
 
     <!-- Sidebar -->
     <div id="sidebar-container"></div>
-    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
 
     <!-- Main content -->
     <main class="main-content">
-      <!-- add warehouse section -->
-      <div class="card warehouse-header mt-4">
-        <div class="card-header fw-bold">Manage Warehouse</div>
-        <div class="card-body">
-          <p class="card-text">
-            Click the button below to add a new warehouse.
-          </p>
+      <!-- list of warehouse section -->
+      <div
+        class="list-warehouse-head d-flex justify-content-between flex-column gap-2 flex-sm-row"
+      >
+        <div class="icon-group d-flex">
           <button
-            class="btn btn-primary"
+            id="sidebarToggle"
+            class="text-primary border-0 fs-2 mb-1 d-lg-none"
+          >
+            ☰
+          </button>
+          <h5 class="ms-2 m-auto">Warehouse Details</h5>
+        </div>
+
+        <div class="btn-group d-flex gap-2">
+          <!-- add warehouse section -->
+          <button
+            class="btn m-auto btn-primary rounded-2"
             id="addWarehouseBtn"
             data-bs-toggle="modal"
             data-bs-target="#addWarehouseModal"
@@ -43,34 +55,31 @@
             <i class="fa fa-plus"></i>
             Add Warehouse
           </button>
-        </div>
-      </div>
 
-      <!-- list of warehouse section -->
-      <div
-        class="list-warehouse-head d-flex justify-content-between mt-4 flex-column gap-2 flex-sm-row"
-      >
-        <h5 class="ms-2 m-auto">Warehouse Details</h5>
-        <div class="dropdown ms-2 ms-sm-0">
-          <a
-            class="btn btn-primary dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Filter
-          </a>
+          <!-- filter button -->
+          <div class="dropdown m-auto">
+            <a
+              class="btn btn-primary dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Filter
+            </a>
 
-          <ul class="dropdown-menu p-0">
-            <li>
-              <a class="dropdown-item border-bottom active-warehouse" href="#"
-                >All</a
-              >
-            </li>
-            <li><a class="dropdown-item border-bottom" href="#">Active</a></li>
-            <li><a class="dropdown-item" href="#">Inactive</a></li>
-          </ul>
+            <ul class="dropdown-menu p-0">
+              <li>
+                <a class="dropdown-item border-bottom active-warehouse" href="#"
+                  >All</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item border-bottom" href="#">Active</a>
+              </li>
+              <li><a class="dropdown-item" href="#">Inactive</a></li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -81,8 +90,8 @@
             <tr class="table-header">
               <th scope="col">Name</th>
               <th scope="col">Address</th>
-              <th scope="col">Actions</th>
               <th scope="col">Status</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody class="table-group-divider" id="warehouseTable">
@@ -95,17 +104,15 @@
     <!-- view warehouse modal -->
     <div
       class="modal fade"
-      id="viewWarehouse"
+      id="viewWarehouseModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="viewWarehouseName"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-              Warehouse - B
-            </h1>
+            <h1 class="modal-title fs-5" id="viewWarehouseName"></h1>
             <button
               type="button"
               class="btn-close"
@@ -116,24 +123,26 @@
           <div class="modal-body">
             <div class="mb-3">
               <label for="" class="fw-bold">Address:</label>
-              <textarea name="" id="" class="w-100 rounded-2 p-2 mt-1" disabled>
-24/C, Jagadish Mukherjee Road, Kolkata - 700028
-              </textarea>
+              <textarea
+                id="viewAddress"
+                class="w-100 rounded-2 p-2 mt-1"
+                disabled
+              ></textarea>
             </div>
 
             <div class="mb-3">
               <label for="" class="fw-bold">Details:</label>
-              <textarea name="" id="" class="w-100 rounded-2 p-2 mt-1" disabled>
-Second Warehouse with more enhanced storing options of Food & Beverages
-              </textarea>
+              <textarea
+                id="viewDetails"
+                class="w-100 rounded-2 p-2 mt-1"
+                disabled
+              ></textarea>
             </div>
 
             <div class="mb-3">
               <label for="" class="fw-bold d-block mb-2">Managers:</label>
-              <div class="d-flex flex-wrap gap-2">
-                <div class="manager">Sanket</div>
-                <div class="manager">Esha</div>
-                <div class="manager">Devjyoti</div>
+              <div class="d-flex flex-wrap gap-2" id="viewManagers">
+                <!-- show managers name here -->
               </div>
             </div>
 

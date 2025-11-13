@@ -3,13 +3,15 @@ export default class WarehouseTemplate {
     return `<tr>
               <td>${data.name}</td>
               <td>${data.address}</td>
+              <td><span class="status-badge status-active">Active</span></td>
               <td class="">
                 <div class="d-flex flex-column gap-2 flex-sm-row">
                   <button
                     type="button"
                     class="btn p-0"
+                    onclick="viewWarehouseDetails('${data._id}')"
                     data-bs-toggle="modal"
-                    data-bs-target="#viewWarehouse"
+                    data-bs-target="#viewWarehouseModal"
                     data-bs-whatever="@getbootstrap"
                   >
                     <i class="fa fa-eye"></i>
@@ -21,21 +23,26 @@ export default class WarehouseTemplate {
                   </button>
                 </div>
               </td>
-              <td><span class="status-badge status-active">Active</span></td>
+              
             </tr>`;
   };
 
-  inactiveWarehouse = () => {
+  inactiveWarehouse = (data) => {
     return `<tr>
-              <td>Warehouse - C</td>
-              <td>42/D, Salt Lake City, Kolkata - 700091</td>
+              <td>${data.name}</td>
+              <td>${data.address}</td>
+              <td>
+                <span class="status-badge status-inactive">Inactive</span>
+              </td>
               <td class="">
                 <div class="d-flex flex-column gap-2 flex-sm-row">
                   <button
                     type="button"
                     class="btn p-0"
+                    id="viewWarehouseBtn"
+                    onclick="viewWarehouseDetails('${data._id}')"
                     data-bs-toggle="modal"
-                    data-bs-target="#viewWarehouse"
+                    data-bs-target="#viewWarehouseModal"
                     data-bs-whatever="@getbootstrap"
                   >
                     <i class="fa fa-eye"></i>
@@ -47,9 +54,7 @@ export default class WarehouseTemplate {
                   </button>
                 </div>
               </td>
-              <td>
-                <span class="status-badge status-inactive">Inactive</span>
-              </td>
+              
             </tr>`;
   };
 
