@@ -3,20 +3,50 @@ import api from '../../api/interceptor';
 import config from '../../config/config';
 
 const productGrid = document.getElementById('productGrid');
+const warehouseSelect = document.getElementById('warehouseSelect');
 
-async function fetchProducts(warehouseId = '690c2b38228835fa4cd40184') {
+const MANAGER_ID = '69087ddc2cfbbc9a62050369';
+
+async function fetchWarehouses() {
+  try {
+    const url = `${config.MANAGER_BASE_URL}/${MANAGER_ID}`;
+
+    const res = await api.get(url);
+    console.log('Warehouses response:', res.data);
+
+    const { assignedWarehouses } = res.data.data;
+
+    if (!assignedWarehouses || assignedWarehouses.length === 0) {
+      const option = document.createElement('option');
+      option.value = '';
+      option.textContent = 'No warehouses assigned';
+      warehouseSelect.appendChild(option);
+      return;
+    }
+
+    assignedWarehouses.forEach((wh) => {
+      const option = document.createElement('option');
+      option.value = wh._id;
+      option.textContent = wh.name;
+      warehouseSelect.appendChild(option);
+    });
+
+    fetchProducts();
+  } catch (err) {
+    console.error('Error fetching warehouses:', err);
+  }
+}
+
+async function fetchProducts(warehouseId = '') {
   try {
     const url = warehouseId
       ? `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
       : config.PRODUCT_BASE_URL;
 
     const res = await api.get(url);
-    console.log(res);
 
     const { success, data } = res.data;
     const products = Array.isArray(data) ? data : data?.data || [];
-
-    console.log(products);
 
     if (!success || !products || products.length === 0) {
       showEmptyState();
@@ -70,5 +100,9 @@ function showErrorState() {
   productGrid.classList.add('error');
   productGrid.innerHTML = `<div>Failed to load products. Please try again.</div>`;
 }
+warehouseSelect.addEventListener('change', (e) => {
+  const warehouseId = e.target.value;
+  fetchProducts(warehouseId);
+});
 
-fetchProducts();
+fetchWarehouses();
