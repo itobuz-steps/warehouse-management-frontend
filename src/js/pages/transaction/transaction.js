@@ -1,53 +1,50 @@
 import api from '../../api/interceptor';
 import Templates from '../../common/Templates';
+import { transactionSelectors } from './transactionSelector';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const typeSelect = document.getElementById('type');
-  const form = document.getElementById('transactionForm');
-  const toastSection = document.getElementById('toastSection');
+  const {
+    typeSelect,
+    form,
+    toastSection,
+    sections,
+    warehouses,
+    buttons,
+    containers,
+  } = transactionSelectors;
+
   const toastMessage = new Templates();
   let lastLoadedProducts = [];
 
-  const sections = {
-    IN: document.getElementById('inFields'),
-    OUT: document.getElementById('outFields'),
-    TRANSFER: document.getElementById('transferFields'),
-    ADJUSTMENT: document.getElementById('adjustmentFields'),
-  };
-
   async function loadWarehouses() {
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      console.error('No token found. Please log in.');
-      return;
+    const userRes = await api.get('http://localhost:3000/profile/me');
+    const currentUser = userRes.data.data.user;
+
+    const warehouseRes = await api.get(
+      `http://localhost:3000/warehouse/get-warehouses/${currentUser._id}`
+    );
+
+    let assignedWarehouses = [];
+
+    if (currentUser.role === 'admin') {
+      assignedWarehouses = warehouseRes.data.data || [];
+    } else {
+      assignedWarehouses = warehouseRes.data.data?.assignedWarehouses || [];
     }
 
-    try {
-      const res = await api.get('http://localhost:3000/warehouse', {
-        headers: { Authorization: 'Bearer ' + token },
-      });
+    assignedWarehouses = assignedWarehouses.map((w) => ({
+      id: w._id || w.id,
+      name: w.name || 'Unnamed Warehouse',
+    }));
 
-      const warehouses = res.data; // expected array of { _id, name }
-
-      const selects = [
-        'inDestinationWarehouse',
-        'outSourceWarehouse',
-        'sourceWarehouse',
-        'destinationWarehouse',
-        'adjustWarehouseId',
-      ].map((id) => document.getElementById(id));
-
-      selects.forEach((select) => {
-        if (!select) return;
-        select.innerHTML =
-          '<option value="">Select Warehouse</option>' +
-          warehouses
-            .map((w) => `<option value="${w._id}">${w.name}</option>`)
-            .join('');
-      });
-    } catch (err) {
-      console.error('Error loading warehouses:', err);
-    }
+    Object.values(warehouses).forEach((select) => {
+      if (!select) return;
+      select.innerHTML =
+        '<option value="">Select Warehouse</option>' +
+        assignedWarehouses
+          .map((w) => `<option value="${w.id}">${w.name}</option>`)
+          .join('');
+    });
   }
 
   // Hide/show sections
@@ -59,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Load products dynamically
   async function loadProducts(warehouseId, containerId) {
-    const container = document.getElementById(containerId);
+    const container = containers[containerId];
     container.innerHTML = '<em>Loading...</em>';
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -70,10 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const res = await api.get(
-        `http://localhost:3000/quantity/warehouse-specific-products/${warehouseId}`,
-        { headers: { Authorization: 'Bearer ' + token } }
+        `http://localhost:3000/quantity/warehouse-specific-products/${warehouseId}`
       );
-      const products = res.data;
+      const products = res.data?.data || [];
       container.innerHTML = '';
       if (!products.length) {
         container.innerHTML =
@@ -107,45 +103,27 @@ document.addEventListener('DOMContentLoaded', () => {
     container.appendChild(row);
   }
 
-  // Buttons to load/add products
-  document.getElementById('loadInProducts').onclick = () =>
+  // Buttons
+  buttons.loadInProducts.onclick = () =>
     loadProducts(
-      document.getElementById('inDestinationWarehouse').value,
+      warehouses.inDestinationWarehouse.value,
       'inProductsContainer'
     );
-  document.getElementById('addInProduct').onclick = () =>
-    addProductRow(
-      document.getElementById('inProductsContainer'),
-      lastLoadedProducts
-    );
+  buttons.addInProduct.onclick = () =>
+    addProductRow(containers.inProductsContainer, lastLoadedProducts);
 
-  document.getElementById('loadOutProducts').onclick = () =>
-    loadProducts(
-      document.getElementById('outSourceWarehouse').value,
-      'outProductsContainer'
-    );
-  document.getElementById('addOutProduct').onclick = () =>
-    addProductRow(
-      document.getElementById('outProductsContainer'),
-      lastLoadedProducts
-    );
+  buttons.loadOutProducts.onclick = () =>
+    loadProducts(warehouses.outSourceWarehouse.value, 'outProductsContainer');
+  buttons.addOutProduct.onclick = () =>
+    addProductRow(containers.outProductsContainer, lastLoadedProducts);
 
-  document.getElementById('loadTransferProducts').onclick = () =>
-    loadProducts(
-      document.getElementById('sourceWarehouse').value,
-      'transferProductsContainer'
-    );
-  document.getElementById('addTransferProduct').onclick = () =>
-    addProductRow(
-      document.getElementById('transferProductsContainer'),
-      lastLoadedProducts
-    );
+  buttons.loadTransferProducts.onclick = () =>
+    loadProducts(warehouses.sourceWarehouse.value, 'transferProductsContainer');
+  buttons.addTransferProduct.onclick = () =>
+    addProductRow(containers.transferProductsContainer, lastLoadedProducts);
 
-  document.getElementById('loadAdjustProducts').onclick = () =>
-    loadProducts(
-      document.getElementById('adjustWarehouseId').value,
-      'adjustProductsContainer'
-    );
+  buttons.loadAdjustProducts.onclick = () =>
+    loadProducts(warehouses.adjustWarehouseId.value, 'adjustProductsContainer');
 
   // Submit transaction
   form.addEventListener('submit', async (e) => {
@@ -160,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function collectProducts(containerId) {
-      return [...document.querySelectorAll(`#${containerId} .product-row`)].map(
+      return [...containers[containerId].querySelectorAll('.product-row')].map(
         (r) => ({
           productId: r.querySelector('.productSelect').value,
           quantity: parseInt(
@@ -179,9 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body = {
           products: collectProducts('inProductsContainer'),
           supplier: document.getElementById('supplier').value,
-          destinationWarehouse: document.getElementById(
-            'inDestinationWarehouse'
-          ).value,
+          destinationWarehouse: warehouses.inDestinationWarehouse.value,
           notes: document.getElementById('inNotes').value,
         };
         break;
@@ -195,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
           customerPhone: document.getElementById('customerPhone').value,
           customerAddress: document.getElementById('customerAddress').value,
           orderNumber: document.getElementById('orderNumber').value,
-          sourceWarehouse: document.getElementById('outSourceWarehouse').value,
+          sourceWarehouse: warehouses.outSourceWarehouse.value,
           notes: document.getElementById('outNotes').value,
         };
         break;
@@ -204,9 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
         url = 'http://localhost:3000/transaction/transfer';
         body = {
           products: collectProducts('transferProductsContainer'),
-          sourceWarehouse: document.getElementById('sourceWarehouse').value,
-          destinationWarehouse: document.getElementById('destinationWarehouse')
-            .value,
+          sourceWarehouse: warehouses.sourceWarehouse.value,
+          destinationWarehouse: warehouses.destinationWarehouse.value,
           notes: document.getElementById('transferNotes').value,
         };
         break;
@@ -217,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
           products: collectProducts('adjustProductsContainer'),
           reason: document.getElementById('adjustReason').value,
           notes: document.getElementById('adjustNotes').value,
-          warehouseId: document.getElementById('adjustWarehouseId').value,
+          warehouseId: warehouses.adjustWarehouseId.value,
         };
         break;
     }
@@ -239,14 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form.reset();
       lastLoadedProducts = [];
       Object.values(sections).forEach((s) => s.classList.add('hidden'));
-      [
-        'inProductsContainer',
-        'outProductsContainer',
-        'transferProductsContainer',
-        'adjustProductsContainer',
-      ].forEach((id) => {
-        document.getElementById(id).innerHTML = '';
-      });
+      Object.values(containers).forEach((c) => (c.innerHTML = ''));
     } catch (err) {
       const message = err.response
         ? `Error ${err.response.status}: ${err.response.data.message}`
