@@ -5,43 +5,84 @@ import config from '../../config/config';
 const productGrid = document.getElementById('productGrid');
 const warehouseSelect = document.getElementById('warehouseSelect');
 
-const MANAGER_ID = '69087ddc2cfbbc9a62050369';
-
 async function fetchWarehouses() {
   try {
-    const url = `${config.MANAGER_BASE_URL}/${MANAGER_ID}`;
+    const userRes = await api.get(`${config.PROFILE_BASE_URL}/me`);
+    const user = userRes.data.data.user;
+    const USER_ID = user._id;
+    const ROLE = user.role;
 
+    const url = `${config.WAREHOUSE_BASE_URL}/${USER_ID}`;
     const res = await api.get(url);
-    console.log('Warehouses response:', res.data);
+    const assignedWarehouses = res.data.data;
 
-    const { assignedWarehouses } = res.data.data;
+    warehouseSelect.innerHTML = '';
 
-    if (!assignedWarehouses || assignedWarehouses.length === 0) {
-      const option = document.createElement('option');
-      option.value = '';
-      option.textContent = 'No warehouses assigned';
-      warehouseSelect.appendChild(option);
-      return;
+    if (ROLE === 'admin') {
+      const allOption = document.createElement('option');
+      allOption.value = '';
+      allOption.textContent = 'All Warehouses';
+      warehouseSelect.appendChild(allOption);
+
+      assignedWarehouses.forEach((wh) => {
+        const option = document.createElement('option');
+        option.value = wh._id;
+        option.textContent = wh.name;
+        warehouseSelect.appendChild(option);
+      });
+
+      fetchProducts();
     }
 
-    assignedWarehouses.forEach((wh) => {
-      const option = document.createElement('option');
-      option.value = wh._id;
-      option.textContent = wh.name;
-      warehouseSelect.appendChild(option);
-    });
+    else if (ROLE === 'manager') {
+      
+      if (!assignedWarehouses || assignedWarehouses.length === 0) {
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'No warehouses assigned';
+        warehouseSelect.appendChild(option);
+        showEmptyState();
+        return;
+      }
 
-    fetchProducts();
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = 'Select a warehouse';
+      warehouseSelect.appendChild(defaultOption);
+
+      assignedWarehouses.forEach((wh) => {
+        const option = document.createElement('option');
+        option.value = wh._id;
+        option.textContent = wh.name;
+        warehouseSelect.appendChild(option);
+      });
+    }
+
+    else {
+      console.warn('Unknown role:', ROLE);
+      showEmptyState();
+    }
   } catch (err) {
     console.error('Error fetching warehouses:', err);
+    showErrorState();
   }
 }
 
 async function fetchProducts(warehouseId = '') {
   try {
-    const url = warehouseId
-      ? `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
-      : config.PRODUCT_BASE_URL;
+    const userRes = await api.get(`${config.PROFILE_BASE_URL}/me`);
+    const user = userRes.data.data.user;
+    const ROLE = user.role;
+
+    if (!warehouseId && ROLE === 'manager') {
+      showEmptyState('Please select a warehouse to view products.');
+      return;
+    }
+
+    const url =
+      warehouseId
+        ? `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
+        : config.PRODUCT_BASE_URL;
 
     const res = await api.get(url);
 
