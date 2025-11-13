@@ -84,12 +84,7 @@ export const showManagerOptions = async () => {
   console.log('Add Warehouse');
 
   try {
-    const response = await api.get(`${config.ADMIN_BASE_URL}/get-managers`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-    });
+    const response = await api.get(`${config.ADMIN_BASE_URL}/get-managers`);
 
     const managers = response.data.managers;
     console.log('Fetched managers:', managers);

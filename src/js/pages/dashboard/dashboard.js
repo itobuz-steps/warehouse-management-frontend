@@ -4,11 +4,14 @@ import '../../../scss/dashboard.scss';
 import * as bootstrap from 'bootstrap';
 
 import dashboardSelection from './dashboardSelector';
+
 import {
   addManagerSubscribe,
   addWarehouseSubscribe,
   showManagerOptions,
 } from './adminSubscribe.js';
+
+import { showTopProductsSubscribe } from './dashboardSubscribe.js';
 
 dashboardSelection.addManagerForm.addEventListener(
   'submit',
@@ -25,3 +28,6 @@ dashboardSelection.addWarehouseButton.addEventListener(
   'click',
   showManagerOptions
 );
+
+
+document.addEventListener("DOMContentLoaded", showTopProductsSubscribe );
