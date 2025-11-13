@@ -1,15 +1,26 @@
 import '../../../scss/inventory.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
+import api from '../../api/interceptor';
+import config from '../../config/config';
 import './viewWarehouseDetails.js';
-
+import Templates from '../../common/Templates.js';
 import { addWarehouseSubscribe, showManagerOptions } from './addWarehouse.js';
 import { displayWarehouse } from './displayWarehouse.js';
 import { confirmDelete } from './deleteWarehouse.js';
+import { updateWarehouse } from './editWarehouse.js';
 
+const displayToast = new Templates();
+const toastSection = document.getElementById('toastSection');
 const addWarehouseForm = document.getElementById('addWarehouseForm');
 const addWarehouseButton = document.getElementById('addWarehouseBtn');
 const deleteWarehouseBtn = document.getElementById('deleteWarehouseBtn');
+const editWarehouseForm = document.getElementById('editWarehouseForm');
+const editWarehouseName = document.getElementById('editWarehouseName');
+const editWarehouseAddress = document.getElementById('editWarehouseAddress');
+const editWarehouseDescription = document.getElementById(
+  'editWarehouseDescription'
+);
 
 // add warehouse
 addWarehouseForm.addEventListener('submit', addWarehouseSubscribe);
@@ -25,3 +36,31 @@ function deleteWarehouse(id) {
 }
 
 window.deleteWarehouse = deleteWarehouse;
+
+//edit warehouse
+async function editWarehouse(id) {
+  try {
+    editWarehouseForm.setAttribute('data-id', id);
+
+    const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
+    const userId = getUser.data.data.user._id;
+
+    const warehouseDetails = await api.get(
+      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${userId}/${id}`
+    );
+    const warehouse = warehouseDetails.data.data;
+    editWarehouseName.value = warehouse.name;
+    editWarehouseAddress.value = warehouse.address;
+    editWarehouseDescription.value = warehouse.description;
+
+    editWarehouseForm.addEventListener('submit', updateWarehouse);
+  } catch (err) {
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+  } finally {
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
+}
+
+window.editWarehouse = editWarehouse;
