@@ -1,0 +1,159 @@
+class TransactionDetailsTemplate {
+  stockInDetails = (transaction) => {
+    return `<div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse{transactionId}"
+                aria-expanded="false"
+                aria-controls="flush-collapse{transactionId}"
+              >
+                Transaction Id1 <span class="type">IN</span>
+              </button>
+            </h2>
+            <div
+              id="flush-collapse{transactionId}"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <div class="stock-details">
+                  <h3>Stock Details</h3>
+                  <div class="product-name product-item">
+                    Name: <span>{productName}</span>
+                  </div>
+                  <div class="product-category product-item">
+                    Category: <span>{productCategory}</span>
+                  </div>
+                  <div class="product-price product-item">
+                    Price: <span>$ {productPrice}</span>
+                  </div>
+                  <div class="product-quantity product-item">
+                    Quantity: <span>{productQuantity} unit(s)</span>
+                  </div>
+                  <div class="total-price product-item">
+                    Total Price: <span>$ {totalPrice}</span>
+                  </div>
+                </div>
+                <hr />
+                <div class="supplier-details">
+                  <h3>Supplier Details</h3>
+                  <div class="supplier-name">
+                    Supplier: <span>{supplierName}</span>
+                  </div>
+                </div>
+                <hr />
+                <div class="other-details">
+                  <div class="other-date">
+                    Date - <span>{transactionDate}</span>
+                  </div>
+                  <div class="other-note">
+                    Note - <span>{transactionNote}</span>
+                  </div>
+                  <div class="other-manager">
+                    Manager In Charge - <span>{managerName}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+  };
+
+  stockOutDetails = (transaction) => {
+    return `<div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse(1)"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne"
+              >
+                Transaction Id1 <span class="type">OUT</span>
+              </button>
+            </h2>
+            <div
+              id="flush-collapse(1)"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <div class="stock-details">
+                  <h3>Stock Details</h3>
+                  <div class="product-name product-item">
+                    Name: <span>{productName}</span>
+                  </div>
+                  <div class="product-category product-item">
+                    Category: <span>{productCategory}</span>
+                  </div>
+                  <div class="product-price product-item">
+                    Price: <span>${productPrice}</span>
+                  </div>
+                  <div class="product-quantity product-item">
+                    Quantity: <span>{productQuantity} unit(s)</span>
+                  </div>
+                  <div class="total-price product-item">
+                    Total Price: <span>${totalPrice}</span>
+                  </div>
+                </div>
+                <hr />
+                <div class="customer-details">
+                  <h3>Customer Details</h3>
+                  <div class="customer-name product-item">
+                    Name: <span>{customerName}</span>
+                  </div>
+                  <div class="customer-email product-item">
+                    Email: <span>{customerEmail}</span>
+                  </div>
+                  <div class="customer-contact product-item">
+                    Contact: <span>{customerPhone}</span>
+                  </div>
+                  <div class="customer-address product-item">
+                    Address: <span>{customerAddress}</span>
+                  </div>
+                </div>
+                <hr />
+                <div class="supplier-details">
+                  <h3>Supplied From</h3>
+                  <div class="supplier-name">
+                    Name: <span>{warehouseName}</span>
+                  </div>
+                  <div class="supplier-name">
+                    Address: <span>{warehouseAddress}</span>
+                  </div>
+                </div>
+                <hr />
+                <div class="other-details">
+                  <div class="other-date">
+                    Date - <span>{transactionDate}</span>
+                  </div>
+                  <div class="other-note">
+                    Note - <span>{transactionNote}</span>
+                  </div>
+                  <div class="other-manager">
+                    Manager In Charge - <span>{managerName}</span>
+                  </div>
+                  <div class="generate-invoice">
+                    <button
+                      class="invoice-btn btn btn-primary"
+                      type="button"
+                      value="{transactionId}"
+                    >
+                      Generate Invoice
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+  };
+
+  stockAdjustDetails = (transaction) => {};
+
+  stockTransferDetails = (transaction) => {};
+}
+
+export default TransactionDetailsTemplate;
