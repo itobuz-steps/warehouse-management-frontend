@@ -64,7 +64,7 @@
 
             <div class="form-group">
               <label for="productDescription">Description</label>
-              <input id="productDescription" name="description"></input>
+              <input id="productDescription" name="description" />
             </div>
 
             <div class="form-group">
@@ -107,6 +107,38 @@
             </div>
           </form>
         </div>
+      </div>
+
+      <div class="search-filter-bar pb-3">
+        <input
+          type="text"
+          id="searchInput"
+          class="form-control"
+          placeholder="Search products..."
+        />
+
+        <select id="categoryFilter" class="form-control">
+          <option value="">All Categories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Food & Beverage">Food & Beverage</option>
+          <option value="Medical Supplies">Medical Supplies</option>
+          <option value="Industrial Tools">Industrial Tools</option>
+          <option value="Automotive Parts">Automotive Parts</option>
+          <option value="Office Supplies">Office Supplies</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Others">Others</option>
+        </select>
+
+        <select id="sortSelect" class="form-control">
+          <option value="">Sort By</option>
+          <option value="name_asc">Name (A–Z)</option>
+          <option value="name_desc">Name (Z–A)</option>
+          <option value="quantity_asc">Quantity (Low → High)</option>
+          <option value="quantity_desc">Quantity (High → Low)</option>
+          <option value="category_asc">Category (A–Z)</option>
+        </select>
       </div>
 
       <div id="productGrid" class="product-grid">

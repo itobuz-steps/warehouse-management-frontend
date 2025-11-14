@@ -8,7 +8,7 @@ import { showEmptyState, showErrorState } from './productTemplate.js';
 
 let allProducts = [];
 let currentPage = 1;
-const productsPerPage = 12;//as per products
+const productsPerPage = 12; //as per products
 
 export const fetchProducts = async (warehouseId = '') => {
   try {
@@ -49,9 +49,14 @@ const renderPaginatedProducts = () => {
   renderPagination();
 };
 
-const renderProducts = (details) => {
+export const renderProducts = (details) => {
   dom.productGrid.className = '';
   dom.productGrid.innerHTML = '';
+
+  if (!details.length) {
+    showEmptyState()
+    return;
+  }
 
   details.forEach((detail) => {
     const product = detail.product || detail;
@@ -95,7 +100,7 @@ const renderPagination = () => {
       currentPage = i;
 
       renderPaginatedProducts();
-      
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 

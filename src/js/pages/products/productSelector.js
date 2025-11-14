@@ -8,4 +8,7 @@ export const dom = {
   closeModalButton: document.getElementById('closeModal'),
   productWarehouseSelect: document.getElementById('productWarehouse'),
   addProductForm: document.getElementById('addProductForm'),
+  searchInput: document.getElementById('searchInput'),
+  categoryFilter: document.getElementById('categoryFilter'),
+  sortSelect: document.getElementById('sortSelect'),
 };

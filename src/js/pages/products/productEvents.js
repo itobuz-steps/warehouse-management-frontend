@@ -12,10 +12,17 @@ export const initEvents = () => {
   dom.closeModalButton.addEventListener('click', closeModal);
 
   dom.warehouseSelect.addEventListener('change', (e) => {
+    resetSearchFilters();
     fetchProducts(e.target.value);
   });
 
   dom.addProductForm.addEventListener('submit', handleAddProduct);
+};
+
+const resetSearchFilters = () => {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('categoryFilter').value = '';
+  document.getElementById('sortSelect').value = '';
 };
 
 const handleAddProduct = async (e) => {
