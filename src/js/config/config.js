@@ -6,6 +6,7 @@ const config = {
   PROFILE_BASE_URL: 'http://localhost:3000/profile',
   PRODUCT_BASE_URL: 'http://localhost:3000/product',
   QUANTITY_BASE_URL: 'http://localhost:3000/quantity',
+  WAREHOUSE_BASE_URL: 'http://localhost:3000/warehouse',
 };
 
 export default config;

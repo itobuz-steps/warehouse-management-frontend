@@ -5,10 +5,329 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inventory Products</title>
     <script type="module" src="../js/common/sidebar.js" defer></script>
+    <script
+      type="module"
+      src="../js/pages/inventory/inventory.js"
+      defer
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
   </head>
   <body>
+    <div id="toastSection">
+      <!-- custom toast message -->
+    </div>
+
     <!-- Sidebar -->
-    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
     <div id="sidebar-container"></div>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <!-- list of warehouse section -->
+      <div
+        class="list-warehouse-head d-flex justify-content-between flex-column gap-2 flex-sm-row"
+      >
+        <div class="icon-group d-flex">
+          <button
+            id="sidebarToggle"
+            class="text-primary border-0 fs-2 mb-1 d-lg-none"
+          >
+            ☰
+          </button>
+          <h5 class="ms-2 m-auto">Warehouse Details</h5>
+        </div>
+
+        <!-- add warehouse section -->
+        <button
+          class="btn btn-primary rounded-2"
+          id="addWarehouseBtn"
+          data-bs-toggle="modal"
+          data-bs-target="#addWarehouseModal"
+        >
+          <i class="fa fa-plus"></i>
+          Add Warehouse
+        </button>
+      </div>
+
+      <!-- warehouse details table -->
+      <div class="table-responsive mt-3">
+        <table class="table">
+          <thead>
+            <tr class="table-header">
+              <th scope="col">Name</th>
+              <th scope="col">Address</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider" id="warehouseTable">
+            <!-- table row will come here -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- view warehouse modal -->
+    <div
+      class="modal fade"
+      id="viewWarehouseModal"
+      tabindex="-1"
+      aria-labelledby="viewWarehouseName"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="viewWarehouseName"></h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="" class="fw-bold">Address:</label>
+              <textarea
+                id="viewAddress"
+                class="w-100 rounded-2 p-2 mt-1"
+                disabled
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="" class="fw-bold">Details:</label>
+              <textarea
+                id="viewDetails"
+                class="w-100 rounded-2 p-2 mt-1"
+                disabled
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="" class="fw-bold d-block mb-2">Managers:</label>
+              <div class="d-flex flex-wrap gap-2" id="viewManagers">
+                <!-- show managers name here -->
+              </div>
+            </div>
+
+            <a href="/pages/products.html" class="btn btn-primary"
+              >View Products</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- delete warehouse modal -->
+    <div
+      class="modal fade"
+      id="deleteWarehouseModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Confirm Delete
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete the Warehouse?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="deleteWarehouseBtn"
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Warehouse Modal -->
+    <div
+      class="modal fade"
+      id="editWarehouseModal"
+      tabindex="-1"
+      aria-labelledby="addWarehouseModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editWarehouseModalLabel">
+              Edit Warehouse
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editWarehouseForm" class="add-warehouse-form add-form">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="editWarehouseName"
+                  class="form-control"
+                  placeholder="Enter warehouse name"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input
+                  type="text"
+                  id="editWarehouseAddress"
+                  class="form-control"
+                  placeholder="Enter warehouse address"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input
+                  type="text"
+                  id="editWarehouseDescription"
+                  class="form-control"
+                  placeholder="Enter description"
+                  required
+                />
+              </div>
+
+              <div class="mb-3" id="xyz">
+                <label for="managers" class="form-label">Select Managers</label>
+
+                <select
+                  id="editmanagers"
+                  name="managers"
+                  class="managers-option"
+                  multiple
+                ></select>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">
+                Update Details
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Warehouse Modal -->
+    <div
+      class="modal fade"
+      id="addWarehouseModal"
+      tabindex="-1"
+      aria-labelledby="addWarehouseModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addWarehouseModalLabel">
+              Add New Warehouse
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addWarehouseForm" class="add-warehouse-form add-form">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="form-control"
+                  placeholder="Enter warehouse name"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  class="form-control"
+                  placeholder="Enter warehouse address"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input
+                  type="text"
+                  name="description"
+                  id="description"
+                  class="form-control"
+                  placeholder="Enter description"
+                  required
+                />
+              </div>
+
+              <div class="mb-3" id="xyz">
+                <label for="addManagers" class="form-label"
+                  >Select Managers</label
+                >
+
+                <select
+                  id="addManagers"
+                  name="addManagers"
+                  class="managers-option"
+                  multiple
+                >
+                  <!-- All Manager Options -->
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">
+                Add Warehouse
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
