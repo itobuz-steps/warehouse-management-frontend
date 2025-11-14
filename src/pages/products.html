@@ -64,12 +64,29 @@
 
             <div class="form-group">
               <label for="productDescription">Description</label>
-              <textarea id="productDescription" name="description"></textarea>
+              <input id="productDescription" name="description"></input>
             </div>
 
             <div class="form-group">
               <label for="productPrice">Price</label>
               <input type="number" id="productPrice" name="price" required />
+            </div>
+
+            <div class="form-group">
+              <label for="productWarehouse">Warehouse</label>
+              <select id="productWarehouse" name="warehouseId" required>
+                <option value="">Select Warehouse</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="productQuantity">Quantity</label>
+              <input
+                type="number"
+                id="productQuantity"
+                name="quantity"
+                required
+              />
             </div>
 
             <div class="form-group">
