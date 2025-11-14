@@ -7,7 +7,9 @@ export const getCurrentUser = async () => {
 };
 
 export const getUserWarehouses = async (userId) => {
-  const res = await api.get(`${config.WAREHOUSE_BASE_URL}/${userId}`);
+  const res = await api.get(
+    `${config.WAREHOUSE_BASE_URL}/get-warehouses/${userId}`
+  );
   return res.data.data;
 };
 
