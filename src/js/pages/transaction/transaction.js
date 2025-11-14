@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentUser.role === 'admin') {
       assignedWarehouses = warehouseRes.data.data || [];
     } else {
-      assignedWarehouses = warehouseRes.data.data?.assignedWarehouses || [];
+      assignedWarehouses = warehouseRes.data.data || [];
     }
 
     assignedWarehouses = assignedWarehouses.map((w) => ({
