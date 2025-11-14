@@ -14,13 +14,81 @@
     <div id="sidebar-container"></div>
 
     <div class="main-content">
+      <div id="toastSection">
+        <!-- custom toast message -->
+      </div>
       <div class="page-header">
         <h1>Product Showcase</h1>
         <div class="filter-bar">
-          <label for="warehouseSelect">Select Warehouse:</label>
+          <!-- <label for="warehouseSelect">Select Warehouse:</label> -->
           <select id="warehouseSelect">
             <option value="">All Warehouses</option>
           </select>
+        </div>
+        <div>
+          <button class="btn" id="addProducts">Add products</button>
+        </div>
+      </div>
+
+      <!-- Add Product Modal -->
+      <div id="addProductModal" class="modal-overlay">
+        <div class="modal-box">
+          <h2 class="modal-title">Add New Product</h2>
+
+          <form
+            id="addProductForm"
+            enctype="multipart/form-data"
+            class="modal-form"
+          >
+            <div class="form-group">
+              <label for="productName">Product Name</label>
+              <input type="text" id="productName" name="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="productCategory">Category</label>
+              <select id="productCategory" name="category" required>
+                <option value="">Select Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Food & Beverage">Food & Beverage</option>
+                <option value="Medical Supplies">Medical Supplies</option>
+                <option value="Industrial Tools">Industrial Tools</option>
+                <option value="Automotive Parts">Automotive Parts</option>
+                <option value="Office Supplies">Office Supplies</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="productDescription">Description</label>
+              <textarea id="productDescription" name="description"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="productPrice">Price</label>
+              <input type="number" id="productPrice" name="price" required />
+            </div>
+
+            <div class="form-group">
+              <label for="productImage">Product Images</label>
+              <input
+                type="file"
+                id="productImage"
+                name="productImage"
+                multiple
+              />
+            </div>
+
+            <div class="modal-actions">
+              <button type="button" id="closeModal" class="btn cancel-btn">
+                Cancel
+              </button>
+              <button type="submit" class="btn submit-btn">Add Product</button>
+            </div>
+          </form>
         </div>
       </div>
 

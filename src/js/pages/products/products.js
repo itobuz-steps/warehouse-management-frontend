@@ -4,6 +4,7 @@ import config from '../../config/config';
 import Templates from '../../common/Templates.js';
 
 const displayTemplates = new Templates();
+const toastSection = document.getElementById('toastSection');
 
 const productGrid = document.getElementById('productGrid');
 const warehouseSelect = document.getElementById('warehouseSelect');
@@ -11,7 +12,7 @@ const paginationContainer = document.getElementById('pagination');
 
 let allProducts = [];
 let currentPage = 1;
-const productsPerPage = 2; //enter no of products
+const productsPerPage = 10; //enter no of products
 
 async function fetchWarehouses() {
   try {
@@ -32,17 +33,15 @@ async function fetchWarehouses() {
       allOption.textContent = 'All Warehouses';
       warehouseSelect.appendChild(allOption);
 
-      assignedWarehouses.forEach((wh) => {
+      assignedWarehouses.forEach((warehouse) => {
         const option = document.createElement('option');
-        option.value = wh._id;
-        option.textContent = wh.name;
+        option.value = warehouse._id;
+        option.textContent = warehouse.name;
         warehouseSelect.appendChild(option);
       });
 
       fetchProducts();
-      
     } else if (ROLE === 'manager') {
-      
       if (!assignedWarehouses || assignedWarehouses.length === 0) {
         const option = document.createElement('option');
         option.value = '';
@@ -63,14 +62,17 @@ async function fetchWarehouses() {
         option.textContent = wh.name;
         warehouseSelect.appendChild(option);
       });
-
     } else {
-      displayTemplates.errorToast('Unknown Role...');
+      toastSection.innerHTML = displayTemplates.errorToast('Unknown Role...');
       showEmptyState();
     }
   } catch (err) {
     console.error('Error fetching warehouses:', err);
     showErrorState();
+  } finally {
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
   }
 }
 
@@ -183,14 +185,22 @@ function showEmptyState(message = 'No products found.') {
   productGrid.classList.add('empty');
   productGrid.innerHTML = `<div>${message}</div>`;
   paginationContainer.innerHTML = '';
-  displayTemplates.errorToast(message);
+  toastSection.innerHTML = displayTemplates.errorToast(message);
+  setTimeout(() => {
+    toastSection.innerHTML = '';
+  }, 3000);
 }
 
 function showErrorState() {
   productGrid.classList.add('error');
   productGrid.innerHTML = `<div>Failed to load products. Please try again.</div>`;
   paginationContainer.innerHTML = '';
-  displayTemplates.errorToast('Failed to load products.');
+  toastSection.innerHTML = displayTemplates.errorToast(
+    'Failed to load products.'
+  );
+  setTimeout(() => {
+    toastSection.innerHTML = '';
+  }, 3000);
 }
 
 warehouseSelect.addEventListener('change', (e) => {

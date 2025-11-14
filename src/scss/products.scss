@@ -1,3 +1,5 @@
+@import 'bootstrap/scss/bootstrap';
+
 $color-bg: #ffffff;
 $color-primary: #b97a87;
 $color-text: #333333;
@@ -65,7 +67,7 @@ $transition: all 0.25s ease;
 
 #productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
   gap: 1.5rem;
 }
 
@@ -180,4 +182,215 @@ $transition: all 0.25s ease;
   background-color: $color-primary;
   color: white;
   border-color: $color-primary;
+}
+
+#addProductModal.modal-overlay {
+  display: none; // controlled via JS
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: fadeIn 0.25s ease;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 480px;
+  background: $color-bg;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+  animation: popIn 0.25s ease;
+  border: 1px solid $color-border;
+
+  @media (min-width: 768px) {
+    padding: 30px;
+  }
+
+  @media (min-width: 992px) {
+    max-width: 500px;
+  }
+}
+
+.modal-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $color-primary;
+  margin-bottom: 1rem;
+}
+
+.modal-form {
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: $color-text;
+    }
+
+    input,
+    textarea {
+      padding: 10px 12px;
+      border: 1px solid lighten($color-border, 20%);
+      border-radius: 8px;
+      background: #fafafa;
+      color: $color-text;
+      font-size: 0.95rem;
+      transition: $transition;
+
+      &:focus {
+        border-color: $color-primary;
+        background: white;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.18);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+  }
+  .form-group select {
+    padding: 10px 12px;
+    border: 1px solid lighten($color-border, 20%);
+    border-radius: 8px;
+    background: #fafafa;
+    color: $color-text;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: $transition;
+
+    &:focus {
+      border-color: $color-primary;
+      background: white;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.18);
+      outline: none;
+    }
+  }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+
+  .btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-size: 0.95rem;
+    transition: $transition;
+  }
+
+  .cancel-btn {
+    background: lighten($color-text-light, 35%);
+    color: $color-text;
+
+    &:hover {
+      background: lighten($color-text-light, 25%);
+      transform: translateY(-2px);
+    }
+  }
+
+  .submit-btn {
+    background: $color-primary;
+    color: #fff;
+
+    &:hover {
+      background: darken($color-primary, 8%);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.93);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+#toastSection {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  background-color: #28a745; /* Default success color */
+  color: #fff;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  opacity: 0;
+  animation: fadeInOut 4s ease-in-out forwards;
+  margin-bottom: 10px;
+}
+
+.toast p {
+  margin: 0;
+  padding: 0;
+}
+
+.toast i {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+.toast.text-bg-success {
+  background-color: #28a745;
+}
+
+.toast.text-bg-danger {
+  background-color: #dc3545;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
 }
