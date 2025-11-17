@@ -3,57 +3,59 @@ class TransactionDetailsTemplate {
     return `<div class="accordion-item">
             <h2 class="accordion-header">
               <button
-                class="accordion-button collapsed"
+                class="accordion-button collapsed transaction-id"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#flush-collapse{transactionId}"
+                data-bs-target="#flush-collapse-${transaction._id}"
                 aria-expanded="false"
-                aria-controls="flush-collapse{transactionId}"
+                aria-controls="flush-collapseOne"
               >
-                Transaction Id1 <span class="type">IN</span>
+                ID ${transaction._id} <span class="type">IN</span>
               </button>
             </h2>
             <div
-              id="flush-collapse{transactionId}"
+              id="flush-collapse-${transaction._id}"
               class="accordion-collapse collapse"
               data-bs-parent="#accordionFlushExample"
             >
               <div class="accordion-body">
                 <div class="stock-details">
-                  <h3>Stock Details</h3>
+                  <h3 class="heading">Stock Details</h3>
                   <div class="product-name product-item">
-                    Name: <span>{productName}</span>
+                    Name <span>${transaction.product.name}</span>
                   </div>
                   <div class="product-category product-item">
-                    Category: <span>{productCategory}</span>
+                    Category <span>${transaction.product.category}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price: <span>$ {productPrice}</span>
+                    Price <span>₹${transaction.product.price}</span>
                   </div>
                   <div class="product-quantity product-item">
-                    Quantity: <span>{productQuantity} unit(s)</span>
+                    Quantity <span>${transaction.quantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price: <span>$ {totalPrice}</span>
+                    Total Price <span>₹${transaction.quantity * transaction.product.price}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="supplier-details">
-                  <h3>Supplier Details</h3>
-                  <div class="supplier-name">
-                    Supplier: <span>{supplierName}</span>
+                  <h3 class="heading">Supplier Details</h3>
+                  <div class="supplier-name supplier">
+                    Supplier: <span>${transaction.supplier}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="other-details">
-                  <div class="other-date">
-                    Date - <span>{transactionDate}</span>
+                  <div class="other-date other">
+                    Date - <span>${new Date(
+                      transaction.createdAt
+                    ).toLocaleDateString()}</span>
                   </div>
-                  <div class="other-note">
-                    Note - <span>{transactionNote}</span>
+                  <div class="other-note other">
+                    Note - <span>${transaction.notes}</span>
                   </div>
-                  <div class="other-manager">
-                    Manager In Charge - <span>{managerName}</span>
+                  <div class="other-manager other">
+                    Managed By - <span>${transaction.performedBy.name}</span>
                   </div>
                 </div>
               </div>
@@ -65,18 +67,18 @@ class TransactionDetailsTemplate {
     return `<div class="accordion-item">
             <h2 class="accordion-header">
               <button
-                class="accordion-button collapsed"
+                class="accordion-button collapsed transaction-id"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#flush-collapse(1)"
+                data-bs-target="#flush-collapse-${transaction._id}"
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                Transaction Id1 <span class="type">OUT</span>
+                ID ${transaction._id} <span class="type">OUT</span>
               </button>
             </h2>
             <div
-              id="flush-collapse(1)"
+              id="flush-collapse-${transaction._id}"
               class="accordion-collapse collapse"
               data-bs-parent="#accordionFlushExample"
             >
@@ -90,59 +92,61 @@ class TransactionDetailsTemplate {
                     Category: <span>{productCategory}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price: <span>${productPrice}</span>
+                    Price: <span>₹{productPrice}</span>
                   </div>
                   <div class="product-quantity product-item">
                     Quantity: <span>{productQuantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price: <span>${totalPrice}</span>
+                    Total Price: <span>₹{totalPrice}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="customer-details">
                   <h3>Customer Details</h3>
-                  <div class="customer-name product-item">
+                  <div class="customer-name customer-item">
                     Name: <span>{customerName}</span>
                   </div>
-                  <div class="customer-email product-item">
+                  <div class="customer-email customer-item">
                     Email: <span>{customerEmail}</span>
                   </div>
-                  <div class="customer-contact product-item">
+                  <div class="customer-contact customer-item">
                     Contact: <span>{customerPhone}</span>
                   </div>
-                  <div class="customer-address product-item">
+                  <div class="customer-address customer-item">
                     Address: <span>{customerAddress}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="supplier-details">
                   <h3>Supplied From</h3>
-                  <div class="supplier-name">
+                  <div class="supplier-name supplier">
                     Name: <span>{warehouseName}</span>
                   </div>
-                  <div class="supplier-name">
+                  <div class="supplier-name supplier">
                     Address: <span>{warehouseAddress}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="other-details">
-                  <div class="other-date">
+                  <div class="other-date other">
                     Date - <span>{transactionDate}</span>
                   </div>
-                  <div class="other-note">
+                  <div class="other-note other">
                     Note - <span>{transactionNote}</span>
                   </div>
-                  <div class="other-manager">
-                    Manager In Charge - <span>{managerName}</span>
+                  <div class="other-manager other">
+                    Managed By - <span>{managerName}</span>
                   </div>
+                  <br />
                   <div class="generate-invoice">
                     <button
-                      class="invoice-btn btn btn-primary"
+                      class="invoice-btn btn"
                       type="button"
-                      value="{transactionId}"
+                      value="${transaction._id}"
                     >
-                      Generate Invoice
+                      <i class="fa-solid fa-file-arrow-down"></i> Generate
+                      Invoice
                     </button>
                   </div>
                 </div>
@@ -151,9 +155,152 @@ class TransactionDetailsTemplate {
           </div>`;
   };
 
-  stockAdjustDetails = (transaction) => {};
+  stockAdjustDetails = (transaction) => {
+    return `<div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed transaction-id"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse-${transaction._id}"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne"
+              >
+                ID ${transaction._id} <span class="type">ADJUST</span>
+              </button>
+            </h2>
+            <div
+              id="flush-collapse-${transaction._id}"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <div class="stock-details">
+                  <h3>Stock Details</h3>
+                  <div class="product-name product-item">
+                    Name: <span>{productName}</span>
+                  </div>
+                  <div class="product-category product-item">
+                    Category: <span>{productCategory}</span>
+                  </div>
+                  <div class="product-price product-item">
+                    Price: <span>₹{productPrice}</span>
+                  </div>
+                  <div class="product-quantity product-item">
+                    Quantity: <span>{productQuantity} unit(s)</span>
+                  </div>
+                  <div class="total-price product-item">
+                    Total Price: <span>₹{totalPrice}</span>
+                  </div>
+                </div>
 
-  stockTransferDetails = (transaction) => {};
+                <hr />
+                <div class="supplier-details">
+                  <h3>Adjusted Warehouse</h3>
+                  <div class="supplier-name supplier">
+                    Name: <span>{warehouseName}</span>
+                  </div>
+                  <div class="supplier-name supplier">
+                    Address: <span>{warehouseAddress}</span>
+                  </div>
+                </div>
+                <hr />
+                <div class="other-details">
+                  <div class="other-date other">
+                    Date - <span>{transactionDate}</span>
+                  </div>
+                  <div class="other-note other">
+                    Note - <span>{transactionNote}</span>
+                  </div>
+                  <div class="other-note other">
+                    Reason - <span>{reasonOfTransaction}</span>
+                  </div>
+                  <div class="other-manager other">
+                    Managed By - <span>{managerName}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+  };
+
+  stockTransferDetails = (transaction) => {
+    return `<div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed transaction-id"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse-${transaction._id}"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne"
+              >
+                ID ${transaction._id} <span class="type">TRANSFER</span>
+              </button>
+            </h2>
+            <div
+              id="flush-collapse-${transaction._id}"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <div class="stock-details">
+                  <h3>Stock Details</h3>
+                  <div class="product-name product-item">
+                    Name: <span>{productName}</span>
+                  </div>
+                  <div class="product-category product-item">
+                    Category: <span>{productCategory}</span>
+                  </div>
+                  <div class="product-price product-item">
+                    Price: <span>₹{productPrice}</span>
+                  </div>
+                  <div class="product-quantity product-item">
+                    Quantity: <span>{productQuantity} unit(s)</span>
+                  </div>
+                  <div class="total-price product-item">
+                    Total Price: <span>₹{totalPrice}</span>
+                  </div>
+                </div>
+
+                <hr />
+                <div class="supplier-details">
+                  <h3>Transferred From</h3>
+                  <div class="supplier-name supplier">
+                    Name: <span>{warehouseName}</span>
+                  </div>
+                  <div class="supplier-name supplier">
+                    Address: <span>{warehouseAddress}</span>
+                  </div>
+                </div>
+                <hr />
+                <div class="supplier-details">
+                  <h3>Transferred To</h3>
+                  <div class="supplier-name supplier">
+                    Name: <span>{warehouseName}</span>
+                  </div>
+                  <div class="supplier-name supplier">
+                    Address: <span>{warehouseAddress}</span>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div class="other-details">
+                  <div class="other-date other">
+                    Date - <span>{transactionDate}</span>
+                  </div>
+                  <div class="other-note other">
+                    Note - <span>{transactionNote}</span>
+                  </div>
+                  <div class="other-manager other">
+                    Managed By - <span>{managerName}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+  };
 }
 
 export default TransactionDetailsTemplate;

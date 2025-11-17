@@ -153,7 +153,54 @@ button.warehouse-dropdown {
   }
 }
 
-.product-item {
+.transaction-id {
+  .type {
+    margin-left: 10px;
+    margin-right: 5px;
+    font-size: 12px;
+    background-color: $color-white;
+    padding: 5px;
+    color: $color-primary-dark;
+    border-radius: 5px;
+  }
+}
+
+.heading {
+  color: $color-primary-dark;
+}
+
+.product-item,
+.customer-item {
   display: flex;
   justify-content: space-between;
+  font-weight: 600;
+  color: $color-text;
+
+  span {
+    color: $color-primary-dark;
+  }
+}
+
+.supplier {
+  font-weight: 600;
+  color: $color-text;
+
+  span {
+    font-weight: 400;
+    color: $color-primary-dark;
+  }
+}
+
+.other {
+  font-weight: 600;
+  color: $color-text;
+
+  span {
+    font-weight: 400;
+    color: $color-primary-dark;
+  }
+}
+
+button.invoice-btn {
+  @include button();
 }

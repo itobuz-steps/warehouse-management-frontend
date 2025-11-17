@@ -4,6 +4,7 @@ const config = {
   ADMIN_BASE_URL: 'http://localhost:3000/user/admin',
   PROFILE_BASE_URL: 'http://localhost:3000/profile',
   WAREHOUSE_BASE_URL: 'http://localhost:3000/warehouse',
+  TRANSACTION_BASE_URL: 'http://localhost:3000/transaction',
 };
 
 export default config;
