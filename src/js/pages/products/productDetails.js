@@ -4,17 +4,19 @@ import {
   fetchTotalProductQuantity,
   getCurrentUser,
 } from './productApiHelper';
-
-const modal = document.getElementById('productModal');
-const closeModalBtn = document.querySelector('.close-modal');
-const carouselImg = document.getElementById('carouselImage');
+import { dom } from './productSelector';
 
 let currentImageIndex = 0;
 let currentImages = [];
 
-closeModalBtn.addEventListener('click', () => modal.classList.add('hidden'));
+dom.closeModalBtn.addEventListener('click', () =>
+  dom.modal.classList.add('hidden')
+);
+
 window.addEventListener('click', (e) => {
-  if (e.target === modal) modal.classList.add('hidden');
+  if (e.target === dom.modal) {
+    dom.modal.classList.add('hidden');
+  }
 });
 
 export const openProductModal = async (product) => {
@@ -23,7 +25,7 @@ export const openProductModal = async (product) => {
     : ['/images/placeholder.png'];
 
   currentImageIndex = 0;
-  carouselImg.src = currentImages[0];
+  dom.carouselImg.src = currentImages[0];
 
   document.getElementById('modalProductName').textContent = product.name;
   document.getElementById('modalDescription').textContent =
@@ -34,18 +36,18 @@ export const openProductModal = async (product) => {
 
   await loadQuantityInfo(product._id);
 
-  modal.classList.remove('hidden');
+  dom.modal.classList.remove('hidden');
 };
 
 document.querySelector('.prev').addEventListener('click', () => {
   currentImageIndex =
     (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-  carouselImg.src = currentImages[currentImageIndex];
+  dom.carouselImg.src = currentImages[currentImageIndex];
 });
 
 document.querySelector('.next').addEventListener('click', () => {
   currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-  carouselImg.src = currentImages[currentImageIndex];
+  dom.carouselImg.src = currentImages[currentImageIndex];
 });
 
 async function loadQuantityInfo(productId) {
@@ -68,12 +70,12 @@ async function loadQuantityInfo(productId) {
       `;
     } else {
       const totalRes = await fetchTotalProductQuantity(productId);
-      console.log(totalRes)
+      console.log(totalRes);
 
       let totalQty = totalRes.data.data[0].quantity ?? 0;
 
       const listRes = await fetchProductSpecificWarehouses(productId);
-      console.log(listRes)
+      console.log(listRes);
 
       const warehouseList = listRes.data.data
         .map(

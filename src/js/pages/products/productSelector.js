@@ -11,4 +11,8 @@ export const dom = {
   searchInput: document.getElementById('searchInput'),
   categoryFilter: document.getElementById('categoryFilter'),
   sortSelect: document.getElementById('sortSelect'),
+
+  modal: document.getElementById('productModal'),
+  closeModalBtn: document.querySelector('.close-modal'),
+  carouselImg: document.getElementById('carouselImage'),
 };
