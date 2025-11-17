@@ -8,7 +8,7 @@ import Templates from '../../common/Templates.js';
 import { addWarehouseSubscribe, showManagerOptions } from './addWarehouse.js';
 import { displayWarehouse } from './displayWarehouse.js';
 import { confirmDelete } from './deleteWarehouse.js';
-import { updateWarehouse } from './editWarehouse.js';
+import { updateWarehouse, selectedManagerOptions } from './editWarehouse.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
@@ -38,20 +38,21 @@ function deleteWarehouse(id) {
 window.deleteWarehouse = deleteWarehouse;
 
 //edit warehouse
-async function editWarehouse(id) {
+async function editWarehouse(warehouseId) {
   try {
-    editWarehouseForm.setAttribute('data-id', id);
+    editWarehouseForm.setAttribute('data-id', warehouseId);
 
     const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
     const userId = getUser.data.data.user._id;
 
     const warehouseDetails = await api.get(
-      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${userId}/${id}`
+      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${userId}/${warehouseId}`
     );
     const warehouse = warehouseDetails.data.data;
     editWarehouseName.value = warehouse.name;
     editWarehouseAddress.value = warehouse.address;
     editWarehouseDescription.value = warehouse.description;
+    selectedManagerOptions(warehouse.managerIds);
 
     editWarehouseForm.addEventListener('submit', updateWarehouse);
   } catch (err) {
