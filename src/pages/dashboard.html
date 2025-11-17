@@ -10,6 +10,10 @@
     />
     <!-- <link href="../scss/dashboard.scss" rel="stylesheet" /> -->
     <script type="module" src="../js/common/sidebar.js" defer></script>
+    <script
+      type="module"
+      src="../js/common/notifications/notifications.js"
+    ></script>
   </head>
   <body>
     <div id="toastSection">
@@ -78,7 +82,47 @@
             Add Manager
           </button>
 
-          <div class="user-avatar">A</div>
+          <div
+            class="notif-bell position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNotifications"
+            aria-controls="offcanvasNotifications"
+            style="cursor: pointer"
+          >
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display: none"
+            >
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Offcanvas -->
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="offcanvasNotifications"
+        aria-labelledby="offcanvasNotificationsLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNotificationsLabel">
+            Notifications
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <div id="notif-list">
+            <p class="text-muted text-center">Loading notifications...</p>
+          </div>
         </div>
       </div>
 
