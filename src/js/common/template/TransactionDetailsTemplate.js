@@ -10,7 +10,7 @@ class TransactionDetailsTemplate {
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID ${transaction._id} <span class="type">${transaction.type}</span>
+                ID - ${transaction._id} <span class="type">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -28,13 +28,13 @@ class TransactionDetailsTemplate {
                     Category <span>${transaction.product.category}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price <span>₹${transaction.product.price}</span>
+                    Price <span>₹${transaction.product.price.toFixed(2)}</span>
                   </div>
                   <div class="product-quantity product-item">
                     Quantity <span>${transaction.quantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price <span>₹${transaction.quantity * transaction.product.price}</span>
+                    Total Price <span>₹${(transaction.quantity * transaction.product.price).toFixed(2)}</span>
                   </div>
                 </div>
                 <hr />
@@ -84,7 +84,7 @@ class TransactionDetailsTemplate {
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID ${transaction._id} <span class="type">${transaction.type}</span>
+                ID - ${transaction._id} <span class="type">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -102,13 +102,13 @@ class TransactionDetailsTemplate {
                     Category: <span>${transaction.product.category}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price: <span>₹${transaction.product.price}</span>
+                    Price: <span>₹${transaction.product.price.toFixed(2)}</span>
                   </div>
                   <div class="product-quantity product-item">
                     Quantity: <span>${transaction.quantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price: <span>₹${transaction.quantity * transaction.product.price}</span>
+                    Total Price: <span>₹${(transaction.quantity * transaction.product.price).toFixed(2)}</span>
                   </div>
                 </div>
                 <hr />
@@ -153,7 +153,7 @@ class TransactionDetailsTemplate {
                   <br />
                   <div class="generate-invoice">
                     <button
-                      class="invoice-btn btn"
+                      class="invoice-btn"
                       type="button"
                       value="${transaction._id}"
                     >
@@ -178,7 +178,7 @@ class TransactionDetailsTemplate {
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID ${transaction._id} <span class="type">${transaction.type}</span>
+                ID - ${transaction._id} <span class="type">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -196,13 +196,13 @@ class TransactionDetailsTemplate {
                     Category: <span>${transaction.product.category}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price: <span>₹${transaction.product.price}</span>
+                    Price: <span>₹${transaction.product.price.toFixed(2)}</span>
                   </div>
                   <div class="product-quantity product-item">
                     Quantity: <span>${transaction.quantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price: <span>₹${transaction.quantity * transaction.product.price}</span>
+                    Total Price: <span>₹${(transaction.quantity * transaction.product.price).toFixed(2)}</span>
                   </div>
                 </div>
 
@@ -249,7 +249,7 @@ class TransactionDetailsTemplate {
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID ${transaction._id} <span class="type">${transaction.type}</span>
+                ID - ${transaction._id} <span class="type">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -267,13 +267,13 @@ class TransactionDetailsTemplate {
                     Category: <span>${transaction.product.category}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price: <span>₹${transaction.product.price}</span>
+                    Price: <span>₹${transaction.product.price.toFixed(2)}</span>
                   </div>
                   <div class="product-quantity product-item">
                     Quantity: <span>${transaction.quantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price: <span>₹${transaction.quantity * transaction.product.price}</span>
+                    Total Price: <span>₹${(transaction.quantity * transaction.product.price).toFixed(2)}</span>
                   </div>
                 </div>
 

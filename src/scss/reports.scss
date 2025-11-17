@@ -4,6 +4,7 @@ $font-stack:
 
 $color-primary: #b97a87;
 $color-primary-dark: #864a5b;
+$color-primary-light: #f3dbdf;
 $color-secondary: #efe1e1;
 $color-text: #1a1a1a;
 $color-text-light: #666;
@@ -124,8 +125,8 @@ button.warehouse-dropdown {
 
 .custom-accordion {
   .accordion-button {
-    background-color: $color-primary !important;
-    color: $color-border !important;
+    background-color: $color-primary-light !important;
+    color: $color-primary-dark !important;
     font-weight: 600;
     border: none;
     box-shadow: $shadow-sm;
@@ -137,6 +138,24 @@ button.warehouse-dropdown {
       background-color: $color-primary-dark !important;
       color: $color-white !important;
       box-shadow: none;
+
+      .type {
+        background-color: $color-primary-light;
+        color: $color-primary-dark;
+      }
+    }
+  }
+  @media (max-width: 500px) {
+    .accordion-button {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: start;
+
+      .type {
+        margin-left: 0px;
+        margin-top: 10px;
+      }
     }
   }
 
@@ -158,9 +177,9 @@ button.warehouse-dropdown {
     margin-left: 10px;
     margin-right: 5px;
     font-size: 12px;
-    background-color: $color-white;
+    background-color: $color-primary-dark;
     padding: 5px;
-    color: $color-primary-dark;
+    color: $color-white;
     border-radius: 5px;
   }
 }

@@ -27,6 +27,31 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       reportSelection.reportSection.innerHTML += report;
     });
+
+    document.querySelectorAll('.invoice-btn').forEach((btn) => {
+      btn.addEventListener('click', async (event) => {
+        try {
+          const id = event.target.value;
+
+          const result = await api.get(
+            `${config.TRANSACTION_BASE_URL}/generate-invoice/${id}`,
+            { responseType: 'blob' }
+          );
+
+          const blob = new Blob([result.data], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'invoice.pdf';
+          a.click();
+
+          window.URL.revokeObjectURL(url);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    });
   } catch (err) {
     console.error(err);
   }
