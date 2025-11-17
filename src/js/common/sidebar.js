@@ -8,35 +8,31 @@ import Templates from './Templates';
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
 const manageWarehouse = document.getElementById('manageWarehouse');
-const logoutButton = document.querySelector('.logout-button');
-const links = document.querySelectorAll('.sidebar-menu a');
-const sidebar = document.querySelector('.sidebar');
-const toggleButton = document.getElementById('sidebarToggle');
 
 document.addEventListener('DOMContentLoaded', showSidebar);
 
 async function showSidebar() {
-  fetch('sidebar.html')
-    .then((response) => {
-      if (!response.ok) throw new Error('Sidebar not found');
-      return response.text();
-    })
-    .then((html) => {
-      document.getElementById('sidebar-container').innerHTML = html;
-      initializeSidebar();
-    })
-    .catch((err) => {
-      console.error('Error loading sidebar:', err);
-
-      initializeSidebar();
-    });
-
   try {
+    fetch('sidebar.html')
+      .then((response) => {
+        if (!response.ok) throw new Error('Sidebar not found');
+        return response.text();
+      })
+      .then((html) => {
+        document.getElementById('sidebar-container').innerHTML = html;
+        initializeSidebar();
+      })
+      .catch((err) => {
+        console.error('Error loading sidebar:', err);
+
+        initializeSidebar();
+      });
+
     const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
     const userRole = getUser.data.data.user.role;
 
-    if (userRole === 'admin') {
-      manageWarehouse.classList.remove('d-none');
+    if (userRole !== 'admin') {
+      manageWarehouse.classList.add('d-none');
     }
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
@@ -48,6 +44,9 @@ async function showSidebar() {
 }
 
 function initializeSidebar() {
+  const toggleButton = document.getElementById('sidebarToggle');
+  const sidebar = document.querySelector('.sidebar');
+
   if (!sidebar || !toggleButton) return;
 
   toggleButton.addEventListener('click', () => {
@@ -65,6 +64,8 @@ function initializeSidebar() {
   });
 
   const currentPath = window.location.pathname.split('/').pop();
+  const links = document.querySelectorAll('.sidebar-menu a');
+  const logoutButton = document.querySelector('.logout-button');
 
   links.forEach((link) => {
     const linkPath = link.getAttribute('href').split('/').pop();
