@@ -31,7 +31,7 @@
       >
         <h1>Transaction Reports</h1>
 
-        <div class="dropdown">
+        <div class="dropdown warehouses">
           <button
             class="btn dropdown-toggle warehouse-dropdown"
             type="button"
@@ -40,16 +40,62 @@
           >
             Warehouses
           </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
+          <ul class="dropdown-menu warehouses-options"></ul>
         </div>
       </section>
 
       <section class="filter-transactions">
-        <!--Yet to be done-->
+        <div
+          class="btn-group type-filter"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradioAll"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-type" for="btnradioAll">ALL</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradioIn"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="btnradioIn">IN</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradioOut"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="btnradioOut">OUT</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradioTransfer"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="btnradioTransfer">TRANSFER</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradioAdjust"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="btnradioAdjust">ADJUSTMENT</label>
+        </div>
       </section>
 
       <hr />

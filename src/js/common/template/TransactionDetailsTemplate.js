@@ -317,6 +317,10 @@ class TransactionDetailsTemplate {
             </div>
           </div>`;
   };
+
+  warehouseOptions = (warehouse) => {
+    return `<li><a class="dropdown-item warehouse-option" id="${warehouse._id}">${warehouse.name}</a></li>`;
+  };
 }
 
 export default TransactionDetailsTemplate;

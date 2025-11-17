@@ -119,6 +119,29 @@ button.warehouse-dropdown {
   @include button();
 }
 
+.type-filter {
+  margin-top: 20px;
+
+  .btn-type {
+    border: 1px solid $color-primary-dark;
+    color: $color-primary-dark;
+  }
+  .btn-check:checked + .btn {
+    background-color: $color-primary-dark;
+    border: 1px solid $color-primary-dark;
+    color: $color-white;
+  }
+  .btn-check:hover + .btn {
+    background-color: $color-primary-dark;
+    color: $color-white;
+  }
+  @media (max-width: 425px) {
+    .btn-type {
+      font-size: 9px;
+    }
+  }
+}
+
 .transaction-details {
   @include grid();
 }
