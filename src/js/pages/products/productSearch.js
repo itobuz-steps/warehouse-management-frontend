@@ -11,6 +11,10 @@ let selectedSort = '';
 export const initProductSearch = async () => {
   const user = await getCurrentUser();
 
+  dom.searchInput.value = '';
+  dom.categoryFilter.value = '';
+  dom.sortSelect.value = '';
+
   dom.searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.trim();
     fetchSearch(user.role, dom.warehouseSelect?.value || '');

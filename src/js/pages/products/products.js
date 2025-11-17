@@ -4,5 +4,5 @@ import { initEvents } from './productEvents.js';
 import { initProductSearch } from './productSearch.js';
 
 initEvents();
-loadWarehouses();
-initProductSearch();
+await loadWarehouses();
+await initProductSearch();

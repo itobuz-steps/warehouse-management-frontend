@@ -3,6 +3,7 @@ import {
   fetchProductsByWarehouse,
   getCurrentUser,
 } from './productApiHelper.js';
+// import { openProductModal } from './productDetails.js';
 import { dom } from './productSelector.js';
 import { showEmptyState, showErrorState } from './productTemplate.js';
 
@@ -73,9 +74,20 @@ export const renderProducts = (details) => {
           <span class="price">$${product.price ?? 'N/A'}</span>
           <span class="category">${product.category ?? 'Not Categorized'}</span>
         </div>
+        <button class="view-details-btn" data-product='${JSON.stringify(product)}'>
+          View Details
+        </button>
       </div>
     `;
     dom.productGrid.appendChild(card);
+  });
+
+  document.querySelectorAll('.view-details-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const product = JSON.parse(e.target.dataset.product);
+      // openProductModal(product);
+      console.log(product)
+    });
   });
 };
 
