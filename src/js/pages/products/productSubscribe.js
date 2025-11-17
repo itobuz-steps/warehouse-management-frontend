@@ -34,19 +34,19 @@ export const fetchProducts = async (warehouseId = '') => {
 
     allProducts = products;
     currentPage = 1;
-    renderPaginatedProducts();
+    renderPaginatedProducts(allProducts);
   } catch (err) {
     console.error(err);
     showErrorState();
   }
 };
 
-const renderPaginatedProducts = () => {
+export const renderPaginatedProducts = (allProducts) => {
   const start = (currentPage - 1) * productsPerPage;
   const pageItems = allProducts.slice(start, start + productsPerPage);
 
   renderProducts(pageItems);
-  renderPagination();
+  renderPagination(allProducts);
 };
 
 export const renderProducts = (details) => {
@@ -54,7 +54,7 @@ export const renderProducts = (details) => {
   dom.productGrid.innerHTML = '';
 
   if (!details.length) {
-    showEmptyState()
+    showEmptyState();
     return;
   }
 
@@ -68,7 +68,7 @@ export const renderProducts = (details) => {
       <img src="${imgSrc}" alt="${product.name}" />
       <div class="card-body">
         <h5>${product.name}</h5>
-        <p>${product.description || 'No description available.'}</p>
+        <!--<p>${product.description || 'No description available.'}</p>-->
         <div class="info-row">
           <span class="price">$${product.price ?? 'N/A'}</span>
           <span class="category">${product.category ?? 'Not Categorized'}</span>
@@ -79,10 +79,14 @@ export const renderProducts = (details) => {
   });
 };
 
-const renderPagination = () => {
+export const renderPagination = (allProducts) => {
   dom.pagination.innerHTML = '';
 
   const totalPages = Math.ceil(allProducts.length / productsPerPage);
+
+  if (currentPage > totalPages) {
+    currentPage = 1;
+  }
 
   if (totalPages <= 1) {
     dom.pagination.style.display = 'none';
@@ -99,7 +103,7 @@ const renderPagination = () => {
     btn.addEventListener('click', () => {
       currentPage = i;
 
-      renderPaginatedProducts();
+      renderPaginatedProducts(allProducts);
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });

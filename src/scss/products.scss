@@ -66,7 +66,10 @@ $transition: all 0.25s ease;
 
 #productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));//needs to be changed
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(260px, 1fr)
+  ); //needs to be changed
   gap: 1.5rem;
 }
 
@@ -194,6 +197,7 @@ $transition: all 0.25s ease;
   align-items: center;
   padding: 20px;
   animation: fadeIn 0.25s ease;
+  overflow-y: auto;
 }
 
 .modal-box {
@@ -205,6 +209,8 @@ $transition: all 0.25s ease;
   box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
   animation: popIn 0.25s ease;
   border: 1px solid $color-border;
+  max-height: 90vh; // keep modal visible
+  overflow-y: auto;
 
   @media (min-width: 768px) {
     padding: 30px;

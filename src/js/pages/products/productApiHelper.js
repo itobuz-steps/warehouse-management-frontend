@@ -19,11 +19,12 @@ export const addProduct = (formData) => {
   });
 };
 
-export const addProductQuantity = (productId, warehouseId, quantity) => {
+export const addProductQuantity = (productId, warehouseId, quantity, limit) => {
   return api.post(`${config.QUANTITY_BASE_URL}/product-quantity`, {
     productId,
     warehouseId,
     quantity,
+    limit,
   });
 };
 

@@ -50,7 +50,8 @@ const handleAddProduct = async (e) => {
     await addProductQuantity(
       productId,
       dom.productWarehouseSelect.value,
-      dom.addProductForm.productQuantity.value
+      dom.addProductForm.productQuantity.value,
+      dom.addProductForm.productLimit.value,
     );
 
     showToast('success', 'Product & quantity added successfully');
