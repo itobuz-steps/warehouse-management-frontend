@@ -7,7 +7,6 @@ import Templates from './Templates';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
-const manageWarehouse = document.getElementById('manageWarehouse');
 
 document.addEventListener('DOMContentLoaded', showSidebar);
 
@@ -30,6 +29,7 @@ async function showSidebar() {
 
     const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
     const userRole = getUser.data.data.user.role;
+    const manageWarehouse = document.getElementById('manageWarehouse');
 
     if (userRole !== 'admin') {
       manageWarehouse.classList.add('d-none');
