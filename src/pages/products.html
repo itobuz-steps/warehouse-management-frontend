@@ -116,6 +116,31 @@
         </div>
       </div>
 
+      <div id="productModal" class="product-modal hidden">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+
+          <div class="modal-body d-flex">
+            <div class="carousel-container">
+              <button class="carousel-btn prev">&#10094;</button>
+              <img id="carouselImage" src="" alt="Product Image" />
+              <button class="carousel-btn next">&#10095;</button>
+            </div>
+
+            <div class="product-info justify-content-center align-content-center">
+              <h2 id="modalProductName"></h2>
+              <p id="modalDescription"></p>
+              <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+              <p><strong>Price:</strong> $<span id="modalPrice"></span></p>
+
+              <hr />
+
+              <div id="quantitySection"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="search-filter-bar pb-3">
         <input
           type="text"
