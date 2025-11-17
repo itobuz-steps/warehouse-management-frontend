@@ -15,16 +15,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       let report;
 
       if (transaction.type === 'IN') {
-        console.log('IN');
         report = transactionTemplate.stockInDetails(transaction);
       } else if (transaction.type === 'OUT') {
-        console.log('OUT');
         report = transactionTemplate.stockOutDetails(transaction);
       } else if (transaction.type === 'ADJUSTMENT') {
-        console.log('ADJUSTMENT');
         report = transactionTemplate.stockAdjustDetails(transaction);
       } else if (transaction.type === 'TRANSFER') {
-        console.log('TRANSFER');
         report = transactionTemplate.stockTransferDetails(transaction);
       } else {
         console.log('Unknown Type');

@@ -10,7 +10,7 @@ class TransactionDetailsTemplate {
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID ${transaction._id} <span class="type">IN</span>
+                ID ${transaction._id} <span class="type">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -45,6 +45,16 @@ class TransactionDetailsTemplate {
                   </div>
                 </div>
                 <hr />
+                <div class="supplier-details">
+                  <h3 class="heading">Stocked In</h3>
+                  <div class="supplier-name supplier">
+                    Name: <span>${transaction.destinationWarehouse?.name ?? 'N/A'}</span>
+                  </div>
+                  <div class="supplier-address supplier">
+                    Address: <span>${transaction.destinationWarehouse?.address ?? 'N/A'}</span>
+                  </div>
+                </div>
+                <hr />
                 <div class="other-details">
                   <div class="other-date other">
                     Date - <span>${new Date(
@@ -74,7 +84,7 @@ class TransactionDetailsTemplate {
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID ${transaction._id} <span class="type">OUT</span>
+                ID ${transaction._id} <span class="type">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -84,59 +94,61 @@ class TransactionDetailsTemplate {
             >
               <div class="accordion-body">
                 <div class="stock-details">
-                  <h3>Stock Details</h3>
+                  <h3 class="heading">Stock Details</h3>
                   <div class="product-name product-item">
-                    Name: <span>{productName}</span>
+                    Name: <span>${transaction.product.name}</span>
                   </div>
                   <div class="product-category product-item">
-                    Category: <span>{productCategory}</span>
+                    Category: <span>${transaction.product.category}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price: <span>₹{productPrice}</span>
+                    Price: <span>₹${transaction.product.price}</span>
                   </div>
                   <div class="product-quantity product-item">
-                    Quantity: <span>{productQuantity} unit(s)</span>
+                    Quantity: <span>${transaction.quantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price: <span>₹{totalPrice}</span>
+                    Total Price: <span>₹${transaction.quantity * transaction.product.price}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="customer-details">
-                  <h3>Customer Details</h3>
+                  <h3 class="heading">Customer Details</h3>
                   <div class="customer-name customer-item">
-                    Name: <span>{customerName}</span>
+                    Name: <span>${transaction.customerName}</span>
                   </div>
                   <div class="customer-email customer-item">
-                    Email: <span>{customerEmail}</span>
+                    Email: <span>${transaction.customerEmail}</span>
                   </div>
                   <div class="customer-contact customer-item">
-                    Contact: <span>{customerPhone}</span>
+                    Contact: <span>+91 ${transaction.customerPhone}</span>
                   </div>
                   <div class="customer-address customer-item">
-                    Address: <span>{customerAddress}</span>
+                    Address: <span>${transaction.customerAddress}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="supplier-details">
-                  <h3>Supplied From</h3>
+                  <h3 class="heading">Supplied From</h3>
                   <div class="supplier-name supplier">
-                    Name: <span>{warehouseName}</span>
+                    Name: <span>${transaction.sourceWarehouse?.name ?? 'N/A'}</span>
                   </div>
-                  <div class="supplier-name supplier">
-                    Address: <span>{warehouseAddress}</span>
+                  <div class="supplier-address supplier">
+                    Address: <span>${transaction.sourceWarehouse?.address ?? 'N/A'}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="other-details">
                   <div class="other-date other">
-                    Date - <span>{transactionDate}</span>
+                    Date - <span>${new Date(
+                      transaction.createdAt
+                    ).toLocaleDateString()}</span>
                   </div>
                   <div class="other-note other">
-                    Note - <span>{transactionNote}</span>
+                    Note - <span>${transaction.notes}</span>
                   </div>
                   <div class="other-manager other">
-                    Managed By - <span>{managerName}</span>
+                    Managed By - <span>${transaction.performedBy.name}</span>
                   </div>
                   <br />
                   <div class="generate-invoice">
@@ -166,7 +178,7 @@ class TransactionDetailsTemplate {
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID ${transaction._id} <span class="type">ADJUST</span>
+                ID ${transaction._id} <span class="type">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -178,19 +190,19 @@ class TransactionDetailsTemplate {
                 <div class="stock-details">
                   <h3>Stock Details</h3>
                   <div class="product-name product-item">
-                    Name: <span>{productName}</span>
+                    Name: <span>${transaction.product.name}</span>
                   </div>
                   <div class="product-category product-item">
-                    Category: <span>{productCategory}</span>
+                    Category: <span>${transaction.product.category}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price: <span>₹{productPrice}</span>
+                    Price: <span>₹${transaction.product.price}</span>
                   </div>
                   <div class="product-quantity product-item">
-                    Quantity: <span>{productQuantity} unit(s)</span>
+                    Quantity: <span>${transaction.quantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price: <span>₹{totalPrice}</span>
+                    Total Price: <span>₹${transaction.quantity * transaction.product.price}</span>
                   </div>
                 </div>
 
@@ -198,25 +210,27 @@ class TransactionDetailsTemplate {
                 <div class="supplier-details">
                   <h3>Adjusted Warehouse</h3>
                   <div class="supplier-name supplier">
-                    Name: <span>{warehouseName}</span>
+                    Name: <span>${transaction.sourceWarehouse?.name ?? 'N/A'}</span>
                   </div>
                   <div class="supplier-name supplier">
-                    Address: <span>{warehouseAddress}</span>
+                    Address: <span>${transaction.sourceWarehouse?.address ?? 'N/A'}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="other-details">
                   <div class="other-date other">
-                    Date - <span>{transactionDate}</span>
+                    Date - <span>${new Date(
+                      transaction.createdAt
+                    ).toLocaleDateString()}</span>
                   </div>
                   <div class="other-note other">
-                    Note - <span>{transactionNote}</span>
+                    Note - <span>${transaction.notes}</span>
                   </div>
                   <div class="other-note other">
-                    Reason - <span>{reasonOfTransaction}</span>
+                    Reason - <span>${transaction.reason}</span>
                   </div>
                   <div class="other-manager other">
-                    Managed By - <span>{managerName}</span>
+                    Managed By - <span>${transaction.performedBy.name}</span>
                   </div>
                 </div>
               </div>
@@ -235,7 +249,7 @@ class TransactionDetailsTemplate {
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID ${transaction._id} <span class="type">TRANSFER</span>
+                ID ${transaction._id} <span class="type">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -247,19 +261,19 @@ class TransactionDetailsTemplate {
                 <div class="stock-details">
                   <h3>Stock Details</h3>
                   <div class="product-name product-item">
-                    Name: <span>{productName}</span>
+                    Name: <span>${transaction.product.name}</span>
                   </div>
                   <div class="product-category product-item">
-                    Category: <span>{productCategory}</span>
+                    Category: <span>${transaction.product.category}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price: <span>₹{productPrice}</span>
+                    Price: <span>₹${transaction.product.price}</span>
                   </div>
                   <div class="product-quantity product-item">
-                    Quantity: <span>{productQuantity} unit(s)</span>
+                    Quantity: <span>${transaction.quantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price: <span>₹{totalPrice}</span>
+                    Total Price: <span>₹${transaction.quantity * transaction.product.price}</span>
                   </div>
                 </div>
 
@@ -267,20 +281,20 @@ class TransactionDetailsTemplate {
                 <div class="supplier-details">
                   <h3>Transferred From</h3>
                   <div class="supplier-name supplier">
-                    Name: <span>{warehouseName}</span>
+                    Name: <span>${transaction.sourceWarehouse?.name ?? 'N/A'}</span>
                   </div>
                   <div class="supplier-name supplier">
-                    Address: <span>{warehouseAddress}</span>
+                    Address: <span>${transaction.sourceWarehouse?.address ?? 'N/A'}</span>
                   </div>
                 </div>
                 <hr />
                 <div class="supplier-details">
                   <h3>Transferred To</h3>
                   <div class="supplier-name supplier">
-                    Name: <span>{warehouseName}</span>
+                    Name: <span>${transaction.destinationWarehouse?.name ?? 'N/A'}</span>
                   </div>
                   <div class="supplier-name supplier">
-                    Address: <span>{warehouseAddress}</span>
+                    Address: <span>${transaction.destinationWarehouse?.address ?? 'N/A'}</span>
                   </div>
                 </div>
 
@@ -288,13 +302,15 @@ class TransactionDetailsTemplate {
 
                 <div class="other-details">
                   <div class="other-date other">
-                    Date - <span>{transactionDate}</span>
+                    Date - <span>${new Date(
+                      transaction.createdAt
+                    ).toLocaleDateString()}</span>
                   </div>
                   <div class="other-note other">
-                    Note - <span>{transactionNote}</span>
+                    Note - <span>${transaction.notes}</span>
                   </div>
                   <div class="other-manager other">
-                    Managed By - <span>{managerName}</span>
+                    Managed By - <span>${transaction.performedBy.name}</span>
                   </div>
                 </div>
               </div>
