@@ -1,4 +1,5 @@
 import {
+  deleteProduct,
   editProduct,
   fetchProductQuantityWarehouse,
   fetchProductSpecificWarehouses,
@@ -6,6 +7,7 @@ import {
   getCurrentUser,
 } from './productApiHelper';
 import { dom } from './productSelector';
+import { fetchProducts } from './productSubscribe';
 import { showToast } from './productTemplate';
 
 let currentImageIndex = 0;
@@ -19,6 +21,20 @@ dom.closeModalBtn.addEventListener('click', () =>
 window.addEventListener('click', (e) => {
   if (e.target === dom.modal) {
     dom.modal.classList.add('hidden');
+  }
+});
+
+const confirmDeleteModal = document.getElementById('confirmDeleteModal');
+const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+cancelDeleteBtn.addEventListener('click', () => {
+  confirmDeleteModal.classList.add('hidden');
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target === confirmDeleteModal) {
+    confirmDeleteModal.classList.add('hidden');
   }
 });
 
@@ -66,7 +82,6 @@ async function loadQuantityInfo(productId) {
   try {
     if (user.role === 'manager') {
       const res = await fetchProductQuantityWarehouse(productId, warehouseId);
-      // console.log(productId, warehouseId);
 
       const qty = res.data.data[0].quantity;
       quantitySection.innerHTML = `
@@ -75,12 +90,10 @@ async function loadQuantityInfo(productId) {
       `;
     } else {
       const totalRes = await fetchTotalProductQuantity(productId);
-      // console.log(totalRes);
 
       let totalQty = totalRes.data.data[0].quantity ?? 0;
 
       const listRes = await fetchProductSpecificWarehouses(productId);
-      // console.log(listRes);
 
       const warehouseList = listRes.data.data
         .map(
@@ -147,11 +160,44 @@ document
 
     try {
       const res = await editProduct(formData, selectedProductId);
-      console.log(res);
+      // console.log(res);
       editModal.classList.add('hidden');
+      dom.modal.classList.add('hidden');
+      const params = new URLSearchParams(window.location.search);
+      const warehouseId = params.get('warehouseId');
+      fetchProducts(warehouseId);
+
       showToast('success', res.data.message);
     } catch (err) {
       console.error(err);
-      showToast('error', 'Failed to update product')
+      showToast('error', 'Failed to update product');
     }
+  });
+
+document
+  .getElementById('deleteProductBtn')
+  .addEventListener('click', async () => {
+    document
+      .getElementById('deleteProductBtn')
+      .addEventListener('click', () => {
+        document
+          .getElementById('confirmDeleteModal')
+          .classList.remove('hidden');
+      });
+
+    confirmDeleteBtn.addEventListener('click', async () => {
+      try {
+        const res = await deleteProduct(selectedProductId);
+
+        confirmDeleteModal.classList.add('hidden');
+        dom.modal.classList.add('hidden');
+        const params = new URLSearchParams(window.location.search);
+        const warehouseId = params.get('warehouseId');
+        fetchProducts(warehouseId);
+        showToast('success', res.data.message);
+      } catch (err) {
+        console.error(err);
+        showToast('error', 'Failed to delete product');
+      }
+    });
   });

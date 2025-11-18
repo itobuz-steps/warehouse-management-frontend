@@ -9,7 +9,7 @@ import { showEmptyState, showErrorState } from './productTemplate.js';
 
 let allProducts = [];
 let currentPage = 1;
-const productsPerPage = 12; //as per products
+const productsPerPage = 8; //as per products
 
 export const fetchProducts = async (warehouseId = '') => {
   try {

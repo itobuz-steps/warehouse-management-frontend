@@ -91,7 +91,7 @@ $transition: all 0.25s ease;
   img {
     width: 100%;
     height: 180px;
-    object-fit: cover;
+    object-fit: contain;
     background: #f8f9fa;
   }
 
@@ -515,4 +515,19 @@ $transition: all 0.25s ease;
   .modal-footer button {
     width: 100%;
   }
+}
+
+#confirmDeleteModal .modal-content {
+  padding: 25px;
+  max-width: 400px;
+  text-align: center;
+}
+
+#confirmDeleteModal h3 {
+  margin-bottom: 10px;
+}
+
+#confirmDeleteModal p {
+  margin-bottom: 20px;
+  font-size: 15px;
 }
