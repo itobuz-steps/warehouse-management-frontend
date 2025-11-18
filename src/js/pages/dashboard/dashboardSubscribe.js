@@ -3,6 +3,11 @@ import Templates from '../../common/Templates.js';
 import dashboardSelection from './dashboardSelector.js';
 import config from '../../config/config.js';
 import {
+  getCurrentUser,
+  getUserWarehouses,
+} from '../products/productApiHelper.js';
+
+import {
   Chart,
   BarController,
   BarElement,
@@ -33,16 +38,26 @@ Chart.register(
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
+let barGraph = null;
 
-const showTopProductsSubscribe = async () => {
+async function showTopProductsSubscribe(warehouseId = '') {
   try {
-    const res = await api.get(`${config.DASHBOARD_BASE_URL}/get-top-products`);
+    const selectedWarehouseId = warehouseId;
+
+    //passing the id as query param.
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-top-products/${selectedWarehouseId}`
+    );
     const products = res.data.topProducts;
 
     const labels = products.map((item) => item.productName);
     const quantities = products.map((item) => item.totalQuantity);
 
-    new Chart(dashboardSelection.barGraph, {
+    if (barGraph) {
+      barGraph.destroy();
+    }
+
+    barGraph = new Chart(dashboardSelection.barGraph, {
       type: 'bar',
       data: {
         labels,
@@ -63,7 +78,7 @@ const showTopProductsSubscribe = async () => {
       toastSection.innerHTML = '';
     }, 3000);
   }
-};
+}
 
 const showInventoryCategorySubscribe = async () => {
   const res = await api.get(
@@ -149,8 +164,35 @@ const showProductTransactionSubscribe = async () => {
   }
 };
 
+const fetchUserAndWarehouses = async () => {
+  try {
+    //fetching user details.
+    const user = await getCurrentUser();
+    const warehouses = await getUserWarehouses(user._id);
+
+    dashboardSelection.warehouseSelect.innerHTML = '';
+    dashboardSelection.warehouseSelect.innerHTML = `<option value="${warehouses[0]._id} selected">${warehouses[0].name}</option>`;
+
+    warehouses.forEach((warehouse) => {
+      const option = document.createElement('option');
+      option.value = warehouse._id;
+      option.textContent = warehouse.name;
+      dashboardSelection.warehouseSelect.appendChild(option);
+    });
+
+    return warehouses[0]._id;
+  } catch (err) {
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
 export {
   showTopProductsSubscribe,
   showInventoryCategorySubscribe,
   showProductTransactionSubscribe,
+  fetchUserAndWarehouses,
 };

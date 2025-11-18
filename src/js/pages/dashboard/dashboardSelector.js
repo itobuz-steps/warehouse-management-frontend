@@ -7,7 +7,7 @@ const dashboardSelection = {
   barGraph: document.querySelector('#barGraph'),
   pieChart: document.querySelector('#pieChart'),
   lineChart: document.querySelector('#lineChart'),
-  transactionSelect: document.querySelector('#transactionSelect'),
+  warehouseSelect: document.querySelector('#warehouseSelect'),
 };
 
 export default dashboardSelection;
