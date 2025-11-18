@@ -24,17 +24,13 @@ window.addEventListener('click', (e) => {
   }
 });
 
-const confirmDeleteModal = document.getElementById('confirmDeleteModal');
-const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-
-cancelDeleteBtn.addEventListener('click', () => {
-  confirmDeleteModal.classList.add('hidden');
+dom.cancelDeleteBtn.addEventListener('click', () => {
+  dom.confirmDeleteModal.classList.add('hidden');
 });
 
 window.addEventListener('click', (e) => {
-  if (e.target === confirmDeleteModal) {
-    confirmDeleteModal.classList.add('hidden');
+  if (e.target === dom.confirmDeleteModal) {
+    dom.confirmDeleteModal.classList.add('hidden');
   }
 });
 
@@ -48,33 +44,31 @@ export const openProductModal = async (product) => {
   currentImageIndex = 0;
   dom.carouselImg.src = currentImages[0];
 
-  document.getElementById('modalProductName').textContent = product.name;
-  document.getElementById('modalDescription').textContent =
+  dom.modalProductName.textContent = product.name;
+  dom.modalDescription.textContent =
     product.description || 'No description available.';
-  document.getElementById('modalPrice').textContent = product.price ?? 'N/A';
-  document.getElementById('modalCategory').textContent =
-    product.category ?? 'Not Categorized';
+  dom.modalPrice.textContent = product.price ?? 'N/A';
+  dom.modalCategory.textContent = product.category ?? 'Not Categorized';
 
   await loadQuantityInfo(selectedProductId);
 
   dom.modal.classList.remove('hidden');
 };
 
-document.querySelector('.prev').addEventListener('click', () => {
+dom.prev.addEventListener('click', () => {
   currentImageIndex =
     (currentImageIndex - 1 + currentImages.length) % currentImages.length;
   dom.carouselImg.src = currentImages[currentImageIndex];
 });
 
-document.querySelector('.next').addEventListener('click', () => {
+dom.next.addEventListener('click', () => {
   currentImageIndex = (currentImageIndex + 1) % currentImages.length;
   dom.carouselImg.src = currentImages[currentImageIndex];
 });
 
 async function loadQuantityInfo(productId) {
   const user = await getCurrentUser();
-  const quantitySection = document.getElementById('quantitySection');
-  quantitySection.innerHTML = 'Loading quantity...';
+  dom.quantitySection.innerHTML = 'Loading quantity...';
 
   const params = new URLSearchParams(window.location.search);
   const warehouseId = params.get('warehouseId') || user.warehouseId;
@@ -84,7 +78,7 @@ async function loadQuantityInfo(productId) {
       const res = await fetchProductQuantityWarehouse(productId, warehouseId);
 
       const qty = res.data.data[0].quantity;
-      quantitySection.innerHTML = `
+      dom.quantitySection.innerHTML = `
         <p><strong>Quantity in this Warehouse:</strong> ${qty}</p>
         ${qty <= 10 ? `<button class="btn btn-danger low-stock">⚠ LOW STOCK</button>` : ''}
       `;
@@ -102,7 +96,7 @@ async function loadQuantityInfo(productId) {
         )
         .join('');
 
-      quantitySection.innerHTML = `
+      dom.quantitySection.innerHTML = `
         <p><strong>Total Quantity Across Warehouses:</strong> ${totalQty}</p>
         ${totalQty <= 10 ? `<button class="btn btn-danger low-stock">⚠ LOW STOCK</button>` : ''}
         <hr/>
@@ -111,93 +105,77 @@ async function loadQuantityInfo(productId) {
       `;
     }
   } catch {
-    quantitySection.innerHTML = 'Error loading quantity.';
+    dom.quantitySection.innerHTML = 'Error loading quantity.';
   }
 }
 
-const editModal = document.getElementById('editProductModal');
-const closeEditModal = document.querySelector('.close-edit-modal');
+dom.editProductBtn.addEventListener('click', () => {
+  dom.editName.value = dom.modalProductName.textContent;
+  dom.editDescription.value = dom.modalDescription.textContent;
+  dom.editCategory.value = dom.modalCategory.textContent;
+  dom.editPrice.value = dom.modalPrice.textContent;
 
-document.getElementById('editProductBtn').addEventListener('click', () => {
-  document.getElementById('editName').value =
-    document.getElementById('modalProductName').textContent;
-  document.getElementById('editDescription').value =
-    document.getElementById('modalDescription').textContent;
-  document.getElementById('editCategory').value =
-    document.getElementById('modalCategory').textContent;
-  document.getElementById('editPrice').value =
-    document.getElementById('modalPrice').textContent;
-
-  editModal.classList.remove('hidden');
+  dom.editModal.classList.remove('hidden');
 });
 
-closeEditModal.addEventListener('click', () =>
-  editModal.classList.add('hidden')
+dom.closeEditModal.addEventListener('click', () =>
+  dom.editModal.classList.add('hidden')
 );
 
 window.addEventListener('click', (e) => {
-  if (e.target === editModal) editModal.classList.add('hidden');
+  if (e.target === dom.editModal) {
+    dom.editModal.classList.add('hidden');
+  }
 });
 
-document
-  .getElementById('editProductForm')
-  .addEventListener('submit', async (e) => {
-    e.preventDefault();
+dom.editProductForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('name', document.getElementById('editName').value);
-    formData.append(
-      'description',
-      document.getElementById('editDescription').value
-    );
-    formData.append('category', document.getElementById('editCategory').value);
-    formData.append('price', document.getElementById('editPrice').value);
+  const formData = new FormData();
+  formData.append('name', dom.editName.value);
+  formData.append('description', dom.editDescription.value);
+  formData.append('category', dom.editCategory.value);
+  formData.append('price', dom.editPrice.value);
 
-    const files = document.getElementById('editImages').files;
-    for (let i = 0; i < files.length; i++) {
-      formData.append('productImage', files[i]);
-    }
+  const files = dom.editImages.files;
+  for (let i = 0; i < files.length; i++) {
+    formData.append('productImage', files[i]);
+  }
 
+  try {
+    const res = await editProduct(formData, selectedProductId);
+    // console.log(res);
+    dom.editModal.classList.add('hidden');
+    dom.modal.classList.add('hidden');
+    const params = new URLSearchParams(window.location.search);
+    const warehouseId = params.get('warehouseId');
+    fetchProducts(warehouseId);
+
+    showToast('success', res.data.message);
+  } catch (err) {
+    console.error(err);
+    showToast('error', 'Failed to update product');
+  }
+});
+
+dom.deleteProductBtn.addEventListener('click', async () => {
+  dom.deleteProductBtn.addEventListener('click', () => {
+    dom.confirmDeleteModal.classList.remove('hidden');
+  });
+
+  dom.confirmDeleteBtn.addEventListener('click', async () => {
     try {
-      const res = await editProduct(formData, selectedProductId);
-      // console.log(res);
-      editModal.classList.add('hidden');
+      const res = await deleteProduct(selectedProductId);
+
+      dom.confirmDeleteModal.classList.add('hidden');
       dom.modal.classList.add('hidden');
       const params = new URLSearchParams(window.location.search);
       const warehouseId = params.get('warehouseId');
       fetchProducts(warehouseId);
-
       showToast('success', res.data.message);
     } catch (err) {
       console.error(err);
-      showToast('error', 'Failed to update product');
+      showToast('error', 'Failed to delete product');
     }
   });
-
-document
-  .getElementById('deleteProductBtn')
-  .addEventListener('click', async () => {
-    document
-      .getElementById('deleteProductBtn')
-      .addEventListener('click', () => {
-        document
-          .getElementById('confirmDeleteModal')
-          .classList.remove('hidden');
-      });
-
-    confirmDeleteBtn.addEventListener('click', async () => {
-      try {
-        const res = await deleteProduct(selectedProductId);
-
-        confirmDeleteModal.classList.add('hidden');
-        dom.modal.classList.add('hidden');
-        const params = new URLSearchParams(window.location.search);
-        const warehouseId = params.get('warehouseId');
-        fetchProducts(warehouseId);
-        showToast('success', res.data.message);
-      } catch (err) {
-        console.error(err);
-        showToast('error', 'Failed to delete product');
-      }
-    });
-  });
+});

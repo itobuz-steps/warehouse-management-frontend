@@ -43,7 +43,7 @@ const handleAddProduct = async (e) => {
 
   try {
     const res = await addProduct(formData);
-    
+
     if (!res.data.success) {
       return showToast('error', 'Failed to add product');
     }
