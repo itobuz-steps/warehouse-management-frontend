@@ -127,7 +127,9 @@
               <button class="carousel-btn next">&#10095;</button>
             </div>
 
-            <div class="product-info justify-content-center align-content-center">
+            <div
+              class="product-info justify-content-center align-content-center"
+            >
               <h2 id="modalProductName"></h2>
               <p id="modalDescription"></p>
               <p><strong>Category:</strong> <span id="modalCategory"></span></p>
@@ -138,6 +140,87 @@
               <div id="quantitySection"></div>
             </div>
           </div>
+
+          <div class="modal-footer">
+            <button id="editProductBtn" class="btn btn-primary">
+              Edit Product
+            </button>
+            <button id="deleteProductBtn" class="btn btn-danger">
+              Delete Product
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Product Modal -->
+      <div id="editProductModal" class="product-modal hidden">
+        <div class="modal-content">
+          <span class="close-edit-modal">&times;</span>
+          <h2>Edit Product</h2>
+
+          <form
+            class="modal-form"
+            id="editProductForm"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group">
+              <label for="editName">Name:</label>
+              <input
+                type="text"
+                id="editName"
+                name="name"
+                class="form-control"
+                placeholder="Product Name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editDescription">Description:</label>
+              <textarea
+                id="editDescription"
+                name="description"
+                class="form-control"
+                placeholder="Description"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="editCategory">Category:</label>
+              <select id="editCategory" name="category" required>
+                <option value="">Select Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Food & Beverage">Food & Beverage</option>
+                <option value="Medical Supplies">Medical Supplies</option>
+                <option value="Industrial Tools">Industrial Tools</option>
+                <option value="Automotive Parts">Automotive Parts</option>
+                <option value="Office Supplies">Office Supplies</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editPrice">Price:</label>
+              <input
+                type="number"
+                id="editPrice"
+                name="price"
+                step="0.01"
+                class="form-control"
+                placeholder="Price"
+              />
+            </div>
+            <div class="form-group">
+              <label>Upload New Images</label>
+              <input
+                type="file"
+                id="editImages"
+                name="productImage"
+                multiple
+                class="form-control"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </form>
         </div>
       </div>
 
@@ -145,11 +228,11 @@
         <input
           type="text"
           id="searchInput"
-          class="form-control"
+          class="form-control my-1"
           placeholder="Search products..."
         />
 
-        <select id="categoryFilter" class="form-control">
+        <select id="categoryFilter" class="form-control my-1">
           <option value="">All Categories</option>
           <option value="Electronics">Electronics</option>
           <option value="Furniture">Furniture</option>
@@ -163,7 +246,7 @@
           <option value="Others">Others</option>
         </select>
 
-        <select id="sortSelect" class="form-control">
+        <select id="sortSelect" class="form-control my-1">
           <option value="">Sort By</option>
           <option value="name_asc">Name (A–Z)</option>
           <option value="name_desc">Name (Z–A)</option>

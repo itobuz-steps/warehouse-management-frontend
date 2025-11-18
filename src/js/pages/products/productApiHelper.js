@@ -19,6 +19,16 @@ export const addProduct = (formData) => {
   });
 };
 
+export const editProduct = (formData, productId) => {
+  return api.put(`${config.PRODUCT_BASE_URL}/${productId}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
+
+export const deleteProduct = (productId) => {
+  return api.delete(`${config.PRODUCT_BASE_URL}/${productId}`);
+}
+
 export const addProductQuantity = (productId, warehouseId, quantity, limit) => {
   return api.post(`${config.QUANTITY_BASE_URL}/product-quantity`, {
     productId,

@@ -1,13 +1,16 @@
 import {
+  editProduct,
   fetchProductQuantityWarehouse,
   fetchProductSpecificWarehouses,
   fetchTotalProductQuantity,
   getCurrentUser,
 } from './productApiHelper';
 import { dom } from './productSelector';
+import { showToast } from './productTemplate';
 
 let currentImageIndex = 0;
 let currentImages = [];
+let selectedProductId = null;
 
 dom.closeModalBtn.addEventListener('click', () =>
   dom.modal.classList.add('hidden')
@@ -20,6 +23,8 @@ window.addEventListener('click', (e) => {
 });
 
 export const openProductModal = async (product) => {
+  selectedProductId = product._id;
+
   currentImages = product.productImage?.length
     ? product.productImage
     : ['/images/placeholder.png'];
@@ -34,7 +39,7 @@ export const openProductModal = async (product) => {
   document.getElementById('modalCategory').textContent =
     product.category ?? 'Not Categorized';
 
-  await loadQuantityInfo(product._id);
+  await loadQuantityInfo(selectedProductId);
 
   dom.modal.classList.remove('hidden');
 };
@@ -61,7 +66,7 @@ async function loadQuantityInfo(productId) {
   try {
     if (user.role === 'manager') {
       const res = await fetchProductQuantityWarehouse(productId, warehouseId);
-      console.log(productId, warehouseId);
+      // console.log(productId, warehouseId);
 
       const qty = res.data.data[0].quantity;
       quantitySection.innerHTML = `
@@ -70,12 +75,12 @@ async function loadQuantityInfo(productId) {
       `;
     } else {
       const totalRes = await fetchTotalProductQuantity(productId);
-      console.log(totalRes);
+      // console.log(totalRes);
 
       let totalQty = totalRes.data.data[0].quantity ?? 0;
 
       const listRes = await fetchProductSpecificWarehouses(productId);
-      console.log(listRes);
+      // console.log(listRes);
 
       const warehouseList = listRes.data.data
         .map(
@@ -96,3 +101,57 @@ async function loadQuantityInfo(productId) {
     quantitySection.innerHTML = 'Error loading quantity.';
   }
 }
+
+const editModal = document.getElementById('editProductModal');
+const closeEditModal = document.querySelector('.close-edit-modal');
+
+document.getElementById('editProductBtn').addEventListener('click', () => {
+  document.getElementById('editName').value =
+    document.getElementById('modalProductName').textContent;
+  document.getElementById('editDescription').value =
+    document.getElementById('modalDescription').textContent;
+  document.getElementById('editCategory').value =
+    document.getElementById('modalCategory').textContent;
+  document.getElementById('editPrice').value =
+    document.getElementById('modalPrice').textContent;
+
+  editModal.classList.remove('hidden');
+});
+
+closeEditModal.addEventListener('click', () =>
+  editModal.classList.add('hidden')
+);
+
+window.addEventListener('click', (e) => {
+  if (e.target === editModal) editModal.classList.add('hidden');
+});
+
+document
+  .getElementById('editProductForm')
+  .addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('name', document.getElementById('editName').value);
+    formData.append(
+      'description',
+      document.getElementById('editDescription').value
+    );
+    formData.append('category', document.getElementById('editCategory').value);
+    formData.append('price', document.getElementById('editPrice').value);
+
+    const files = document.getElementById('editImages').files;
+    for (let i = 0; i < files.length; i++) {
+      formData.append('productImage', files[i]);
+    }
+
+    try {
+      const res = await editProduct(formData, selectedProductId);
+      console.log(res);
+      editModal.classList.add('hidden');
+      showToast('success', res.data.message);
+    } catch (err) {
+      console.error(err);
+      showToast('error', 'Failed to update product')
+    }
+  });
