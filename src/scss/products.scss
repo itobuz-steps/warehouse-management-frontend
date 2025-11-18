@@ -2,6 +2,7 @@
 
 $color-bg: #ffffff;
 $color-primary: #b97a87;
+$color-primary-light: #e493ad;
 $color-text: #333333;
 $color-text-light: #666666;
 $color-hover-bg: #f5f6ff;
@@ -530,4 +531,14 @@ $transition: all 0.25s ease;
 #confirmDeleteModal p {
   margin-bottom: 20px;
   font-size: 15px;
+}
+
+.view-details-btn{
+  background: $color-primary;
+  margin-top: 15px;
+  color: white;
+}
+
+.view-details-btn:hover{
+  background: $color-primary-light;
 }

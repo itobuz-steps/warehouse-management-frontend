@@ -71,10 +71,10 @@ export const renderProducts = (details) => {
         <h5>${product.name}</h5>
         <!--<p>${product.description || 'No description available.'}</p>-->
         <div class="info-row">
-          <span class="price">$${product.price ?? 'N/A'}</span>
+          <span class="price">₹${product.price ?? 'N/A'}</span>
           <span class="category">${product.category ?? 'Not Categorized'}</span>
         </div>
-        <button class="btn btn-secondary view-details-btn" type=button data-product='${JSON.stringify(product)}'>
+        <button class="btn view-details-btn" id="view-details-btn" type=button data-product='${JSON.stringify(product)}'>
           View Details
         </button>
       </div>
@@ -82,7 +82,7 @@ export const renderProducts = (details) => {
     dom.productGrid.appendChild(card);
   });
 
-  document.querySelectorAll('.view-details-btn').forEach((btn) => {
+  document.querySelectorAll('#view-details-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       const product = JSON.parse(e.target.dataset.product);
       openProductModal(product);
