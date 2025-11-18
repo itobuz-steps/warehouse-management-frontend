@@ -73,7 +73,7 @@ export const getUserDetailsSubscribe = async () => {
         `${config.BASE_URL}warehouse/get-warehouses/${user._id}`
       );
 
-      const warehouses = response.data.data.assignedWarehouses;
+      const warehouses = response.data.data;
       console.log(warehouses);
 
       warehouses.forEach((warehouse) => {

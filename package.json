@@ -24,6 +24,7 @@
     "@popperjs/core": "^2.11.8",
     "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
+    "chart": "^0.1.2",
     "chart.js": "^4.5.1",
     "choices.js": "^11.1.0"
   }
