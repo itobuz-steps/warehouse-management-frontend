@@ -188,7 +188,7 @@ class TransactionDetailsTemplate {
             >
               <div class="accordion-body">
                 <div class="stock-details">
-                  <h3>Stock Details</h3>
+                  <h3 class="heading">Stock Details</h3>
                   <div class="product-name product-item">
                     Name: <span>${transaction.product.name}</span>
                   </div>
@@ -208,7 +208,7 @@ class TransactionDetailsTemplate {
 
                 <hr />
                 <div class="supplier-details">
-                  <h3>Adjusted Warehouse</h3>
+                  <h3 class="heading">Adjusted Warehouse</h3>
                   <div class="supplier-name supplier">
                     Name: <span>${transaction.sourceWarehouse?.name ?? 'N/A'}</span>
                   </div>
@@ -259,7 +259,7 @@ class TransactionDetailsTemplate {
             >
               <div class="accordion-body">
                 <div class="stock-details">
-                  <h3>Stock Details</h3>
+                  <h3 class="heading">Stock Details</h3>
                   <div class="product-name product-item">
                     Name: <span>${transaction.product.name}</span>
                   </div>
@@ -279,7 +279,7 @@ class TransactionDetailsTemplate {
 
                 <hr />
                 <div class="supplier-details">
-                  <h3>Transferred From</h3>
+                  <h3 class="heading">Transferred From</h3>
                   <div class="supplier-name supplier">
                     Name: <span>${transaction.sourceWarehouse?.name ?? 'N/A'}</span>
                   </div>
@@ -289,7 +289,7 @@ class TransactionDetailsTemplate {
                 </div>
                 <hr />
                 <div class="supplier-details">
-                  <h3>Transferred To</h3>
+                  <h3 class="heading">Transferred To</h3>
                   <div class="supplier-name supplier">
                     Name: <span>${transaction.destinationWarehouse?.name ?? 'N/A'}</span>
                   </div>
@@ -319,7 +319,13 @@ class TransactionDetailsTemplate {
   };
 
   warehouseOptions = (warehouse) => {
-    return `<li><a class="dropdown-item warehouse-option" id="${warehouse._id}">${warehouse.name}</a></li>`;
+    return `<li><a class="dropdown-item warehouse-option" data-id="${warehouse._id}" id="${warehouse._id}">${warehouse.name}</a></li>`;
+  };
+
+  noStockIndicate = () => {
+    return `<div class="no-data-message">
+              No Data Found
+            </div>`;
   };
 }
 
