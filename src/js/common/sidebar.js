@@ -1,27 +1,51 @@
 import '../../scss/sidebar.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
+import api from '../api/interceptor';
+import config from '../config/config';
+import Templates from './Templates';
 
-document.addEventListener('DOMContentLoaded', () => {
-  fetch('sidebar.html')
-    .then((response) => {
-      if (!response.ok) throw new Error('Sidebar not found');
-      return response.text();
-    })
-    .then((html) => {
-      document.getElementById('sidebar-container').innerHTML = html;
-      initializeSidebar();
-    })
-    .catch((err) => {
-      console.error('Error loading sidebar:', err);
+const displayToast = new Templates();
+const toastSection = document.getElementById('toastSection');
 
-      initializeSidebar();
-    });
-});
+document.addEventListener('DOMContentLoaded', showSidebar);
+
+async function showSidebar() {
+  try {
+    fetch('sidebar.html')
+      .then((response) => {
+        if (!response.ok) throw new Error('Sidebar not found');
+        return response.text();
+      })
+      .then((html) => {
+        document.getElementById('sidebar-container').innerHTML = html;
+        initializeSidebar();
+      })
+      .catch((err) => {
+        console.error('Error loading sidebar:', err);
+
+        initializeSidebar();
+      });
+
+    const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
+    const userRole = getUser.data.data.user.role;
+    const manageWarehouse = document.getElementById('manageWarehouse');
+
+    if (userRole !== 'admin') {
+      manageWarehouse.classList.add('d-none');
+    }
+  } catch (err) {
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+  } finally {
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
+}
 
 function initializeSidebar() {
-  const sidebar = document.querySelector('.sidebar');
   const toggleButton = document.getElementById('sidebarToggle');
+  const sidebar = document.querySelector('.sidebar');
 
   if (!sidebar || !toggleButton) return;
 
@@ -41,18 +65,17 @@ function initializeSidebar() {
 
   const currentPath = window.location.pathname.split('/').pop();
   const links = document.querySelectorAll('.sidebar-menu a');
+  const logoutButton = document.querySelector('.logout-button');
 
   links.forEach((link) => {
     const linkPath = link.getAttribute('href').split('/').pop();
     link.classList.toggle('active', linkPath === currentPath);
   });
 
-  const logoutButton = document.querySelector('.logout-button');
-
   logoutButton.addEventListener('click', () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    console.log('Profile Logged Out');
+
     window.location.href = '../../pages/login.html';
   });
 }

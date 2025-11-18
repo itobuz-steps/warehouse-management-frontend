@@ -6,6 +6,7 @@ import {
   verifiedManagerCard,
   unverifiedManagerCard,
 } from '../../common/template/profileTemplate.js';
+import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
@@ -64,6 +65,20 @@ export const getUserDetailsSubscribe = async () => {
     if (user.role === 'manager') {
       userManagementSelection.managerView.forEach((element) => {
         element.style.display = 'none';
+      });
+
+      userManagementSelection.warehouseDetailsSelection.style.display = 'block';
+
+      const response = await api.get(
+        `${config.BASE_URL}warehouse/get-warehouses/${user._id}`
+      );
+
+      const warehouses = response.data.data;
+      console.log(warehouses);
+
+      warehouses.forEach((warehouse) => {
+        userManagementSelection.warehouseGrid.innerHTML +=
+          addWarehouseDetails(warehouse);
       });
     }
   } catch (err) {

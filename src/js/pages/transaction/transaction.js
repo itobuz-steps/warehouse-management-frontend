@@ -25,16 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     let assignedWarehouses = [];
-
-    if (currentUser.role === 'admin') {
       assignedWarehouses = warehouseRes.data.data || [];
-    } else {
-      assignedWarehouses = warehouseRes.data.data?.assignedWarehouses || [];
-    }
 
-    assignedWarehouses = assignedWarehouses.map((w) => ({
-      id: w._id || w.id,
-      name: w.name || 'Unnamed Warehouse',
+    assignedWarehouses = assignedWarehouses.map((warehouse) => ({
+      id: warehouse._id || warehouse.id,
+      name: warehouse.name || 'Unnamed Warehouse',
     }));
 
     Object.values(warehouses).forEach((select) => {
@@ -42,7 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
       select.innerHTML =
         '<option value="">Select Warehouse</option>' +
         assignedWarehouses
-          .map((w) => `<option value="${w.id}">${w.name}</option>`)
+          .map(
+            (warehouse) =>
+              `<option value="${warehouse.id}">${warehouse.name}</option>`
+          )
           .join('');
     });
   }
