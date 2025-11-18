@@ -4,29 +4,13 @@ import '../../../scss/dashboard.scss';
 import * as bootstrap from 'bootstrap';
 
 import dashboardSelection from './dashboardSelector';
-
-import {
-  addManagerSubscribe,
-  addWarehouseSubscribe,
-  showManagerOptions,
-} from './adminSubscribe.js';
+import { addManagerSubscribe } from './adminSubscribe.js';
 
 import { showTopProductsSubscribe, showInventoryCategorySubscribe, showProductTransactionSubscribe } from './dashboardSubscribe.js';
 
 dashboardSelection.addManagerForm.addEventListener(
   'submit',
   addManagerSubscribe
-);
-
-dashboardSelection.addWarehouseForm.addEventListener(
-  'submit',
-  addWarehouseSubscribe
-);
-
-// Get all managers when Add-Warehouse button triggered
-dashboardSelection.addWarehouseButton.addEventListener(
-  'click',
-  showManagerOptions
 );
 
 

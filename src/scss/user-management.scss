@@ -87,8 +87,6 @@ $transition: all 0.3s ease;
 }
 
 .user-management {
-  
-
   .user-profile-card {
     @include card($radius-lg, 25px 30px, $shadow-md);
     @include flex(space-between, center, row, 20px);
@@ -183,6 +181,62 @@ $transition: all 0.3s ease;
         .manager-email {
           color: $color-text-light;
           font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  .warehouse-list-section {
+    @include card($radius-md, 25px 30px);
+    display: none;
+
+    h3 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: $color-text;
+    }
+
+    .warehouse-grid {
+      .warehouse-card {
+        @include card($radius-md, 15px);
+        height: auto;
+        width: 48%;
+        transition: $transition;
+        margin-left: 10px;
+        border: none;
+        border-left: 5px solid $color-primary;
+        box-shadow: $shadow-md;
+
+        &:hover {
+          transform: translateY(-5px);
+        }
+
+        @media (max-width: 900px) {
+          width: 100%;
+          margin-left: 0px;
+        }
+
+        .warehouse-name {
+          font-weight: 600;
+          color: $color-text;
+        }
+
+        .warehouse-detail {
+          color: $color-text-light;
+          font-size: 1rem;
+          margin-top: 20px;
+        }
+
+        .warehouse-button {
+          background-color: $color-primary;
+          border: 2px solid $color-primary;
+          color: $color-white;
+          font-weight: 500;
+
+          &:hover {
+            background-color: $color-primary-dark;
+            border: 2px solid $color-primary-dark;
+          }
         }
       }
     }
