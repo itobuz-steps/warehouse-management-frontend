@@ -43,7 +43,7 @@ let barGraph = null;
 async function showTopProductsSubscribe(warehouseId = '') {
   try {
     const selectedWarehouseId = warehouseId;
-
+    
     //passing the id as query param.
     const res = await api.get(
       `${config.DASHBOARD_BASE_URL}/get-top-products/${selectedWarehouseId}`
@@ -171,16 +171,15 @@ const fetchUserAndWarehouses = async () => {
     const warehouses = await getUserWarehouses(user._id);
 
     dashboardSelection.warehouseSelect.innerHTML = '';
-    dashboardSelection.warehouseSelect.innerHTML = `<option value="${warehouses[0]._id} selected">${warehouses[0].name}</option>`;
+    dashboardSelection.warehouseSelect.innerHTML = `<option value="${warehouses[0]._id}" selected>${warehouses[0].name}</option>`;
 
-    warehouses.forEach((warehouse) => {
+    warehouses.slice(1).forEach((warehouse) => {
       const option = document.createElement('option');
       option.value = warehouse._id;
       option.textContent = warehouse.name;
       dashboardSelection.warehouseSelect.appendChild(option);
     });
-
-    return warehouses[0]._id;
+    
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 

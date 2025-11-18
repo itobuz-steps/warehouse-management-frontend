@@ -18,21 +18,16 @@ dashboardSelection.addManagerForm.addEventListener(
   addManagerSubscribe
 );
 
-fetchUserAndWarehouses();
-
-document.addEventListener("DOMContentLoaded", async() => {
-  const selectedWarehouseId = dashboardSelection.warehouseSelect.value;
-  console.log(selectedWarehouseId);
-  await showTopProductsSubscribe(selectedWarehouseId);
-});
-
-showTopProductsSubscribe();
 showInventoryCategorySubscribe();
 showProductTransactionSubscribe();
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchUserAndWarehouses();
+  const firstWarehouse = dashboardSelection.warehouseSelect.value;
+  await showTopProductsSubscribe(firstWarehouse);
+});
 
 dashboardSelection.warehouseSelect.addEventListener('change', async () => {
   const selectedWarehouseId = dashboardSelection.warehouseSelect.value;
   await showTopProductsSubscribe(selectedWarehouseId);
 });
-
-
