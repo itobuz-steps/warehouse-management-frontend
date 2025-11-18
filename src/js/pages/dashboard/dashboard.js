@@ -11,7 +11,7 @@ import {
   showManagerOptions,
 } from './adminSubscribe.js';
 
-import { showTopProductsSubscribe } from './dashboardSubscribe.js';
+import { showTopProductsSubscribe, showInventoryCategorySubscribe, showProductTransactionSubscribe } from './dashboardSubscribe.js';
 
 dashboardSelection.addManagerForm.addEventListener(
   'submit',
@@ -31,3 +31,5 @@ dashboardSelection.addWarehouseButton.addEventListener(
 
 
 document.addEventListener("DOMContentLoaded", showTopProductsSubscribe );
+document.addEventListener("DOMContentLoaded", showInventoryCategorySubscribe );
+document.addEventListener("DOMContentLoaded", showProductTransactionSubscribe );

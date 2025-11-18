@@ -4,7 +4,10 @@ const dashboardSelection = {
   addWarehouseButton: document.querySelector('.add-warehouse-btn'),
   addManagerOptions: document.querySelector('.managers-option'),
 
-  barGraph: document.querySelector('#barGraph')
+  barGraph: document.querySelector('#barGraph'),
+  pieChart: document.querySelector('#pieChart'),
+  lineChart: document.querySelector('#lineChart'),
+  transactionSelect: document.querySelector('#transactionSelect'),
 };
 
 export default dashboardSelection;
