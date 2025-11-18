@@ -15,10 +15,6 @@ body {
     Arial, sans-serif;
 }
 
-.hidden {
-  display: none !important;
-}
-
 .main-content {
   margin-left: 250px;
   padding: 40px;
@@ -68,7 +64,6 @@ body {
 
 /* Transaction Card  */
 .transaction-card {
-  max-width: 850px;
   background: $color-bg;
   margin: 0 auto;
   border: 1px solid $color-border;

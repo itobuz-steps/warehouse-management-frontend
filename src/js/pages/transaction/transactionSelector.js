@@ -1,5 +1,4 @@
 export const transactionSelectors = {
-  typeSelect: document.getElementById('type'),
   form: document.getElementById('transactionForm'),
   toastSection: document.getElementById('toastSection'),
 
