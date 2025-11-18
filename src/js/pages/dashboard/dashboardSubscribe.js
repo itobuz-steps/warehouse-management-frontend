@@ -57,9 +57,8 @@ const showTopProductsSubscribe = async () => {
       options: { responsive: true },
     });
   } catch (err) {
-    // toastSection.innerHTML = displayToast.errorToast(err.response.data.message);
-    console.log(err);
-  } finally {
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+
     setTimeout(() => {
       toastSection.innerHTML = '';
     }, 3000);
@@ -102,44 +101,52 @@ const showInventoryCategorySubscribe = async () => {
 };
 
 const showProductTransactionSubscribe = async () => {
-  const res = await api.get(
-    `${config.DASHBOARD_BASE_URL}/get-product-transaction`
-  );
+  try {
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-product-transaction`
+    );
 
-  const transactionDetail = res.data.transactionDetail;
+    const transactionDetail = res.data.transactionDetail;
 
-  const labels = transactionDetail.map((d) => d._id);
-  const IN = transactionDetail.map((d) => d.IN);
-  const OUT = transactionDetail.map((d) => d.OUT);
+    const labels = transactionDetail.map((d) => d._id);
+    const IN = transactionDetail.map((d) => d.IN);
+    const OUT = transactionDetail.map((d) => d.OUT);
 
-  new Chart(dashboardSelection.lineChart, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: 'IN',
-          data: IN,
-          borderWidth: 2,
-          fill: false,
-          borderColor: '#a26074',
-          backgroundColor: '#a26074',
-        },
-        {
-          label: 'OUT',
-          data: OUT,
-          borderWidth: 2,
-          fill: false,
-          borderColor: '#613a45',
-          backgroundColor: 'rgba(255, 82, 82, 0.3)',
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: { title: { display: true, text: 'Last 7 Days (Daily)' } },
-    },
-  });
+    new Chart(dashboardSelection.lineChart, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'IN',
+            data: IN,
+            borderWidth: 2,
+            fill: false,
+            borderColor: '#a26074',
+            backgroundColor: '#a26074',
+          },
+          {
+            label: 'OUT',
+            data: OUT,
+            borderWidth: 2,
+            fill: false,
+            borderColor: '#613a45',
+            backgroundColor: 'rgba(255, 82, 82, 0.3)',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: { title: { display: true, text: 'Last 7 Days (Daily)' } },
+      },
+    });
+  } catch (err) {
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
 };
 
 export {
