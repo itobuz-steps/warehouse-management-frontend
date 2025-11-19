@@ -1,6 +1,6 @@
 import api from '../../api/interceptor.js';
 import config from '../../config/config.js';
-import { renderProducts } from './productSubscribe.js';
+import { renderPaginatedProducts } from './productSubscribe.js';
 import { getCurrentUser } from './productApiHelper.js';
 import { dom } from './productSelector.js';
 
@@ -10,6 +10,10 @@ let selectedSort = '';
 
 export const initProductSearch = async () => {
   const user = await getCurrentUser();
+
+  dom.searchInput.value = '';
+  dom.categoryFilter.value = '';
+  dom.sortSelect.value = '';
 
   dom.searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.trim();
@@ -38,7 +42,7 @@ export const initProductSearch = async () => {
 export const fetchSearch = async (role, warehouseId = '') => {
   try {
     if (role === 'manager' && !warehouseId) {
-      renderProducts([]);
+      renderPaginatedProducts([]);
       return;
     }
 
@@ -52,9 +56,9 @@ export const fetchSearch = async (role, warehouseId = '') => {
     });
 
     const products = response.data.data || [];
-    renderProducts(products);
+    renderPaginatedProducts(products);
   } catch (err) {
     console.error(err);
-    renderProducts([]);
+    renderPaginatedProducts([]);
   }
 };

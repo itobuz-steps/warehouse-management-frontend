@@ -19,15 +19,41 @@ export const addProduct = (formData) => {
   });
 };
 
-export const addProductQuantity = (productId, warehouseId, quantity) => {
+export const editProduct = (formData, productId) => {
+  return api.put(`${config.PRODUCT_BASE_URL}/${productId}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
+
+export const deleteProduct = (productId) => {
+  return api.delete(`${config.PRODUCT_BASE_URL}/${productId}`);
+};
+
+export const addProductQuantity = (productId, warehouseId, quantity, limit) => {
   return api.post(`${config.QUANTITY_BASE_URL}/product-quantity`, {
     productId,
     warehouseId,
     quantity,
+    limit,
   });
 };
 
 export const fetchAllProducts = () => api.get(config.PRODUCT_BASE_URL);
 
-export const fetchProductsByWarehouse = (id) =>
-  api.get(`${config.QUANTITY_BASE_URL}/warehouse-specific-products/${id}`);
+export const fetchProductsByWarehouse = (warehouseId) =>
+  api.get(
+    `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
+  );
+
+export const fetchProductQuantityWarehouse = (productId, warehouseId) =>
+  api.get(
+    `${config.QUANTITY_BASE_URL}/specific-product-quantity?productId=${productId}&warehouseId=${warehouseId}`
+  );
+
+export const fetchTotalProductQuantity = (productId) =>
+  api.get(`${config.QUANTITY_BASE_URL}/product-total-quantity/${productId}`);
+
+export const fetchProductSpecificWarehouses = (productId) =>
+  api.get(
+    `${config.QUANTITY_BASE_URL}/product-specific-warehouses/${productId}`
+  );
