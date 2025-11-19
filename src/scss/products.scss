@@ -72,6 +72,8 @@ $transition: all 0.25s ease;
     minmax(260px, 1fr)
   ); //needs to be changed
   gap: 1.5rem;
+  justify-items: center;
+  width: 100%;
 }
 
 .product-card {
@@ -83,6 +85,8 @@ $transition: all 0.25s ease;
   transition: $transition;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 400px;
 
   &:hover {
     transform: translateY(-4px);
@@ -91,7 +95,7 @@ $transition: all 0.25s ease;
 
   img {
     width: 100%;
-    height: 180px;
+    height: 250px;
     object-fit: contain;
     background: #f8f9fa;
   }
@@ -426,7 +430,7 @@ $transition: all 0.25s ease;
   display: flex;
   flex-direction: column;
   max-height: 90vh;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
 .close-modal,
@@ -535,12 +539,12 @@ $transition: all 0.25s ease;
   font-size: 15px;
 }
 
-.view-details-btn{
+.theme-button {
   background: $color-primary;
   margin-top: 15px;
   color: white;
 }
 
-.view-details-btn:hover{
+.theme-button:hover {
   background: $color-primary-light;
 }
