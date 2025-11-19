@@ -301,23 +301,13 @@ $transition: all 0.25s ease;
     transition: $transition;
   }
 
-  .cancel-btn {
-    background: lighten($color-text-light, 35%);
-    color: $color-text;
-
-    &:hover {
-      background: lighten($color-text-light, 25%);
-      transform: translateY(-2px);
-    }
-  }
-
   .submit-btn {
     background: $color-primary;
     color: #fff;
 
     &:hover {
       background: darken($color-primary, 8%);
-      transform: translateY(-2px);
+      // transform: translateY(-2px);
     }
   }
 }

@@ -67,7 +67,7 @@ export const renderProducts = (details) => {
     dom.productGrid.appendChild(card);
   });
 
-  document.querySelectorAll('#view-details-btn').forEach((btn) => {
+  document.querySelectorAll('#viewDetails').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       const product = JSON.parse(e.target.dataset.product);
       openProductModal(product);

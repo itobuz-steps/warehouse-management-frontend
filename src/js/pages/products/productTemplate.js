@@ -62,10 +62,10 @@ export function createProductCard(product) {
         <span class="price">₹${product.price ?? 'N/A'}</span>
         <span class="category">${product.category ?? 'Not Categorized'}</span>
       </div>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center justify-content-lg-start">
         <button 
         class="btn theme-button" 
-        id="view-details-btn"
+        id="viewDetails"
         type="button"
         data-product='${JSON.stringify(product)}'
       >

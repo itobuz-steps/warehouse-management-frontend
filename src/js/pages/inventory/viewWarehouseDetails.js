@@ -8,6 +8,7 @@ const viewWarehouseName = document.getElementById('viewWarehouseName');
 const viewAddress = document.getElementById('viewAddress');
 const viewDetails = document.getElementById('viewDetails');
 const viewManagers = document.getElementById('viewManagers');
+const productLink = document.getElementById('viewProducts');
 
 async function viewWarehouseDetails(id) {
   try {
@@ -28,6 +29,8 @@ async function viewWarehouseDetails(id) {
       (manager) =>
         (viewManagers.innerHTML += `<div class="manager">${manager.name}</div>`)
     );
+
+    productLink.href = `/pages/products.html?warehouseId=${warehouse._id}`;
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
   } finally {
