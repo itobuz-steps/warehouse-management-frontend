@@ -5,7 +5,7 @@ import {
 } from './productApiHelper.js';
 import { openProductModal } from './productDetails.js';
 import { dom } from './productSelector.js';
-import { showEmptyState, showErrorState } from './productTemplate.js';
+import { createProductCard, showEmptyState, showErrorState } from './productTemplate.js';
 
 let allProducts = [];
 let currentPage = 1;
@@ -61,24 +61,9 @@ export const renderProducts = (details) => {
 
   details.forEach((detail) => {
     const product = detail.product || detail;
-    const imgSrc = product.productImage?.[0] ?? '/images/placeholder.png';
-
     const card = document.createElement('div');
     card.className = 'product-card';
-    card.innerHTML = `
-      <img src="${imgSrc}" alt="${product.name}" />
-      <div class="card-body">
-        <h5>${product.name}</h5>
-        <!--<p>${product.description || 'No description available.'}</p>-->
-        <div class="info-row">
-          <span class="price">₹${product.price ?? 'N/A'}</span>
-          <span class="category">${product.category ?? 'Not Categorized'}</span>
-        </div>
-        <button class="btn view-details-btn" id="view-details-btn" type=button data-product='${JSON.stringify(product)}'>
-          View Details
-        </button>
-      </div>
-    `;
+    card.innerHTML = createProductCard(product);
     dom.productGrid.appendChild(card);
   });
 

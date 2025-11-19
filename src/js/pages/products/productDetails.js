@@ -21,11 +21,9 @@ dom.closeModalBtn.addEventListener('click', () =>
 );
 
 window.addEventListener('click', (e) => {
-  
   if (e.target === dom.modal) {
     dom.modal.classList.add('hidden');
   }
-
 });
 
 dom.cancelDeleteBtn.addEventListener('click', () => {
@@ -33,11 +31,9 @@ dom.cancelDeleteBtn.addEventListener('click', () => {
 });
 
 window.addEventListener('click', (e) => {
-  
   if (e.target === dom.confirmDeleteModal) {
     dom.confirmDeleteModal.classList.add('hidden');
   }
-  
 });
 
 export const openProductModal = async (product) => {
@@ -98,13 +94,13 @@ async function loadQuantityInfo(productId) {
       const warehouseList = listRes.data.data
         .map(
           (warehouse) =>
-            `<li>${warehouse.warehouseId?.name}: <strong>${warehouse.quantity}</strong></li>`
+            `<li>${warehouse.warehouseId?.name}: <strong>${warehouse.quantity}</strong>
+            ${totalQty <= 10 ? `<button class="btn btn-danger btn-sm low-stock">⚠ LOW STOCK</button>` : ''}</li>`
         )
         .join('');
 
       dom.quantitySection.innerHTML = `
         <p><strong>Total Quantity Across Warehouses:</strong> ${totalQty}</p>
-        ${totalQty <= 10 ? `<button class="btn btn-danger low-stock">⚠ LOW STOCK</button>` : ''}
         <hr/>
         <p><strong>Warehouses:</strong></p>
         <ul>${warehouseList}</ul>
