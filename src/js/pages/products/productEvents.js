@@ -63,7 +63,11 @@ const handleAddProduct = async (e) => {
 
     dom.addProductForm.reset();
     closeModal();
-    fetchProducts();
+    
+    const params = new URLSearchParams(window.location.search);
+    const warehouseId = params.get('warehouseId');
+
+    fetchProducts(warehouseId);
   } catch (err) {
     console.error(err);
     showToast('error', 'Error adding product');

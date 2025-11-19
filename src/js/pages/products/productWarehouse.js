@@ -1,22 +1,16 @@
 import { dom } from './productSelector.js';
 import { getCurrentUser, getUserWarehouses } from './productApiHelper.js';
-import { showEmptyState, showToast } from './productTemplate.js';
+import {
+  populateWarehouseSelect,
+  showEmptyState,
+  showToast,
+} from './productTemplate.js';
 import { fetchProducts } from './productSubscribe.js';
 
-const populateWarehouseSelect = (warehouses, element, firstOptionLabel) => {
-  element.innerHTML = `<option value="">${firstOptionLabel}</option>`;
-  warehouses.forEach((warehouse) => {
-    const option = document.createElement('option');
-    option.value = warehouse._id;
-    option.textContent = warehouse.name;
-    element.appendChild(option);
-  });
-};
-
-dom.warehouseSelect.addEventListener('change', (e) => {
+dom.warehouseSelect.addEventListener('change', async (e) => {
   const warehouseId = e.target.value;
-
   const url = new URL(window.location);
+
   if (warehouseId) {
     url.searchParams.set('warehouseId', warehouseId);
   } else {
@@ -24,6 +18,7 @@ dom.warehouseSelect.addEventListener('change', (e) => {
   }
 
   window.history.replaceState({}, '', url);
+  await loadWarehouses();
 });
 
 export const loadWarehouses = async () => {
@@ -32,38 +27,50 @@ export const loadWarehouses = async () => {
     const warehouses = await getUserWarehouses(user._id);
 
     if (!warehouses.length) {
-      populateWarehouseSelect(
-        [],
-        dom.warehouseSelect,
-        'No warehouses assigned'
-      );
+      dom.warehouseSelect.innerHTML = `<option value="">No warehouses assigned</option>`;
+      populateWarehouseSelect([], dom.warehouseSelect, true);
       showEmptyState();
       return;
     }
 
     const isAdmin = user.role === 'admin';
 
-    populateWarehouseSelect(
-      warehouses,
-      dom.warehouseSelect,
-      isAdmin ? 'All Warehouses' : 'Select a warehouse'
-    );
+    if (isAdmin) {
+      dom.warehouseSelect.innerHTML = `<option value="">All Warehouses</option>`;
+      populateWarehouseSelect(warehouses, dom.warehouseSelect, true);
 
-    populateWarehouseSelect(
-      warehouses,
-      dom.productWarehouseSelect,
-      'Select Warehouse'
-    );
+      dom.productWarehouseSelect.innerHTML = `<option value="">Select a warehouse</option>`;
+      populateWarehouseSelect(warehouses, dom.productWarehouseSelect, true);
+    } else {
+      populateWarehouseSelect(warehouses, dom.warehouseSelect);
+
+      const params = new URLSearchParams(window.location.search);
+      const selectedId = params.get('warehouseId');
+
+      if (!selectedId) {
+        const userWarehouse = warehouses[0];
+        dom.warehouseSelect.value = userWarehouse._id;
+
+        const url = new URL(window.location);
+        url.searchParams.set('warehouseId', userWarehouse._id);
+        window.history.replaceState({}, '', url);
+      }
+
+      populateWarehouseSelect(warehouses, dom.productWarehouseSelect);
+    }
 
     const params = new URLSearchParams(window.location.search);
     const selectedId = params.get('warehouseId');
 
     if (selectedId) {
       dom.warehouseSelect.value = selectedId;
+      dom.productWarehouseSelect.value = selectedId;
+      dom.productWarehouseSelect.disabled = true;
+    } else {
+      dom.productWarehouseSelect.disabled = false;
     }
 
     fetchProducts(dom.warehouseSelect.value);
-
   } catch (err) {
     console.error(err);
     showToast('error', 'Error fetching warehouses');

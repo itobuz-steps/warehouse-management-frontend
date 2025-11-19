@@ -32,6 +32,23 @@ export const closeModal = () => {
   dom.addProductModal.style.display = 'none';
 };
 
+export const populateWarehouseSelect = (
+  warehouses,
+  element,
+  defaultOption = false
+) => {
+  if (!defaultOption) {
+    element.innerHTML = '';
+  }
+
+  warehouses.forEach((warehouse) => {
+    const option = document.createElement('option');
+    option.value = warehouse._id;
+    option.textContent = warehouse.name;
+    element.appendChild(option);
+  });
+};
+
 export function createProductCard(product) {
   const imgSrc = product.productImage?.[0] ?? '/images/placeholder.png';
 
