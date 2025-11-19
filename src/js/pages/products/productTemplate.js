@@ -31,3 +31,28 @@ export const openModal = () => {
 export const closeModal = () => {
   dom.addProductModal.style.display = 'none';
 };
+
+export function createProductCard(product) {
+  const imgSrc = product.productImage?.[0] ?? '/images/placeholder.png';
+
+  return `
+    <img src="${imgSrc}" alt="${product.name}" />
+    <div class="card-body">
+      <h5>${product.name}</h5>
+
+        <!--<p>${product.description || 'No description available.'}</p>-->
+      <div class="info-row">
+        <span class="price">₹${product.price ?? 'N/A'}</span>
+        <span class="category">${product.category ?? 'Not Categorized'}</span>
+      </div>
+      <button 
+        class="btn view-details-btn" 
+        id="view-details-btn"
+        type="button"
+        data-product='${JSON.stringify(product)}'
+      >
+        View Details
+      </button>
+    </div>
+  `;
+}
