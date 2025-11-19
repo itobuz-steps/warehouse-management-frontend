@@ -11,4 +11,33 @@ export const dom = {
   searchInput: document.getElementById('searchInput'),
   categoryFilter: document.getElementById('categoryFilter'),
   sortSelect: document.getElementById('sortSelect'),
+
+  modal: document.getElementById('productModal'),
+  closeModalBtn: document.querySelector('.close-modal'),
+  carouselImg: document.getElementById('carouselImage'),
+
+  modalProductName: document.getElementById('modalProductName'),
+  modalDescription: document.getElementById('modalDescription'),
+  modalPrice: document.getElementById('modalPrice'),
+  modalCategory: document.getElementById('modalCategory'),
+  quantitySection: document.getElementById('quantitySection'),
+
+  editModal: document.getElementById('editProductModal'),
+  closeEditModal: document.querySelector('.close-edit-modal'),
+  editProductBtn: document.getElementById('editProductBtn'),
+  editName: document.getElementById('editName'),
+  editDescription: document.getElementById('editDescription'),
+  editCategory: document.getElementById('editCategory'),
+  editPrice: document.getElementById('editPrice'),
+  editProductForm: document.getElementById('editProductForm'),
+  editImages: document.getElementById('editImages'),
+
+  deleteProductBtn: document.getElementById('deleteProductBtn'),
+
+  prev: document.querySelector('.prev'),
+  next: document.querySelector('.next'),
+
+  confirmDeleteModal: document.getElementById('confirmDeleteModal'),
+  cancelDeleteBtn: document.getElementById('cancelDeleteBtn'),
+  confirmDeleteBtn: document.getElementById('confirmDeleteBtn'),
 };

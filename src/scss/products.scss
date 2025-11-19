@@ -2,6 +2,7 @@
 
 $color-bg: #ffffff;
 $color-primary: #b97a87;
+$color-primary-light: #e493ad;
 $color-text: #333333;
 $color-text-light: #666666;
 $color-hover-bg: #f5f6ff;
@@ -66,7 +67,10 @@ $transition: all 0.25s ease;
 
 #productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));//needs to be changed
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(260px, 1fr)
+  ); //needs to be changed
   gap: 1.5rem;
 }
 
@@ -88,7 +92,7 @@ $transition: all 0.25s ease;
   img {
     width: 100%;
     height: 180px;
-    object-fit: cover;
+    object-fit: contain;
     background: #f8f9fa;
   }
 
@@ -194,6 +198,7 @@ $transition: all 0.25s ease;
   align-items: center;
   padding: 20px;
   animation: fadeIn 0.25s ease;
+  overflow-y: auto;
 }
 
 .modal-box {
@@ -205,6 +210,8 @@ $transition: all 0.25s ease;
   box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
   animation: popIn 0.25s ease;
   border: 1px solid $color-border;
+  max-height: 90vh; // keep modal visible
+  overflow-y: auto;
 
   @media (min-width: 768px) {
     padding: 30px;
@@ -335,7 +342,7 @@ $transition: all 0.25s ease;
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 1000;
+  z-index: 1500;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -392,4 +399,148 @@ $transition: all 0.25s ease;
     opacity: 0;
     transform: translateX(20px);
   }
+}
+
+.product-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  padding: 20px;
+}
+
+.product-modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  max-width: 900px;
+  width: 100%;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow-y: auto; 
+}
+
+.close-modal,
+.close-edit-modal {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.modal-body {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 20px;
+}
+
+.carousel-container img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: black;
+  color: white;
+  border: none;
+  font-size: 22px;
+  padding: 5px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.prev {
+  left: 10px;
+}
+.next {
+  right: 10px;
+}
+
+.product-info {
+  flex: 1;
+  min-width: 250px;
+  padding: 0px 10px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+  }
+
+  .carousel-container {
+    max-width: 300px;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-btn {
+    font-size: 18px;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+}
+
+#confirmDeleteModal .modal-content {
+  padding: 25px;
+  max-width: 400px;
+  text-align: center;
+}
+
+#confirmDeleteModal h3 {
+  margin-bottom: 10px;
+}
+
+#confirmDeleteModal p {
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+.view-details-btn{
+  background: $color-primary;
+  margin-top: 15px;
+  color: white;
+}
+
+.view-details-btn:hover{
+  background: $color-primary-light;
 }

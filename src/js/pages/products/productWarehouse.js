@@ -13,6 +13,19 @@ const populateWarehouseSelect = (warehouses, element, firstOptionLabel) => {
   });
 };
 
+dom.warehouseSelect.addEventListener('change', (e) => {
+  const warehouseId = e.target.value;
+
+  const url = new URL(window.location);
+  if (warehouseId) {
+    url.searchParams.set('warehouseId', warehouseId);
+  } else {
+    url.searchParams.delete('warehouseId');
+  }
+
+  window.history.replaceState({}, '', url);
+});
+
 export const loadWarehouses = async () => {
   try {
     const user = await getCurrentUser();
@@ -42,9 +55,15 @@ export const loadWarehouses = async () => {
       'Select Warehouse'
     );
 
-    if (isAdmin) {
-      fetchProducts();
+    const params = new URLSearchParams(window.location.search);
+    const selectedId = params.get('warehouseId');
+
+    if (selectedId) {
+      dom.warehouseSelect.value = selectedId;
     }
+
+    fetchProducts(dom.warehouseSelect.value);
+
   } catch (err) {
     console.error(err);
     showToast('error', 'Error fetching warehouses');

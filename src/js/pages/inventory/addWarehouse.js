@@ -62,7 +62,7 @@ export const showManagerOptions = async () => {
     const managers = response.data.data;
 
     // Update Choices.js dropdown directly
-    managerSelect.clearChoices(); // clear previous ones
+    managerSelect.clearStore(); // clear previous ones
 
     managerSelect.setChoices(
       managers.map((manager) => ({

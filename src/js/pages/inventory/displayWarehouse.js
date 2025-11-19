@@ -25,7 +25,7 @@ export async function displayWarehouse() {
 
     rowsContainer.innerHTML = '';
 
-    for (let i = rows.length - 1; i > 0; i--) {
+    for (let i = rows.length - 1; i >= 0; i--) {
       if (rows[i].active) {
         rowsContainer.innerHTML += displayRows.activeWarehouse(rows[i]);
       }
