@@ -27,7 +27,7 @@ export const editProduct = (formData, productId) => {
 
 export const deleteProduct = (productId) => {
   return api.delete(`${config.PRODUCT_BASE_URL}/${productId}`);
-}
+};
 
 export const addProductQuantity = (productId, warehouseId, quantity, limit) => {
   return api.post(`${config.QUANTITY_BASE_URL}/product-quantity`, {

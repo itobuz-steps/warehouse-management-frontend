@@ -1,14 +1,16 @@
 import {
-  deleteProduct,
-  editProduct,
   fetchProductQuantityWarehouse,
   fetchProductSpecificWarehouses,
   fetchTotalProductQuantity,
   getCurrentUser,
 } from './productApiHelper';
+import {
+  deleteProductHandler,
+  editProductHandler,
+  handleDelete,
+  handleEditProductSubmit,
+} from './productEvents';
 import { dom } from './productSelector';
-import { fetchProducts } from './productSubscribe';
-import { showToast } from './productTemplate';
 
 let currentImageIndex = 0;
 let currentImages = [];
@@ -19,9 +21,11 @@ dom.closeModalBtn.addEventListener('click', () =>
 );
 
 window.addEventListener('click', (e) => {
+  
   if (e.target === dom.modal) {
     dom.modal.classList.add('hidden');
   }
+
 });
 
 dom.cancelDeleteBtn.addEventListener('click', () => {
@@ -29,9 +33,11 @@ dom.cancelDeleteBtn.addEventListener('click', () => {
 });
 
 window.addEventListener('click', (e) => {
+  
   if (e.target === dom.confirmDeleteModal) {
     dom.confirmDeleteModal.classList.add('hidden');
   }
+  
 });
 
 export const openProductModal = async (product) => {
@@ -67,13 +73,13 @@ dom.next.addEventListener('click', () => {
 });
 
 async function loadQuantityInfo(productId) {
-  const user = await getCurrentUser();
-  dom.quantitySection.innerHTML = 'Loading quantity...';
-
-  const params = new URLSearchParams(window.location.search);
-  const warehouseId = params.get('warehouseId') || user.warehouseId;
-
   try {
+    const user = await getCurrentUser();
+    dom.quantitySection.innerHTML = 'Loading quantity...';
+
+    const params = new URLSearchParams(window.location.search);
+    const warehouseId = params.get('warehouseId') || user.warehouseId;
+
     if (user.role === 'manager') {
       const res = await fetchProductQuantityWarehouse(productId, warehouseId);
 
@@ -109,73 +115,14 @@ async function loadQuantityInfo(productId) {
   }
 }
 
-dom.editProductBtn.addEventListener('click', () => {
-  dom.editName.value = dom.modalProductName.textContent;
-  dom.editDescription.value = dom.modalDescription.textContent;
-  dom.editCategory.value = dom.modalCategory.textContent;
-  dom.editPrice.value = dom.modalPrice.textContent;
+dom.editProductBtn.addEventListener('click', editProductHandler);
 
-  dom.editModal.classList.remove('hidden');
+dom.editProductForm.addEventListener('submit', (e) => {
+  handleEditProductSubmit(e, selectedProductId);
 });
 
-dom.closeEditModal.addEventListener('click', () =>
-  dom.editModal.classList.add('hidden')
-);
+dom.deleteProductBtn.addEventListener('click', deleteProductHandler);
 
-window.addEventListener('click', (e) => {
-  if (e.target === dom.editModal) {
-    dom.editModal.classList.add('hidden');
-  }
-});
-
-dom.editProductForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const formData = new FormData();
-  formData.append('name', dom.editName.value);
-  formData.append('description', dom.editDescription.value);
-  formData.append('category', dom.editCategory.value);
-  formData.append('price', dom.editPrice.value);
-
-  const files = dom.editImages.files;
-  for (let i = 0; i < files.length; i++) {
-    formData.append('productImage', files[i]);
-  }
-
-  try {
-    const res = await editProduct(formData, selectedProductId);
-    // console.log(res);
-    dom.editModal.classList.add('hidden');
-    dom.modal.classList.add('hidden');
-    const params = new URLSearchParams(window.location.search);
-    const warehouseId = params.get('warehouseId');
-    fetchProducts(warehouseId);
-
-    showToast('success', res.data.message);
-  } catch (err) {
-    console.error(err);
-    showToast('error', 'Failed to update product');
-  }
-});
-
-dom.deleteProductBtn.addEventListener('click', async () => {
-  dom.deleteProductBtn.addEventListener('click', () => {
-    dom.confirmDeleteModal.classList.remove('hidden');
-  });
-
-  dom.confirmDeleteBtn.addEventListener('click', async () => {
-    try {
-      const res = await deleteProduct(selectedProductId);
-
-      dom.confirmDeleteModal.classList.add('hidden');
-      dom.modal.classList.add('hidden');
-      const params = new URLSearchParams(window.location.search);
-      const warehouseId = params.get('warehouseId');
-      fetchProducts(warehouseId);
-      showToast('success', res.data.message);
-    } catch (err) {
-      console.error(err);
-      showToast('error', 'Failed to delete product');
-    }
-  });
+dom.confirmDeleteBtn.addEventListener('click', () => {
+  handleDelete(selectedProductId);
 });
