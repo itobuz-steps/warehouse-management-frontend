@@ -102,6 +102,21 @@ body {
 .sidebar-container {
   width: 250px;
 }
+.notif-bell {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $color-primary, $color-primary-dark);
+  @include flex(center, center);
+  color: $color-white;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: $transition;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
 
 .main-content {
   margin-left: 250px;

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications</title>
+  </head>
+  <body>
+    <!-- Notification Bell Button -->
+    <button
+      id="notif-bell"
+      class="btn btn-primary position-relative"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#notificationOffcanvas"
+      aria-controls="notificationOffcanvas"
+    >
+      <i class="bi bi-bell"></i> Notifications
+    </button>
+
+    <!-- Notification Offcanvas -->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="notificationOffcanvas"
+      aria-labelledby="notificationOffcanvasLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="notificationOffcanvasLabel">
+          Notifications
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <div id="notif-list"></div>
+      </div>
+    </div>
+
+    <script
+      type="module"
+      src="../js/common/notifications/notifications.js"
+      defer
+    ></script>
+  </body>
+</html>
