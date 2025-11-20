@@ -66,7 +66,7 @@ $font-family-base:
   .left-panel {
     flex: 1;
     background: $body-bg;
-    padding: 50px 40px;
+    // padding: 50px 40px;
     @include display-flex;
     @include flex-column;
     align-items: center;
@@ -83,11 +83,19 @@ $font-family-base:
       max-width: 400px;
     }
 
+    img {
+      height: 500px;
+    }
+
     @media (max-width: 968px) {
-      padding: 40px 30px;
+      // padding: 40px 30px;
 
       h1 {
         font-size: 2rem;
+      }
+
+      img {
+        height: 350px;
       }
     }
   }
