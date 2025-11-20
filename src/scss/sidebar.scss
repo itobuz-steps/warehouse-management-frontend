@@ -106,14 +106,19 @@ body {
 
   .sidebar-toggle {
     position: fixed;
-    left: 5px;
-    color: $color-primary;
-    background-color: transparent;
+    left: -20px;
+    top: 20px;
+    color: $color-bg;
+    background-color: $color-primary;
     border: none;
     border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 1.2rem;
+    padding: 0 1.2rem 0 10px;
+    font-size: 2rem;
     cursor: pointer;
+
+    &:hover{
+      scale: 1.1;
+    }
   }
 
   .main-content {

@@ -54,6 +54,7 @@ export function createProductCard(product) {
 
   return `
     <img src="${imgSrc}" alt="${product.name}" />
+    <hr>
     <div class="card-body">
       <h5>${product.name}</h5>
 
