@@ -8,7 +8,7 @@ const addWarehouseDetails = (warehouse) => {
               <p class="card-text warehouse-detail">
                 <i class="fa-solid fa-location-dot mx-2"></i>${warehouse.address}
               </p>
-              <a href="/products.html" class="btn btn-primary warehouse-button mt-1 my-0"">View Products</a>
+              <a href="/pages/products.html?warehouseId=${warehouse._id}" class="btn btn-primary warehouse-button">View Products</a>
             </div>
           </div>`;
 };

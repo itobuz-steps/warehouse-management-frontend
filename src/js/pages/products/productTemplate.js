@@ -32,6 +32,23 @@ export const closeModal = () => {
   dom.addProductModal.style.display = 'none';
 };
 
+export const populateWarehouseSelect = (
+  warehouses,
+  element,
+  defaultOption = false
+) => {
+  if (!defaultOption) {
+    element.innerHTML = '';
+  }
+
+  warehouses.forEach((warehouse) => {
+    const option = document.createElement('option');
+    option.value = warehouse._id;
+    option.textContent = warehouse.name;
+    element.appendChild(option);
+  });
+};
+
 export function createProductCard(product) {
   const imgSrc = product.productImage?.[0] ?? '/images/placeholder.png';
 
@@ -45,14 +62,16 @@ export function createProductCard(product) {
         <span class="price">₹${product.price ?? 'N/A'}</span>
         <span class="category">${product.category ?? 'Not Categorized'}</span>
       </div>
-      <button 
-        class="btn view-details-btn" 
-        id="view-details-btn"
+      <div class="d-flex justify-content-center justify-content-lg-start">
+        <button 
+        class="btn theme-button" 
+        id="viewDetails"
         type="button"
         data-product='${JSON.stringify(product)}'
       >
         View Details
       </button>
+      </div>
     </div>
   `;
 }
