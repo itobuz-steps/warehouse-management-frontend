@@ -53,7 +53,7 @@
 
     <!--Edit User Profile-->
     <div
-      class="modal fade edit-profile-modal"
+      class="modal fade"
       id="update-profile"
       tabindex="-1"
       aria-hidden="true"
@@ -64,11 +64,17 @@
             <h5 class="modal-title edit-title">Edit Details</h5>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body edit-form">
             <form id="updateProfile" class="update-profile-form">
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" name="name" id="name" class="form-control" />
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="form-control"
+                  required
+                />
 
                 <label for="profile-image" class="form-label mt-4"
                   >Profile Image</label
@@ -78,6 +84,7 @@
                   class="form-control mb-4"
                   id="profileImg"
                   name="profile-img"
+                  required
                 />
               </div>
 
@@ -107,8 +114,8 @@
     <button class="sidebar-toggle" id="sidebarToggle">☰</button>
     <div id="sidebar-container"></div>
 
-    <main class="main-content user-management">
-      <div class="user-profile-card">
+    <main class="main-content user-management pt-4">
+      <div class="user-profile-card mb-0 mt-0">
         <div class="user-info">
           <img
             src="../assets/images/profile_default.svg"
@@ -125,11 +132,11 @@
             <p class="user-email mb-3"></p>
             <p class="user-role-badge"></p>
             <p class="my-0">
-              <i class="fa-regular fa-calendar mx-1"></i>
+              <i class="fa-regular fa-calendar mx-1 verified"></i>
               <span class="created-at"></span>
             </p>
             <p>
-              <i class="fa-regular fa-calendar-check mx-1 verified"></i>
+              <i class="fa-regular fa-calendar-check mx-1"></i>
               <span class="updated-at"></span>
             </p>
           </div>
@@ -156,21 +163,26 @@
 
       <section class="manager-list-section">
         <h3>Verified Managers</h3>
-        <div class="manager-grid" id="verified-manager-grid"></div>
+        <div class="manager-grid" id="verified-manager-grid">
+          <!-- All verified managers -->
+        </div>
       </section>
 
       <section class="manager-list-section mt-4">
         <h3>Pending Verifications</h3>
-        <div class="manager-grid" id="not-verified-manager-grid"></div>
+        <div class="manager-grid" id="not-verified-manager-grid">
+          <!-- All not verified managers -->
+        </div>
       </section>
 
       <section class="warehouse-list-section mt-4">
-        <h3 class="mb-3">Your Warehouses</h3>
+        <h3 class="mb-1">Your Warehouses</h3>
         <div class="warehouse-grid row" id="not-verified-manager-grid">
           <!-- Warehouses that managers had -->
         </div>
       </section>
     </main>
+
     <script
       type="module"
       src="../js/pages/user-management/userManagement.js"

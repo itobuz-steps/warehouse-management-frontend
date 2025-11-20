@@ -119,10 +119,14 @@ $transition: all 0.3s ease;
           color: $color-text-light;
           font-size: 0.95rem;
           margin-bottom: 5px;
+
+          .mail {
+            color: $color-primary;
+          }
         }
         .user-role-badge {
           display: inline-block;
-          background: $color-primary;
+          background: $color-primary-dark;
           color: $color-white;
           padding: 5px 12px;
           border-radius: $radius-sm;

@@ -16,14 +16,12 @@ export const getUserDetailsSubscribe = async () => {
     const res = await api.get(`${config.PROFILE_BASE_URL}/`);
     console.log(res);
 
-    const data = res.data.data;
-
-    const user = data.user;
-    const verifiedManagers = data.verifiedManagers;
-    const unverifiedManagers = data.unverifiedManagers;
+    const user = res.data.data.user;
+    const verifiedManagers = res.data.data.verifiedManagers;
+    const unverifiedManagers = res.data.data.unverifiedManagers;
 
     userManagementSelection.userName.innerText = user.name;
-    userManagementSelection.userEmail.innerText = user.email;
+    userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`;
     userManagementSelection.userImg.src =
       user.profileImage || '../../../assets/images/profile_default.svg';
     userManagementSelection.userRole.innerText = user.role;
@@ -33,6 +31,8 @@ export const getUserDetailsSubscribe = async () => {
     userManagementSelection.updatedAt.innerText = new Date(
       user.updatedAt
     ).toLocaleDateString();
+
+    document.querySelector('#name').value = user.name;
 
     userManagementSelection.userRole.style.textTransform = 'capitalize';
 
