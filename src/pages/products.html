@@ -21,12 +21,47 @@
         <h1>Products</h1>
         <div class="filter-bar">
           <!-- <label for="warehouseSelect">Select Warehouse:</label> -->
-          <select id="warehouseSelect">
+          <select id="warehouseSelect" class="warehouseSelect">
             <!-- <option value="">All Warehouses</option> -->
           </select>
         </div>
         <div>
-          <button class="btn" id="addProducts">Add products</button>
+          <button class="btn" id="addProducts">✚ Add products</button>
+        </div>
+      </div>
+
+      <!-- search-filter-bar -->
+      <div class="search-filter-bar d-flex flex-column gap-1 pb-3">
+        <input
+          type="text"
+          id="searchInput"
+          class="form-control my-1"
+          placeholder="Search products..."
+        />
+
+        <div class="d-flex gap-1">
+          <select id="categoryFilter" class="form-control my-1">
+            <option value="">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Food & Beverage">Food & Beverage</option>
+            <option value="Medical Supplies">Medical Supplies</option>
+            <option value="Industrial Tools">Industrial Tools</option>
+            <option value="Automotive Parts">Automotive Parts</option>
+            <option value="Office Supplies">Office Supplies</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Others">Others</option>
+          </select>
+
+          <select id="sortSelect" class="form-control my-1">
+            <option value="">Sort By</option>
+            <option value="name_asc">Name (A–Z)</option>
+            <option value="name_desc">Name (Z–A)</option>
+            <option value="quantity_asc">Quantity (Low → High)</option>
+            <option value="quantity_desc">Quantity (High → Low)</option>
+            <option value="category_asc">Category (A–Z)</option>
+          </select>
         </div>
       </div>
 
@@ -107,7 +142,11 @@
             </div>
 
             <div class="modal-actions">
-              <button type="button" id="closeModal" class="btn btn-secondary cancel-btn">
+              <button
+                type="button"
+                id="closeModal"
+                class="btn btn-secondary cancel-btn"
+              >
                 Cancel
               </button>
               <button type="submit" class="btn submit-btn">Add Product</button>
@@ -116,6 +155,7 @@
         </div>
       </div>
 
+      <!-- Show Product Modal -->
       <div id="productModal" class="product-modal hidden">
         <div class="modal-content">
           <span class="close-modal">&times;</span>
@@ -228,38 +268,7 @@
         </div>
       </div>
 
-      <div class="search-filter-bar pb-3">
-        <input
-          type="text"
-          id="searchInput"
-          class="form-control my-1"
-          placeholder="Search products..."
-        />
-
-        <select id="categoryFilter" class="form-control my-1">
-          <option value="">All Categories</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Furniture">Furniture</option>
-          <option value="Clothing">Clothing</option>
-          <option value="Food & Beverage">Food & Beverage</option>
-          <option value="Medical Supplies">Medical Supplies</option>
-          <option value="Industrial Tools">Industrial Tools</option>
-          <option value="Automotive Parts">Automotive Parts</option>
-          <option value="Office Supplies">Office Supplies</option>
-          <option value="Accessories">Accessories</option>
-          <option value="Others">Others</option>
-        </select>
-
-        <select id="sortSelect" class="form-control my-1">
-          <option value="">Sort By</option>
-          <option value="name_asc">Name (A–Z)</option>
-          <option value="name_desc">Name (Z–A)</option>
-          <option value="quantity_asc">Quantity (Low → High)</option>
-          <option value="quantity_desc">Quantity (High → Low)</option>
-          <option value="category_asc">Category (A–Z)</option>
-        </select>
-      </div>
-
+      <!-- Confirm Modal -->
       <div id="confirmDeleteModal" class="product-modal hidden">
         <div class="modal-content">
           <h3>Confirm Delete</h3>
