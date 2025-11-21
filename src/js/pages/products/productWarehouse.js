@@ -6,6 +6,7 @@ import {
   showToast,
 } from './productTemplate.js';
 import { fetchProducts } from './productSubscribe.js';
+import { resetSearchFilters } from './productEvents.js';
 
 const filterTypeSelect = document.getElementById('filterTypeSelect');
 
@@ -23,6 +24,8 @@ filterTypeSelect.addEventListener('change', async () => {
       option.style.display = type === 'warehouses' ? 'block' : 'none';
     }
   });
+
+  resetSearchFilters();
 
   const url = new URL(window.location);
   url.searchParams.set('filter', type);

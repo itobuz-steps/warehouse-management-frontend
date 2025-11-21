@@ -6,7 +6,11 @@ import {
 } from './productApiHelper.js';
 import { openProductModal } from './productDetails.js';
 import { dom } from './productSelector.js';
-import { createProductCard, showEmptyState, showErrorState } from './productTemplate.js';
+import {
+  createProductCard,
+  showEmptyState,
+  showErrorState,
+} from './productTemplate.js';
 
 let allProducts = [];
 let currentPage = 1;
@@ -14,20 +18,22 @@ const productsPerPage = 8; //as per products
 
 export const fetchProducts = async (warehouseId = '') => {
   try {
+    const url = new URL(window.location);
+    const filter = url.searchParams.get('filter');
+    const warehouse = url.searchParams.get('warehouseId');
+
     const user = await getCurrentUser();
 
-    if (!warehouseId && user.role === 'manager') {
+    if (!(warehouseId || warehouse) && user.role === 'manager') {
       showEmptyState('Please select a warehouse to view products.');
       return;
     }
 
-    const url = new URL(window.location);
-    const filter = url.searchParams.get('filter');
-
-    const res = warehouseId
-      ? await fetchProductsByWarehouse(warehouseId)
-      : filter === 'warehouses'
-        ? await fetchProductsWithQuantity()
+    const res =
+      filter === 'warehouses'
+        ? warehouseId
+          ? await fetchProductsByWarehouse(warehouseId)
+          : await fetchProductsWithQuantity()
         : await fetchAllProducts();
 
     const products = Array.isArray(res.data.data)
