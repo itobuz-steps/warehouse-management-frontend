@@ -73,7 +73,7 @@ async function loadQuantityInfo(productId) {
     let params = new URLSearchParams(window.location.search);
     const filter = params.get('filter');
 
-    if (filter === 'products') {
+    if (filter !== 'warehouses') {
       dom.quantitySection.innerHTML = ''; 
       return;
     }

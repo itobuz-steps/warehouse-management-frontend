@@ -12,6 +12,8 @@ export const dom = {
   categoryFilter: document.getElementById('categoryFilter'),
   sortSelect: document.getElementById('sortSelect'),
 
+  filterTypeSelect: document.getElementById('filterTypeSelect'),
+
   modal: document.getElementById('productModal'),
   closeModalBtn: document.querySelector('.close-modal'),
   carouselImg: document.getElementById('carouselImage'),

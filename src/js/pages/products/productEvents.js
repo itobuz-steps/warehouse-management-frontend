@@ -63,7 +63,7 @@ const handleAddProduct = async (e) => {
 
     dom.addProductForm.reset();
     closeModal();
-    
+
     const params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId');
 
@@ -92,7 +92,7 @@ window.addEventListener('click', (e) => {
   if (e.target === dom.editModal) {
     dom.editModal.classList.add('hidden');
   }
-
+  
 });
 
 export const handleEditProductSubmit = async (e, selectedProductId) => {
@@ -105,7 +105,7 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
   formData.append('price', dom.editPrice.value);
 
   const files = dom.editImages.files;
-  
+
   for (let i = 0; i < files.length; i++) {
     formData.append('productImage', files[i]);
   }

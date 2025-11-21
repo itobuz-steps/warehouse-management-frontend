@@ -8,10 +8,8 @@ import {
 import { fetchProducts } from './productSubscribe.js';
 import { resetSearchFilters } from './productEvents.js';
 
-const filterTypeSelect = document.getElementById('filterTypeSelect');
-
-filterTypeSelect.addEventListener('change', async () => {
-  const type = filterTypeSelect.value;
+dom.filterTypeSelect.addEventListener('change', async () => {
+  const type = dom.filterTypeSelect.value;
 
   dom.warehouseSelect.disabled = type !== 'warehouses';
 
@@ -39,7 +37,7 @@ filterTypeSelect.addEventListener('change', async () => {
 });
 
 dom.warehouseSelect.addEventListener('change', async (e) => {
-  if (filterTypeSelect.value !== 'warehouses') {
+  if (dom.filterTypeSelect.value !== 'warehouses') {
     return;
   }
 
@@ -67,6 +65,15 @@ export const loadWarehouses = async () => {
       showEmptyState();
       return;
     }
+
+    //needs to be checked
+    // const url = new URLSearchParams(window.location.search);
+    // const filter = url.get('filter');
+
+    // if (filter !== 'warehouses') {
+    //   dom.productWarehouseSelect.value = '';
+    //   return;
+    // }
 
     const isAdmin = user.role === 'admin';
 
