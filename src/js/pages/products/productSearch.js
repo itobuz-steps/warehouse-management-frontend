@@ -3,6 +3,7 @@ import config from '../../config/config.js';
 import { renderPaginatedProducts } from './productSubscribe.js';
 import { getCurrentUser } from './productApiHelper.js';
 import { dom } from './productSelector.js';
+import { resetSearchFilters } from './productEvents.js';
 
 let searchQuery = '';
 let selectedCategory = '';
@@ -11,9 +12,7 @@ let selectedSort = '';
 export const initProductSearch = async () => {
   const user = await getCurrentUser();
 
-  dom.searchInput.value = '';
-  dom.categoryFilter.value = '';
-  dom.sortSelect.value = '';
+  resetSearchFilters();
 
   dom.searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.trim();

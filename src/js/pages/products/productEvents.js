@@ -2,7 +2,7 @@ import { dom } from './productSelector.js';
 import { openModal, closeModal, showToast } from './productTemplate.js';
 import {
   addProduct,
-  addProductQuantity,
+  // addProductQuantity,
   deleteProduct,
   editProduct,
   getCurrentUser,
@@ -21,10 +21,10 @@ export const initEvents = () => {
   dom.addProductForm.addEventListener('submit', handleAddProduct);
 };
 
-const resetSearchFilters = () => {
-  document.getElementById('searchInput').value = '';
-  document.getElementById('categoryFilter').value = '';
-  document.getElementById('sortSelect').value = '';
+export const resetSearchFilters = () => {
+  dom.searchInput.value = '';
+  dom.categoryFilter.value = '';
+  dom.sortSelect.value = '';
 };
 
 const handleAddProduct = async (e) => {
@@ -50,16 +50,16 @@ const handleAddProduct = async (e) => {
       return showToast('error', 'Failed to add product');
     }
 
-    const productId = res.data.data._id;
+    // const productId = res.data.data._id;
 
-    await addProductQuantity(
-      productId,
-      dom.productWarehouseSelect.value,
-      dom.addProductForm.productQuantity.value,
-      dom.addProductForm.productLimit.value
-    );
+    // await addProductQuantity(
+    //   productId,
+    //   dom.productWarehouseSelect.value,
+    //   dom.addProductForm.productQuantity.value,
+    //   dom.addProductForm.productLimit.value
+    // );
 
-    showToast('success', 'Product & quantity added successfully');
+    showToast('success', res.data.message);
 
     dom.addProductForm.reset();
     closeModal();
