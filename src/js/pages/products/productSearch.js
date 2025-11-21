@@ -5,6 +5,7 @@ import { getCurrentUser } from './productApiHelper.js';
 import { dom } from './productSelector.js';
 import { loadWarehouses } from './productWarehouse.js';
 import { showToast } from './productTemplate.js';
+import { resetSearchFilters } from './productEvents.js';
 
 let searchQuery = '';
 let selectedCategory = '';
@@ -32,9 +33,7 @@ export const initProductSearch = async () => {
     return;
   }
 
-  dom.searchInput.value = '';
-  dom.categoryFilter.value = '';
-  dom.sortSelect.value = '';
+  resetSearchFilters();
 
   dom.searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.trim();

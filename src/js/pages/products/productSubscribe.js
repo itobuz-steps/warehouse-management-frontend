@@ -1,7 +1,7 @@
 import {
   fetchAllProducts,
   fetchProductsByWarehouse,
-  fetchProductsWithQuantity,
+  fetchProductsHavingQuantity,
   getCurrentUser,
 } from './productApiHelper.js';
 import { openProductModal } from './productDetails.js';
@@ -33,8 +33,10 @@ export const fetchProducts = async (warehouseId = '') => {
       filter === 'warehouses'
         ? warehouseId
           ? await fetchProductsByWarehouse(warehouseId)
-          : await fetchProductsWithQuantity()
+          : await fetchProductsHavingQuantity()
         : await fetchAllProducts();
+
+    // console.log(res);
 
     const products = Array.isArray(res.data.data)
       ? res.data.data

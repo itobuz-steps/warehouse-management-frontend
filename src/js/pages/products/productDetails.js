@@ -70,10 +70,18 @@ dom.next.addEventListener('click', () => {
 
 async function loadQuantityInfo(productId) {
   try {
+    let params = new URLSearchParams(window.location.search);
+    const filter = params.get('filter');
+
+    if (filter === 'products') {
+      dom.quantitySection.innerHTML = ''; 
+      return;
+    }
+
     const user = await getCurrentUser();
     dom.quantitySection.innerHTML = 'Loading quantity...';
 
-    const params = new URLSearchParams(window.location.search);
+    params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId') || user.warehouseId;
 
     if (user.role === 'manager') {

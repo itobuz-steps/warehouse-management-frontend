@@ -40,7 +40,7 @@ export const addProductQuantity = (productId, warehouseId, quantity, limit) => {
 
 export const fetchAllProducts = () => api.get(config.PRODUCT_BASE_URL);
 
-export const fetchProductsWithQuantity = () =>
+export const fetchProductsHavingQuantity = () =>
   api.get(`${config.QUANTITY_BASE_URL}/all-products-quantity`);
 
 export const fetchProductsByWarehouse = (warehouseId) =>
