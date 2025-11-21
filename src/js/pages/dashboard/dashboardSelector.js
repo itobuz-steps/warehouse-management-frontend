@@ -8,6 +8,11 @@ const dashboardSelection = {
   pieChart: document.querySelector('#pieChart'),
   lineChart: document.querySelector('#lineChart'),
   warehouseSelect: document.querySelector('#warehouseSelect'),
+
+  salesInput: document.querySelector('#salesInput'),
+  purchaseInput: document.querySelector('#purchaseInput'),
+  inventoryInput: document.querySelector('#inventoryInput'),
+  purchaseQuantity: document.querySelector('#purchaseQuantity'),
 };
 
 export default dashboardSelection;

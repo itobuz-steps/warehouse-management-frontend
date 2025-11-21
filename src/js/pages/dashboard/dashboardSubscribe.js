@@ -38,15 +38,14 @@ Chart.register(
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
+
 let barGraph = null;
 
-async function showTopProductsSubscribe(warehouseId = '') {
+async function showTopProductsSubscribe(warehouseId) {
   try {
-    const selectedWarehouseId = warehouseId;
-    
     //passing the id as query param.
     const res = await api.get(
-      `${config.DASHBOARD_BASE_URL}/get-top-products/${selectedWarehouseId}`
+      `${config.DASHBOARD_BASE_URL}/get-top-products/${warehouseId}`
     );
     const products = res.data.topProducts;
 
@@ -65,7 +64,13 @@ async function showTopProductsSubscribe(warehouseId = '') {
           {
             label: 'Top 5 Stocked Products',
             data: quantities,
-            backgroundColor: '#864a5b',
+            backgroundColor: [
+              '#ef476f',
+              '#ffd166',
+              '#06d6a0',
+              '#118ab2',
+              '#073b4c',
+            ],
           },
         ],
       },
@@ -80,9 +85,9 @@ async function showTopProductsSubscribe(warehouseId = '') {
   }
 }
 
-const showInventoryCategorySubscribe = async () => {
+const showInventoryCategorySubscribe = async (warehouseId) => {
   const res = await api.get(
-    `${config.DASHBOARD_BASE_URL}/get-inventory-category`
+    `${config.DASHBOARD_BASE_URL}/get-inventory-category/${warehouseId}`
   );
 
   const labels = res.data.productsCategory.map((item) => item._id);
@@ -115,10 +120,10 @@ const showInventoryCategorySubscribe = async () => {
   });
 };
 
-const showProductTransactionSubscribe = async () => {
+const showProductTransactionSubscribe = async (warehouseId) => {
   try {
     const res = await api.get(
-      `${config.DASHBOARD_BASE_URL}/get-product-transaction`
+      `${config.DASHBOARD_BASE_URL}/get-product-transaction/${warehouseId}`
     );
 
     const transactionDetail = res.data.transactionDetail;
@@ -164,22 +169,50 @@ const showProductTransactionSubscribe = async () => {
   }
 };
 
-const fetchUserAndWarehouses = async () => {
+const showTransactionStatsSubscribe = async (warehouseId) => {
+  try {
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-transaction-stats/${warehouseId}`
+    );
+    console.log(res);
+
+    const data = res.data.data;
+    console.log(data);
+
+    const totalSales = data.sales.totalSales;
+    const totalPurchase = data.purchase.totalPurchase;
+    const purchaseQuantity = data.purchase.purchaseQuantity;
+    const totalInventory = data.inventory.totalQuantity;
+    
+    dashboardSelection.salesInput.innerText = `₹${totalSales}`;
+    dashboardSelection.purchaseQuantity.innerText = `${purchaseQuantity} purchases`;
+    dashboardSelection.purchaseInput.innerText = totalPurchase;
+    dashboardSelection.inventoryInput.innerText = totalInventory;
+
+  } catch (err) {
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
+const fetchUserAndWarehouses = async (warehouseSelect) => {
   try {
     //fetching user details.
     const user = await getCurrentUser();
     const warehouses = await getUserWarehouses(user._id);
 
-    dashboardSelection.warehouseSelect.innerHTML = '';
-    dashboardSelection.warehouseSelect.innerHTML = `<option value="${warehouses[0]._id}" selected>${warehouses[0].name}</option>`;
+    warehouseSelect.innerHTML = '';
+    warehouseSelect.innerHTML = `<option value="${warehouses[0]._id}" selected>${warehouses[0].name}</option>`;
 
     warehouses.slice(1).forEach((warehouse) => {
       const option = document.createElement('option');
       option.value = warehouse._id;
       option.textContent = warehouse.name;
-      dashboardSelection.warehouseSelect.appendChild(option);
+      warehouseSelect.appendChild(option);
     });
-    
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -194,4 +227,5 @@ export {
   showInventoryCategorySubscribe,
   showProductTransactionSubscribe,
   fetchUserAndWarehouses,
+  showTransactionStatsSubscribe,
 };

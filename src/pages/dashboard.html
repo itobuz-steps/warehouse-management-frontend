@@ -83,21 +83,21 @@
       </div>
 
       <!-- Overview Cards -->
+      <select id="warehouseSelect" class="form-control w-25 my-4"></select>
+
       <section class="overview-grid">
         <div class="overview-card">
           <div class="card-title">Sales Overview</div>
-          <div class="card-value">₹18,300</div>
-          <div class="card-sub">Profit: ₹1,742 | Cost: ₹12,432</div>
+          <div class="card-value" id="salesInput">₹0</div>
         </div>
-        <div class="overview-card">
+        <div class="overview-card" id="Purchase">
           <div class="card-title">Purchase Overview</div>
-          <div class="card-value">₹13,573</div>
-          <div class="card-sub">82 Purchases | 5 Canceled</div>
+          <div class="card-value" id="purchaseInput">₹0</div>
+          <div class="card-sub" id="purchaseQuantity">0 Purchases</div>
         </div>
         <div class="overview-card">
           <div class="card-title">Inventory Summary</div>
-          <div class="card-value">888</div>
-          <div class="card-sub">200 To Receive</div>
+          <div class="card-value" id="inventoryInput">0</div>
         </div>
         <div class="overview-card">
           <div class="card-title">Product Summary</div>
@@ -111,9 +111,6 @@
         <!-- Sales & Purchase Chart -->
         <div class="chart-card">
           <h5>Sales & Purchase</h5>
-
-          <select id="warehouseSelect" class="form-control">
-          </select>
 
           <canvas id="barGraph"></canvas>
         </div>
