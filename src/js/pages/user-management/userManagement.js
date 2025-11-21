@@ -1,16 +1,24 @@
-import { getUserDetailsSubscribe, deleteUserSubscribe, updateUserSubscribe} from "./userManagementSubscribe.js";
-import userManagementSelection from "./userManagementSelector.js";
+import '../../../scss/user-management.scss';
+// eslint-disable-next-line no-unused-vars
+import * as bootstrap from 'bootstrap';
 
-document.addEventListener("DOMContentLoaded", getUserDetailsSubscribe);
+import {
+  getUserDetailsSubscribe,
+  deleteUserSubscribe,
+  updateUserSubscribe,
+} from './userManagementSubscribe.js';
+import userManagementSelection from './userManagementSelector.js';
 
-userManagementSelection.confirmDelete.addEventListener("click", async () => {
+document.addEventListener('DOMContentLoaded', getUserDetailsSubscribe);
+
+userManagementSelection.confirmDelete.addEventListener('click', async () => {
   await deleteUserSubscribe();
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
-  window.location.href = "../pages/login.html";
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  window.location.href = '../pages/login.html';
 });
 
-userManagementSelection.updateProfileForm.addEventListener("submit", updateUserSubscribe);
-
-
-
+userManagementSelection.updateProfileForm.addEventListener(
+  'submit',
+  updateUserSubscribe
+);

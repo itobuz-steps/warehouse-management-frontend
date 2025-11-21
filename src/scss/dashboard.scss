@@ -177,8 +177,20 @@ body {
 /* OVERVIEW CARDS */
 
 .overview-grid {
-  @include grid(auto-fit, 350px);
+  @include grid(auto-fit, 260px);
   margin-bottom: 30px;
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .overview-grid {
+    @include grid(2, 0);
+  }
+}
+
+@media (min-width: 1200px) {
+  .overview-grid {
+    @include grid(4, 0);
+  }
 }
 
 .overview-card {
