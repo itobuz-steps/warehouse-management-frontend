@@ -1,18 +1,40 @@
 import api from '../../api/interceptor.js';
 import config from '../../config/config.js';
-import { renderPaginatedProducts } from './productSubscribe.js';
+import { fetchProducts, renderPaginatedProducts } from './productSubscribe.js';
 import { getCurrentUser } from './productApiHelper.js';
 import { dom } from './productSelector.js';
-import { resetSearchFilters } from './productEvents.js';
+import { loadWarehouses } from './productWarehouse.js';
+import { showToast } from './productTemplate.js';
 
 let searchQuery = '';
 let selectedCategory = '';
 let selectedSort = '';
 
 export const initProductSearch = async () => {
-  const user = await getCurrentUser();
+  const url = new URL(window.location);
+  const filter = url.searchParams.get('filter') || '';
 
-  resetSearchFilters();
+  dom.warehouseSelect.disabled = filter !== 'warehouses';
+
+  Array.from(dom.sortSelect.options).forEach((option) => {
+    if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
+      option.style.display = filter === 'warehouses' ? 'block' : 'none';
+    }
+  });
+
+  let user;
+
+  try {
+    user = await getCurrentUser();
+  } catch (err) {
+    console.error('Failed to fetch current user:', err);
+    showToast('error', 'Could not load user data. Please refresh the page.');
+    return;
+  }
+
+  dom.searchInput.value = '';
+  dom.categoryFilter.value = '';
+  dom.sortSelect.value = '';
 
   dom.searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.trim();
@@ -35,7 +57,11 @@ export const initProductSearch = async () => {
     });
   }
 
-  fetchSearch(user.role, dom.warehouseSelect?.value || '');
+  if (filter === 'warehouses') {
+    await loadWarehouses();
+  } else {
+    fetchProducts();
+  }
 };
 
 export const fetchSearch = async (role, warehouseId = '') => {
@@ -45,7 +71,15 @@ export const fetchSearch = async (role, warehouseId = '') => {
       return;
     }
 
-    const response = await api.get(`${config.PRODUCT_BASE_URL}/search`, {
+    const url = new URL(window.location);
+    const filter = url.searchParams.get('filter');
+
+    const searchApi =
+      filter === 'warehouses'
+        ? `${config.QUANTITY_BASE_URL}/all-products-quantity`
+        : config.PRODUCT_BASE_URL;
+
+    const response = await api.get(searchApi, {
       params: {
         search: searchQuery,
         category: selectedCategory,

@@ -7,7 +7,39 @@ import {
 } from './productTemplate.js';
 import { fetchProducts } from './productSubscribe.js';
 
+const filterTypeSelect = document.getElementById('filterTypeSelect');
+
+filterTypeSelect.addEventListener('change', async () => {
+  const type = filterTypeSelect.value;
+
+  dom.warehouseSelect.disabled = type !== 'warehouses';
+
+  if (type !== 'warehouses') {
+    dom.warehouseSelect.value = '';
+  }
+
+  Array.from(dom.sortSelect.options).forEach((option) => {
+    if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
+      option.style.display = type === 'warehouses' ? 'block' : 'none';
+    }
+  });
+
+  const url = new URL(window.location);
+  url.searchParams.set('filter', type);
+  window.history.replaceState({}, '', url);
+
+  if (type === 'products') {
+    fetchProducts();
+  } else if (type === 'warehouses') {
+    await loadWarehouses();
+  }
+});
+
 dom.warehouseSelect.addEventListener('change', async (e) => {
+  if (filterTypeSelect.value !== 'warehouses') {
+    return;
+  }
+
   const warehouseId = e.target.value;
   const url = new URL(window.location);
 
