@@ -92,6 +92,37 @@ function renderNotifications() {
 
   notifList.innerHTML = notifications.map((n) => notificationItem(n)).join('');
 
+  // Attach handlers to any Ship buttons rendered for pending shipments
+  try {
+    const shipButtons = notifList.querySelectorAll('.ship-btn');
+    shipButtons.forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const transactionId = btn.dataset.transaction;
+        if (!transactionId) return;
+
+        try {
+          // Call backend to change shipment status to shipped
+          await api.patch(
+            `${config.NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
+          );
+
+          // Remove any notifications referencing this transaction and re-render
+          notifications = notifications.filter((n) => {
+            const tId =
+              n.transactionId && (n.transactionId._id || n.transactionId);
+            return !(tId && `${tId}` === `${transactionId}`);
+          });
+          renderNotifications();
+        } catch (err) {
+          console.error('Error changing shipment status:', err);
+        }
+      });
+    });
+  } catch (attachErr) {
+    console.error('Error attaching ship button handlers:', attachErr);
+  }
+
   if (notifCount) {
     notifCount.textContent = unseenCount;
     if (unseenCount > 0) {
