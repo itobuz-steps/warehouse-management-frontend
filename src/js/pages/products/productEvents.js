@@ -2,7 +2,6 @@ import { dom } from './productSelector.js';
 import { openModal, closeModal, showToast } from './productTemplate.js';
 import {
   addProduct,
-  addProductQuantity,
   deleteProduct,
   editProduct,
   getCurrentUser,
@@ -21,13 +20,13 @@ export const initEvents = () => {
   dom.addProductForm.addEventListener('submit', handleAddProduct);
 };
 
-const resetSearchFilters = () => {
-  document.getElementById('searchInput').value = '';
-  document.getElementById('categoryFilter').value = '';
-  document.getElementById('sortSelect').value = '';
+export const resetSearchFilters = () => {
+  dom.searchInput.value = '';
+  dom.categoryFilter.value = '';
+  dom.sortSelect.value = '';
 };
 
-const handleAddProduct = async (e) => {
+export const handleAddProduct = async (e) => {
   e.preventDefault();
 
   const formData = new FormData();
@@ -50,20 +49,11 @@ const handleAddProduct = async (e) => {
       return showToast('error', 'Failed to add product');
     }
 
-    const productId = res.data.data._id;
-
-    await addProductQuantity(
-      productId,
-      dom.productWarehouseSelect.value,
-      dom.addProductForm.productQuantity.value,
-      dom.addProductForm.productLimit.value
-    );
-
-    showToast('success', 'Product & quantity added successfully');
+    showToast('success', res.data.message);
 
     dom.addProductForm.reset();
     closeModal();
-    
+
     const params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId');
 
@@ -92,7 +82,7 @@ window.addEventListener('click', (e) => {
   if (e.target === dom.editModal) {
     dom.editModal.classList.add('hidden');
   }
-
+  
 });
 
 export const handleEditProductSubmit = async (e, selectedProductId) => {
@@ -105,7 +95,7 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
   formData.append('price', dom.editPrice.value);
 
   const files = dom.editImages.files;
-  
+
   for (let i = 0; i < files.length; i++) {
     formData.append('productImage', files[i]);
   }

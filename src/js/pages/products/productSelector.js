@@ -6,11 +6,13 @@ export const dom = {
   addProductsButton: document.getElementById('addProducts'),
   addProductModal: document.getElementById('addProductModal'),
   closeModalButton: document.getElementById('closeModal'),
-  productWarehouseSelect: document.getElementById('productWarehouse'),
+  // productWarehouseSelect: document.getElementById('productWarehouse'),
   addProductForm: document.getElementById('addProductForm'),
   searchInput: document.getElementById('searchInput'),
   categoryFilter: document.getElementById('categoryFilter'),
   sortSelect: document.getElementById('sortSelect'),
+
+  filterTypeSelect: document.getElementById('filterTypeSelect'),
 
   modal: document.getElementById('productModal'),
   closeModalBtn: document.querySelector('.close-modal'),
