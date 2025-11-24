@@ -98,7 +98,7 @@ async function loadQuantityInfo(productId) {
       const qty = res.data.data[0].quantity;
       dom.quantitySection.innerHTML = `
         <p><strong>Quantity in this Warehouse:</strong> ${qty}</p>
-        ${qty <= 10 ? `<button class="btn btn-danger low-stock">⚠ LOW STOCK</button>` : ''}
+        ${qty <= res.data.data[0].limit ? `<button class="btn btn-danger low-stock"> ⚠ LOW STOCK</button>` : ''}
       `;
     } else {
       const totalRes = await fetchTotalProductQuantity(productId);
@@ -111,7 +111,7 @@ async function loadQuantityInfo(productId) {
         .map(
           (warehouse) =>
             `<li>${warehouse.warehouseId?.name}: <strong>${warehouse.quantity}</strong>
-            ${totalQty <= 10 ? `<button class="btn btn-danger btn-sm low-stock">⚠ LOW STOCK</button>` : ''}</li>`
+            ${totalQty <= totalRes.data.data[0].limit ? `<button class="btn btn-danger btn-sm low-stock"> ⚠ LOW STOCK</button>` : ''}</li>`
         )
         .join('');
 
