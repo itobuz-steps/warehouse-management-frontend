@@ -2,7 +2,6 @@ import { dom } from './productSelector.js';
 import { openModal, closeModal, showToast } from './productTemplate.js';
 import {
   addProduct,
-  // addProductQuantity,
   deleteProduct,
   editProduct,
   getCurrentUser,
@@ -27,7 +26,7 @@ export const resetSearchFilters = () => {
   dom.sortSelect.value = '';
 };
 
-const handleAddProduct = async (e) => {
+export const handleAddProduct = async (e) => {
   e.preventDefault();
 
   const formData = new FormData();
@@ -49,15 +48,6 @@ const handleAddProduct = async (e) => {
     if (!res.data.success) {
       return showToast('error', 'Failed to add product');
     }
-
-    // const productId = res.data.data._id;
-
-    // await addProductQuantity(
-    //   productId,
-    //   dom.productWarehouseSelect.value,
-    //   dom.addProductForm.productQuantity.value,
-    //   dom.addProductForm.productLimit.value
-    // );
 
     showToast('success', res.data.message);
 

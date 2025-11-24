@@ -2,7 +2,6 @@ import {
   fetchAllProducts,
   fetchProductsByWarehouse,
   fetchProductsHavingQuantity,
-  getCurrentUser,
 } from './productApiHelper.js';
 import { openProductModal } from './productDetails.js';
 import { dom } from './productSelector.js';
@@ -20,14 +19,6 @@ export const fetchProducts = async (warehouseId = '') => {
   try {
     const url = new URL(window.location);
     const filter = url.searchParams.get('filter');
-    const warehouse = url.searchParams.get('warehouseId');
-
-    const user = await getCurrentUser();
-
-    if (!(warehouseId || warehouse) && user.role === 'manager') {
-      showEmptyState('Please select a warehouse to view products.');
-      return;
-    }
 
     const res =
       filter === 'warehouses'
@@ -35,8 +26,6 @@ export const fetchProducts = async (warehouseId = '') => {
           ? await fetchProductsByWarehouse(warehouseId)
           : await fetchProductsHavingQuantity()
         : await fetchAllProducts();
-
-    // console.log(res);
 
     const products = Array.isArray(res.data.data)
       ? res.data.data
@@ -67,7 +56,7 @@ export const renderPaginatedProducts = (allProducts) => {
 export const renderProducts = (details) => {
   dom.productGrid.className = '';
   dom.productGrid.innerHTML = '';
-
+  
   if (!details.length) {
     showEmptyState();
     return;

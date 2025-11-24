@@ -75,7 +75,7 @@ export const fetchSearch = async (role, warehouseId = '') => {
 
     const searchApi =
       filter === 'warehouses'
-        ? `${config.QUANTITY_BASE_URL}/all-products-quantity`
+        ? `${config.QUANTITY_BASE_URL}/all-products-having-quantity`
         : config.PRODUCT_BASE_URL;
 
     const response = await api.get(searchApi, {
