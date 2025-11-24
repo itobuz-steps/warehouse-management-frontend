@@ -39,6 +39,14 @@ window.addEventListener('click', (e) => {
 export const openProductModal = async (product) => {
   selectedProductId = product._id;
 
+  const user = await getCurrentUser();
+
+  if (user.role !== 'admin') {
+    dom.deleteProductBtn.style.display = 'none';
+  } else {
+    dom.deleteProductBtn.style.display = 'block';
+  }
+
   currentImages = product.productImage?.length
     ? product.productImage
     : ['/images/placeholder.png'];
@@ -74,7 +82,7 @@ async function loadQuantityInfo(productId) {
     const filter = params.get('filter');
 
     if (filter !== 'warehouses') {
-      dom.quantitySection.innerHTML = ''; 
+      dom.quantitySection.innerHTML = '';
       return;
     }
 

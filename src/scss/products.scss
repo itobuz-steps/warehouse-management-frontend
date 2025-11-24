@@ -476,7 +476,7 @@ $transition: all 0.25s ease;
 
   img {
     width: 100%;
-    height: 400px;
+    max-height: 400px;
     object-fit: contain;
     border-radius: 10px;
   }
@@ -511,11 +511,11 @@ $transition: all 0.25s ease;
 .modal-footer {
   display: flex;
   justify-content: space-between;
-}
 
-.modal-footer button {
-  padding: 10px 20px;
-  font-size: 16px;
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 768px) {
