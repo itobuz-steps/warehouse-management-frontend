@@ -3,14 +3,14 @@ class TransactionDetailsTemplate {
     return `<div class="accordion-item">
             <h2 class="accordion-header">
               <button
-                class="accordion-button collapsed transaction-id"
+                class="intype accordion-button collapsed transaction-id"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#flush-collapse-${transaction._id}"
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID - ${transaction._id} <span class="type">${transaction.type}</span>
+                ID - ${transaction._id} <span class="type in">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -77,14 +77,14 @@ class TransactionDetailsTemplate {
     return `<div class="accordion-item">
             <h2 class="accordion-header">
               <button
-                class="accordion-button collapsed transaction-id"
+                class="outtype accordion-button collapsed transaction-id"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#flush-collapse-${transaction._id}"
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID - ${transaction._id} <span class="type">${transaction.type}</span>
+                ID - ${transaction._id} <span class="type out">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -171,14 +171,14 @@ class TransactionDetailsTemplate {
     return `<div class="accordion-item">
             <h2 class="accordion-header">
               <button
-                class="accordion-button collapsed transaction-id"
+                class="adjusttype accordion-button collapsed transaction-id"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#flush-collapse-${transaction._id}"
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID - ${transaction._id} <span class="type">${transaction.type}</span>
+                ID - ${transaction._id} <span class="type adjust">${transaction.type}</span>
               </button>
             </h2>
             <div
@@ -242,14 +242,14 @@ class TransactionDetailsTemplate {
     return `<div class="accordion-item">
             <h2 class="accordion-header">
               <button
-                class="accordion-button collapsed transaction-id"
+                class="transfertype accordion-button collapsed transaction-id"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#flush-collapse-${transaction._id}"
                 aria-expanded="false"
                 aria-controls="flush-collapseOne"
               >
-                ID - ${transaction._id} <span class="type">${transaction.type}</span>
+                ID - ${transaction._id} <span class="type transfer">${transaction.type}</span>
               </button>
             </h2>
             <div

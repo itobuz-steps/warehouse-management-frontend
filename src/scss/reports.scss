@@ -12,6 +12,18 @@ $color-border: #f0f0f0;
 $color-bg: linear-gradient(135deg, #efe1e1 0%, #fafafa 100%);
 $color-white: #ffffff;
 
+$color-in: #109648;
+$color-in-light: #e9f8ef;
+
+$color-out: #e36414;
+$color-out-light: #fde8db;
+
+$color-transfer: #014f86;
+$color-transfer-light: #d3e7f6;
+
+$color-adjust: #da2c38;
+$color-adjust-light: #f6d2d4;
+
 $shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
 $shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
 
@@ -74,6 +86,10 @@ $transition: all 0.3s ease;
     transform: translateY(-2px);
     color: $color-white;
   }
+}
+
+@mixin box-shadow($shadow...) {
+  box-shadow: $shadow;
 }
 
 @mixin grid($columns: auto-fit, $min: 220px, $gap: 20px) {
@@ -148,24 +164,24 @@ button.warehouse-dropdown {
 
 .custom-accordion {
   .accordion-button {
-    background-color: $color-primary-light !important;
-    color: $color-primary-dark !important;
+    // background-color: $color-primary-light !important;
+    // color: $color-primary-dark !important;
     font-weight: 500;
     border: none;
     box-shadow: $shadow-sm;
     border-top-left-radius: 10px !important;
     border-top-right-radius: 10px !important;
 
-    &:not(.collapsed) {
-      background-color: $color-primary-dark !important;
-      color: $color-white !important;
-      box-shadow: none;
+    // &:not(.collapsed) {
+    //   background-color: $color-primary-dark !important;
+    //   color: $color-white !important;
+    //   box-shadow: none;
 
-      .type {
-        background-color: $color-primary-light;
-        color: $color-primary-dark;
-      }
-    }
+    //   .type {
+    //     background-color: $color-primary-light;
+    //     color: $color-primary-dark;
+    //   }
+    // }
   }
   @media (max-width: 500px) {
     .accordion-button {
@@ -182,7 +198,7 @@ button.warehouse-dropdown {
   }
 
   .accordion-item {
-    border: 2px solid $color-primary;
+    // border: 2px solid $color-primary;
     border-radius: 8px;
     margin-bottom: 10px;
   }
@@ -199,11 +215,84 @@ button.warehouse-dropdown {
     margin-left: 10px;
     margin-right: 5px;
     font-size: 12px;
-    background-color: $color-primary-dark;
+    // background-color: $color-primary-dark;
     padding: 4px;
     color: $color-white;
     border-radius: 5px;
     font-weight: 500;
+  }
+  .in {
+    background-color: $color-in;
+  }
+  .out {
+    background-color: $color-out;
+  }
+  .adjust {
+    background-color: $color-adjust;
+  }
+  .transfer {
+    background-color: $color-transfer;
+  }
+}
+
+.intype {
+  background-color: $color-in-light !important;
+  color: $color-in !important;
+
+  &:not(.collapsed) {
+    background-color: $color-in !important;
+    color: $color-in-light !important;
+    box-shadow: none;
+
+    .type {
+      background-color: $color-in-light;
+      color: $color-in;
+    }
+  }
+}
+.outtype {
+  background-color: $color-out-light !important;
+  color: $color-out !important;
+
+  &:not(.collapsed) {
+    background-color: $color-out !important;
+    color: $color-out-light !important;
+    box-shadow: none;
+
+    .type {
+      background-color: $color-out-light;
+      color: $color-out;
+    }
+  }
+}
+.transfertype {
+  background-color: $color-transfer-light !important;
+  color: $color-transfer !important;
+
+  &:not(.collapsed) {
+    background-color: $color-transfer !important;
+    color: $color-transfer-light !important;
+    box-shadow: none;
+
+    .type {
+      background-color: $color-transfer-light;
+      color: $color-transfer;
+    }
+  }
+}
+.adjusttype {
+  background-color: $color-adjust-light !important;
+  color: $color-adjust !important;
+
+  &:not(.collapsed) {
+    background-color: $color-adjust !important;
+    color: $color-adjust-light !important;
+    box-shadow: none;
+
+    .type {
+      background-color: $color-adjust-light;
+      color: $color-adjust;
+    }
   }
 }
 
