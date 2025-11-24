@@ -1,14 +1,15 @@
+import { stockIn } from './stockInManagement';
+
 const destinationWarehouseSelector = document.getElementById(
   'destinationWarehouse'
 );
-const stockInSection = document.getElementById('inFields');
 
-export function displayProducts(type) {
+export async function displayProducts(type) {
   try {
-    console.log(destinationWarehouseSelector.value);
+    const warehouseId = destinationWarehouseSelector.value;
 
     if (type == 'IN') {
-      stockInSection.classList.remove('d-none');
+      await stockIn(warehouseId);
     }
   } catch (err) {
     console.log(err.message);
