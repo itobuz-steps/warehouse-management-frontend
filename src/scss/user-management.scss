@@ -89,6 +89,12 @@ $transition: all 0.3s ease;
 .verified {
   color: #1da1f2;
 }
+.description {
+  color: $color-primary;
+}
+.address {
+  color: $color-primary-dark;
+}
 
 .user-management {
   .user-profile-card {
@@ -224,7 +230,7 @@ $transition: all 0.3s ease;
 
         .warehouse-name {
           font-weight: 600;
-          color: $color-text;
+          color: $color-primary-dark;
         }
 
         .warehouse-detail {
