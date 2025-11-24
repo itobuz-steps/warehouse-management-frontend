@@ -11,6 +11,22 @@ let notifications = [];
 let socket;
 let selectors;
 
+function isShippedNotification(n) {
+  try {
+    const tx = n && n.transactionId;
+    if (!tx) {
+      return false;
+    }
+    const shipment = tx.shipment;
+    if (!shipment) {
+      return false;
+    }
+    return `${shipment}`.toUpperCase() === 'SHIPPED';
+  } catch (err) {
+    console.error('Error checking if notification is shipped', err);
+  }
+}
+
 // Get the current user's ID from profile API
 async function getUserId() {
   try {
@@ -43,6 +59,9 @@ async function initSocket() {
 
   socket.on('connect', () => console.log('Socket connected successfully!'));
   socket.on('notification', (notif) => {
+    if (isShippedNotification(notif)) {
+      return;
+    }
     notifications.unshift(notif);
     renderNotifications();
   });
@@ -68,7 +87,9 @@ async function loadNotifications() {
       return;
     }
 
-    notifications = res.data.data;
+    // Filter out notifications that reference transactions which are already shipped
+    const raw = res.data.data || [];
+    notifications = raw.filter((n) => !isShippedNotification(n));
     renderNotifications();
   } catch (err) {
     console.error('Error loading notifications:', err);
