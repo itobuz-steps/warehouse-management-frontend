@@ -30,7 +30,7 @@ async function viewWarehouseDetails(id) {
         (viewManagers.innerHTML += `<div class="manager">${manager.name}</div>`)
     );
 
-    productLink.href = `/pages/products.html?warehouseId=${warehouse._id}`;
+    productLink.href = `/pages/products.html?warehouseId=${warehouse._id}&filter=warehouses`;
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
   } finally {
