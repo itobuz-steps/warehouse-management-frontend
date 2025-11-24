@@ -89,6 +89,7 @@
         <div class="overview-card">
           <div class="card-title">Sales Overview</div>
           <div class="card-value" id="salesInput">₹0</div>
+          <div class="card-sub" id="saleQuantity">0 Sales</div>
         </div>
         <div class="overview-card" id="Purchase">
           <div class="card-title">Purchase Overview</div>
@@ -100,9 +101,8 @@
           <div class="card-value" id="inventoryInput">0</div>
         </div>
         <div class="overview-card">
-          <div class="card-title">Product Summary</div>
-          <div class="card-value">31 Suppliers</div>
-          <div class="card-sub">21 Categories</div>
+          <div class="card-title">Today's Shipment</div>
+          <div class="card-value" id="shipmentInput">0</div>
         </div>
       </section>
 
@@ -110,7 +110,7 @@
       <section class="charts-grid">
         <!-- Sales & Purchase Chart -->
         <div class="chart-card">
-          <h5>Sales & Purchase</h5>
+          <h5>Top 5 Products</h5>
 
           <canvas id="barGraph"></canvas>
         </div>
@@ -132,7 +132,7 @@
 
       <!-- Tables -->
       <section class="stock-grid">
-        <div class="table-card">
+        <!-- <div class="table-card">
           <h5>Top Selling Stock</h5>
           <table class="table table-hover align-middle">
             <thead>
@@ -164,7 +164,7 @@
               </tr>
             </tbody>
           </table>
-        </div>
+        </div> -->
 
         <div class="table-card">
           <h5>Low Quantity Stock</h5>
@@ -176,17 +176,7 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Tata Salt</td>
-                <td>10 packets</td>
-                <td><span class="badge bg-danger">Low</span></td>
-              </tr>
-              <tr>
-                <td>Lays</td>
-                <td>15 packets</td>
-                <td><span class="badge bg-danger">Low</span></td>
-              </tr>
+            <tbody id="lowStockTable">
             </tbody>
           </table>
         </div>

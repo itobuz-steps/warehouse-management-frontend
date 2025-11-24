@@ -12,6 +12,7 @@ import {
   showProductTransactionSubscribe,
   fetchUserAndWarehouses,
   showTransactionStatsSubscribe,
+  showLowStockProducts,
 } from './dashboardSubscribe.js';
 
 dashboardSelection.addManagerForm.addEventListener(
@@ -26,7 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   await showTopProductsSubscribe(firstWarehouse);
   await showInventoryCategorySubscribe(firstWarehouse);
   await showProductTransactionSubscribe(firstWarehouse);
-  await showTransactionStatsSubscribe(firstWarehouse)
+  await showTransactionStatsSubscribe(firstWarehouse);
+  await showLowStockProducts(firstWarehouse);
 });
 
 dashboardSelection.warehouseSelect.addEventListener('change', async () => {
@@ -35,4 +37,5 @@ dashboardSelection.warehouseSelect.addEventListener('change', async () => {
   await showInventoryCategorySubscribe(selectedWarehouseId);
   await showProductTransactionSubscribe(selectedWarehouseId);
   await showTransactionStatsSubscribe(selectedWarehouseId);
+  await showLowStockProducts(selectedWarehouseId);
 });
