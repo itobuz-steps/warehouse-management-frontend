@@ -231,6 +231,21 @@ $transition: all 0.3s ease;
           color: $color-text-light;
           font-size: 1rem;
           margin-top: 10px;
+
+          .storage {
+            color: $color-white;
+            font-size: 12px;
+            font-weight: 500;
+          }
+          .low {
+            background-color: green;
+          }
+          .moderate {
+            background-color: orange;
+          }
+          .high {
+            background-color: red;
+          }
         }
 
         .warehouse-button {
