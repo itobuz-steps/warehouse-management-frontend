@@ -1,6 +1,6 @@
 @import 'bootstrap/scss/bootstrap';
 
-$primary: #b97a87;
+$color-primary: #b97a87;
 $color-primary-dark: #864a5b;
 $body-bg: linear-gradient(135deg, #efe1e1 0%, #fafafa 100%);
 $body-color: #1a1a1a;
@@ -66,7 +66,7 @@ $font-family-base:
   .left-panel {
     flex: 1;
     background: $body-bg;
-    padding: 50px 40px;
+    // padding: 50px 40px;
     @include display-flex;
     @include flex-column;
     align-items: center;
@@ -83,11 +83,19 @@ $font-family-base:
       max-width: 400px;
     }
 
+    img {
+      height: 500px;
+    }
+
     @media (max-width: 968px) {
-      padding: 40px 30px;
+      // padding: 40px 30px;
 
       h1 {
         font-size: 2rem;
+      }
+
+      img {
+        height: 350px;
       }
     }
   }
@@ -157,8 +165,8 @@ $font-family-base:
           transition: all 0.3s ease;
 
           &:focus {
-            border-color: lighten($primary, 10%);
-            box-shadow: 0 0 0 3px rgba($primary, 0.1);
+            border-color: lighten($color-primary, 10%);
+            box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
             outline: none;
           }
 
@@ -189,12 +197,12 @@ $font-family-base:
         padding: 14px;
         border-radius: 8px;
         font-weight: 600;
-        background: $primary;
+        background: $color-primary;
         border: none;
         transition: all 0.3s ease;
 
         &:hover {
-          background: darken($primary, 7%);
+          background: darken($color-primary, 7%);
           transform: translateY(-1px);
         }
       }
@@ -207,7 +215,7 @@ $font-family-base:
       color: #666;
 
       a {
-        color: $primary;
+        color: $color-primary;
         text-decoration: none;
         font-weight: 600;
 
@@ -220,10 +228,12 @@ $font-family-base:
 }
 
 .reset-password-btn {
-  background-color: $primary;
-  border: 2px solid $primary;
+  background-color: $color-primary;
+  border: 2px solid $color-primary;
+  color: $white;
 }
 .reset-password-btn:hover {
   background-color: $color-primary-dark;
   border: 2px solid $color-primary-dark;
+  color: $white;
 }

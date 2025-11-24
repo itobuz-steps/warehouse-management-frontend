@@ -4,39 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Management</title>
-    <link
+    <!-- <link
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
       rel="stylesheet"
-    />
+    /> -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <script type="module" src="../js/common/sidebar.js" defer></script>
-    <link rel="stylesheet" href="../scss/user-management.scss" />
+    <!-- <link rel="stylesheet" href="../scss/user-management.scss" /> -->
   </head>
 
   <body>
     <div id="toastSection"></div>
 
+    <!--Confirm Delete Modal-->
     <div class="modal fade" tabindex="-1" id="delete-user">
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-danger">Confirm Action</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <h5 class="modal-title text-danger fs-4">Confirm Action</h5>
           </div>
 
           <div class="modal-body text-center">
-            <p class="fs-4">Are you sure you want to delete user?</p>
+            <p class="fs-5">Are you sure you want to delete your Profile?</p>
           </div>
 
-          <div class="modal-footer">
+          <div class="modal-footer my-0 py-2">
             <button
               type="button"
               class="btn btn-secondary fs-5"
@@ -46,7 +41,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-danger fs-5"
+              class="btn btn-danger fs-5 confirm-delete"
               id="confirmDelete"
             >
               Delete
@@ -56,6 +51,7 @@
       </div>
     </div>
 
+    <!--Edit User Profile-->
     <div
       class="modal fade"
       id="update-profile"
@@ -65,20 +61,20 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Details</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <h5 class="modal-title edit-title">Edit Details</h5>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body edit-form">
             <form id="updateProfile" class="update-profile-form">
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" name="name" id="name" class="form-control" />
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="form-control"
+                  required
+                />
 
                 <label for="profile-image" class="form-label mt-4"
                   >Profile Image</label
@@ -88,10 +84,11 @@
                   class="form-control mb-4"
                   id="profileImg"
                   name="profile-img"
+                  required
                 />
               </div>
 
-              <div class="modal-footer">
+              <div class="modal-footer my-0 pb-0">
                 <button
                   type="button"
                   class="btn btn-secondary fs-5"
@@ -102,7 +99,7 @@
 
                 <button
                   type="submit"
-                  class="btn btn-primary fs-5"
+                  class="btn btn-primary fs-5 action"
                   id="confirmUpdate"
                 >
                   Update
@@ -114,29 +111,30 @@
       </div>
     </div>
 
-    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i class="fa-solid fa-circle-chevron-right"></i>
+    </button>
     <div id="sidebar-container"></div>
 
-    <main class="main-content user-management">
-      <div class="user-profile-card">
+    <main class="main-content user-management pt-4">
+      <div class="user-profile-card mb-0 mt-0">
         <div class="user-info">
           <img
             src="../assets/images/profile_default.svg"
             alt="User Profile"
             class="user-avatar-lg"
-            style="border: 2px solid #b97a87"
           />
 
           <div class="user-details">
             <span>
               <h2 class="user-name d-inline-block"></h2>
-              <i class="fas fa-check-circle fs-5" style="color: #1da1f2"></i>
+              <i class="fas fa-check-circle fs-5 verified"></i>
             </span>
 
             <p class="user-email mb-3"></p>
             <p class="user-role-badge"></p>
             <p class="my-0">
-              <i class="fa-regular fa-calendar mx-1"></i>
+              <i class="fa-regular fa-calendar mx-1 verified"></i>
               <span class="created-at"></span>
             </p>
             <p>
@@ -148,7 +146,7 @@
 
         <div class="user-actions">
           <button
-            class="btn-edit"
+            class="action btn-edit"
             data-bs-toggle="modal"
             data-bs-target="#update-profile"
           >
@@ -156,7 +154,7 @@
           </button>
 
           <button
-            class="btn-delete"
+            class="action btn-delete"
             data-bs-toggle="modal"
             data-bs-target="#delete-user"
           >
@@ -165,39 +163,28 @@
         </div>
       </div>
 
-      <section class="manager-list-section">
+      <section class="manager-list-section mt-4">
         <h3>Verified Managers</h3>
-        <div class="manager-grid" id="verified-manager-grid"></div>
+        <div class="manager-grid" id="verified-manager-grid">
+          <!-- All verified managers -->
+        </div>
       </section>
 
       <section class="manager-list-section mt-4">
         <h3>Pending Verifications</h3>
-        <div class="manager-grid" id="not-verified-manager-grid"></div>
+        <div class="manager-grid" id="not-verified-manager-grid">
+          <!-- All not verified managers -->
+        </div>
       </section>
 
       <section class="warehouse-list-section mt-4">
-        <h3 class="">Your Warehouses</h3>
+        <h3 class="mb-1">Your Warehouses</h3>
         <div class="warehouse-grid row" id="not-verified-manager-grid">
           <!-- Warehouses that managers had -->
-          <!-- <div class="warehouse-card card">
-            <div class="card-body pt-4">
-              <h5 class="card-title warehouse-name">Special title treatment</h5>
-              <p class="card-text mt-3 mb-1 warehouse-detail">
-                <i class="fa-solid fa-circle-info mx-2"></i>With supporting text
-                below as a natural lead-in to additional content.
-              </p>
-              <p class="card-text warehouse-detail">
-                <i class="fa-solid fa-location-dot mx-2"></i>With supporting
-                text below as a natural lead-in to additional content.
-              </p>
-              <a href="#" class="btn btn-primary warehouse-button mt-4"
-                >Go somewhere</a
-              >
-            </div>
-          </div> -->
         </div>
       </section>
     </main>
+
     <script
       type="module"
       src="../js/pages/user-management/userManagement.js"

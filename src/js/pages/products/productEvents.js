@@ -3,6 +3,8 @@ import { openModal, closeModal, showToast } from './productTemplate.js';
 import {
   addProduct,
   addProductQuantity,
+  deleteProduct,
+  editProduct,
   getCurrentUser,
 } from './productApiHelper.js';
 import { fetchProducts } from './productSubscribe.js';
@@ -43,23 +45,104 @@ const handleAddProduct = async (e) => {
 
   try {
     const res = await addProduct(formData);
-    if (!res.data.success) return showToast('error', 'Failed to add product');
+
+    if (!res.data.success) {
+      return showToast('error', 'Failed to add product');
+    }
 
     const productId = res.data.data._id;
 
     await addProductQuantity(
       productId,
       dom.productWarehouseSelect.value,
-      dom.addProductForm.productQuantity.value
+      dom.addProductForm.productQuantity.value,
+      dom.addProductForm.productLimit.value
     );
 
     showToast('success', 'Product & quantity added successfully');
 
     dom.addProductForm.reset();
     closeModal();
-    fetchProducts();
+    
+    const params = new URLSearchParams(window.location.search);
+    const warehouseId = params.get('warehouseId');
+
+    fetchProducts(warehouseId);
   } catch (err) {
     console.error(err);
     showToast('error', 'Error adding product');
   }
 };
+
+export const editProductHandler = () => {
+  dom.editName.value = dom.modalProductName.textContent;
+  dom.editDescription.value = dom.modalDescription.textContent;
+  dom.editCategory.value = dom.modalCategory.textContent;
+  dom.editPrice.value = dom.modalPrice.textContent;
+
+  dom.editModal.classList.remove('hidden');
+};
+
+dom.closeEditModal.addEventListener('click', () =>
+  dom.editModal.classList.add('hidden')
+);
+
+window.addEventListener('click', (e) => {
+  
+  if (e.target === dom.editModal) {
+    dom.editModal.classList.add('hidden');
+  }
+
+});
+
+export const handleEditProductSubmit = async (e, selectedProductId) => {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append('name', dom.editName.value);
+  formData.append('description', dom.editDescription.value);
+  formData.append('category', dom.editCategory.value);
+  formData.append('price', dom.editPrice.value);
+
+  const files = dom.editImages.files;
+  
+  for (let i = 0; i < files.length; i++) {
+    formData.append('productImage', files[i]);
+  }
+
+  try {
+    const res = await editProduct(formData, selectedProductId);
+    dom.editModal.classList.add('hidden');
+    dom.modal.classList.add('hidden');
+    const params = new URLSearchParams(window.location.search);
+    const warehouseId = params.get('warehouseId');
+    fetchProducts(warehouseId);
+
+    showToast('success', res.data.message);
+  } catch (err) {
+    console.error(err);
+    showToast('error', 'Failed to update product');
+  }
+};
+
+export const deleteProductHandler = () => {
+  dom.confirmDeleteModal.classList.remove('hidden');
+};
+
+export async function handleDelete(selectedProductId) {
+  try {
+    const res = await deleteProduct(selectedProductId);
+
+    dom.confirmDeleteModal.classList.add('hidden');
+    dom.modal.classList.add('hidden');
+
+    const params = new URLSearchParams(window.location.search);
+    const warehouseId = params.get('warehouseId');
+
+    fetchProducts(warehouseId);
+    showToast('success', res.data.message);
+  } catch (err) {
+    console.error(err);
+    showToast('error', 'Failed to delete product');
+  }
+}

@@ -7,6 +7,8 @@ const config = {
   PRODUCT_BASE_URL: 'http://localhost:3000/product',
   QUANTITY_BASE_URL: 'http://localhost:3000/quantity',
   WAREHOUSE_BASE_URL: 'http://localhost:3000/warehouse',
+  NOTIFICATION_BASE_URL: 'http://localhost:3000/notifications',
+  TRANSACTION_BASE_URL: 'http://localhost:3000/transaction',
 };
 
 export default config;

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+    />
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+    <link rel="stylesheet" href="../scss/reports.scss" />
+  </head>
+  <body>
+    <div id="toastSection">
+      <!-- custom toast message -->
+    </div>
+
+    <!-- Sidebar -->
+    <!-- <button class="sidebar-toggle" id="sidebarToggle">
+      <i class="fa-solid fa-circle-chevron-right"></i>
+    </button> -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Dashboard -->
+    <main class="main-content">
+      <section
+        class="transaction-header d-flex flex-column flex-md-row justify-content-between align-items-center"
+      >
+        <button class="sidebar-toggle" id="sidebarToggle">
+          <i class="fa-solid fa-circle-chevron-right"></i>
+        </button>
+        <h1 class="ps-4">Transaction Reports</h1>
+
+        <div class="dropdown warehouses">
+          <button
+            class="btn dropdown-toggle warehouse-dropdown"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Warehouses
+          </button>
+          <ul class="dropdown-menu warehouses-options">
+            <li>
+              <a class="dropdown-item warehouse-option" id="1">Select All</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="filter-transactions d-flex justify-content-center justify-content-lg-start align-content-center">
+        <div
+          class="btn-group type-filter"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="All"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-type" for="All">ALL</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="In"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="In">IN</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="Out"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="Out">OUT</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="Transfer"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="Transfer">TRANSFER</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="Adjust"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="Adjust">ADJUSTMENT</label>
+        </div>
+      </section>
+
+      <hr />
+
+      <section class="transaction-details">
+        <div
+          class="accordion accordion-flush custom-accordion transaction-reports"
+          id="accordionFlushExample"
+        >
+          <!--All Transaction Items-->
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="../js/pages/reports/reports.js" defer></script>
+  </body>
+</html>

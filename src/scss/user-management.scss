@@ -86,10 +86,14 @@ $transition: all 0.3s ease;
   }
 }
 
+.verified {
+  color: #1da1f2;
+}
+
 .user-management {
   .user-profile-card {
     @include card($radius-lg, 25px 30px, $shadow-md);
-    @include flex(space-between, center, row, 20px);
+    @include flex(space-between, center, row, 10px);
     flex-wrap: wrap;
     margin-bottom: 30px;
 
@@ -102,6 +106,7 @@ $transition: all 0.3s ease;
         border-radius: 50%;
         object-fit: cover;
         box-shadow: $shadow-sm;
+        border: 2px solid $color-primary-dark;
       }
 
       .user-details {
@@ -114,10 +119,14 @@ $transition: all 0.3s ease;
           color: $color-text-light;
           font-size: 0.95rem;
           margin-bottom: 5px;
+
+          .mail {
+            color: $color-primary;
+          }
         }
         .user-role-badge {
           display: inline-block;
-          background: $color-primary;
+          background: $color-primary-dark;
           color: $color-white;
           padding: 5px 12px;
           border-radius: $radius-sm;
@@ -137,10 +146,7 @@ $transition: all 0.3s ease;
       @include flex(flex-end, center, row, 10px);
       flex-wrap: wrap;
 
-      .btn-edit {
-        @include button($color-primary, $color-primary-dark);
-      }
-      .btn-delete {
+      .action {
         @include button($color-primary, $color-primary-dark);
       }
     }
@@ -187,7 +193,7 @@ $transition: all 0.3s ease;
   }
 
   .warehouse-list-section {
-    @include card($radius-md, 25px 30px);
+    @include card($radius-md, 20px 25px);
     display: none;
 
     h3 {
@@ -224,7 +230,7 @@ $transition: all 0.3s ease;
         .warehouse-detail {
           color: $color-text-light;
           font-size: 1rem;
-          margin-top: 20px;
+          margin-top: 10px;
         }
 
         .warehouse-button {
@@ -253,4 +259,20 @@ $transition: all 0.3s ease;
       }
     }
   }
+}
+
+button.action {
+  background-color: $color-primary;
+  color: $color-white;
+  border: 2px solid $color-primary;
+
+  &:hover {
+    background-color: $color-primary-dark;
+    color: $color-white;
+    border: 2px solid $color-primary-dark;
+  }
+}
+
+.edit-title {
+  color: $color-primary-dark;
 }

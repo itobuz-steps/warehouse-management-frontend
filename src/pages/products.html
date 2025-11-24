@@ -10,7 +10,9 @@
   </head>
   <body>
     <!-- Sidebar -->
-    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i class="fa-solid fa-circle-chevron-right"></i>
+    </button>
     <div id="sidebar-container"></div>
 
     <div class="main-content">
@@ -21,12 +23,47 @@
         <h1>Products</h1>
         <div class="filter-bar">
           <!-- <label for="warehouseSelect">Select Warehouse:</label> -->
-          <select id="warehouseSelect">
-            <option value="">All Warehouses</option>
+          <select id="warehouseSelect" class="warehouseSelect">
+            <!-- <option value="">All Warehouses</option> -->
           </select>
         </div>
         <div>
-          <button class="btn" id="addProducts">Add products</button>
+          <button class="btn" id="addProducts">✚ Add products</button>
+        </div>
+      </div>
+
+      <!-- search-filter-bar -->
+      <div class="search-filter-bar d-flex flex-column gap-1 pb-3">
+        <input
+          type="text"
+          id="searchInput"
+          class="form-control my-1"
+          placeholder="Search products..."
+        />
+
+        <div class="d-flex gap-1">
+          <select id="categoryFilter" class="form-control my-1">
+            <option value="">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Food & Beverage">Food & Beverage</option>
+            <option value="Medical Supplies">Medical Supplies</option>
+            <option value="Industrial Tools">Industrial Tools</option>
+            <option value="Automotive Parts">Automotive Parts</option>
+            <option value="Office Supplies">Office Supplies</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Others">Others</option>
+          </select>
+
+          <select id="sortSelect" class="form-control my-1">
+            <option value="">Sort By</option>
+            <option value="name_asc">Name (A–Z)</option>
+            <option value="name_desc">Name (Z–A)</option>
+            <option value="quantity_asc">Quantity (Low → High)</option>
+            <option value="quantity_desc">Quantity (High → Low)</option>
+            <option value="category_asc">Category (A–Z)</option>
+          </select>
         </div>
       </div>
 
@@ -75,18 +112,25 @@
             <div class="form-group">
               <label for="productWarehouse">Warehouse</label>
               <select id="productWarehouse" name="warehouseId" required>
-                <option value="">Select Warehouse</option>
+                <!-- <option value="">Select Warehouse</option> -->
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="productQuantity">Quantity</label>
-              <input
-                type="number"
-                id="productQuantity"
-                name="quantity"
-                required
-              />
+            <div class="form-row row">
+              <div class="form-group col-6">
+                <label for="productQuantity">Quantity</label>
+                <input
+                  type="number"
+                  id="productQuantity"
+                  name="quantity"
+                  required
+                />
+              </div>
+
+              <div class="form-group col-6">
+                <label for="productLimit">Limit</label>
+                <input type="number" id="productLimit" name="limit" required />
+              </div>
             </div>
 
             <div class="form-group">
@@ -100,7 +144,11 @@
             </div>
 
             <div class="modal-actions">
-              <button type="button" id="closeModal" class="btn cancel-btn">
+              <button
+                type="button"
+                id="closeModal"
+                class="btn btn-secondary cancel-btn"
+              >
                 Cancel
               </button>
               <button type="submit" class="btn submit-btn">Add Product</button>
@@ -109,36 +157,132 @@
         </div>
       </div>
 
-      <div class="search-filter-bar pb-3">
-        <input
-          type="text"
-          id="searchInput"
-          class="form-control"
-          placeholder="Search products..."
-        />
+      <!-- Show Product Modal -->
+      <div id="productModal" class="product-modal hidden">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
 
-        <select id="categoryFilter" class="form-control">
-          <option value="">All Categories</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Furniture">Furniture</option>
-          <option value="Clothing">Clothing</option>
-          <option value="Food & Beverage">Food & Beverage</option>
-          <option value="Medical Supplies">Medical Supplies</option>
-          <option value="Industrial Tools">Industrial Tools</option>
-          <option value="Automotive Parts">Automotive Parts</option>
-          <option value="Office Supplies">Office Supplies</option>
-          <option value="Accessories">Accessories</option>
-          <option value="Others">Others</option>
-        </select>
+          <div class="modal-body d-flex">
+            <div class="carousel-container">
+              <button class="carousel-btn prev">&#10094;</button>
+              <img id="carouselImage" src="" alt="Product Image" />
+              <button class="carousel-btn next">&#10095;</button>
+            </div>
 
-        <select id="sortSelect" class="form-control">
-          <option value="">Sort By</option>
-          <option value="name_asc">Name (A–Z)</option>
-          <option value="name_desc">Name (Z–A)</option>
-          <option value="quantity_asc">Quantity (Low → High)</option>
-          <option value="quantity_desc">Quantity (High → Low)</option>
-          <option value="category_asc">Category (A–Z)</option>
-        </select>
+            <div
+              class="product-info justify-content-center align-content-center"
+            >
+              <h2 id="modalProductName"></h2>
+              <p id="modalDescription"></p>
+              <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+              <p><strong>Price:</strong> ₹<span id="modalPrice"></span></p>
+
+              <hr />
+
+              <div id="quantitySection"></div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button id="editProductBtn" class="btn theme-button">
+              Edit Product
+            </button>
+            <button id="deleteProductBtn" class="btn btn-danger">
+              Delete Product
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Product Modal -->
+      <div id="editProductModal" class="product-modal hidden">
+        <div class="modal-content">
+          <span class="close-edit-modal">&times;</span>
+          <h2>Edit Product</h2>
+
+          <form
+            class="modal-form"
+            id="editProductForm"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group">
+              <label for="editName">Name:</label>
+              <input
+                type="text"
+                id="editName"
+                name="name"
+                class="form-control"
+                placeholder="Product Name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editDescription">Description:</label>
+              <textarea
+                id="editDescription"
+                name="description"
+                class="form-control"
+                placeholder="Description"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="editCategory">Category:</label>
+              <select id="editCategory" name="category" required>
+                <option value="">Select Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Food & Beverage">Food & Beverage</option>
+                <option value="Medical Supplies">Medical Supplies</option>
+                <option value="Industrial Tools">Industrial Tools</option>
+                <option value="Automotive Parts">Automotive Parts</option>
+                <option value="Office Supplies">Office Supplies</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editPrice">Price:</label>
+              <input
+                type="number"
+                id="editPrice"
+                name="price"
+                step="0.01"
+                class="form-control"
+                placeholder="Price"
+              />
+            </div>
+            <div class="form-group">
+              <label>Upload New Images</label>
+              <input
+                type="file"
+                id="editImages"
+                name="productImage"
+                multiple
+                class="form-control"
+              />
+            </div>
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn w-100 theme-button">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Confirm Modal -->
+      <div id="confirmDeleteModal" class="product-modal hidden">
+        <div class="modal-content">
+          <h3>Confirm Delete</h3>
+          <p>Are you sure you want to archive this product?</p>
+
+          <div class="modal-footer justify-content-around">
+            <button id="cancelDeleteBtn" class="btn btn-secondary">
+              Cancel
+            </button>
+            <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
       </div>
 
       <div id="productGrid" class="product-grid">

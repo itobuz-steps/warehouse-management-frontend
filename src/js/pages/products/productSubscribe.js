@@ -3,12 +3,13 @@ import {
   fetchProductsByWarehouse,
   getCurrentUser,
 } from './productApiHelper.js';
+import { openProductModal } from './productDetails.js';
 import { dom } from './productSelector.js';
-import { showEmptyState, showErrorState } from './productTemplate.js';
+import { createProductCard, showEmptyState, showErrorState } from './productTemplate.js';
 
 let allProducts = [];
 let currentPage = 1;
-const productsPerPage = 12; //as per products
+const productsPerPage = 8; //as per products
 
 export const fetchProducts = async (warehouseId = '') => {
   try {
@@ -34,19 +35,19 @@ export const fetchProducts = async (warehouseId = '') => {
 
     allProducts = products;
     currentPage = 1;
-    renderPaginatedProducts();
+    renderPaginatedProducts(allProducts);
   } catch (err) {
     console.error(err);
     showErrorState();
   }
 };
 
-const renderPaginatedProducts = () => {
+export const renderPaginatedProducts = (allProducts) => {
   const start = (currentPage - 1) * productsPerPage;
   const pageItems = allProducts.slice(start, start + productsPerPage);
 
   renderProducts(pageItems);
-  renderPagination();
+  renderPagination(allProducts);
 };
 
 export const renderProducts = (details) => {
@@ -54,35 +55,34 @@ export const renderProducts = (details) => {
   dom.productGrid.innerHTML = '';
 
   if (!details.length) {
-    showEmptyState()
+    showEmptyState();
     return;
   }
 
   details.forEach((detail) => {
     const product = detail.product || detail;
-    const imgSrc = product.productImage?.[0] ?? '/images/placeholder.png';
-
     const card = document.createElement('div');
     card.className = 'product-card';
-    card.innerHTML = `
-      <img src="${imgSrc}" alt="${product.name}" />
-      <div class="card-body">
-        <h5>${product.name}</h5>
-        <p>${product.description || 'No description available.'}</p>
-        <div class="info-row">
-          <span class="price">$${product.price ?? 'N/A'}</span>
-          <span class="category">${product.category ?? 'Not Categorized'}</span>
-        </div>
-      </div>
-    `;
+    card.innerHTML = createProductCard(product);
     dom.productGrid.appendChild(card);
+  });
+
+  document.querySelectorAll('#viewDetails').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const product = JSON.parse(e.target.dataset.product);
+      openProductModal(product);
+    });
   });
 };
 
-const renderPagination = () => {
+export const renderPagination = (allProducts) => {
   dom.pagination.innerHTML = '';
 
   const totalPages = Math.ceil(allProducts.length / productsPerPage);
+
+  if (currentPage > totalPages) {
+    currentPage = 1;
+  }
 
   if (totalPages <= 1) {
     dom.pagination.style.display = 'none';
@@ -99,7 +99,7 @@ const renderPagination = () => {
     btn.addEventListener('click', () => {
       currentPage = i;
 
-      renderPaginatedProducts();
+      renderPaginatedProducts(allProducts);
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });

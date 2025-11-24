@@ -18,7 +18,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script> -->
   </head>
   <body>
     <div id="toastSection">
@@ -35,13 +35,17 @@
         class="list-warehouse-head d-flex justify-content-between flex-column gap-2 flex-sm-row"
       >
         <div class="icon-group d-flex">
-          <button
+          <!-- <button
             id="sidebarToggle"
             class="text-primary border-0 fs-2 mb-1 d-lg-none"
           >
-            ☰
+            <i class="fa-solid fa-circle-chevron-right"></i>
+          </button> -->
+
+          <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fa-solid fa-circle-chevron-right"></i>
           </button>
-          <h5 class="ms-2 m-auto">Warehouse Details</h5>
+          <h2 class="ms-2 ps-4 m-auto mt-2 mt-md-0">Warehouse Details</h2>
         </div>
 
         <!-- add warehouse section -->
@@ -118,7 +122,10 @@
               </div>
             </div>
 
-            <a href="/pages/products.html" class="btn btn-primary"
+            <a
+              id="viewProducts"
+              href="/pages/products.html"
+              class="btn btn-primary"
               >View Products</a
             >
           </div>
