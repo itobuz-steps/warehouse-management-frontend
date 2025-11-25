@@ -1,3 +1,4 @@
+// js/pages/transaction/loadWarehouses.js
 import config from '../../config/config';
 import api from '../../api/interceptor';
 
@@ -18,25 +19,27 @@ export async function getWarehouses() {
       `${config.WAREHOUSE_BASE_URL}/get-warehouses/${currentUser._id}`
     );
 
-    return warehouseRes.data.data;
+    return warehouseRes.data.data || [];
   } catch (err) {
     console.log(err.message);
+    return [];
   }
 }
 
 export async function loadWarehouses() {
   try {
     const assignedWarehouses = await getWarehouses();
+    if (!assignedWarehouses.length) return;
 
     sourceWarehouseSelector.innerHTML =
       '<option selected disabled>Select Source Warehouse</option>';
     destinationWarehouseSelector.innerHTML =
       '<option selected disabled>Select Destination Warehouse</option>';
 
-    for (let i = 0; i < assignedWarehouses.length; i++) {
-      sourceWarehouseSelector.innerHTML += `<option value="${assignedWarehouses[i]._id}">${assignedWarehouses[i].name}</option>`;
-      destinationWarehouseSelector.innerHTML += `<option value="${assignedWarehouses[i]._id}">${assignedWarehouses[i].name}</option>`;
-    }
+    assignedWarehouses.forEach((w) => {
+      sourceWarehouseSelector.innerHTML += `<option value="${w._id}">${w.name}</option>`;
+      destinationWarehouseSelector.innerHTML += `<option value="${w._id}">${w.name}</option>`;
+    });
   } catch (err) {
     console.log(err.message);
   }
@@ -48,12 +51,18 @@ export async function loadDestinationWarehouse() {
     destinationWarehouseSelector.classList.remove('d-none');
 
     const assignedWarehouses = await getWarehouses();
+    if (!assignedWarehouses.length) return;
 
-    for (let i = 0; i < assignedWarehouses.length; i++) {
-      if (assignedWarehouses[i]._id !== sourceWarehouseSelector.value) {
-        destinationWarehouseSelector.innerHTML += `<option value="${assignedWarehouses[i]._id}">${assignedWarehouses[i].name}</option>`;
+    const sourceId = sourceWarehouseSelector.value;
+
+    destinationWarehouseSelector.innerHTML =
+      '<option selected disabled>Select Destination Warehouse</option>';
+
+    assignedWarehouses.forEach((w) => {
+      if (w._id !== sourceId) {
+        destinationWarehouseSelector.innerHTML += `<option value="${w._id}">${w.name}</option>`;
       }
-    }
+    });
   } catch (err) {
     console.log(err.message);
   }
