@@ -97,17 +97,7 @@
 
           <!-- OUT Fields -->
           <div id="outFields" class="d-none">
-            <label></label>
-            <select id="outSourceWarehouse" class="form-select mb-2">
-              <option value="">Select Warehouse</option>
-            </select>
-            <button
-              type="button"
-              id="loadOutProducts"
-              class="btn btn-sm btn-secondary mb-3"
-            >
-              Load Products
-            </button>
+            <!-- Uses Source Warehouse selector above -->
             <div id="outProductsContainer"></div>
             <button
               type="button"
@@ -116,6 +106,7 @@
             >
               + Add Product
             </button>
+
             <input
               id="customerName"
               class="form-control mb-2"
@@ -151,13 +142,7 @@
 
           <!-- TRANSFER Fields -->
           <div id="transferFields" class="d-none">
-            <button
-              type="button"
-              id="loadTransferProducts"
-              class="btn btn-sm btn-secondary mb-3"
-            >
-              Load Products
-            </button>
+            <!-- Uses Source + Destination Warehouse selectors above -->
             <div id="transferProductsContainer"></div>
             <button
               type="button"
@@ -175,17 +160,7 @@
 
           <!-- ADJUSTMENT Fields -->
           <div id="adjustmentFields" class="d-none">
-            <label>Warehouse</label>
-            <select id="adjustWarehouseId" class="form-select mb-2">
-              <option value="">Select Warehouse</option>
-            </select>
-            <button
-              type="button"
-              id="loadAdjustProducts"
-              class="btn btn-sm btn-secondary mb-3"
-            >
-              Load Products
-            </button>
+            <!-- Uses Source Warehouse selector above -->
             <div id="adjustProductsContainer"></div>
             <input
               id="adjustReason"
