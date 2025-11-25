@@ -7,7 +7,17 @@ const dashboardSelection = {
   barGraph: document.querySelector('#barGraph'),
   pieChart: document.querySelector('#pieChart'),
   lineChart: document.querySelector('#lineChart'),
-  transactionSelect: document.querySelector('#transactionSelect'),
+  warehouseSelect: document.querySelector('#warehouseSelect'),
+
+  salesInput: document.querySelector('#salesInput'),
+  purchaseInput: document.querySelector('#purchaseInput'),
+  inventoryInput: document.querySelector('#inventoryInput'),
+  purchaseQuantity: document.querySelector('#purchaseQuantity'),
+  saleQuantity: document.querySelector("#saleQuantity"),
+  lowStockTable: document.querySelector("#lowStockTableBody"),
+  shipmentInput: document.querySelector("#shipmentInput"),
+  username: document.querySelector(".user-role"),
+  tableCard: document.querySelector('.table-card'),
 };
 
 export default dashboardSelection;

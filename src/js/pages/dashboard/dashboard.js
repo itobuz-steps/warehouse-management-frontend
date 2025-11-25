@@ -6,7 +6,14 @@ import * as bootstrap from 'bootstrap';
 import dashboardSelection from './dashboardSelector';
 import { addManagerSubscribe } from './adminSubscribe.js';
 
-import { showTopProductsSubscribe, showInventoryCategorySubscribe, showProductTransactionSubscribe } from './dashboardSubscribe.js';
+import {
+  showTopProductsSubscribe,
+  showInventoryCategorySubscribe,
+  showProductTransactionSubscribe,
+  fetchUserAndWarehouses,
+  showTransactionStatsSubscribe,
+  showLowStockProducts,
+} from './dashboardSubscribe.js';
 
 dashboardSelection.addManagerForm.addEventListener(
   'submit',
@@ -14,6 +21,21 @@ dashboardSelection.addManagerForm.addEventListener(
 );
 
 
-document.addEventListener("DOMContentLoaded", showTopProductsSubscribe );
-document.addEventListener("DOMContentLoaded", showInventoryCategorySubscribe );
-document.addEventListener("DOMContentLoaded", showProductTransactionSubscribe );
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchUserAndWarehouses(dashboardSelection.warehouseSelect);
+  const firstWarehouse = dashboardSelection.warehouseSelect.value;
+  await showTopProductsSubscribe(firstWarehouse);
+  await showInventoryCategorySubscribe(firstWarehouse);
+  await showProductTransactionSubscribe(firstWarehouse);
+  await showTransactionStatsSubscribe(firstWarehouse);
+  await showLowStockProducts(firstWarehouse);
+});
+
+dashboardSelection.warehouseSelect.addEventListener('change', async () => {
+  const selectedWarehouseId = dashboardSelection.warehouseSelect.value;
+  await showTopProductsSubscribe(selectedWarehouseId);
+  await showInventoryCategorySubscribe(selectedWarehouseId);
+  await showProductTransactionSubscribe(selectedWarehouseId);
+  await showTransactionStatsSubscribe(selectedWarehouseId);
+  await showLowStockProducts(selectedWarehouseId);
+});
