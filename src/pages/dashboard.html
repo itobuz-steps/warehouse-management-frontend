@@ -129,26 +129,26 @@
       </div>
 
       <!-- Overview Cards -->
+      <select id="warehouseSelect" class="form-control w-25 my-4"></select>
+
       <section class="overview-grid">
         <div class="overview-card">
           <div class="card-title">Sales Overview</div>
-          <div class="card-value">₹18,300</div>
-          <div class="card-sub">Profit: ₹1,742 | Cost: ₹12,432</div>
+          <div class="card-value" id="salesInput">₹0</div>
+          <div class="card-sub" id="saleQuantity">0 Sales</div>
         </div>
-        <div class="overview-card">
+        <div class="overview-card" id="Purchase">
           <div class="card-title">Purchase Overview</div>
-          <div class="card-value">₹13,573</div>
-          <div class="card-sub">82 Purchases | 5 Canceled</div>
+          <div class="card-value" id="purchaseInput">₹0</div>
+          <div class="card-sub" id="purchaseQuantity">0 Purchases</div>
         </div>
         <div class="overview-card">
           <div class="card-title">Inventory Summary</div>
-          <div class="card-value">888</div>
-          <div class="card-sub">200 To Receive</div>
+          <div class="card-value" id="inventoryInput">0</div>
         </div>
         <div class="overview-card">
-          <div class="card-title">Product Summary</div>
-          <div class="card-value">31 Suppliers</div>
-          <div class="card-sub">21 Categories</div>
+          <div class="card-title">Today's Shipment</div>
+          <div class="card-value" id="shipmentInput">0</div>
         </div>
       </section>
 
@@ -156,7 +156,8 @@
       <section class="charts-grid">
         <!-- Sales & Purchase Chart -->
         <div class="chart-card">
-          <h5>Sales & Purchase</h5>
+          <h5>Top 5 Products</h5>
+
           <canvas id="barGraph"></canvas>
         </div>
 
@@ -175,45 +176,11 @@
         </div>
       </section>
 
-      <!-- Tables -->
       <section class="stock-grid">
-        <div class="table-card">
-          <h5>Top Selling Stock</h5>
-          <table class="table table-hover align-middle">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Sold Qty</th>
-                <th>Qty left</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Surf Excel</td>
-                <td>30</td>
-                <td>12</td>
-                <td>₹120</td>
-              </tr>
-              <tr>
-                <td>Rin</td>
-                <td>15</td>
-                <td>17</td>
-                <td>₹105</td>
-              </tr>
-              <tr>
-                <td>Parle G</td>
-                <td>19</td>
-                <td>17</td>
-                <td>₹105</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
 
         <div class="table-card">
           <h5>Low Quantity Stock</h5>
-          <table class="table table-hover align-middle">
+          <table class="table table-hover align-middle" id="lowStockTable">
             <thead>
               <tr>
                 <th>Item</th>
@@ -221,17 +188,7 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Tata Salt</td>
-                <td>10 packets</td>
-                <td><span class="badge bg-danger">Low</span></td>
-              </tr>
-              <tr>
-                <td>Lays</td>
-                <td>15 packets</td>
-                <td><span class="badge bg-danger">Low</span></td>
-              </tr>
+            <tbody id="lowStockTableBody">
             </tbody>
           </table>
         </div>
