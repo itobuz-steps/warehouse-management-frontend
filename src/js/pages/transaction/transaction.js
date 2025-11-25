@@ -1,3 +1,4 @@
+// js/pages/transaction/transaction.js
 import '../../../scss/transaction.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
@@ -6,54 +7,54 @@ import {
   displayWarehouseDropdown,
   displayTransactionType,
 } from './displaySelectors.js';
+import { addProductRowForContainer } from './displayProducts.js';
+import submitForm from './submitForm.js';
+import { transactionSelectors } from './transactionSelector.js';
+import Templates from '../../common/Templates';
 
-const transactionTypeSelector = document.getElementById('transactionType');
+const toastMessage = new Templates();
+const { buttons, containers, form, typeSelect, toastSection } =
+  transactionSelectors;
 
-// show sections by transaction type
+// 1. Initial setup
 displayTransactionType();
-transactionTypeSelector.addEventListener('change', displayWarehouseDropdown);
 
-// // Load products dynamically
-// async function loadProducts(warehouseId, containerId) {
-//   const container = containers[containerId];
-//   container.innerHTML = '<em>Loading...</em>';
-//   const token = localStorage.getItem('access_token');
-//   if (!token) {
-//     container.innerHTML =
-//       "<p class='text-danger'>No token found. Please log in first.</p>";
-//     return;
-//   }
+// When transaction type changes:
+typeSelect.addEventListener('change', () => {
+  // clear previous products
+  Object.values(containers).forEach((c) => (c.innerHTML = ''));
+  displayWarehouseDropdown();
+});
 
-// Buttons
-// buttons.loadInProducts.onclick = () =>
-//   loadProducts(
-//     warehouses.inDestinationWarehouse.value,
-//     'inProductsContainer'
-//   );
-// buttons.addInProduct.onclick = () =>
-//   addProductRow(containers.inProductsContainer, lastLoadedProducts);
+// 2. "+ Add Product" buttons
+if (buttons.addInProduct) {
+  buttons.addInProduct.addEventListener('click', () =>
+    addProductRowForContainer('inProductsContainer')
+  );
+}
+if (buttons.addOutProduct) {
+  buttons.addOutProduct.addEventListener('click', () =>
+    addProductRowForContainer('outProductsContainer')
+  );
+}
+if (buttons.addTransferProduct) {
+  buttons.addTransferProduct.addEventListener('click', () =>
+    addProductRowForContainer('transferProductsContainer')
+  );
+}
 
-// buttons.loadOutProducts.onclick = () =>
-//   loadProducts(warehouses.outSourceWarehouse.value, 'outProductsContainer');
-// buttons.addOutProduct.onclick = () =>
-//   addProductRow(containers.outProductsContainer, lastLoadedProducts);
+// 3. Form submit
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const type = typeSelect.value;
 
-// buttons.loadTransferProducts.onclick = () =>
-//   loadProducts(warehouses.sourceWarehouse.value, 'transferProductsContainer');
-// buttons.addTransferProduct.onclick = () =>
-//   addProductRow(containers.transferProductsContainer, lastLoadedProducts);
+  if (!type || !['IN', 'OUT', 'TRANSFER', 'ADJUSTMENT'].includes(type)) {
+    toastSection.innerHTML = toastMessage.errorToast(
+      'Please select a transaction type.'
+    );
+    setTimeout(() => (toastSection.innerHTML = ''), 3000);
+    return;
+  }
 
-// buttons.loadAdjustProducts.onclick = () =>
-//   loadProducts(warehouses.adjustWarehouseId.value, 'adjustProductsContainer');
-
-// // Submit transaction
-// form.addEventListener('submit', async (e) => {
-//   e.preventDefault();
-//   const type = typeSelect.value;
-//   if (!type) {
-//     toastSection.innerHTML = toastMessage.errorToast(
-//       'Please select a transaction type.'
-//     );
-//     setTimeout(() => (toastSection.innerHTML = ''), 3000);
-//     return;
-//   }
+  submitForm(type);
+});
