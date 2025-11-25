@@ -39,6 +39,14 @@ window.addEventListener('click', (e) => {
 export const openProductModal = async (product) => {
   selectedProductId = product._id;
 
+  const user = await getCurrentUser();
+
+  if (user.role !== 'admin') {
+    dom.deleteProductBtn.style.display = 'none';
+  } else {
+    dom.deleteProductBtn.style.display = 'block';
+  }
+
   currentImages = product.productImage?.length
     ? product.productImage
     : ['/images/placeholder.png'];
@@ -70,10 +78,18 @@ dom.next.addEventListener('click', () => {
 
 async function loadQuantityInfo(productId) {
   try {
+    let params = new URLSearchParams(window.location.search);
+    const filter = params.get('filter');
+
+    if (filter !== 'warehouses') {
+      dom.quantitySection.innerHTML = '';
+      return;
+    }
+
     const user = await getCurrentUser();
     dom.quantitySection.innerHTML = 'Loading quantity...';
 
-    const params = new URLSearchParams(window.location.search);
+    params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId') || user.warehouseId;
 
     if (user.role === 'manager') {
@@ -82,7 +98,7 @@ async function loadQuantityInfo(productId) {
       const qty = res.data.data[0].quantity;
       dom.quantitySection.innerHTML = `
         <p><strong>Quantity in this Warehouse:</strong> ${qty}</p>
-        ${qty <= 10 ? `<button class="btn btn-danger low-stock">⚠ LOW STOCK</button>` : ''}
+        ${qty <= res.data.data[0].limit ? `<button class="btn btn-danger low-stock"> ⚠ LOW STOCK</button>` : ''}
       `;
     } else {
       const totalRes = await fetchTotalProductQuantity(productId);
@@ -95,7 +111,7 @@ async function loadQuantityInfo(productId) {
         .map(
           (warehouse) =>
             `<li>${warehouse.warehouseId?.name}: <strong>${warehouse.quantity}</strong>
-            ${totalQty <= 10 ? `<button class="btn btn-danger btn-sm low-stock">⚠ LOW STOCK</button>` : ''}</li>`
+            ${totalQty <= totalRes.data.data[0].limit ? `<button class="btn btn-danger btn-sm low-stock"> ⚠ LOW STOCK</button>` : ''}</li>`
         )
         .join('');
 

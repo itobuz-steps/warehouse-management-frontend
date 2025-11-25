@@ -1,11 +1,15 @@
 import {
   fetchAllProducts,
   fetchProductsByWarehouse,
-  getCurrentUser,
+  fetchProductsHavingQuantity,
 } from './productApiHelper.js';
 import { openProductModal } from './productDetails.js';
 import { dom } from './productSelector.js';
-import { createProductCard, showEmptyState, showErrorState } from './productTemplate.js';
+import {
+  createProductCard,
+  showEmptyState,
+  showErrorState,
+} from './productTemplate.js';
 
 let allProducts = [];
 let currentPage = 1;
@@ -13,16 +17,15 @@ const productsPerPage = 8; //as per products
 
 export const fetchProducts = async (warehouseId = '') => {
   try {
-    const user = await getCurrentUser();
+    const url = new URL(window.location);
+    const filter = url.searchParams.get('filter');
 
-    if (!warehouseId && user.role === 'manager') {
-      showEmptyState('Please select a warehouse to view products.');
-      return;
-    }
-
-    const res = warehouseId
-      ? await fetchProductsByWarehouse(warehouseId)
-      : await fetchAllProducts();
+    const res =
+      filter === 'warehouses'
+        ? warehouseId
+          ? await fetchProductsByWarehouse(warehouseId)
+          : await fetchProductsHavingQuantity()
+        : await fetchAllProducts();
 
     const products = Array.isArray(res.data.data)
       ? res.data.data
@@ -53,7 +56,7 @@ export const renderPaginatedProducts = (allProducts) => {
 export const renderProducts = (details) => {
   dom.productGrid.className = '';
   dom.productGrid.innerHTML = '';
-
+  
   if (!details.length) {
     showEmptyState();
     return;

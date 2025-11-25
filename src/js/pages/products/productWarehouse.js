@@ -6,8 +6,37 @@ import {
   showToast,
 } from './productTemplate.js';
 import { fetchProducts } from './productSubscribe.js';
+import { resetSearchFilters } from './productEvents.js';
+
+dom.filterTypeSelect.addEventListener('change', async () => {
+  const type = dom.filterTypeSelect.value;
+
+  dom.warehouseSelect.disabled = type !== 'warehouses';
+
+  Array.from(dom.sortSelect.options).forEach((option) => {
+    if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
+      option.style.display = type === 'warehouses' ? 'block' : 'none';
+    }
+  });
+
+  resetSearchFilters();
+
+  const url = new URL(window.location);
+  url.searchParams.set('filter', type);
+  window.history.replaceState({}, '', url);
+
+  if (type === 'warehouses') {
+    await loadWarehouses();
+  } else {
+    fetchProducts();
+  }
+});
 
 dom.warehouseSelect.addEventListener('change', async (e) => {
+  if (dom.filterTypeSelect.value !== 'warehouses') {
+    return;
+  }
+
   const warehouseId = e.target.value;
   const url = new URL(window.location);
 
@@ -38,9 +67,6 @@ export const loadWarehouses = async () => {
     if (isAdmin) {
       dom.warehouseSelect.innerHTML = `<option value="">All Warehouses</option>`;
       populateWarehouseSelect(warehouses, dom.warehouseSelect, true);
-
-      dom.productWarehouseSelect.innerHTML = `<option value="">Select a warehouse</option>`;
-      populateWarehouseSelect(warehouses, dom.productWarehouseSelect, true);
     } else {
       populateWarehouseSelect(warehouses, dom.warehouseSelect);
 
@@ -55,8 +81,6 @@ export const loadWarehouses = async () => {
         url.searchParams.set('warehouseId', userWarehouse._id);
         window.history.replaceState({}, '', url);
       }
-
-      populateWarehouseSelect(warehouses, dom.productWarehouseSelect);
     }
 
     const params = new URLSearchParams(window.location.search);
@@ -64,10 +88,6 @@ export const loadWarehouses = async () => {
 
     if (selectedId) {
       dom.warehouseSelect.value = selectedId;
-      dom.productWarehouseSelect.value = selectedId;
-      dom.productWarehouseSelect.disabled = true;
-    } else {
-      dom.productWarehouseSelect.disabled = false;
     }
 
     fetchProducts(dom.warehouseSelect.value);
