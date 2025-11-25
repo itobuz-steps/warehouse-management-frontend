@@ -46,13 +46,14 @@ async function transactionDetailsLoad() {
       document.querySelectorAll('.warehouse-option').forEach((option) => {
         option.addEventListener('click', () => {
           const id = option.getAttribute('data-id');
-          loadTransactions(id);
 
-          // Update selected label if exists
-          const label = document.querySelector('.selected-warehouse-label');
-          if (label) {
-            label.innerText = option.innerText;
+          const allRadio = document.querySelector('#All');
+          if (allRadio) {
+            allRadio.checked = true;
+            const event = new Event('change');
+            allRadio.dispatchEvent(event);
           }
+          loadTransactions(id);
         });
       });
     }
