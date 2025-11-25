@@ -9,6 +9,7 @@ const viewAddress = document.getElementById('viewAddress');
 const viewDetails = document.getElementById('viewDetails');
 const viewManagers = document.getElementById('viewManagers');
 const productLink = document.getElementById('viewProducts');
+const viewStorage = document.getElementById('viewStorage');
 
 async function viewWarehouseDetails(id) {
   try {
@@ -23,6 +24,24 @@ async function viewWarehouseDetails(id) {
     viewWarehouseName.innerHTML = warehouse.name;
     viewAddress.innerHTML = warehouse.address;
     viewDetails.innerHTML = warehouse.description;
+
+    const warehouseCapacity = await api.get(
+      `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${userId}/${id}`
+    );
+    const storagePercentage = warehouseCapacity.data.data.percentage;
+
+    viewStorage.style.color = 'white';
+    viewStorage.style.fontSize = '15px';
+    if (storagePercentage < 50) {
+      viewStorage.style.backgroundColor = 'green';
+      viewStorage.innerHTML = 'HIGH';
+    } else if (storagePercentage >= 50 && storagePercentage <= 80) {
+      viewStorage.style.backgroundColor = 'orange';
+      viewStorage.innerHTML = 'MODERATE';
+    } else if (storagePercentage > 80) {
+      viewStorage.style.backgroundColor = 'red';
+      viewStorage.innerHTML = 'LOW';
+    }
 
     viewManagers.innerHTML = '';
     warehouse.managerIds.forEach(
