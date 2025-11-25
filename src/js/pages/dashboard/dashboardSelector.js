@@ -14,9 +14,10 @@ const dashboardSelection = {
   inventoryInput: document.querySelector('#inventoryInput'),
   purchaseQuantity: document.querySelector('#purchaseQuantity'),
   saleQuantity: document.querySelector("#saleQuantity"),
-  lowStockTable: document.querySelector("#lowStockTable"),
+  lowStockTable: document.querySelector("#lowStockTableBody"),
   shipmentInput: document.querySelector("#shipmentInput"),
   username: document.querySelector(".user-role"),
+  tableCard: document.querySelector('.table-card'),
 };
 
 export default dashboardSelection;

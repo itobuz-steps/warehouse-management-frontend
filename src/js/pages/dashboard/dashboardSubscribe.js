@@ -322,7 +322,8 @@ const showLowStockProducts = async (warehouseId) => {
     dashboardSelection.lowStockTable.innerHTML = '';
 
     if(items.length === 0){
-      
+      console.log(dashboardSelection.lowStock);
+      dashboardSelection.tableCard.style.display = "none";
     }
 
     items.forEach((item) => {
