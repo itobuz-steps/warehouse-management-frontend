@@ -20,8 +20,6 @@ const loginSubscribe = async (event) => {
       loginData
     );
 
-    console.log(response);
-
     localStorage.setItem('access_token', response.data.accessToken);
     localStorage.setItem('refresh_token', response.data.refreshToken);
 

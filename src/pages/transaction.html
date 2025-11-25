@@ -4,60 +4,81 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Transaction Management</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <script
+      type="module"
+      src="../js/pages/transaction/transaction.js"
+      defer
+    ></script>
     <script type="module" src="../js/common/sidebar.js" defer></script>
-    <link href="../scss/transaction.scss" rel="stylesheet" />
   </head>
 
   <body>
     <!-- Toast Container -->
     <div id="toastSection" class="toast-container"></div>
 
-    <button class="sidebar-toggle" id="sidebarToggle">
-      <i class="fa-solid fa-circle-chevron-right"></i>
-    </button>
-
     <!-- Sidebar -->
     <div id="sidebar-container"></div>
 
     <!-- Main Content -->
     <main class="main-content">
-      <div class="transaction-card">
-        <h2 class="text-center mb-4">Transaction Management</h2>
+      <!-- header content -->
+      <div
+        class="list-warehouse-head d-flex justify-content-between flex-column gap-2 flex-sm-row"
+      >
+        <div class="icon-group d-flex">
+          <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fa-solid fa-circle-chevron-right"></i>
+          </button>
+          <h5 class="ms-4 m-auto mt-2">Transaction Management</h5>
+        </div>
+      </div>
 
+      <div class="transaction-card mt-3">
         <!-- Wrap all inputs in a <form> -->
         <form id="transactionForm">
-          <!-- Transaction Type -->
+          <!-- Transaction Type Dropdown-->
           <div class="mb-3">
-            <label for="type" class="form-label">Transaction Type</label>
-            <select id="type" class="form-select">
-              <option value="">Select Type</option>
+            <label for="transactionType" class="form-label"
+              >Transaction Type</label
+            >
+            <select id="transactionType" class="form-select">
+              <option selected disabled>Select Type</option>
               <option value="IN">Stock In</option>
               <option value="OUT">Stock Out</option>
-              <option value="TRANSFER">Transfer</option>
+              <option id="transferOption" value="TRANSFER">Transfer</option>
               <option value="ADJUSTMENT">Adjustment</option>
             </select>
           </div>
 
-          <!-- IN Fields -->
-          <div id="inFields" class="hidden">
-            <div class="mb-3">
-              <label>Destination Warehouse</label>
-              <select id="inDestinationWarehouse" class="form-select">
-                <option value="">Select Warehouse</option>
-              </select>
-            </div>
-            <button
-              type="button"
-              id="loadInProducts"
-              class="btn btn-sm btn-secondary mb-3"
+          <!-- Warehouse Selector Dropdown -->
+          <div class="mb-3 d-none" id="warehouseDropdown">
+            <!-- source warehouse -->
+            <label id="sourceWarehouseDropdownLabel" class="form-label d-none"
+              >Source Warehouse</label
             >
-              Load Products
-            </button>
-            <div id="inProductsContainer"></div>
+            <select
+              id="sourceWarehouse"
+              class="form-select mb-2 d-none"
+            ></select>
+
+            <!-- Destination warehouse -->
+            <label
+              class="form-label d-none"
+              id="destinationWarehouseDropdownLabel"
+              >Destination Warehouse</label
+            >
+            <select
+              id="destinationWarehouse"
+              class="form-select mb-2 d-none"
+            ></select>
+          </div>
+
+          <!-- Stock IN Fields -->
+          <div id="inFields" class="d-none">
+            <div id="inProductsContainer">
+              <!-- products will displayed here -->
+            </div>
+
             <button
               type="button"
               id="addInProduct"
@@ -65,26 +86,18 @@
             >
               + Add Product
             </button>
+
             <div class="mb-3">
-              <label>Supplier</label>
+              <label class="form-label">Supplier</label>
               <input id="supplier" class="form-control" />
             </div>
+
             <input id="inNotes" class="form-control mb-2" placeholder="Notes" />
           </div>
 
           <!-- OUT Fields -->
-          <div id="outFields" class="hidden">
-            <label>Source Warehouse</label>
-            <select id="outSourceWarehouse" class="form-select mb-2">
-              <option value="">Select Warehouse</option>
-            </select>
-            <button
-              type="button"
-              id="loadOutProducts"
-              class="btn btn-sm btn-secondary mb-3"
-            >
-              Load Products
-            </button>
+          <div id="outFields" class="d-none">
+            <!-- Uses Source Warehouse selector above -->
             <div id="outProductsContainer"></div>
             <button
               type="button"
@@ -93,6 +106,7 @@
             >
               + Add Product
             </button>
+
             <input
               id="customerName"
               class="form-control mb-2"
@@ -127,22 +141,8 @@
           </div>
 
           <!-- TRANSFER Fields -->
-          <div id="transferFields" class="hidden">
-            <label>Source Warehouse</label>
-            <select id="sourceWarehouse" class="form-select mb-2">
-              <option value="">Select Source Warehouse</option>
-            </select>
-            <label>Destination Warehouse</label>
-            <select id="destinationWarehouse" class="form-select mb-2">
-              <option value="">Select Destination Warehouse</option>
-            </select>
-            <button
-              type="button"
-              id="loadTransferProducts"
-              class="btn btn-sm btn-secondary mb-3"
-            >
-              Load Products
-            </button>
+          <div id="transferFields" class="d-none">
+            <!-- Uses Source + Destination Warehouse selectors above -->
             <div id="transferProductsContainer"></div>
             <button
               type="button"
@@ -159,18 +159,8 @@
           </div>
 
           <!-- ADJUSTMENT Fields -->
-          <div id="adjustmentFields" class="hidden">
-            <label>Warehouse</label>
-            <select id="adjustWarehouseId" class="form-select mb-2">
-              <option value="">Select Warehouse</option>
-            </select>
-            <button
-              type="button"
-              id="loadAdjustProducts"
-              class="btn btn-sm btn-secondary mb-3"
-            >
-              Load Products
-            </button>
+          <div id="adjustmentFields" class="d-none">
+            <!-- Uses Source Warehouse selector above -->
             <div id="adjustProductsContainer"></div>
             <input
               id="adjustReason"
@@ -185,12 +175,16 @@
           </div>
 
           <button type="submit" class="btn btn-primary mt-3 w-100">
+            <span
+              class="spinner-border spinner-border-sm d-none"
+              aria-hidden="true"
+              id="submitSpinner"
+            ></span>
+
             Submit Transaction
           </button>
         </form>
       </div>
     </main>
-
-    <script type="module" src="../js/pages/transaction/transaction.js"></script>
   </body>
 </html>

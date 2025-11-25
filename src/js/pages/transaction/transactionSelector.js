@@ -1,7 +1,8 @@
+// js/pages/transaction/transactionSelector.js
 export const transactionSelectors = {
-  typeSelect: document.getElementById('type'),
   form: document.getElementById('transactionForm'),
   toastSection: document.getElementById('toastSection'),
+  typeSelect: document.getElementById('transactionType'),
 
   sections: {
     IN: document.getElementById('inFields'),
@@ -10,11 +11,14 @@ export const transactionSelectors = {
     ADJUSTMENT: document.getElementById('adjustmentFields'),
   },
 
+  warehouseDropdown: document.getElementById('warehouseDropdown'),
+  warehouseLabels: {
+    source: document.getElementById('sourceWarehouseDropdownLabel'),
+    destination: document.getElementById('destinationWarehouseDropdownLabel'),
+  },
+
   warehouses: {
-    inDestinationWarehouse: document.getElementById('inDestinationWarehouse'),
-    outSourceWarehouse: document.getElementById('outSourceWarehouse'),
     sourceWarehouse: document.getElementById('sourceWarehouse'),
-    adjustWarehouseId: document.getElementById('adjustWarehouseId'),
     destinationWarehouse: document.getElementById('destinationWarehouse'),
   },
 
@@ -28,12 +32,8 @@ export const transactionSelectors = {
   },
 
   buttons: {
-    loadInProducts: document.getElementById('loadInProducts'),
     addInProduct: document.getElementById('addInProduct'),
-    loadOutProducts: document.getElementById('loadOutProducts'),
     addOutProduct: document.getElementById('addOutProduct'),
-    loadTransferProducts: document.getElementById('loadTransferProducts'),
     addTransferProduct: document.getElementById('addTransferProduct'),
-    loadAdjustProducts: document.getElementById('loadAdjustProducts'),
   },
 };
