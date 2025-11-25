@@ -15,6 +15,30 @@ body {
     Arial, sans-serif;
 }
 
+.toast {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  color: #eee;
+  width: 300px;
+  font-weight: 700;
+  z-index: 100000;
+  animation: toast 500ms forwards;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes toast {
+  from {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .main-content {
   margin-left: 250px;
   padding: 40px;
@@ -26,40 +50,6 @@ body {
     margin-left: 0;
     padding: 25px;
   }
-}
-.toast-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.toast {
-  min-width: 250px;
-  padding: 12px 20px;
-  border-radius: 6px;
-  color: #fff;
-  font-weight: 500;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  transform: translateY(-30px);
-  transition: all 0.4s ease;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.toast.success {
-  background-color: #4caf50;
-}
-
-.toast.error {
-  background-color: #f44336;
 }
 
 /* Transaction Card  */

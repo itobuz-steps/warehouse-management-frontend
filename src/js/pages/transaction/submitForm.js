@@ -2,9 +2,11 @@
 import api from '../../api/interceptor';
 import Templates from '../../common/Templates';
 import { transactionSelectors } from './transactionSelector.js';
+import config from '../../config/config.js';
 
 const toastMessage = new Templates();
 const { toastSection, warehouses, containers } = transactionSelectors;
+const submitSpinner = document.getElementById('submitSpinner');
 
 export default async function submitForm(type) {
   let url = '';
@@ -12,7 +14,7 @@ export default async function submitForm(type) {
 
   switch (type) {
     case 'IN':
-      url = 'http://localhost:3000/transaction/stock-in';
+      url = `${config.TRANSACTION_BASE_URL}/stock-in`;
       body = {
         products: collectProducts('inProductsContainer'),
         supplier: document.getElementById('supplier').value,
@@ -22,7 +24,7 @@ export default async function submitForm(type) {
       break;
 
     case 'OUT':
-      url = 'http://localhost:3000/transaction/stock-out';
+      url = `${config.TRANSACTION_BASE_URL}/stock-out`;
       body = {
         products: collectProducts('outProductsContainer'),
         customerName: document.getElementById('customerName').value,
@@ -36,7 +38,7 @@ export default async function submitForm(type) {
       break;
 
     case 'TRANSFER':
-      url = 'http://localhost:3000/transaction/transfer';
+      url = `${config.TRANSACTION_BASE_URL}/transfer`;
       body = {
         products: collectProducts('transferProductsContainer'),
         sourceWarehouse: warehouses.sourceWarehouse.value,
@@ -46,7 +48,7 @@ export default async function submitForm(type) {
       break;
 
     case 'ADJUSTMENT':
-      url = 'http://localhost:3000/transaction/adjustment';
+      url = `${config.TRANSACTION_BASE_URL}/adjustment`;
       body = {
         products: collectProducts('adjustProductsContainer'),
         reason: document.getElementById('adjustReason').value,
@@ -61,23 +63,9 @@ export default async function submitForm(type) {
   }
 
   try {
-    const token = localStorage.getItem('access_token');
-    if (!token) {
-      showToast('error', 'No token found. Please log in first.');
-      return;
-    }
+    submitSpinner.classList.remove('d-none');
 
-    const res = await api.post(url, body, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    });
-
-    showToast(
-      'success',
-      res.data.message || 'Transaction submitted successfully!'
-    );
+    const res = await api.post(url, body);
 
     // Reset form & UI
     transactionSelectors.form.reset();
@@ -88,11 +76,13 @@ export default async function submitForm(type) {
 
     const warehouseDropdown = document.getElementById('warehouseDropdown');
     if (warehouseDropdown) warehouseDropdown.classList.add('d-none');
+
+    submitSpinner.classList.add('d-none');
+
+    showToast('success', res.data.message);
   } catch (err) {
-    const message = err.response
-      ? `Error ${err.response.status}: ${err.response.data.message}`
-      : `Network error: ${err.message}`;
-    showToast('error', message);
+    submitSpinner.classList.add('d-none');
+    showToast('error', err.response.data.message);
   }
 }
 
@@ -113,8 +103,6 @@ function collectProducts(containerId) {
 }
 
 function showToast(type, message) {
-  if (!message) return;
-
   toastSection.innerHTML =
     type === 'success'
       ? toastMessage.successToast(message)
