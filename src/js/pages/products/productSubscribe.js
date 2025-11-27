@@ -13,7 +13,7 @@ import {
 
 let allProducts = [];
 let currentPage = 1;
-const productsPerPage = 8; //as per products
+const productsPerPage = 12; //as per products
 
 export const fetchProducts = async (warehouseId = '') => {
   try {
@@ -56,7 +56,7 @@ export const renderPaginatedProducts = (allProducts) => {
 export const renderProducts = (details) => {
   dom.productGrid.className = '';
   dom.productGrid.innerHTML = '';
-  
+
   if (!details.length) {
     showEmptyState();
     return;
