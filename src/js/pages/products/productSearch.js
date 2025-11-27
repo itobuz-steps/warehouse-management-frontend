@@ -59,6 +59,11 @@ export const initProductSearch = async () => {
   if (filter === 'warehouses') {
     await loadWarehouses();
   } else {
+    const url = new URL(window.location);
+
+    url.searchParams.delete('warehouseId');
+
+    window.history.replaceState({}, '', url);
     fetchProducts();
   }
 };
