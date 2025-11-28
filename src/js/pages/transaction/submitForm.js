@@ -1,4 +1,4 @@
-// js/pages/transaction/submitForm.js
+// js/src/pages/transaction/submitForm.js
 import api from '../../api/interceptor';
 import Templates from '../../common/Templates';
 import { transactionSelectors } from './transactionSelector.js';

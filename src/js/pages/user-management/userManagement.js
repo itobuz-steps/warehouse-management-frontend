@@ -15,7 +15,7 @@ userManagementSelection.confirmDelete.addEventListener('click', async () => {
   await deleteUserSubscribe();
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
-  window.location.href = '../pages/login.html';
+  window.location.href = '../src/pages/login.html';
 });
 
 userManagementSelection.updateProfileForm.addEventListener(

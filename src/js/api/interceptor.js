@@ -67,7 +67,7 @@ api.interceptors.response.use(
 
         if (!newAccessToken) {
           processQueue(new Error('No access token in refresh response'), null);
-          window.location.href = '/pages/login.html';
+          window.location.href = '/src/pages/login.html';
           return Promise.reject(
             new Error('No access token in refresh response')
           );
@@ -83,7 +83,7 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (err) {
         processQueue(err, null);
-        window.location.href = '/pages/login.html';
+        window.location.href = '/src/pages/login.html';
         return Promise.reject(err);
       } finally {
         isRefreshing = false;

@@ -20,7 +20,6 @@ dashboardSelection.addManagerForm.addEventListener(
   addManagerSubscribe
 );
 
-
 document.addEventListener('DOMContentLoaded', async () => {
   await fetchUserAndWarehouses(dashboardSelection.warehouseSelect);
   const firstWarehouse = dashboardSelection.warehouseSelect.value;

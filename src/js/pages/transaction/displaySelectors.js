@@ -1,4 +1,4 @@
-// js/pages/transaction/displaySelectors.js
+// js/src/pages/transaction/displaySelectors.js
 import {
   loadWarehouses,
   loadDestinationWarehouse,

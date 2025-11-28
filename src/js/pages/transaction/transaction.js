@@ -1,4 +1,4 @@
-// js/pages/transaction/transaction.js
+// js/src/pages/transaction/transaction.js
 import '../../../scss/transaction.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';

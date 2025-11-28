@@ -1,4 +1,4 @@
-// js/pages/transaction/transactionSelector.js
+// js/src/pages/transaction/transactionSelector.js
 export const transactionSelectors = {
   form: document.getElementById('transactionForm'),
   toastSection: document.getElementById('toastSection'),

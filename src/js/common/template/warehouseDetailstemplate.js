@@ -11,7 +11,7 @@ const addWarehouseDetails = (warehouse, text) => {
               <p class="card-text warehouse-detail">
                 Stock Level: <span class="storage p-1 rounded ${text.toLowerCase()}">${text}</span>
               </p>
-              <a href="/pages/products.html?warehouseId=${warehouse._id}&filter=warehouses" class="btn btn-primary warehouse-button">View Products</a>
+              <a href="/src/pages/products.html?warehouseId=${warehouse._id}&filter=warehouses" class="btn btn-primary warehouse-button">View Products</a>
             </div>
           </div>`;
 };

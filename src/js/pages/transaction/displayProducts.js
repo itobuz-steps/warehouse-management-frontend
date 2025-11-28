@@ -1,4 +1,4 @@
-// js/pages/transaction/displayProducts.js
+// js/src/pages/transaction/displayProducts.js
 import config from '../../config/config';
 import api from '../../api/interceptor';
 import { transactionSelectors } from './transactionSelector';

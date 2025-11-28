@@ -1,4 +1,4 @@
-// js/pages/transaction/loadWarehouses.js
+// js/src/pages/transaction/loadWarehouses.js
 import config from '../../config/config';
 import api from '../../api/interceptor';
 
