@@ -1,6 +1,13 @@
 import axios from 'axios';
 import config from '../config/config';
 
+if ('loadPages' in navigator) {
+  navigator.serviceWorker
+    .register('/../pages/error/loadPages.js')
+    .then(() => console.log('Page Loaded'))
+    .catch((err) => console.log('Error in page load : ', err));
+}
+
 const api = axios.create({
   baseURL: `${config.BASE_URL}/user`,
 }); // instance create
@@ -35,10 +42,10 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // if (!navigator.onLine) {
-    //   // window.location.href = '/pages/connection-out.html';
-    //   return Promise.reject(new Error('No internet connection'));
-    // }
+    if (!navigator.onLine) {
+      window.location.href = '/pages/connection-out.html';
+      return Promise.reject(new Error('No internet connection'));
+    }
 
     // if timeout or server don't return anything
     if (error.code === 'ECONNABORTED' || error.message === 'Network Error') {
