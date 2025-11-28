@@ -210,10 +210,10 @@ class TransactionDetailsTemplate {
                 <div class="supplier-details">
                   <h3 class="heading">Adjusted Warehouse</h3>
                   <div class="supplier-name supplier">
-                    Name: <span>${transaction.sourceWarehouse?.name ?? 'N/A'}</span>
+                    Name: <span>${transaction.destinationWarehouse?.name ?? 'N/A'}</span>
                   </div>
                   <div class="supplier-name supplier">
-                    Address: <span>${transaction.sourceWarehouse?.address ?? 'N/A'}</span>
+                    Address: <span>${transaction.destinationWarehouse?.address ?? 'N/A'}</span>
                   </div>
                 </div>
                 <hr />
