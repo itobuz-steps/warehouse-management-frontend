@@ -5,7 +5,6 @@ import * as bootstrap from 'bootstrap';
 
 import dashboardSelection from './dashboardSelector';
 import { addManagerSubscribe } from './adminSubscribe.js';
-
 import {
   showTopProductsSubscribe,
   showInventoryCategorySubscribe,
@@ -19,7 +18,6 @@ dashboardSelection.addManagerForm.addEventListener(
   'submit',
   addManagerSubscribe
 );
-
 
 document.addEventListener('DOMContentLoaded', async () => {
   await fetchUserAndWarehouses(dashboardSelection.warehouseSelect);
