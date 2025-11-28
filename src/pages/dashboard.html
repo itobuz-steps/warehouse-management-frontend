@@ -157,8 +157,15 @@
         <!-- Sales & Purchase Chart -->
         <div class="chart-card">
           <h5>Top 5 Products</h5>
-
           <canvas id="barGraph"></canvas>
+          <button
+            id="export"
+            class="btn btn-success"
+            style="width: 110px; font-weight: 500"
+            data-json='[{"name": "Sanket", "age": 21}, {"name": "Prolay", "age": 21}, {"name": "Naziya", "age": 21}]'
+          >
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
         </div>
 
         <div class="chart-card">
@@ -177,7 +184,6 @@
       </section>
 
       <section class="stock-grid">
-
         <div class="table-card">
           <h5>Low Quantity Stock</h5>
           <table class="table table-hover align-middle" id="lowStockTable">
@@ -188,8 +194,7 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody id="lowStockTableBody">
-            </tbody>
+            <tbody id="lowStockTableBody"></tbody>
           </table>
         </div>
       </section>
