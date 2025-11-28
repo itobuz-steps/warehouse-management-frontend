@@ -1,6 +1,7 @@
 import '../../../scss/inventory.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
+
 import api from '../../api/interceptor';
 import config from '../../config/config';
 import './viewWarehouseDetails.js';
