@@ -30,41 +30,37 @@ async function registerAndSubscribe() {
     // Register service worker
     console.log('before registering services');
 
-    const swRegistration = await navigator.serviceWorker.register(
-      '/sw.js'
-    );
+    const swRegistration = await navigator.serviceWorker.register('/sw.js');
 
     await navigator.serviceWorker.ready;
     console.log('Service worker registered:');
 
     // check if user is already subscribed
     let subscription = await swRegistration.pushManager.getSubscription();
+
     if (subscription) {
       console.log('Already subscribed:', subscription);
-      return subscription;
+    } else {
+      // new subscription
+      subscription = await swRegistration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(config.VAPID_PUBLIC_KEY),
+      });
     }
-
-    console.log("prev subscription", subscription);
-    console.log(config.VAPID_PUBLIC_KEY);
-    
-    // new subscription
-    subscription = await swRegistration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(config.VAPID_PUBLIC_KEY),
-    });
 
     console.log('New subscription:', subscription);
 
     // 5. Send subscription to backend
-    await api.post(
+    const res = await api.post(
       `${config.BROWSER_NOTIFICATION_URL}/subscribe`,
-      subscription,
+      subscription.toJSON(),
       { headers: { 'Content-Type': 'application/json' } }
     );
 
+    console.log(res);
+
     console.log('Subscription saved!');
     return subscription;
-
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
