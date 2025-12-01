@@ -22,6 +22,7 @@ const dashboardSelection = {
   tableCard: document.querySelector('.table-card'),
 
   topFiveExport: document.querySelector('#exportTop5'),
+  categoryExport: document.querySelector('#exportCategory'),
 };
 
 export default dashboardSelection;

@@ -39,9 +39,9 @@ dashboardSelection.warehouseSelect.addEventListener('change', async () => {
   await showLowStockProducts(selectedWarehouseId);
 });
 
-dashboardSelection.topFiveExport.addEventListener('click', async (event) => {
+dashboardSelection.topFiveExport.addEventListener('click', async () => {
   try {
-    const id = '690c2b38228835fa4cd40184';
+    const id = dashboardSelection.warehouseSelect.value;
 
     const result = await api.get(
       `${config.DASHBOARD_BASE_URL}/get-top-products-chart-data/${id}`,
@@ -57,6 +57,32 @@ dashboardSelection.topFiveExport.addEventListener('click', async (event) => {
     const link = document.createElement('a');
     link.href = url;
     link.download = 'top-products.xlsx'; // correct Excel file name
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+dashboardSelection.categoryExport.addEventListener('click', async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-inventory-category-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'inventory-category.xlsx'; // correct Excel file name
     link.click();
 
     window.URL.revokeObjectURL(url);
