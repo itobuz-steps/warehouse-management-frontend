@@ -53,8 +53,6 @@ async function registerAndSubscribe() {
       applicationServerKey: urlBase64ToUint8Array(config.VAPID_PUBLIC_KEY),
     });
 
-
-
     console.log('New subscription:', subscription);
 
     // 5. Send subscription to backend
@@ -96,18 +94,5 @@ async function sendNotification(title, body) {
     }, 3000);
   }
 }
-
-
-// async function sendNotification() {
-//   try {
-//     await api.get(`${config.BROWSER_NOTIFICATION_URL}/trigger`);
-//   } catch (err) {
-//     toastSection.innerHTML = displayToast.errorToast(err.message);
-
-//     setTimeout(() => {
-//       toastSection.innerHTML = '';
-//     }, 3000);
-//   }
-// }
 
 export { registerAndSubscribe, sendNotification };
