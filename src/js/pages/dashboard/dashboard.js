@@ -2,11 +2,8 @@ import '../../../scss/styles.scss';
 import '../../../scss/dashboard.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
-import * as XLSX from 'xlsx';
-
 import dashboardSelection from './dashboardSelector';
 import { addManagerSubscribe } from './adminSubscribe.js';
-
 import {
   showTopProductsSubscribe,
   showInventoryCategorySubscribe,
@@ -15,6 +12,8 @@ import {
   showTransactionStatsSubscribe,
   showLowStockProducts,
 } from './dashboardSubscribe.js';
+import api from '../../api/interceptor.js';
+import config from '../../config/config.js';
 
 dashboardSelection.addManagerForm.addEventListener(
   'submit',
@@ -40,38 +39,28 @@ dashboardSelection.warehouseSelect.addEventListener('change', async () => {
   await showLowStockProducts(selectedWarehouseId);
 });
 
-document.getElementById('export').addEventListener('click', (event) => {
-  const jsonString = event.target.getAttribute('data-json');
-  if (!jsonString) {
-    return;
-  }
-
-  let data;
-
+dashboardSelection.topFiveExport.addEventListener('click', async (event) => {
   try {
-    data = JSON.parse(jsonString);
+    const id = '690c2b38228835fa4cd40184';
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-top-products-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'top-products.xlsx'; // correct Excel file name
+    link.click();
+
+    window.URL.revokeObjectURL(url);
   } catch (err) {
-    console.error('Invalid JSON:', err);
-    return;
+    console.error(err);
   }
-  if (!Array.isArray(data) || data.length === 0) {
-    return;
-  }
-  const worksheet = XLSX.utils.json_to_sheet(data);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-
-  const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-  const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'exported-data.xlsx';
-  document.body.appendChild(a);
-  a.click();
-
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 });

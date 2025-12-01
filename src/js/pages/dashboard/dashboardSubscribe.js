@@ -54,9 +54,16 @@ async function showTopProductsSubscribe(warehouseId) {
     const labels = products.map((item) => item.productName);
     const quantities = products.map((item) => item.totalQuantity);
 
+    console.log(products);
+
     if (barGraph) {
       barGraph.destroy();
     }
+
+    dashboardSelection.topFiveExport.setAttribute(
+      'data-json',
+      JSON.stringify(products)
+    );
 
     barGraph = new Chart(dashboardSelection.barGraph, {
       type: 'bar',
@@ -73,7 +80,7 @@ async function showTopProductsSubscribe(warehouseId) {
               '#00a5cf',
               '#50af95',
             ],
-            barThickness: 70,
+            // barThickness: 70,
           },
         ],
       },
