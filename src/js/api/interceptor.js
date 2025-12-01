@@ -3,11 +3,21 @@ import config from '../config/config';
 
 console.log('check');
 
-if ('loadPages' in navigator) {
-  navigator.serviceWorker
-    .register('/../pages/error/loadPages.js')
-    .then(() => console.log('Page Loaded'))
-    .catch((err) => console.log('Error in page load : ', err));
+// if ('loadPages' in navigator) {
+//   navigator.serviceWorker
+//     .register('/../pages/error/loadPages.js')
+//     .then(() => console.log('Page Loaded'))
+//     .catch((err) => console.log('Error in page load : ', err));
+// }
+
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('/loadPages.js');
+//   });
+// }
+
+if (!navigator.onLine) {
+  window.location.href = '/pages/connection-out.html';
 }
 
 const api = axios.create({
@@ -43,11 +53,6 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
-    if (!navigator.onLine) {
-      window.location.href = '/pages/connection-out.html';
-      return Promise.reject(new Error('No internet connection'));
-    }
 
     // if timeout or server don't return anything
     if (error.code === 'ECONNABORTED' || error.message === 'Network Error') {
