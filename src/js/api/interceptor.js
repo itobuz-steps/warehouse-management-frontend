@@ -1,6 +1,15 @@
 import axios from 'axios';
 import config from '../config/config';
 
+console.log('check');
+
+if ('loadPages' in navigator) {
+  navigator.serviceWorker
+    .register('/../pages/error/loadPages.js')
+    .then(() => console.log('Page Loaded'))
+    .catch((err) => console.log('Error in page load : ', err));
+}
+
 const api = axios.create({
   baseURL: `${config.BASE_URL}/user`,
 }); // instance create
