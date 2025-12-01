@@ -14,6 +14,4 @@ const config = {
   VAPID_PRIVATE_KEY: import.meta.env.VITE_VAPID_PRIVATE_KEY,
 };
 
-console.log(config.VAPID_PUBLIC_KEY);
-
 export default config;
