@@ -77,31 +77,22 @@ async function transactionDetailsLoad() {
 
       // Check for warehouseIds with transaction's warehouse Ids
       if (response.data.data.user.role === 'manager') {
-        console.log(userSpecificWarehouses);
-        console.log(allModifiedTransactions);
-
         allModifiedTransactions.forEach((transaction) => {
           let flag = false;
-          userSpecificWarehouses.forEach((warehouse) => {
+          for (let warehouse of userSpecificWarehouses) {
             if (
-              transaction.sourceWarehouse &&
-              transaction.sourceWarehouse !== null &&
-              transaction.sourceWarehouse._id === warehouse._id
+              (transaction.sourceWarehouse &&
+                transaction.sourceWarehouse._id === warehouse._id) ||
+              (transaction.destinationWarehouse &&
+                transaction.destinationWarehouse._id === warehouse._id)
             ) {
               flag = true;
+              break;
             }
-            if (
-              transaction.destinationWarehouse &&
-              transaction.destinationWarehouse !== null &&
-              transaction.destinationWarehouse._id === warehouse._id
-            ) {
-              flag = true;
-            }
-            if (flag) {
-              allTransactions.push(transaction);
-            }
-            flag = false;
-          });
+          }
+          if (flag) {
+            allTransactions.push(transaction);
+          }
         });
       } else {
         allTransactions = allModifiedTransactions;
