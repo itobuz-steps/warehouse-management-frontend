@@ -1,21 +1,6 @@
 import axios from 'axios';
 import config from '../config/config';
 
-console.log('check');
-
-// if ('loadPages' in navigator) {
-//   navigator.serviceWorker
-//     .register('/../pages/error/loadPages.js')
-//     .then(() => console.log('Page Loaded'))
-//     .catch((err) => console.log('Error in page load : ', err));
-// }
-
-// if ('serviceWorker' in navigator) {
-//   window.addEventListener('load', () => {
-//     navigator.serviceWorker.register('/loadPages.js');
-//   });
-// }
-
 if (!navigator.onLine) {
   window.location.href = '/pages/connection-out.html';
 }
