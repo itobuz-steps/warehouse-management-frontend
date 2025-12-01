@@ -1,12 +1,15 @@
-const addWarehouseDetails = (warehouse) => {
+const addWarehouseDetails = (warehouse, text) => {
   return `<div class="warehouse-card card mt-3" style="height: auto">
             <div class="card-body mb-0" id="${warehouse._id}">
               <h5 class="card-title warehouse-name mt-0">${warehouse.name}</h5>
               <p class="card-text mt-3 mb-1 warehouse-detail">
-                <i class="fa-solid fa-circle-info mx-2"></i>${warehouse.description}
+                <i class="fa-solid fa-circle-info mx-2 description"></i>${warehouse.description}
               </p>
               <p class="card-text warehouse-detail">
-                <i class="fa-solid fa-location-dot mx-2"></i>${warehouse.address}
+                <i class="fa-solid fa-location-dot mx-2 address"></i>${warehouse.address}
+              </p>
+              <p class="card-text warehouse-detail">
+                Stock Level: <span class="storage p-1 rounded ${text.toLowerCase()}">${text}</span>
               </p>
               <a href="/pages/products.html?warehouseId=${warehouse._id}&filter=warehouses" class="btn btn-primary warehouse-button">View Products</a>
             </div>

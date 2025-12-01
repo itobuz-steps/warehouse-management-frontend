@@ -1,15 +1,11 @@
-/* Enhanced CSS with sexy design improvements */
+@import 'bootstrap/scss/bootstrap';
+
 :root {
   --primary-color: #b97a87;
   --primary-dark: #a86a77;
   --light-bg: #f8f9fa;
   --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   --hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-.text-primary {
-  color: var(--primary-color) !important;
-  background-color: transparent;
 }
 
 .btn-primary {

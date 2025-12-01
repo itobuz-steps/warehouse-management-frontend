@@ -70,15 +70,31 @@ export const getUserDetailsSubscribe = async () => {
       userManagementSelection.warehouseDetailsSelection.style.display = 'block';
 
       const response = await api.get(
-        `${config.BASE_URL}warehouse/get-warehouses/${user._id}`
+        `${config.WAREHOUSE_BASE_URL}/get-warehouses/${user._id}`
       );
 
       const warehouses = response.data.data;
-      console.log(warehouses);
 
-      warehouses.forEach((warehouse) => {
-        userManagementSelection.warehouseGrid.innerHTML +=
-          addWarehouseDetails(warehouse);
+      warehouses.forEach(async (warehouse) => {
+        const res = await api.get(
+          `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${user._id}/${warehouse._id}`
+        );
+        const capacityPercentage = res.data.data.percentage;
+        console.log(capacityPercentage);
+        let text;
+
+        if (capacityPercentage < 50) {
+          text = 'LOW';
+        } else if (capacityPercentage >= 50 && capacityPercentage <= 80) {
+          text = 'MODERATE';
+        } else if (capacityPercentage > 80) {
+          text = 'HIGH';
+        }
+
+        userManagementSelection.warehouseGrid.innerHTML += addWarehouseDetails(
+          warehouse,
+          text
+        );
       });
     }
   } catch (err) {

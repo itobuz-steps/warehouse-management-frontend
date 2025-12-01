@@ -67,12 +67,13 @@ async function showTopProductsSubscribe(warehouseId) {
             data: quantities,
             label: 'Quantity',
             backgroundColor: [
-              '#780116',
+              '#ff6384',
               '#ffd166',
-              '#005c00',
+              '#9966ff',
               '#00a5cf',
-              '#003049',
+              '#50af95',
             ],
+            barThickness: 70,
           },
         ],
       },
@@ -140,17 +141,16 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
           label: 'Quantity',
           data: quantities,
           backgroundColor: [
-            '#780116',
-            '#f7b538',
-            '#11151c',
-            '#005c00',
-            '#00a5cf',
-            '#441151',
-            '#c1121f',
-            '#ff4000',
-            '#60463b',
-            '#003049',
-            '#bc6c25',
+            '#ff6384',
+            '#36a2eb',
+            '#ffce56',
+            '#4bc0c0',
+            '#9966ff',
+            '#ff9f40',
+            '#50af95',
+            '#f4445a',
+            '#feb4eb',
+            '#c9cbcf',
           ],
           hoverOffset: 4,
         },
@@ -271,12 +271,12 @@ const showTransactionStatsSubscribe = async (warehouseId) => {
       todayShipment = data.todayShipment.quantity || 0;
     }
 
-    dashboardSelection.salesInput.innerText = `₹${totalSales.toLocaleString("hi-IN")}`;
-    dashboardSelection.saleQuantity.innerText = `Units sold: ${saleQuantity.toLocaleString("hi-IN")}`;
-    dashboardSelection.purchaseInput.innerText = `₹${totalPurchase.toLocaleString("hi-IN")}`;
-    dashboardSelection.purchaseQuantity.innerText = `Units purchased: ${purchaseQuantity.toLocaleString("hi-IN")}`;
-    dashboardSelection.inventoryInput.innerText = `${totalInventory.toLocaleString("hi-IN")} items left`;
-    dashboardSelection.shipmentInput.innerText = `${todayShipment.toLocaleString("hi-IN")}`;
+    dashboardSelection.salesInput.innerText = `₹${totalSales.toLocaleString('hi-IN')}`;
+    dashboardSelection.saleQuantity.innerText = `Units sold: ${saleQuantity.toLocaleString('hi-IN')}`;
+    dashboardSelection.purchaseInput.innerText = `₹${totalPurchase.toLocaleString('hi-IN')}`;
+    dashboardSelection.purchaseQuantity.innerText = `Units purchased: ${purchaseQuantity.toLocaleString('hi-IN')}`;
+    dashboardSelection.inventoryInput.innerText = `${totalInventory.toLocaleString('hi-IN')} items left`;
+    dashboardSelection.shipmentInput.innerText = `${todayShipment.toLocaleString('hi-IN')}`;
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -303,7 +303,9 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
     });
 
     dashboardSelection.username.innerText = user.name;
-
+    if (user.role === 'manager') {
+      dashboardSelection.addManagerButton.remove();
+    }
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -321,9 +323,9 @@ const showLowStockProducts = async (warehouseId) => {
     const items = res.data.data.lowStockProducts;
     dashboardSelection.lowStockTable.innerHTML = '';
 
-    if(items.length === 0){
+    if (items.length === 0) {
       console.log(dashboardSelection.lowStock);
-      dashboardSelection.tableCard.style.display = "none";
+      dashboardSelection.tableCard.style.display = 'none';
     }
 
     items.forEach((item) => {

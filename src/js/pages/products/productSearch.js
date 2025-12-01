@@ -59,6 +59,11 @@ export const initProductSearch = async () => {
   if (filter === 'warehouses') {
     await loadWarehouses();
   } else {
+    const url = new URL(window.location);
+
+    url.searchParams.delete('warehouseId');
+
+    window.history.replaceState({}, '', url);
     fetchProducts();
   }
 };
@@ -70,13 +75,7 @@ export const fetchSearch = async (role, warehouseId = '') => {
       return;
     }
 
-    const url = new URL(window.location);
-    const filter = url.searchParams.get('filter');
-
-    const searchApi =
-      filter === 'warehouses'
-        ? `${config.QUANTITY_BASE_URL}/all-products-having-quantity`
-        : config.PRODUCT_BASE_URL;
+    const searchApi = `${config.QUANTITY_BASE_URL}/all-products-having-quantity`;
 
     const response = await api.get(searchApi, {
       params: {

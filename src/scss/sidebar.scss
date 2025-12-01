@@ -24,6 +24,11 @@ body {
   color: $color-text;
 }
 
+.text-primary {
+  color: $color-primary !important;
+  background-color: transparent;
+}
+
 .sidebar {
   position: fixed;
   top: 0;
