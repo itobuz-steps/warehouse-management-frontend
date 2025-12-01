@@ -1,6 +1,10 @@
 import axios from 'axios';
 import config from '../config/config';
 
+if (!navigator.onLine) {
+  window.location.href = '/pages/connection-out.html';
+}
+
 const api = axios.create({
   baseURL: `${config.BASE_URL}/user`,
 }); // instance create
@@ -34,11 +38,6 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
-    if (!navigator.onLine) {
-      window.location.href = '/pages/connection-out.html';
-      return Promise.reject(new Error('No internet connection'));
-    }
 
     // if timeout or server don't return anything
     if (error.code === 'ECONNABORTED' || error.message === 'Network Error') {
