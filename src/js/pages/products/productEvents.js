@@ -4,9 +4,9 @@ import {
   addProduct,
   deleteProduct,
   editProduct,
-  getCurrentUser,
 } from './productApiHelper.js';
 import { fetchProducts } from './productSubscribe.js';
+import { getCurrentUser } from '../../common/api/HelperApi.js';
 
 export const initEvents = () => {
   dom.addProductsButton.addEventListener('click', openModal);

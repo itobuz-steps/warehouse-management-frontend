@@ -5,7 +5,7 @@ import config from '../../config/config.js';
 import {
   getCurrentUser,
   getUserWarehouses,
-} from '../products/productApiHelper.js';
+} from '../../common/api/helperApi.js'
 
 import {
   Chart,

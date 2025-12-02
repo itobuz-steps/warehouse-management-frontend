@@ -7,6 +7,7 @@ import {
   unverifiedManagerCard,
 } from '../../common/template/profileTemplate.js';
 import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';
+import { getUserWarehouses } from '../../common/api/HelperApi.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
@@ -16,6 +17,7 @@ export const getUserDetailsSubscribe = async () => {
     const res = await api.get(`${config.PROFILE_BASE_URL}/`);
 
     const user = res.data.data.user;
+
     const verifiedManagers = res.data.data.verifiedManagers;
     const unverifiedManagers = res.data.data.unverifiedManagers;
 
@@ -68,18 +70,13 @@ export const getUserDetailsSubscribe = async () => {
 
       userManagementSelection.warehouseDetailsSelection.style.display = 'block';
 
-      const response = await api.get(
-        `${config.WAREHOUSE_BASE_URL}/get-warehouses/${user._id}`
-      );
-
-      const warehouses = response.data.data;
+      const warehouses = getUserWarehouses();
 
       warehouses.forEach(async (warehouse) => {
         const res = await api.get(
-          `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${user._id}/${warehouse._id}`
+          `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${warehouse._id}`
         );
         const capacityPercentage = res.data.data.percentage;
-        console.log(capacityPercentage);
         let text;
 
         if (capacityPercentage < 50) {

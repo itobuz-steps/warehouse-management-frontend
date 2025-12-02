@@ -13,9 +13,6 @@ const viewStorage = document.getElementById('viewStorage');
 
 async function viewWarehouseDetails(id) {
   try {
-    // const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
-    // const userId = getUser.data.data.user._id;
-
     const warehouseDetails = await api.get(
       `${config.WAREHOUSE_BASE_URL}/get-warehouses/${id}`
     );

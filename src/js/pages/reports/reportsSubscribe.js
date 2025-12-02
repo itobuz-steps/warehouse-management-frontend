@@ -1,25 +1,20 @@
 import api from '../../api/interceptor.js';
 import TransactionDetailsTemplate from '../../common/template/transactionDetailsTemplate.js';
+import {
+  getCurrentUser,
+  getUserWarehouses,
+} from '../../common/api/HelperApi.js';
 import config from '../../config/config.js';
 import reportSelection from './reportsSelectors.js';
 
 async function transactionDetailsLoad() {
   try {
-    // Get logged-in user ID
-    const response = await api.get(`${config.PROFILE_BASE_URL}/me`);
-    const userId = response.data.data.user._id;
+    const user = await getCurrentUser();
 
     const transactionTemplate = new TransactionDetailsTemplate();
 
     // get user specific warehouses
-    let warehouseDetails = await api.get(
-      `${config.WAREHOUSE_BASE_URL}/get-warehouses/`
-    );
-
-    // Get all active warehouses
-    const userSpecificWarehouses = warehouseDetails.data.data.filter(
-      (warehouse) => warehouse.active === true
-    );
+    let warehouses = await getUserWarehouses();
 
     const dropdown = document.querySelector('.warehouses-options');
 
@@ -31,7 +26,7 @@ async function transactionDetailsLoad() {
     `;
 
     // Render user warehouses
-    userSpecificWarehouses.forEach((warehouse) => {
+    warehouses.forEach((warehouse) => {
       dropdown.innerHTML += transactionTemplate.warehouseOptions(warehouse);
     });
 
@@ -76,10 +71,10 @@ async function transactionDetailsLoad() {
       let allTransactions = [];
 
       // Check for warehouseIds with transaction's warehouse Ids
-      if (response.data.data.user.role === 'manager') {
+      if (user.role === 'manager') {
         allModifiedTransactions.forEach((transaction) => {
           let flag = false;
-          for (let warehouse of userSpecificWarehouses) {
+          for (let warehouse of warehouses) {
             if (
               (transaction.sourceWarehouse &&
                 transaction.sourceWarehouse._id === warehouse._id) ||

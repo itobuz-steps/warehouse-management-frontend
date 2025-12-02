@@ -36,9 +36,11 @@ async function getUserId() {
     }
 
     const res = await api.get(`${config.PROFILE_BASE_URL}/me`);
+
     if (!res.data.success) {
       return null;
     }
+    
     return res.data.data.user._id;
   } catch (err) {
     console.error('Error fetching user ID:', err);
@@ -74,6 +76,7 @@ async function initSocket() {
 async function loadNotifications() {
   try {
     const token = localStorage.getItem('access_token');
+
     if (!token) {
       console.log('No access token found');
       return;
@@ -82,6 +85,7 @@ async function loadNotifications() {
     const res = await api.get(
       `${config.NOTIFICATION_BASE_URL}/my-notifications`
     );
+
     if (!res.data.success) {
       console.error('Failed to fetch notifications');
       return;

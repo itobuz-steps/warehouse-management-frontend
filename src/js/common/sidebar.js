@@ -1,9 +1,8 @@
 import '../../scss/sidebar.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
-import api from '../api/interceptor';
-import config from '../config/config';
 import Templates from './Templates';
+import { getCurrentUser } from './api/HelperApi';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
@@ -27,11 +26,11 @@ async function showSidebar() {
         initializeSidebar();
       });
 
-    const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
-    const userRole = getUser.data.data.user.role;
+    const user = await getCurrentUser();
+
     const manageWarehouse = document.getElementById('manageWarehouse');
 
-    if (userRole !== 'admin') {
+    if (user.role !== 'admin') {
       manageWarehouse.classList.add('d-none');
     }
   } catch (err) {
