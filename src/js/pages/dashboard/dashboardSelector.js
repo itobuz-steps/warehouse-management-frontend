@@ -20,6 +20,10 @@ const dashboardSelection = {
   shipmentInput: document.querySelector('#shipmentInput'),
   username: document.querySelector('.user-role'),
   tableCard: document.querySelector('.table-card'),
+
+  topFiveExport: document.querySelector('#exportTop5'),
+  categoryExport: document.querySelector('#exportCategory'),
+  transactionsExport: document.querySelector('#exportTransactions'),
 };
 
 export default dashboardSelection;

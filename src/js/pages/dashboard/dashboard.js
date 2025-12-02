@@ -2,7 +2,6 @@ import '../../../scss/styles.scss';
 import '../../../scss/dashboard.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
-
 import dashboardSelection from './dashboardSelector';
 import { addManagerSubscribe } from './adminSubscribe.js';
 import {
@@ -13,6 +12,8 @@ import {
   showTransactionStatsSubscribe,
   showLowStockProducts,
 } from './dashboardSubscribe.js';
+import api from '../../api/interceptor.js';
+import config from '../../config/config.js';
 
 dashboardSelection.addManagerForm.addEventListener(
   'submit',
@@ -36,4 +37,82 @@ dashboardSelection.warehouseSelect.addEventListener('change', async () => {
   await showProductTransactionSubscribe(selectedWarehouseId);
   await showTransactionStatsSubscribe(selectedWarehouseId);
   await showLowStockProducts(selectedWarehouseId);
+});
+
+dashboardSelection.topFiveExport.addEventListener('click', async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-top-products-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'top-products.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+dashboardSelection.categoryExport.addEventListener('click', async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-inventory-category-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'inventory-category.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+dashboardSelection.transactionsExport.addEventListener('click', async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-product-transaction-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'weekly-transactions.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
 });

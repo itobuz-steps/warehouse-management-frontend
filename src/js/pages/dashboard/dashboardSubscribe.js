@@ -49,7 +49,7 @@ async function showTopProductsSubscribe(warehouseId) {
     const res = await api.get(
       `${config.DASHBOARD_BASE_URL}/get-top-products/${warehouseId}`
     );
-    const products = res.data.topProducts;
+    const products = res.data.data;
 
     const labels = products.map((item) => item.productName);
     const quantities = products.map((item) => item.totalQuantity);
@@ -57,6 +57,11 @@ async function showTopProductsSubscribe(warehouseId) {
     if (barGraph) {
       barGraph.destroy();
     }
+
+    dashboardSelection.topFiveExport.setAttribute(
+      'data-json',
+      JSON.stringify(products)
+    );
 
     barGraph = new Chart(dashboardSelection.barGraph, {
       type: 'bar',
@@ -73,7 +78,6 @@ async function showTopProductsSubscribe(warehouseId) {
               '#00a5cf',
               '#50af95',
             ],
-            barThickness: 70,
           },
         ],
       },
@@ -123,10 +127,8 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
     `${config.DASHBOARD_BASE_URL}/get-inventory-category/${warehouseId}`
   );
 
-  const labels = res.data.productsCategory.map((item) => item._id);
-  const quantities = res.data.productsCategory.map(
-    (item) => item.totalProducts
-  );
+  const labels = res.data.data.map((item) => item._id);
+  const quantities = res.data.data.map((item) => item.totalProducts);
 
   if (doughnut) {
     doughnut.destroy();
@@ -166,11 +168,11 @@ const showProductTransactionSubscribe = async (warehouseId) => {
       `${config.DASHBOARD_BASE_URL}/get-product-transaction/${warehouseId}`
     );
 
-    const transactionDetail = res.data.transactionDetail;
+    const transactionDetails = res.data.data;
 
-    const labels = transactionDetail.map((d) => d._id);
-    const IN = transactionDetail.map((d) => d.IN);
-    const OUT = transactionDetail.map((d) => d.OUT);
+    const labels = transactionDetails.map((d) => d._id);
+    const IN = transactionDetails.map((d) => d.IN);
+    const OUT = transactionDetails.map((d) => d.OUT);
 
     if (lineGraph) {
       lineGraph.destroy();
@@ -190,7 +192,7 @@ const showProductTransactionSubscribe = async (warehouseId) => {
             backgroundColor: '#0077b6',
           },
           {
-            label: 'Stock out',
+            label: 'Stock Out',
             data: OUT,
             borderWidth: 2,
             fill: false,
@@ -223,7 +225,7 @@ const showProductTransactionSubscribe = async (warehouseId) => {
               },
             },
             ticks: {
-              stepSize: 1, // fixed tick interval
+              stepSize: 1,
             },
 
             beginAtZero: true,
@@ -299,6 +301,7 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
       const option = document.createElement('option');
       option.value = warehouse._id;
       option.textContent = warehouse.name;
+
       warehouseSelect.appendChild(option);
     });
 
