@@ -86,6 +86,10 @@ $transition: all 0.3s ease;
   }
 }
 
+@mixin box-shadow($shadow...) {
+  box-shadow: $shadow;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -345,4 +349,17 @@ body {
   .charts-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.warehouse-select {
+  border: none;
+  background-color: $color-white;
+  color: $color-primary-dark;
+  @include box-shadow(0 4px 8px rgba(185, 122, 135, 0.3));
+  cursor: pointer;
+}
+
+.export {
+  width: 110px;
+  font-weight: 500;
 }
