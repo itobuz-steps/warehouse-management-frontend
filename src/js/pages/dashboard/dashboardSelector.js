@@ -23,6 +23,7 @@ const dashboardSelection = {
 
   topFiveExport: document.querySelector('#exportTop5'),
   categoryExport: document.querySelector('#exportCategory'),
+  transactionsExport: document.querySelector('#exportTransactions'),
 };
 
 export default dashboardSelection;

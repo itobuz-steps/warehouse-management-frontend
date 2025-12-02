@@ -69,8 +69,8 @@
     <div id="sidebar-container"></div>
 
     <!-- Main Dashboard -->
-    <main class="main-content">
-      <div class="dashboard-header mt-2 mb-1">
+    <main class="main-content pt-3">
+      <div class="dashboard-header mb-1">
         <div>
           <h1>Hello <span class="user-role">Admin</span>, Welcome Back</h1>
           <p>Here's an overview of your warehouse performance</p>
@@ -186,6 +186,13 @@
           <div class="line-chart">
             <canvas id="lineChart"></canvas>
           </div>
+          <button
+            id="exportTransactions"
+            class="btn btn-success mt-4"
+            style="width: 110px; font-weight: 500"
+          >
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
         </div>
       </section>
 

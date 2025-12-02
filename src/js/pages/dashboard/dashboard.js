@@ -56,7 +56,7 @@ dashboardSelection.topFiveExport.addEventListener('click', async () => {
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'top-products.xlsx'; // correct Excel file name
+    link.download = 'top-products.xlsx';
     link.click();
 
     window.URL.revokeObjectURL(url);
@@ -82,7 +82,33 @@ dashboardSelection.categoryExport.addEventListener('click', async () => {
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'inventory-category.xlsx'; // correct Excel file name
+    link.download = 'inventory-category.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+dashboardSelection.transactionsExport.addEventListener('click', async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-product-transaction-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'weekly-transactions.xlsx';
     link.click();
 
     window.URL.revokeObjectURL(url);
