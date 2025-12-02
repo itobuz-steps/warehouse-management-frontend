@@ -1,6 +1,10 @@
 import axios from 'axios';
 import config from '../config/config';
 
+if (!navigator.onLine) {
+  window.location.href = '/pages/connection-out.html';
+}
+
 const api = axios.create({
   baseURL: `${config.BASE_URL}/user`,
 }); // instance create
@@ -34,6 +38,19 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    // if timeout or server don't return anything
+    if (error.code === 'ECONNABORTED' || error.message === 'Network Error') {
+      window.location.href = '/pages/connection-out.html';
+      return Promise.reject(new Error('Server Unreachable'));
+    }
+
+    //server crash or any server related issue
+    if (error.response && error.response.status >= 500) {
+      window.location.href = '/pages/connection-out.html';
+      return Promise.reject(new Error('Server Error'));
+    }
+
     if (
       error.response &&
       error.response.status === 401 &&
