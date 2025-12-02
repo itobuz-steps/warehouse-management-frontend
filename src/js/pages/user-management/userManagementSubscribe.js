@@ -14,7 +14,6 @@ const toastSection = document.getElementById('toastSection');
 export const getUserDetailsSubscribe = async () => {
   try {
     const res = await api.get(`${config.PROFILE_BASE_URL}/`);
-    console.log(res);
 
     const user = res.data.data.user;
     const verifiedManagers = res.data.data.verifiedManagers;
@@ -110,7 +109,8 @@ export const updateUserSubscribe = async (event) => {
   event.preventDefault();
   const formData = new FormData(userManagementSelection.updateProfileForm);
   try {
-    const res = await api.patch(
+
+    await api.patch(
       `${config.PROFILE_BASE_URL}/update-profile`,
       formData,
       {
@@ -119,7 +119,7 @@ export const updateUserSubscribe = async (event) => {
         },
       }
     );
-    console.log(res);
+
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
     console.log(err);

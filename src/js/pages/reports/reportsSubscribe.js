@@ -13,7 +13,7 @@ async function transactionDetailsLoad() {
 
     // get user specific warehouses
     let warehouseDetails = await api.get(
-      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${userId}`
+      `${config.WAREHOUSE_BASE_URL}/get-warehouses/`
     );
 
     // Get all active warehouses

@@ -12,14 +12,15 @@ const destinationWarehouseDropdownLabel = document.getElementById(
 
 export async function getWarehouses() {
   try {
-    const userRes = await api.get(`${config.PROFILE_BASE_URL}/me`);
-    const currentUser = userRes.data.data.user;
+    // const userRes = await api.get(`${config.PROFILE_BASE_URL}/me`);
+    // const currentUser = userRes.data.data.user;
 
     const warehouseRes = await api.get(
-      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${currentUser._id}`
+      `${config.WAREHOUSE_BASE_URL}/get-warehouses/}`
     );
 
     return warehouseRes.data.data || [];
+
   } catch (err) {
     console.log(err.message);
     return [];

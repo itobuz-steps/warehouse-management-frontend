@@ -18,29 +18,22 @@ function urlBase64ToUint8Array(base64String) {
 
 async function registerAndSubscribe() {
   try {
-    console.log('Register and subscribed called!');
-
     // Ask for notification permission
     const permission = await Notification.requestPermission();
+
     if (permission !== 'granted') {
-      console.log('Notification permission denied');
+      // console.log('Notification permission denied');
       return;
     }
-
-    // Register service worker
-    console.log('before registering services');
 
     const swRegistration = await navigator.serviceWorker.register('/sw.js');
 
     await navigator.serviceWorker.ready;
-    console.log('Service worker registered:');
 
     // check if user is already subscribed
     let subscription = await swRegistration.pushManager.getSubscription();
 
-    if (subscription) {
-      console.log('Already subscribed:', subscription);
-    } else {
+    if (!subscription) {
       // new subscription
       subscription = await swRegistration.pushManager.subscribe({
         userVisibleOnly: true,
@@ -48,19 +41,15 @@ async function registerAndSubscribe() {
       });
     }
 
-    console.log('New subscription:', subscription);
-
     // 5. Send subscription to backend
-    const res = await api.post(
+    await api.post(
       `${config.BROWSER_NOTIFICATION_URL}/subscribe`,
       subscription.toJSON(),
       { headers: { 'Content-Type': 'application/json' } }
     );
 
-    console.log(res);
-
-    console.log('Subscription saved!');
     return subscription;
+    
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 

@@ -43,11 +43,11 @@ async function editWarehouse(warehouseId) {
   try {
     editWarehouseForm.setAttribute('data-id', warehouseId);
 
-    const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
-    const userId = getUser.data.data.user._id;
+    // const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
+    // const userId = getUser.data.data.user._id;
 
     const warehouseDetails = await api.get(
-      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${userId}/${warehouseId}`
+      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${warehouseId}`
     );
     const warehouse = warehouseDetails.data.data;
     editWarehouseName.value = warehouse.name;

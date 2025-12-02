@@ -13,11 +13,11 @@ const viewStorage = document.getElementById('viewStorage');
 
 async function viewWarehouseDetails(id) {
   try {
-    const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
-    const userId = getUser.data.data.user._id;
+    // const getUser = await api.get(`${config.PROFILE_BASE_URL}/me`);
+    // const userId = getUser.data.data.user._id;
 
     const warehouseDetails = await api.get(
-      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${userId}/${id}`
+      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${id}`
     );
     const warehouse = warehouseDetails.data.data;
 
@@ -26,7 +26,7 @@ async function viewWarehouseDetails(id) {
     viewDetails.innerHTML = warehouse.description;
 
     const warehouseCapacity = await api.get(
-      `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${userId}/${id}`
+      `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${id}`
     );
     const storagePercentage = warehouseCapacity.data.data.percentage;
 

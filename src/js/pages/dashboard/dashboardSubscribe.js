@@ -109,6 +109,7 @@ async function showTopProductsSubscribe(warehouseId) {
         },
       },
     });
+
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -247,7 +248,6 @@ const showTransactionStatsSubscribe = async (warehouseId) => {
     );
 
     const data = res.data.data;
-    console.log(data);
 
     let totalSales = 0;
     let saleQuantity = 0;
@@ -290,7 +290,7 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
   try {
     //fetching user details.
     const user = await getCurrentUser();
-    const warehouses = await getUserWarehouses(user._id);
+    const warehouses = await getUserWarehouses();
 
     warehouseSelect.innerHTML = '';
     warehouseSelect.innerHTML = `<option value="${warehouses[0]._id}" selected>${warehouses[0].name}</option>`;
