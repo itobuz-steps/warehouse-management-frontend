@@ -2,10 +2,10 @@
 import {
   loadWarehouses,
   loadDestinationWarehouse,
-  getWarehouses,
 } from './loadWarehouses.js';
 import { displayProducts } from './displayProducts.js';
 import { transactionSelectors } from './transactionSelector';
+import { getUserWarehouses } from '../../common/api/HelperApi.js';
 
 const transactionTypeSelector = document.getElementById('transactionType');
 const warehouseDropdown = document.getElementById('warehouseDropdown');
@@ -43,12 +43,14 @@ function resetWarehouseUI() {
 
 export async function displayTransactionType() {
   try {
-    const assignedWarehouses = await getWarehouses();
+    const assignedWarehouses = await getUserWarehouses();
+
     if (!assignedWarehouses || assignedWarehouses.length < 2) {
       transferOption.setAttribute('disabled', '');
     } else {
       transferOption.removeAttribute('disabled');
     }
+
   } catch (err) {
     console.log(err.message);
   }

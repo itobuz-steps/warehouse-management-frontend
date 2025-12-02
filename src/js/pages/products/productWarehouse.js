@@ -1,5 +1,5 @@
 import { dom } from './productSelector.js';
-import { getCurrentUser, getUserWarehouses } from './productApiHelper.js';
+import { getCurrentUser, getUserWarehouses } from '../../common/api/HelperApi.js';
 import {
   populateWarehouseSelect,
   showEmptyState,
@@ -53,7 +53,7 @@ dom.warehouseSelect.addEventListener('change', async (e) => {
 export const loadWarehouses = async () => {
   try {
     const user = await getCurrentUser();
-    const warehouses = await getUserWarehouses(user._id);
+    const warehouses = await getUserWarehouses();
 
     if (!warehouses.length) {
       dom.warehouseSelect.innerHTML = `<option value="">No warehouses assigned</option>`;

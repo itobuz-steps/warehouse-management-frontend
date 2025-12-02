@@ -1,6 +1,7 @@
 // js/pages/transaction/loadWarehouses.js
 import config from '../../config/config';
 import api from '../../api/interceptor';
+import { getUserWarehouses } from '../../common/api/HelperApi';
 
 const sourceWarehouseSelector = document.getElementById('sourceWarehouse');
 const destinationWarehouseSelector = document.getElementById(
@@ -10,25 +11,26 @@ const destinationWarehouseDropdownLabel = document.getElementById(
   'destinationWarehouseDropdownLabel'
 );
 
-export async function getWarehouses() {
-  try {
-    const userRes = await api.get(`${config.PROFILE_BASE_URL}/me`);
-    const currentUser = userRes.data.data.user;
+// export async function getWarehouses() {
+//   try {
+//     // const userRes = await api.get(`${config.PROFILE_BASE_URL}/me`);
+//     // const currentUser = userRes.data.data.user;
 
-    const warehouseRes = await api.get(
-      `${config.WAREHOUSE_BASE_URL}/get-warehouses/${currentUser._id}`
-    );
+//     const warehouseRes = await api.get(
+//       `${config.WAREHOUSE_BASE_URL}/get-warehouses/}`
+//     );
 
-    return warehouseRes.data.data || [];
-  } catch (err) {
-    console.log(err.message);
-    return [];
-  }
-}
+//     return warehouseRes.data.data || [];
+
+//   } catch (err) {
+//     console.log(err.message);
+//     return [];
+//   }
+// }
 
 export async function loadWarehouses() {
   try {
-    const assignedWarehouses = await getWarehouses();
+    const assignedWarehouses = await getUserWarehouses();
     if (!assignedWarehouses.length) return;
 
     sourceWarehouseSelector.innerHTML =
@@ -50,7 +52,7 @@ export async function loadDestinationWarehouse() {
     destinationWarehouseDropdownLabel.classList.remove('d-none');
     destinationWarehouseSelector.classList.remove('d-none');
 
-    const assignedWarehouses = await getWarehouses();
+    const assignedWarehouses = await getUserWarehouses();
     if (!assignedWarehouses.length) return;
 
     const sourceId = sourceWarehouseSelector.value;

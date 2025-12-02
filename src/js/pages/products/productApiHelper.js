@@ -1,18 +1,6 @@
 import api from '../../api/interceptor';
 import config from '../../config/config';
 
-export const getCurrentUser = async () => {
-  const res = await api.get(`${config.PROFILE_BASE_URL}/me`);
-  return res.data.data.user;
-};
-
-export const getUserWarehouses = async (userId) => {
-  const res = await api.get(
-    `${config.WAREHOUSE_BASE_URL}/get-warehouses/${userId}`
-  );
-  return res.data.data;
-};
-
 export const addProduct = (formData) => {
   return api.post(`${config.PRODUCT_BASE_URL}/`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },

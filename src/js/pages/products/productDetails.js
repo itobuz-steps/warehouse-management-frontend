@@ -2,7 +2,6 @@ import {
   fetchProductQuantityWarehouse,
   fetchProductSpecificWarehouses,
   fetchTotalProductQuantity,
-  getCurrentUser,
 } from './productApiHelper';
 import {
   deleteProductHandler,
@@ -11,6 +10,7 @@ import {
   handleEditProductSubmit,
 } from './productEvents';
 import { dom } from './productSelector';
+import { getCurrentUser } from '../../common/api/HelperApi';
 
 let currentImageIndex = 0;
 let currentImages = [];

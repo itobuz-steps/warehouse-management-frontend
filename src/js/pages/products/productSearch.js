@@ -1,7 +1,7 @@
 import api from '../../api/interceptor.js';
 import config from '../../config/config.js';
 import { fetchProducts, renderPaginatedProducts } from './productSubscribe.js';
-import { getCurrentUser } from './productApiHelper.js';
+import { getCurrentUser } from '../../common/api/HelperApi.js';
 import { dom } from './productSelector.js';
 import { loadWarehouses } from './productWarehouse.js';
 import { showToast } from './productTemplate.js';
