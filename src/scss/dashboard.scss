@@ -126,9 +126,16 @@ body {
 .main-content {
   // margin-left: 250px;
   padding: 30px 40px;
+
 }
 
-/* HEADER */
+.no-dashboard-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 1.2rem;
+}
 
 .dashboard-header {
   @include flex(space-between, center);
