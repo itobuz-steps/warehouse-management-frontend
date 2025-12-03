@@ -21,13 +21,19 @@ dashboardSelection.addManagerForm.addEventListener(
 );
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await fetchUserAndWarehouses(dashboardSelection.warehouseSelect);
-  const firstWarehouse = dashboardSelection.warehouseSelect.value;
-  await showTopProductsSubscribe(firstWarehouse);
-  await showInventoryCategorySubscribe(firstWarehouse);
-  await showProductTransactionSubscribe(firstWarehouse);
-  await showTransactionStatsSubscribe(firstWarehouse);
-  await showLowStockProducts(firstWarehouse);
+  console.log(dashboardSelection.warehouseSelect);
+  const warehouse = await fetchUserAndWarehouses(dashboardSelection.warehouseSelect);
+
+  //if user has warehouses assigned.
+  if(warehouse){
+    const firstWarehouse = dashboardSelection.warehouseSelect.value;
+    await showTopProductsSubscribe(firstWarehouse);
+    await showInventoryCategorySubscribe(firstWarehouse);
+    await showProductTransactionSubscribe(firstWarehouse);
+    await showTransactionStatsSubscribe(firstWarehouse);
+    await showLowStockProducts(firstWarehouse);
+  }
+
 });
 
 dashboardSelection.warehouseSelect.addEventListener('change', async () => {
