@@ -70,7 +70,7 @@ export const getUserDetailsSubscribe = async () => {
 
       userManagementSelection.warehouseDetailsSelection.style.display = 'block';
 
-      const warehouses = getUserWarehouses();
+      const warehouses = await getUserWarehouses();
 
       if(!warehouses.length){
         userManagementSelection.noWarehouseParagraph.style.display = 'block';
@@ -113,17 +113,11 @@ export const updateUserSubscribe = async (event) => {
   event.preventDefault();
   const formData = new FormData(userManagementSelection.updateProfileForm);
   try {
-
-    await api.patch(
-      `${config.PROFILE_BASE_URL}/update-profile`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
-    );
-
+    await api.patch(`${config.PROFILE_BASE_URL}/update-profile`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
     console.log(err);

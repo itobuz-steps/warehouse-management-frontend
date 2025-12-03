@@ -11,6 +11,8 @@ import {
 } from './productEvents';
 import { dom } from './productSelector';
 import { getCurrentUser } from '../../common/api/HelperApi';
+import api from '../../api/interceptor';
+import config from '../../config/config';
 
 let currentImageIndex = 0;
 let currentImages = [];
@@ -61,6 +63,12 @@ export const openProductModal = async (product) => {
   dom.modalCategory.textContent = product.category ?? 'Not Categorized';
 
   await loadQuantityInfo(selectedProductId);
+
+  const qrCode = await api.get(`${config.PRODUCT_BASE_URL}/qr/${product._id}`, {
+    responseType: 'blob',
+  });
+  const imageUrl = URL.createObjectURL(qrCode.data);
+  dom.qrCodeItem.src = imageUrl;
 
   dom.modal.classList.remove('hidden');
 };

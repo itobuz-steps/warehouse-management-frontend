@@ -24,6 +24,9 @@ export const dom = {
   modalCategory: document.getElementById('modalCategory'),
   quantitySection: document.getElementById('quantitySection'),
 
+  qrCodeSection: document.querySelector('#productQr'),
+  qrCodeItem: document.querySelector('.qr-code'),
+
   editModal: document.getElementById('editProductModal'),
   closeEditModal: document.querySelector('.close-edit-modal'),
   editProductBtn: document.getElementById('editProductBtn'),

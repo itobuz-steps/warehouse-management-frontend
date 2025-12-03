@@ -58,7 +58,6 @@ export function createProductCard(product) {
     <div class="card-body">
       <h5>${product.name}</h5>
 
-        <!--<p>${product.description || 'No description available.'}</p>-->
       <div class="info-row">
         <span class="price">₹${product.price ?? 'N/A'}</span>
         <span class="category">${product.category ?? 'Not Categorized'}</span>
