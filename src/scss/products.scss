@@ -570,3 +570,9 @@ $transition: all 0.25s ease;
     color: $color-bg;
   }
 }
+
+.qr-code {
+  height: 100px;
+  width: 100px;
+  border: 2px solid black;
+}
