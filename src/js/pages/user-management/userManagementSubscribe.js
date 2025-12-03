@@ -72,6 +72,13 @@ export const getUserDetailsSubscribe = async () => {
 
       const warehouses = await getUserWarehouses();
 
+      if(!warehouses.length){
+        userManagementSelection.noWarehouseParagraph.style.display = 'block';
+        userManagementSelection.noWarehouseParagraph.innerText = `No warehouse assigned yet!`
+        return;
+      }
+      
+      userManagementSelection.noWarehouseParagraph.style.display = 'none';
       warehouses.forEach(async (warehouse) => {
         const res = await api.get(
           `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${warehouse._id}`

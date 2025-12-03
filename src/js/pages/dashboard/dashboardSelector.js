@@ -24,6 +24,8 @@ const dashboardSelection = {
   topFiveExport: document.querySelector('#exportTop5'),
   categoryExport: document.querySelector('#exportCategory'),
   transactionsExport: document.querySelector('#exportTransactions'),
+  chartCard: document.querySelectorAll('.chart-card'),
+  noDashboardBox: document.querySelector('.no-dashboard-box'),
 };
 
 export default dashboardSelection;

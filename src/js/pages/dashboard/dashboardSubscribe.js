@@ -5,7 +5,7 @@ import config from '../../config/config.js';
 import {
   getCurrentUser,
   getUserWarehouses,
-} from '../../common/api/helperApi.js'
+} from '../../common/api/helperApi.js';
 
 import {
   Chart,
@@ -45,10 +45,16 @@ let lineGraph = null;
 
 async function showTopProductsSubscribe(warehouseId) {
   try {
+    if (!warehouseId) {
+      dashboardSelection.chartCard.style.display = 'none';
+      return;
+    }
+
     //passing the id as query param.
     const res = await api.get(
       `${config.DASHBOARD_BASE_URL}/get-top-products/${warehouseId}`
     );
+
     const products = res.data.data;
 
     const labels = products.map((item) => item.productName);
@@ -113,7 +119,6 @@ async function showTopProductsSubscribe(warehouseId) {
         },
       },
     });
-
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -288,12 +293,76 @@ const showTransactionStatsSubscribe = async (warehouseId) => {
   }
 };
 
+const showLowStockProducts = async (warehouseId) => {
+  try {
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-low-stock-products/${warehouseId}`
+    );
+    const items = res.data.data.lowStockProducts;
+    dashboardSelection.lowStockTable.innerHTML = '';
+
+    if (!items.length) {
+      dashboardSelection.tableCard.style.display = 'none';
+    } else {
+      dashboardSelection.tableCard.style.display = 'block';
+
+      items.forEach((item) => {
+        const row = `
+      <tr>
+        <td>${item.productName}</td>
+        <td>${item.quantity} units</td>
+        <td>
+          <span class="badge bg-danger">Low</span>
+        </td>
+      </tr>`;
+
+        dashboardSelection.lowStockTable.innerHTML += row;
+      });
+    }
+  } catch (err) {
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
+const noWarehouseDisplay = () => {
+  //no warehouse so remove the statistics charts.
+  dashboardSelection.warehouseSelect.style.display = 'none';
+  dashboardSelection.tableCard.style.display = 'none';
+  dashboardSelection.noDashboardBox.style.display = 'flex';
+  dashboardSelection.noDashboardBox.innerHTML =
+    '<p>No warehouse assigned yet! wait for the admin to assign warehouse or contact admin.</p>';
+
+  dashboardSelection.chartCard.forEach((chart) => {
+    chart.style.display = 'none';
+  });
+};
+
+const warehouseDisplay = () => {
+  dashboardSelection.noDashboardBox.style.display = 'none';
+};
+
 const fetchUserAndWarehouses = async (warehouseSelect) => {
   try {
     //fetching user details.
     const user = await getCurrentUser();
     const warehouses = await getUserWarehouses();
 
+    dashboardSelection.username.innerText = user.name;
+
+    if (user.role === 'manager') {
+      dashboardSelection.addManagerButton.remove();
+    }
+
+    if (!warehouses.length) {
+      noWarehouseDisplay();
+      return false;
+    }
+
+    warehouseDisplay();
     warehouseSelect.innerHTML = '';
     warehouseSelect.innerHTML = `<option value="${warehouses[0]._id}" selected>${warehouses[0].name}</option>`;
 
@@ -305,44 +374,8 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
       warehouseSelect.appendChild(option);
     });
 
-    dashboardSelection.username.innerText = user.name;
-    if (user.role === 'manager') {
-      dashboardSelection.addManagerButton.remove();
-    }
-  } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    return true;
 
-    setTimeout(() => {
-      toastSection.innerHTML = '';
-    }, 3000);
-  }
-};
-
-const showLowStockProducts = async (warehouseId) => {
-  try {
-    const res = await api.get(
-      `${config.DASHBOARD_BASE_URL}/get-low-stock-products/${warehouseId}`
-    );
-    const items = res.data.data.lowStockProducts;
-    dashboardSelection.lowStockTable.innerHTML = '';
-
-    if (items.length === 0) {
-      console.log(dashboardSelection.lowStock);
-      dashboardSelection.tableCard.style.display = 'none';
-    }
-
-    items.forEach((item) => {
-      const row = `
-    <tr>
-      <td>${item.productName}</td>
-      <td>${item.quantity} units</td>
-      <td>
-        <span class="badge bg-danger">Low</span>
-      </td>
-    </tr>`;
-
-      dashboardSelection.lowStockTable.innerHTML += row;
-    });
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
