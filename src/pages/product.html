@@ -3,9 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Products</title>
+    <title>Product</title>
+    <link rel="stylesheet" href="../scss/products.scss" />
   </head>
   <body>
-    <h1>Hello Product</h1>
+    <div id="productModal" class="product-modal">
+      <div class="modal-content">
+        <div class="modal-body d-flex justify-content-evenly">
+          <div class="carousel-container">
+            <button class="carousel-btn prev">&#10094;</button>
+            <img id="carouselImage" src="" alt="Product Image" />
+            <button class="carousel-btn next">&#10095;</button>
+          </div>
+
+          <div class="product-info justify-content-center align-content-center">
+            <h2 id="modalProductName" class="product-name">{Name}</h2>
+            <p id="modalDescription" class="product-description">
+              {Description}
+            </p>
+            <p>
+              <strong>Category:</strong>
+              <span id="modalCategory" class="product-category category"
+                >{Category}</span
+              >
+            </p>
+            <p><strong>Price:</strong> ₹<span id="modalPrice">{Price}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
+
+  <script type="module" src="../js/pages/product-item/productItem.js"></script>
 </html>
