@@ -574,5 +574,5 @@ $transition: all 0.25s ease;
 .qr-code {
   height: 100px;
   width: 100px;
-  border: 2px solid black;
+  box-shadow: 0px 8px 25px rgba($color-dark, 0.15);
 }

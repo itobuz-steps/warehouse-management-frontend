@@ -64,7 +64,7 @@ export const openProductModal = async (product) => {
 
   await loadQuantityInfo(selectedProductId);
 
-  const qrCode = await api.get(`${config.PRODUCT_BASE_URL}/qr`, {
+  const qrCode = await api.get(`${config.PRODUCT_BASE_URL}/qr/${product._id}`, {
     responseType: 'blob',
   });
   const imageUrl = URL.createObjectURL(qrCode.data);
