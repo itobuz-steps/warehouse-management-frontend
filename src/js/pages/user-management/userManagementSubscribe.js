@@ -7,6 +7,7 @@ import {
   unverifiedManagerCard,
   emptyCard,
 } from '../../common/template/profileTemplate.js';
+import clearProfileData from './clearProfileDetails.js';
 import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';
 import { getUserWarehouses } from '../../common/api/HelperApi.js';
 
@@ -18,6 +19,8 @@ export const getUserDetailsSubscribe = async () => {
     const user = res.data.data.user;
     const verifiedManagers = res.data.data.verifiedManagers;
     const unverifiedManagers = res.data.data.unverifiedManagers;
+
+    clearProfileData();
 
     userManagementSelection.userName.innerHTML = user.name;
     userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`;
@@ -54,7 +57,7 @@ export const getUserDetailsSubscribe = async () => {
         userManagementSelection.verifiedManagerGrid.innerHTML += card;
       });
     } else {
-      userManagementSelection.notVerifiedManagerGrid.innerHTML = emptyCard();
+      userManagementSelection.verifiedManagerGrid.innerHTML = emptyCard();
     }
 
     if (unverifiedManagers.length) {
