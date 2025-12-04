@@ -11,7 +11,7 @@ import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.
 import { getUserWarehouses } from '../../common/api/HelperApi.js';
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
+
 const lastLogin = document.getElementById('lastLogin');
 
 export const getUserDetailsSubscribe = async () => {
@@ -105,10 +105,12 @@ export const getUserDetailsSubscribe = async () => {
       });
     }
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
   } finally {
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      userManagementSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -123,25 +125,13 @@ export const updateUserSubscribe = async (event) => {
       },
     });
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
   } finally {
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      userManagementSelection.toastSection.innerHTML = '';
     }, 3000);
     window.location.reload();
-  }
-};
-
-export const deleteUserSubscribe = async () => {
-  try {
-    const res = await api.delete(`${config.PROFILE_BASE_URL}/`);
-
-    console.log(res);
-  } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
-  } finally {
-    setTimeout(() => {
-      toastSection.innerHTML = '';
-    }, 3000);
   }
 };

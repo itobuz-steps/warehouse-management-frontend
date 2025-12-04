@@ -5,9 +5,15 @@ import userManagementSelection from './userManagementSelector.js';
 
 const displayToast = new Templates();
 
-export const deleteUserSubscribe = async () => {
+export const updateUserSubscribe = async (event) => {
+  event.preventDefault();
+  const formData = new FormData(userManagementSelection.updateProfileForm);
   try {
-    await api.delete(`${config.PROFILE_BASE_URL}/`);
+    await api.patch(`${config.PROFILE_BASE_URL}/update-profile`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   } catch (err) {
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
