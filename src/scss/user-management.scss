@@ -194,6 +194,65 @@ $transition: all 0.3s ease;
           color: $color-text-light;
           font-size: 0.9rem;
         }
+        .manager-info {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .manager-header {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          margin-bottom: 5px;
+
+          .manager-name {
+            margin: 0;
+            font-size: 1.1rem;
+            line-height: 1.2;
+          }
+        }
+
+        .manager-last-login {
+          color: #666;
+          font-size: 0.85rem;
+          margin: 5px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+
+          i {
+            color: #888;
+            font-size: 0.9rem;
+          }
+        }
+
+        .block-user-btn {
+          background-color: $color-primary;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 6px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          margin-top: 5px;
+
+          i {
+            font-size: 0.9rem;
+          }
+
+          &:hover {
+            background-color: $color-primary-dark;
+          }
+        }
       }
     }
   }
