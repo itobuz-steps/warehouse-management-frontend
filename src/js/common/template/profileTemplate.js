@@ -1,4 +1,8 @@
-const verifiedManagerCard = (name, email, profileImage) => {
+const verifiedManagerCard = (
+  name,
+  email,
+  profileImage = '../../assets/images/profile_default.svg'
+) => {
   return `<div class="manager-card">
             <img
               src=${profileImage}

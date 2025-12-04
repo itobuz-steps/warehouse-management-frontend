@@ -122,7 +122,6 @@ export const updateUserSubscribe = async (event) => {
     });
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
-    console.log(err);
   } finally {
     setTimeout(() => {
       toastSection.innerHTML = '';
