@@ -5,6 +5,7 @@ import userManagementSelection from './userManagementSelector.js';
 import {
   verifiedManagerCard,
   unverifiedManagerCard,
+  emptyCard,
 } from '../../common/template/profileTemplate.js';
 import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';
 import { getUserWarehouses } from '../../common/api/HelperApi.js';
@@ -16,53 +17,54 @@ const lastLogin = document.getElementById('lastLogin');
 export const getUserDetailsSubscribe = async () => {
   try {
     const res = await api.get(`${config.PROFILE_BASE_URL}/`);
-
     const user = res.data.data.user;
-
     const verifiedManagers = res.data.data.verifiedManagers;
     const unverifiedManagers = res.data.data.unverifiedManagers;
 
-    userManagementSelection.userName.innerText = user.name;
+    userManagementSelection.userName.innerHTML = user.name;
     userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`;
-    userManagementSelection.userImg.src =
-      user.profileImage || '../../../assets/images/profile_default.svg';
-    userManagementSelection.userRole.innerText = user.role;
-    userManagementSelection.createdAt.innerText = new Date(
-      user.createdAt
-    ).toDateString();
-    userManagementSelection.updatedAt.innerText = new Date(
-      user.updatedAt
-    ).toDateString();
     lastLogin.innerHTML = new Date(user.lastLogin).toDateString();
 
-    document.querySelector('#name').value = user.name;
+    userManagementSelection.userImg.src =
+      user.profileImage || '../../../assets/images/profile_default.svg';
 
+    userManagementSelection.userRole.innerHTML = user.role;
+    userManagementSelection.createdAt.innerHTML = new Date(
+      user.createdAt
+    ).toDateString();
+
+    userManagementSelection.updatedAt.innerHTML = new Date(
+      user.updatedAt
+    ).toDateString();
+
+    document.querySelector('#name').value = user.name;
     userManagementSelection.userRole.style.textTransform = 'capitalize';
 
-    if (verifiedManagers.length != 0) {
+    if (verifiedManagers.length) {
       verifiedManagers.forEach((manager) => {
-        let card;
+        const lastLogin = new Date(manager.lastLogin).toLocaleDateString();
 
-        if (!manager.profileImage) {
-          card = verifiedManagerCard(manager.name, manager.email);
-        } else {
-          card = verifiedManagerCard(
-            manager.name,
-            manager.email,
-            manager.profileImage
-          );
-        }
+        const card = verifiedManagerCard(
+          manager.name,
+          manager.email,
+          lastLogin,
+          manager.profileImage
+        );
 
         userManagementSelection.verifiedManagerGrid.innerHTML += card;
       });
+    } else {
+      userManagementSelection.notVerifiedManagerGrid.innerHTML = emptyCard();
     }
 
-    if (unverifiedManagers.length != 0) {
+    if (unverifiedManagers.length) {
       unverifiedManagers.forEach((manager) => {
         const card = unverifiedManagerCard(manager.email);
 
         userManagementSelection.notVerifiedManagerGrid.innerHTML += card;
       });
+    } else {
+      userManagementSelection.notVerifiedManagerGrid.innerHTML = emptyCard();
     }
 
     if (user.role === 'manager') {
