@@ -77,9 +77,11 @@ dom.closeEditModal.addEventListener('click', () =>
 );
 
 window.addEventListener('click', (e) => {
+  
   if (e.target === dom.editModal) {
     dom.editModal.classList.add('hidden');
   }
+  
 });
 
 export const handleEditProductSubmit = async (e, selectedProductId) => {

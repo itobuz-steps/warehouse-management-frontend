@@ -2,6 +2,7 @@ import {
   fetchProductQuantityWarehouse,
   fetchProductSpecificWarehouses,
   fetchTotalProductQuantity,
+  qrCodeFetch,
 } from '../../common/api/productApiHelper';
 import {
   deleteProductHandler,
@@ -11,8 +12,6 @@ import {
 } from './productEvents';
 import { dom } from './productSelector';
 import { getCurrentUser } from '../../common/api/HelperApi';
-import api from '../../api/interceptor';
-import config from '../../config/config';
 
 let currentImageIndex = 0;
 let currentImages = [];
@@ -64,9 +63,8 @@ export const openProductModal = async (product) => {
 
   await loadQuantityInfo(selectedProductId);
 
-  const qrCode = await api.get(`${config.PRODUCT_BASE_URL}/qr/${product._id}`, {
-    responseType: 'blob',
-  });
+  const qrCode = await qrCodeFetch(selectedProductId)
+
   const imageUrl = URL.createObjectURL(qrCode.data);
   dom.qrCodeItem.src = imageUrl;
 
