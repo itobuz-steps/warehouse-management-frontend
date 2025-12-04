@@ -21,7 +21,7 @@ async function transactionDetailsLoad() {
     // Add default ALL option
     dropdown.innerHTML = `
       <li>
-        <a class="dropdown-item warehouse-option" data-id="ALL">All Warehouses</a>
+        <a class="dropdown-item warehouse-option active" data-id="ALL">All Warehouses</a>
       </li>
     `;
 
