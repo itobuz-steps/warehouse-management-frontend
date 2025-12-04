@@ -51,6 +51,7 @@ export const getUserDetailsSubscribe = async () => {
           manager.name,
           manager.email,
           lastLogin,
+          manager.isActive,
           manager.profileImage
         );
 

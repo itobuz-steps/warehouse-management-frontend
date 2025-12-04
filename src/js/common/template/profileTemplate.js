@@ -2,6 +2,7 @@ const verifiedManagerCard = (
   name,
   email,
   lastLogin,
+  isActive,
   profileImage = '../../assets/images/profile_default.svg'
 ) => {
   return `<div class="manager-card">
@@ -19,10 +20,20 @@ const verifiedManagerCard = (
       <i class="far fa-clock"></i> Last Login: ${lastLogin}
     </p>
 
-    <!-- NEW: Block User Button -->
-    <button class="block-user-btn">
-      <i class="fas fa-ban"></i> Block User
-    </button>
+
+    ${
+      isActive
+        ? `
+      <button class="block-user-btn">
+        <i class="fas fa-ban"></i> Block User
+      </button>
+    `
+        : `
+      <button class="unblock-user-btn">
+        <i class="fas fa-unlock"></i> Unblock User
+      </button>
+    `
+    }
   </div>
 </div>
 `;

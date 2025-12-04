@@ -229,8 +229,9 @@ $transition: all 0.3s ease;
           }
         }
 
-        .block-user-btn {
-          background-color: $color-primary;
+        .block-user-btn,
+        .unblock-user-btn {
+          background-color: rgb(172, 40, 40);
           color: white;
           border: none;
           padding: 8px 16px;
@@ -251,6 +252,13 @@ $transition: all 0.3s ease;
 
           &:hover {
             background-color: $color-primary-dark;
+          }
+        }
+
+        .unblock-user-btn {
+          background-color: rgb(7, 148, 7);
+          &:hover {
+            background-color: rgb(11, 64, 11);
           }
         }
       }
