@@ -102,7 +102,9 @@ async function loadNotifications() {
 
 // Render notifications in the UI
 function renderNotifications() {
-  if (!selectors) return;
+  if (!selectors) {
+    return;
+  }
   const { notifList, notifCount } = selectors;
   const unseenCount = notifications.filter((n) => !n.seen).length;
 
@@ -120,6 +122,7 @@ function renderNotifications() {
   // Attach handlers to any Ship buttons rendered for pending shipments
   try {
     const shipButtons = notifList.querySelectorAll('.ship-btn');
+
     shipButtons.forEach((btn) => {
       btn.addEventListener('click', async (e) => {
         e.preventDefault();

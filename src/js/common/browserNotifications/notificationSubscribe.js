@@ -1,5 +1,5 @@
 import config from '../../config/config.js';
-import Templates from '../../common/Templates.js';
+import Templates from '../Templates.js';
 import api from '../../api/interceptor.js';
 // import ''
 
