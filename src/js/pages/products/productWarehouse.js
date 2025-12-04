@@ -1,23 +1,23 @@
-import { dom } from './productSelector.js';
-import { getCurrentUser, getUserWarehouses } from '../../common/api/HelperApi.js';
+import { productSelection } from './productSelector.js';
+import {
+  getCurrentUser,
+  getUserWarehouses,
+} from '../../common/api/HelperApi.js';
 import {
   populateWarehouseSelect,
   showEmptyState,
   showToast,
-} from './productTemplate.js';
+} from '../../common/template/productTemplate.js';
 import { fetchProducts } from './productSubscribe.js';
-import { resetSearchFilters } from './productEvents.js';
+import {
+  resetSearchFilters,
+  updateWarehouseVisibility,
+} from '../../common/template/productTemplate.js';
 
-dom.filterTypeSelect.addEventListener('change', async () => {
-  const type = dom.filterTypeSelect.value;
+productSelection.filterTypeSelect.addEventListener('change', async () => {
+  const type = productSelection.filterTypeSelect.value;
 
-  dom.warehouseSelect.disabled = type !== 'warehouses';
-
-  Array.from(dom.sortSelect.options).forEach((option) => {
-    if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
-      option.style.display = type === 'warehouses' ? 'block' : 'none';
-    }
-  });
+  updateWarehouseVisibility(type);
 
   resetSearchFilters();
 
@@ -32,8 +32,8 @@ dom.filterTypeSelect.addEventListener('change', async () => {
   }
 });
 
-dom.warehouseSelect.addEventListener('change', async (e) => {
-  if (dom.filterTypeSelect.value !== 'warehouses') {
+productSelection.warehouseSelect.addEventListener('change', async (e) => {
+  if (productSelection.filterTypeSelect.value !== 'warehouses') {
     return;
   }
 
@@ -56,8 +56,8 @@ export const loadWarehouses = async () => {
     const warehouses = await getUserWarehouses();
 
     if (!warehouses.length) {
-      dom.warehouseSelect.innerHTML = `<option value="">No warehouses assigned</option>`;
-      populateWarehouseSelect([], dom.warehouseSelect, true);
+      productSelection.warehouseSelect.innerHTML = `<option value="">No warehouses assigned</option>`;
+      populateWarehouseSelect([], productSelection.warehouseSelect, true);
       showEmptyState();
       return;
     }
@@ -65,17 +65,17 @@ export const loadWarehouses = async () => {
     const isAdmin = user.role === 'admin';
 
     if (isAdmin) {
-      dom.warehouseSelect.innerHTML = `<option value="">All Warehouses</option>`;
-      populateWarehouseSelect(warehouses, dom.warehouseSelect, true);
+      productSelection.warehouseSelect.innerHTML = `<option value="">All Warehouses</option>`;
+      populateWarehouseSelect(warehouses, productSelection.warehouseSelect, true);
     } else {
-      populateWarehouseSelect(warehouses, dom.warehouseSelect);
+      populateWarehouseSelect(warehouses, productSelection.warehouseSelect);
 
       const params = new URLSearchParams(window.location.search);
       const selectedId = params.get('warehouseId');
 
       if (!selectedId) {
         const userWarehouse = warehouses[0];
-        dom.warehouseSelect.value = userWarehouse._id;
+        productSelection.warehouseSelect.value = userWarehouse._id;
 
         const url = new URL(window.location);
         url.searchParams.set('warehouseId', userWarehouse._id);
@@ -87,10 +87,10 @@ export const loadWarehouses = async () => {
     const selectedId = params.get('warehouseId');
 
     if (selectedId) {
-      dom.warehouseSelect.value = selectedId;
+      productSelection.warehouseSelect.value = selectedId;
     }
 
-    fetchProducts(dom.warehouseSelect.value);
+    fetchProducts(productSelection.warehouseSelect.value);
   } catch (err) {
     console.error(err);
     showToast('error', 'Error fetching warehouses');
