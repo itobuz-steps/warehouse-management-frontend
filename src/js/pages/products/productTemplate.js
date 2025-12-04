@@ -12,6 +12,22 @@ export const showToast = (type, msg) => {
   setTimeout(() => (dom.toastSection.innerHTML = ''), 3000);
 };
 
+export const resetSearchFilters = () => {
+  dom.searchInput.value = '';
+  dom.categoryFilter.value = '';
+  dom.sortSelect.value = '';
+};
+
+export const updateWarehouseVisibility = (filter) => {
+  dom.warehouseSelect.disabled = filter !== 'warehouses';
+
+  Array.from(dom.sortSelect.options).forEach((option) => {
+    if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
+      option.style.display = filter === 'warehouses' ? 'block' : 'none';
+    }
+  });
+};
+
 export const showEmptyState = (msg = 'No products found.') => {
   dom.productGrid.className = 'empty';
   dom.productGrid.innerHTML = `<div>${msg}</div>`;

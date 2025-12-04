@@ -1,10 +1,6 @@
 import { dom } from './productSelector.js';
-import { openModal, closeModal, showToast } from './productTemplate.js';
-import {
-  addProduct,
-  deleteProduct,
-  editProduct,
-} from './productApiHelper.js';
+import { openModal, closeModal, showToast, resetSearchFilters } from './productTemplate.js';
+import { addProduct, deleteProduct, editProduct } from './productApiHelper.js';
 import { fetchProducts } from './productSubscribe.js';
 import { getCurrentUser } from '../../common/api/HelperApi.js';
 
@@ -18,12 +14,6 @@ export const initEvents = () => {
   });
 
   dom.addProductForm.addEventListener('submit', handleAddProduct);
-};
-
-export const resetSearchFilters = () => {
-  dom.searchInput.value = '';
-  dom.categoryFilter.value = '';
-  dom.sortSelect.value = '';
 };
 
 export const handleAddProduct = async (e) => {

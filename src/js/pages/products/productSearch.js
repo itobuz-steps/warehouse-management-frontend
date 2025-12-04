@@ -5,7 +5,7 @@ import { getCurrentUser } from '../../common/api/HelperApi.js';
 import { dom } from './productSelector.js';
 import { loadWarehouses } from './productWarehouse.js';
 import { showToast } from './productTemplate.js';
-import { resetSearchFilters } from './productEvents.js';
+import { resetSearchFilters, updateWarehouseVisibility } from './productTemplate.js';
 
 let searchQuery = '';
 let selectedCategory = '';
@@ -16,13 +16,7 @@ export const initProductSearch = async () => {
   const filter = url.searchParams.get('filter') || 'products';
 
   dom.filterTypeSelect.value = filter;
-  dom.warehouseSelect.disabled = filter !== 'warehouses';
-
-  Array.from(dom.sortSelect.options).forEach((option) => {
-    if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
-      option.style.display = filter === 'warehouses' ? 'block' : 'none';
-    }
-  });
+  updateWarehouseVisibility(filter);
 
   let user;
 
@@ -76,7 +70,15 @@ export const fetchSearch = async (role, warehouseId = '') => {
       return;
     }
 
-    const searchApi = `${config.QUANTITY_BASE_URL}/all-products-having-quantity`;
+    console.log(warehouseId)
+
+    const url = new URL(window.location);
+    const filter = url.searchParams.get('filter');
+
+    const searchApi =
+      filter === 'warehouses'
+        ? `${config.QUANTITY_BASE_URL}/all-products-having-quantity`
+        : config.PRODUCT_BASE_URL;
 
     const response = await api.get(searchApi, {
       params: {

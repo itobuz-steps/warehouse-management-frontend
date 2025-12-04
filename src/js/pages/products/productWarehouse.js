@@ -6,18 +6,12 @@ import {
   showToast,
 } from './productTemplate.js';
 import { fetchProducts } from './productSubscribe.js';
-import { resetSearchFilters } from './productEvents.js';
+import { resetSearchFilters, updateWarehouseVisibility } from './productTemplate.js';
 
 dom.filterTypeSelect.addEventListener('change', async () => {
   const type = dom.filterTypeSelect.value;
 
-  dom.warehouseSelect.disabled = type !== 'warehouses';
-
-  Array.from(dom.sortSelect.options).forEach((option) => {
-    if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
-      option.style.display = type === 'warehouses' ? 'block' : 'none';
-    }
-  });
+  updateWarehouseVisibility(type);
 
   resetSearchFilters();
 
