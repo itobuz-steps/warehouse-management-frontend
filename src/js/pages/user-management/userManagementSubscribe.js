@@ -12,8 +12,6 @@ import { getUserWarehouses } from '../../common/api/HelperApi.js';
 
 const displayToast = new Templates();
 
-const lastLogin = document.getElementById('lastLogin');
-
 export const getUserDetailsSubscribe = async () => {
   try {
     const res = await api.get(`${config.PROFILE_BASE_URL}/`);
@@ -23,7 +21,9 @@ export const getUserDetailsSubscribe = async () => {
 
     userManagementSelection.userName.innerHTML = user.name;
     userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`;
-    lastLogin.innerHTML = new Date(user.lastLogin).toDateString();
+    userManagementSelection.lastLogin.innerHTML = new Date(
+      user.lastLogin
+    ).toDateString();
 
     userManagementSelection.userImg.src =
       user.profileImage || '../../../assets/images/profile_default.svg';
@@ -112,26 +112,5 @@ export const getUserDetailsSubscribe = async () => {
     setTimeout(() => {
       userManagementSelection.toastSection.innerHTML = '';
     }, 3000);
-  }
-};
-
-export const updateUserSubscribe = async (event) => {
-  event.preventDefault();
-  const formData = new FormData(userManagementSelection.updateProfileForm);
-  try {
-    await api.patch(`${config.PROFILE_BASE_URL}/update-profile`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  } catch (err) {
-    userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
-      err.message
-    );
-  } finally {
-    setTimeout(() => {
-      userManagementSelection.toastSection.innerHTML = '';
-    }, 3000);
-    window.location.reload();
   }
 };

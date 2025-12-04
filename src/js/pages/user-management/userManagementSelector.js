@@ -19,6 +19,7 @@ const userManagementSelection = {
   warehouseDetailsSelection: document.querySelector('.warehouse-list-section'),
   warehouseGrid: document.querySelector('.warehouse-grid'),
   noWarehouseParagraph: document.querySelector('.warehouse-list-section p'),
+  lastLogin: document.getElementById('lastLogin'),
 };
 
 export default userManagementSelection;

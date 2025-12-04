@@ -54,7 +54,7 @@
     <!--Edit User Profile-->
     <div
       class="modal fade"
-      id="update-profile"
+      id="updateProfileModal"
       tabindex="-1"
       aria-hidden="true"
     >
@@ -102,6 +102,11 @@
                   class="btn btn-primary fs-5 action"
                   id="confirmUpdate"
                 >
+                  <div
+                    class="spinner-border d-none"
+                    role="status"
+                    id="updateSpinner"
+                  ></div>
                   Update
                 </button>
               </div>
@@ -155,7 +160,7 @@
           <button
             class="action btn-edit"
             data-bs-toggle="modal"
-            data-bs-target="#update-profile"
+            data-bs-target="#updateProfileModal"
           >
             Edit Profile
           </button>
