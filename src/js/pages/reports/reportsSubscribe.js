@@ -41,13 +41,22 @@ async function transactionDetailsLoad() {
       document.querySelectorAll('.warehouse-option').forEach((option) => {
         option.addEventListener('click', () => {
           const id = option.getAttribute('data-id');
+          reportSelection.dropdownBtn.textContent = option.textContent.trim();
 
+          document.querySelectorAll('.warehouse-option').forEach((opt) => {
+            opt.classList.remove('active');
+          });
+
+          option.classList.add('active');
+
+          // Select ALL radio button
           const allRadio = document.querySelector('#All');
           if (allRadio) {
             allRadio.checked = true;
             const event = new Event('change');
             allRadio.dispatchEvent(event);
           }
+
           loadTransactions(id);
         });
       });
