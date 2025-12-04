@@ -11,6 +11,7 @@ import { getUserWarehouses } from '../../common/api/HelperApi.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
+const lastLogin = document.getElementById('lastLogin');
 
 export const getUserDetailsSubscribe = async () => {
   try {
@@ -28,10 +29,11 @@ export const getUserDetailsSubscribe = async () => {
     userManagementSelection.userRole.innerText = user.role;
     userManagementSelection.createdAt.innerText = new Date(
       user.createdAt
-    ).toLocaleDateString();
+    ).toDateString();
     userManagementSelection.updatedAt.innerText = new Date(
       user.updatedAt
-    ).toLocaleDateString();
+    ).toDateString();
+    lastLogin.innerHTML = new Date(user.lastLogin).toDateString();
 
     document.querySelector('#name').value = user.name;
 
@@ -72,12 +74,12 @@ export const getUserDetailsSubscribe = async () => {
 
       const warehouses = await getUserWarehouses();
 
-      if(!warehouses.length){
+      if (!warehouses.length) {
         userManagementSelection.noWarehouseParagraph.style.display = 'block';
-        userManagementSelection.noWarehouseParagraph.innerText = `No warehouse assigned yet!`
+        userManagementSelection.noWarehouseParagraph.innerText = `No warehouse assigned yet!`;
         return;
       }
-      
+
       userManagementSelection.noWarehouseParagraph.style.display = 'none';
       warehouses.forEach(async (warehouse) => {
         const res = await api.get(
