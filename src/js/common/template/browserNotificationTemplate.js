@@ -7,12 +7,14 @@ const createNotificationTemplate = (notification) => {
 
   let shipButton = '';
 
+  console.log(type);
+
   if (type === 'PENDING_SHIPMENT') {
     shipButton = `
       <div class="mt-2">
         <button 
           class="btn btn-sm btn-primary ship-btn" 
-          style="background-color: #864a5b; border-color: #2d292aff;" data-transaction="${transactionId}">
+          style="background-color: #864a5b; border-color: #2d292aff;" id="${transactionId}">
           Ship
         </button>
       </div>`;
@@ -28,4 +30,4 @@ const createNotificationTemplate = (notification) => {
   `;
 };
 
-export { createNotificationTemplate };
+export default createNotificationTemplate;

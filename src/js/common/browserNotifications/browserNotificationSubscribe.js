@@ -2,7 +2,7 @@ import api from '../../api/interceptor.js';
 import config from '../../config/config.js';
 import Templates from '../Templates.js';
 import browserNotificationsSelection from './browserNotificationsSelector.js';
-import { createNotificationTemplate } from '../template/notificationTemplate.js';
+import createNotificationTemplate from '../template/browserNotificationTemplate.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
@@ -17,6 +17,7 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
+//registering new/old user.
 async function registerAndSubscribe() {
   try {
     // Ask for notification permission
@@ -59,6 +60,7 @@ async function registerAndSubscribe() {
   }
 }
 
+//triggering notification section.
 async function sendNotification(title, body) {
   try {
     const payload = { title, body };
@@ -81,9 +83,10 @@ async function sendNotification(title, body) {
 }
 
 // Load notifications from the API
-async function loadNotifications() {
+export async function loadNotifications(offset) {
   try {
-    const res = await api.get(`${config.BROWSER_NOTIFICATION_URL}/`);
+    console.log('Load notifications is called');
+    const res = await api.get(`${config.BROWSER_NOTIFICATION_URL}/${offset}`);
 
     if (!res.data.success) {
       throw new Error('Error in loading notification');
@@ -91,7 +94,10 @@ async function loadNotifications() {
 
     //extract top 10 notification.
     const notifications = res.data.data || [];
-    const unseenCount = res.data.data.unseenCount;
+    const unseenCount = res.data.unseenCount;
+
+    console.log(notifications);
+    console.log(unseenCount);
 
     //updating unseen notification count.
     if (unseenCount > 0) {
@@ -99,6 +105,7 @@ async function loadNotifications() {
       browserNotificationsSelection.notificationCount.style.display =
         'inline-block';
     } else {
+      browserNotificationsSelection.notificationCount.textContent = 0;
       browserNotificationsSelection.notificationCount.style.display = 'none';
     }
 
@@ -113,9 +120,25 @@ async function loadNotifications() {
 }
 
 //adding single notification in the list.
-function addSingleNotification(notification) {
-  // browserNotificationsSelection.notificationList.innerHTML +=
-  //   createNotificationTemplate(notification);
+async function addSingleNotification() {
+  try {
+    const notification = await api.get(
+      `${config.BROWSER_NOTIFICATION_URL}/get-single-notification`
+    );
+
+    browserNotificationsSelection.notificationList.innerHTML +=
+      createNotificationTemplate(notification);
+
+    browserNotificationsSelection.notificationCount.innerText += 1;
+    browserNotificationsSelection.notificationCount.style.display =
+      'inline-block';
+  } catch (err) {
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
 }
 
 // rendering notifications & handling bell unseen notification.
@@ -126,19 +149,27 @@ async function renderNotifications(notifications) {
     notifications.forEach((notification) => {
       browserNotificationsSelection.notificationList.innerHTML +=
         createNotificationTemplate(notification);
-      const shipButton =
-        browserNotificationsSelection.querySelector('.ship-btn');
+    });
 
-      shipButton.addEventListener('click', async (event) => {
+    const shipButtons = document.querySelectorAll('.ship-btn');
+
+    console.log(shipButtons);
+
+    shipButtons.forEach((button) => {
+      button.addEventListener('click', async (event) => {
         const transactionId = event.target.id;
         if (!transactionId) {
           return;
         }
 
+        event.target.innerText = 'Shipped';
+
         //calling API to change the shipment status.
         await api.patch(
           `${config.NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
         );
+
+        button.disabled = true;
       });
     });
   } catch (err) {
@@ -168,7 +199,6 @@ async function markAllAsSeen() {
 export {
   registerAndSubscribe,
   sendNotification,
-  loadNotifications,
   addSingleNotification,
   renderNotifications,
   markAllAsSeen,

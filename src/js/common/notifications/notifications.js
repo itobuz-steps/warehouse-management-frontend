@@ -1,8 +1,8 @@
-// eslint-disable-next-line no-unused-vars
-import * as bootstrap from 'bootstrap';
+// // eslint-disable-next-line no-unused-vars
+// import * as bootstrap from 'bootstrap';
 
-import { initNotifications } from './notificationsSubscribe.js';
+// import { initNotifications } from './notificationsSubscribe.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
-  await initNotifications();
-});
+// document.addEventListener('DOMContentLoaded', async () => {
+//   await initNotifications();
+// });
