@@ -4,7 +4,7 @@ import {
   fetchProductsHavingQuantity,
 } from '../../common/api/productApiHelper.js';
 import { openProductModal } from './productDetails.js';
-import { dom } from './productSelector.js';
+import { productSelection } from './productSelector.js';
 import {
   createProductCard,
   showEmptyState,
@@ -54,8 +54,8 @@ export const renderPaginatedProducts = (allProducts) => {
 };
 
 export const renderProducts = (details) => {
-  dom.productGrid.className = '';
-  dom.productGrid.innerHTML = '';
+  productSelection.productGrid.className = '';
+  productSelection.productGrid.innerHTML = '';
 
   if (!details.length) {
     showEmptyState();
@@ -67,7 +67,7 @@ export const renderProducts = (details) => {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.innerHTML = createProductCard(product);
-    dom.productGrid.appendChild(card);
+    productSelection.productGrid.appendChild(card);
   });
 
   document.querySelectorAll('#viewDetails').forEach((btn) => {
@@ -79,7 +79,7 @@ export const renderProducts = (details) => {
 };
 
 export const renderPagination = (allProducts) => {
-  dom.pagination.innerHTML = '';
+  productSelection.pagination.innerHTML = '';
 
   const totalPages = Math.ceil(allProducts.length / productsPerPage);
 
@@ -88,11 +88,11 @@ export const renderPagination = (allProducts) => {
   }
 
   if (totalPages <= 1) {
-    dom.pagination.style.display = 'none';
+    productSelection.pagination.style.display = 'none';
     return;
   }
 
-  dom.pagination.style.display = 'flex';
+  productSelection.pagination.style.display = 'flex';
 
   for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement('button');
@@ -107,6 +107,6 @@ export const renderPagination = (allProducts) => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    dom.pagination.appendChild(btn);
+    productSelection.pagination.appendChild(btn);
   }
 };

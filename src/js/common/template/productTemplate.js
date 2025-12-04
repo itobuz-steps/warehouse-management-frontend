@@ -1,27 +1,27 @@
 import Templates from '../Templates.js';
-import { dom } from '../../pages/products/productSelector.js';
+import { productSelection } from '../../pages/products/productSelector.js';
 
 const templates = new Templates();
 
 export const showToast = (type, msg) => {
-  dom.toastSection.innerHTML =
+  productSelection.toastSection.innerHTML =
     type === 'success'
       ? templates.successToast(msg)
       : templates.errorToast(msg);
 
-  setTimeout(() => (dom.toastSection.innerHTML = ''), 3000);
+  setTimeout(() => (productSelection.toastSection.innerHTML = ''), 3000);
 };
 
 export const resetSearchFilters = () => {
-  dom.searchInput.value = '';
-  dom.categoryFilter.value = '';
-  dom.sortSelect.value = '';
+  productSelection.searchInput.value = '';
+  productSelection.categoryFilter.value = '';
+  productSelection.sortSelect.value = '';
 };
 
 export const updateWarehouseVisibility = (filter) => {
-  dom.warehouseSelect.disabled = filter !== 'warehouses';
+  productSelection.warehouseSelect.disabled = filter !== 'warehouses';
 
-  Array.from(dom.sortSelect.options).forEach((option) => {
+  Array.from(productSelection.sortSelect.options).forEach((option) => {
     if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
       option.style.display = filter === 'warehouses' ? 'block' : 'none';
     }
@@ -29,23 +29,23 @@ export const updateWarehouseVisibility = (filter) => {
 };
 
 export const showEmptyState = (msg = 'No products found.') => {
-  dom.productGrid.className = 'empty';
-  dom.productGrid.innerHTML = `<div>${msg}</div>`;
-  dom.pagination.innerHTML = '';
+  productSelection.productGrid.className = 'empty';
+  productSelection.productGrid.innerHTML = `<div>${msg}</div>`;
+  productSelection.pagination.innerHTML = '';
 };
 
 export const showErrorState = () => {
-  dom.productGrid.className = 'error';
-  dom.productGrid.innerHTML = `<div>Failed to load products. Please try again.</div>`;
-  dom.pagination.innerHTML = '';
+  productSelection.productGrid.className = 'error';
+  productSelection.productGrid.innerHTML = `<div>Failed to load products. Please try again.</div>`;
+  productSelection.pagination.innerHTML = '';
 };
 
 export const openModal = () => {
-  dom.addProductModal.style.display = 'flex';
+  productSelection.addProductModal.style.display = 'flex';
 };
 
 export const closeModal = () => {
-  dom.addProductModal.style.display = 'none';
+  productSelection.addProductModal.style.display = 'none';
 };
 
 export const populateWarehouseSelect = (

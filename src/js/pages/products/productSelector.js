@@ -1,4 +1,4 @@
-export const dom = {
+export const productSelection = {
   toastSection: document.getElementById('toastSection'),
   productGrid: document.getElementById('productGrid'),
   warehouseSelect: document.getElementById('warehouseSelect'),

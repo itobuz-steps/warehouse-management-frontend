@@ -1,4 +1,4 @@
-import { dom } from './productSelector.js';
+import { productSelection } from './productSelector.js';
 import {
   openModal,
   closeModal,
@@ -14,15 +14,15 @@ import { fetchProducts } from './productSubscribe.js';
 import { getCurrentUser } from '../../common/api/HelperApi.js';
 
 export const initEvents = () => {
-  dom.addProductsButton.addEventListener('click', openModal);
-  dom.closeModalButton.addEventListener('click', closeModal);
+  productSelection.addProductsButton.addEventListener('click', openModal);
+  productSelection.closeModalButton.addEventListener('click', closeModal);
 
-  dom.warehouseSelect.addEventListener('change', (e) => {
+  productSelection.warehouseSelect.addEventListener('change', (e) => {
     resetSearchFilters();
     fetchProducts(e.target.value);
   });
 
-  dom.addProductForm.addEventListener('submit', handleAddProduct);
+  productSelection.addProductForm.addEventListener('submit', handleAddProduct);
 };
 
 export const handleAddProduct = async (e) => {
@@ -31,13 +31,13 @@ export const handleAddProduct = async (e) => {
   const formData = new FormData();
   const user = await getCurrentUser();
 
-  formData.append('name', dom.addProductForm.productName.value);
-  formData.append('category', dom.addProductForm.productCategory.value);
-  formData.append('description', dom.addProductForm.productDescription.value);
-  formData.append('price', dom.addProductForm.productPrice.value);
+  formData.append('name', productSelection.addProductForm.productName.value);
+  formData.append('category', productSelection.addProductForm.productCategory.value);
+  formData.append('description', productSelection.addProductForm.productDescription.value);
+  formData.append('price', productSelection.addProductForm.productPrice.value);
   formData.append('createdBy', user._id);
 
-  [...dom.addProductForm.productImage.files].forEach((file) =>
+  [...productSelection.addProductForm.productImage.files].forEach((file) =>
     formData.append('productImage', file)
   );
 
@@ -50,7 +50,7 @@ export const handleAddProduct = async (e) => {
 
     showToast('success', res.data.message);
 
-    dom.addProductForm.reset();
+    productSelection.addProductForm.reset();
     closeModal();
 
     const params = new URLSearchParams(window.location.search);
@@ -64,22 +64,22 @@ export const handleAddProduct = async (e) => {
 };
 
 export const editProductHandler = () => {
-  dom.editName.value = dom.modalProductName.textContent;
-  dom.editDescription.value = dom.modalDescription.textContent;
-  dom.editCategory.value = dom.modalCategory.textContent;
-  dom.editPrice.value = dom.modalPrice.textContent;
+  productSelection.editName.value = productSelection.modalProductName.textContent;
+  productSelection.editDescription.value = productSelection.modalDescription.textContent;
+  productSelection.editCategory.value = productSelection.modalCategory.textContent;
+  productSelection.editPrice.value = productSelection.modalPrice.textContent;
 
-  dom.editModal.classList.remove('hidden');
+  productSelection.editModal.classList.remove('hidden');
 };
 
-dom.closeEditModal.addEventListener('click', () =>
-  dom.editModal.classList.add('hidden')
+productSelection.closeEditModal.addEventListener('click', () =>
+  productSelection.editModal.classList.add('hidden')
 );
 
 window.addEventListener('click', (e) => {
   
-  if (e.target === dom.editModal) {
-    dom.editModal.classList.add('hidden');
+  if (e.target === productSelection.editModal) {
+    productSelection.editModal.classList.add('hidden');
   }
   
 });
@@ -88,12 +88,12 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
   e.preventDefault();
 
   const formData = new FormData();
-  formData.append('name', dom.editName.value);
-  formData.append('description', dom.editDescription.value);
-  formData.append('category', dom.editCategory.value);
-  formData.append('price', dom.editPrice.value);
+  formData.append('name', productSelection.editName.value);
+  formData.append('description', productSelection.editDescription.value);
+  formData.append('category', productSelection.editCategory.value);
+  formData.append('price', productSelection.editPrice.value);
 
-  const files = dom.editImages.files;
+  const files = productSelection.editImages.files;
 
   for (let i = 0; i < files.length; i++) {
     formData.append('productImage', files[i]);
@@ -101,8 +101,8 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
 
   try {
     const res = await editProduct(formData, selectedProductId);
-    dom.editModal.classList.add('hidden');
-    dom.modal.classList.add('hidden');
+    productSelection.editModal.classList.add('hidden');
+    productSelection.modal.classList.add('hidden');
     const params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId');
     fetchProducts(warehouseId);
@@ -115,15 +115,15 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
 };
 
 export const deleteProductHandler = () => {
-  dom.confirmDeleteModal.classList.remove('hidden');
+  productSelection.confirmDeleteModal.classList.remove('hidden');
 };
 
 export async function handleDelete(selectedProductId) {
   try {
     const res = await deleteProduct(selectedProductId);
 
-    dom.confirmDeleteModal.classList.add('hidden');
-    dom.modal.classList.add('hidden');
+    productSelection.confirmDeleteModal.classList.add('hidden');
+    productSelection.modal.classList.add('hidden');
 
     const params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId');
