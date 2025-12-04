@@ -2,14 +2,14 @@ import {
   fetchAllProducts,
   fetchProductsByWarehouse,
   fetchProductsHavingQuantity,
-} from './productApiHelper.js';
+} from '../../common/api/productApiHelper.js';
 import { openProductModal } from './productDetails.js';
 import { dom } from './productSelector.js';
 import {
   createProductCard,
   showEmptyState,
   showErrorState,
-} from './productTemplate.js';
+} from '../../common/template/productTemplate.js';
 
 let allProducts = [];
 let currentPage = 1;

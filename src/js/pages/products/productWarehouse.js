@@ -1,12 +1,18 @@
 import { dom } from './productSelector.js';
-import { getCurrentUser, getUserWarehouses } from '../../common/api/HelperApi.js';
+import {
+  getCurrentUser,
+  getUserWarehouses,
+} from '../../common/api/HelperApi.js';
 import {
   populateWarehouseSelect,
   showEmptyState,
   showToast,
-} from './productTemplate.js';
+} from '../../common/template/productTemplate.js';
 import { fetchProducts } from './productSubscribe.js';
-import { resetSearchFilters, updateWarehouseVisibility } from './productTemplate.js';
+import {
+  resetSearchFilters,
+  updateWarehouseVisibility,
+} from '../../common/template/productTemplate.js';
 
 dom.filterTypeSelect.addEventListener('change', async () => {
   const type = dom.filterTypeSelect.value;

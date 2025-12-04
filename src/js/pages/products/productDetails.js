@@ -2,7 +2,7 @@ import {
   fetchProductQuantityWarehouse,
   fetchProductSpecificWarehouses,
   fetchTotalProductQuantity,
-} from './productApiHelper';
+} from '../../common/api/productApiHelper';
 import {
   deleteProductHandler,
   editProductHandler,

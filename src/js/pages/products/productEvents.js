@@ -1,6 +1,15 @@
 import { dom } from './productSelector.js';
-import { openModal, closeModal, showToast, resetSearchFilters } from './productTemplate.js';
-import { addProduct, deleteProduct, editProduct } from './productApiHelper.js';
+import {
+  openModal,
+  closeModal,
+  showToast,
+  resetSearchFilters,
+} from '../../common/template/productTemplate.js';
+import {
+  addProduct,
+  deleteProduct,
+  editProduct,
+} from '../../common/api/productApiHelper.js';
 import { fetchProducts } from './productSubscribe.js';
 import { getCurrentUser } from '../../common/api/HelperApi.js';
 

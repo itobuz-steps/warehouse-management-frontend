@@ -1,5 +1,5 @@
-import Templates from '../../common/Templates.js';
-import { dom } from './productSelector.js';
+import Templates from '../Templates.js';
+import { dom } from '../../pages/products/productSelector.js';
 
 const templates = new Templates();
 

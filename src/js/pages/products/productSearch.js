@@ -4,8 +4,11 @@ import { fetchProducts, renderPaginatedProducts } from './productSubscribe.js';
 import { getCurrentUser } from '../../common/api/HelperApi.js';
 import { dom } from './productSelector.js';
 import { loadWarehouses } from './productWarehouse.js';
-import { showToast } from './productTemplate.js';
-import { resetSearchFilters, updateWarehouseVisibility } from './productTemplate.js';
+import { showToast } from '../../common/template/productTemplate.js';
+import {
+  resetSearchFilters,
+  updateWarehouseVisibility,
+} from '../../common/template/productTemplate.js';
 
 let searchQuery = '';
 let selectedCategory = '';
@@ -70,7 +73,7 @@ export const fetchSearch = async (role, warehouseId = '') => {
       return;
     }
 
-    console.log(warehouseId)
+    console.log(warehouseId);
 
     const url = new URL(window.location);
     const filter = url.searchParams.get('filter');
