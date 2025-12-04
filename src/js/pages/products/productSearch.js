@@ -13,8 +13,9 @@ let selectedSort = '';
 
 export const initProductSearch = async () => {
   const url = new URL(window.location);
-  const filter = url.searchParams.get('filter') || '';
+  const filter = url.searchParams.get('filter') || 'products';
 
+  dom.filterTypeSelect.value = filter;
   dom.warehouseSelect.disabled = filter !== 'warehouses';
 
   Array.from(dom.sortSelect.options).forEach((option) => {
