@@ -187,3 +187,135 @@ body {
 .sidebar.active ~ .main-content {
   margin-left: 220px;
 }
+
+/* Modal Overlay for Add Product */
+#addProductModalTransaction.modal-overlay {
+  display: none; // controlled via JS
+  position: fixed;
+  inset: 0;
+  background: rgba($color-text, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: fadeIn 0.25s ease;
+  overflow-y: auto;
+
+  &.show {
+    display: flex;
+  }
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 480px;
+  background: $color-bg;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0px 8px 25px rgba($color-text, 0.15);
+  animation: popIn 0.25s ease;
+  border: 1px solid $color-border;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  @media (min-width: 768px) {
+    padding: 30px;
+  }
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $color-primary;
+  margin-bottom: 20px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: $color-text;
+    }
+
+    input,
+    select,
+    textarea {
+      padding: 10px 12px;
+      border: 1px solid $color-border;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: $transition;
+
+      &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.15);
+      }
+    }
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 10px;
+
+  button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $transition;
+
+    &.cancel-btn {
+      background: $color-secondary;
+      color: white;
+      border: none;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    &.submit-btn {
+      background: $color-primary;
+      color: white;
+      border: none;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
