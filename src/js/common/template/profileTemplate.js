@@ -1,4 +1,5 @@
 const verifiedManagerCard = (
+  id,
   name,
   email,
   lastLogin,
@@ -24,12 +25,12 @@ const verifiedManagerCard = (
     ${
       isActive
         ? `
-      <button class="block-user-btn">
+      <button class="block-user-btn" onclick="changeStatus('${id}')">
         <i class="fas fa-ban"></i> Block User
       </button>
     `
         : `
-      <button class="unblock-user-btn">
+      <button class="unblock-user-btn" onclick="changeStatus('${id}')">
         <i class="fas fa-unlock"></i> Unblock User
       </button>
     `

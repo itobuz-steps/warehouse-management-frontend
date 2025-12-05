@@ -49,6 +49,7 @@ export const getUserDetailsSubscribe = async () => {
         const lastLogin = new Date(manager.lastLogin).toLocaleDateString();
 
         const card = verifiedManagerCard(
+          manager._id,
           manager.name,
           manager.email,
           lastLogin,

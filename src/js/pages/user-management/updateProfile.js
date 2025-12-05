@@ -14,11 +14,15 @@ export const updateUserSubscribe = async (event) => {
   event.preventDefault();
   const formData = new FormData(userManagementSelection.updateProfileForm);
   try {
-    await api.patch(`${config.PROFILE_BASE_URL}/update-profile`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const res = await api.patch(
+      `${config.PROFILE_BASE_URL}/update-profile`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
 
     updateSpinner.classList.remove('d-none');
 
@@ -27,6 +31,9 @@ export const updateUserSubscribe = async (event) => {
     await getUserDetailsSubscribe();
 
     updateSpinner.classList.add('d-none');
+    userManagementSelection.toastSection.innerHTML = displayToast.successToast(
+      res.data.message
+    );
   } catch (err) {
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
@@ -37,3 +44,24 @@ export const updateUserSubscribe = async (event) => {
     }, 3000);
   }
 };
+
+async function changeStatus(managerId) {
+  try {
+    const response = await api.patch(
+      `${config.PROFILE_BASE_URL}/change-user-status/${managerId}`
+    );
+
+    console.log(response);
+    await getUserDetailsSubscribe();
+
+    userManagementSelection.toastSection.innerHTML = displayToast.successToast(
+      response.data.message
+    );
+  } catch (err) {
+    userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.response.message
+    );
+  }
+}
+
+window.changeStatus = changeStatus;
