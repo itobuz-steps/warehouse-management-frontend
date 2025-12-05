@@ -363,6 +363,7 @@ body {
   color: $color-primary-dark;
   @include box-shadow(0 4px 8px rgba(185, 122, 135, 0.3));
   cursor: pointer;
+  width: auto;
 }
 
 .export {
