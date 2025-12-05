@@ -1,5 +1,5 @@
 import config from '../../config/config';
-import { dom } from '../products/productSelector';
+import { productSelection } from '../products/productSelector';
 
 let currentImages = [];
 let currentImageIndex = 0;
@@ -19,22 +19,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     ? product.data.productImage
     : ['/images/placeholder.png'];
 
-  dom.carouselImg.src = currentImages[0];
+  productSelection.carouselImg.src = currentImages[0];
 
-  dom.modalProductName.textContent = product.data.name;
-  dom.modalDescription.textContent =
+  productSelection.modalProductName.textContent = product.data.name;
+  productSelection.modalDescription.textContent =
     product.data.description || 'No description available.';
-  dom.modalPrice.textContent = product.data.price ?? 'N/A';
-  dom.modalCategory.textContent = product.data.category ?? 'Not Categorized';
+  productSelection.modalPrice.textContent = product.data.price ?? 'N/A';
+  productSelection.modalCategory.textContent =
+    product.data.category ?? 'Not Categorized';
 });
 
-dom.prev.addEventListener('click', () => {
+productSelection.prev.addEventListener('click', () => {
   currentImageIndex =
     (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-  dom.carouselImg.src = currentImages[currentImageIndex];
+  productSelection.carouselImg.src = currentImages[currentImageIndex];
 });
 
-dom.next.addEventListener('click', () => {
+productSelection.next.addEventListener('click', () => {
   currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-  dom.carouselImg.src = currentImages[currentImageIndex];
+  productSelection.carouselImg.src = currentImages[currentImageIndex];
 });

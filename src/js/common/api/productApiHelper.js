@@ -48,3 +48,8 @@ export const fetchProductSpecificWarehouses = (productId) =>
   api.get(
     `${config.QUANTITY_BASE_URL}/product-specific-warehouses/${productId}`
   );
+
+export const qrCodeFetch = (productId) =>
+  api.get(`${config.PRODUCT_BASE_URL}/qr/${productId}`, {
+    responseType: 'blob',
+  });
