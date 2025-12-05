@@ -42,13 +42,13 @@ api.interceptors.response.use(
     // if timeout or server don't return anything
     if (error.code === 'ECONNABORTED' || error.message === 'Network Error') {
       window.location.href = '/pages/connection-out.html';
-      return Promise.reject(new Error('Server Unreachable'));
+      // return Promise.reject(new Error('Server Unreachable'));
     }
 
     //server crash or any server related issue
     if (error.response && error.response.status >= 500) {
       window.location.href = '/pages/connection-out.html';
-      return Promise.reject(new Error('Server Error'));
+      // return Promise.reject(new Error('Server Error'));
     }
 
     if (
@@ -80,7 +80,7 @@ api.interceptors.response.use(
           }
         );
 
-        const newAccessToken = res.data.accessToken || res.data.access_token;
+        const newAccessToken = res.data.data.accessToken || res.data.data.access_token;
 
         if (!newAccessToken) {
           processQueue(new Error('No access token in refresh response'), null);
