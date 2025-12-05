@@ -49,6 +49,10 @@ export async function displayProducts(type) {
         lastLoadedProductsByContainer[containerId] = [];
         return;
       }
+      const res = await api.get(
+        `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
+      );
+      products = res.data?.data || [];
     }
 
     container.innerHTML = '';
