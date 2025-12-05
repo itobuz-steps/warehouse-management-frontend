@@ -89,6 +89,7 @@ async function showTopProductsSubscribe(warehouseId) {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             display: false,
@@ -164,7 +165,7 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
         },
       ],
     },
-    options: { responsive: true },
+    options: { responsive: true, maintainAspectRatio: false },
   });
 };
 
@@ -209,6 +210,7 @@ const showProductTransactionSubscribe = async (warehouseId) => {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: { title: { display: true, text: 'Last 7 Days (Daily)' } },
         scales: {
           x: {
@@ -375,7 +377,6 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
     });
 
     return true;
-
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
