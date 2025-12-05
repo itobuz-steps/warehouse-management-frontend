@@ -132,13 +132,12 @@
         </div>
       </div>
 
-      <!-- Overview Cards -->
-      <select
-        id="warehouseSelect"
-        class="form-control warehouse-select w-25 my-3"
-      >
-        <i class="fa-solid fa-angle-down"></i>
-      </select>
+      <div class="warehouse-select-wrapper w-25 my-3">
+        <select id="warehouseSelect" class="form-control warehouse-select">
+          <!-- Options will be added dynamically -->
+        </select>
+        <i class="select-arrow fa-solid fa-angle-down"></i>
+      </div>
 
       <section class="overview-grid my-3">
         <div class="overview-card py-3">
@@ -161,9 +160,7 @@
         </div>
       </section>
 
-      <div class="no-dashboard-box">
-        
-      </div>  
+      <div class="no-dashboard-box"></div>
 
       <!-- Static Charts -->
       <section class="charts-grid">

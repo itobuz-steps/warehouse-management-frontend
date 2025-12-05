@@ -126,7 +126,6 @@ body {
 .main-content {
   // margin-left: 250px;
   padding: 30px 40px;
-
 }
 
 .no-dashboard-box {
@@ -358,12 +357,41 @@ body {
   }
 }
 
-.warehouse-select {
-  border: none;
-  background-color: $color-white;
-  color: $color-primary-dark;
-  @include box-shadow(0 4px 8px rgba(185, 122, 135, 0.3));
-  cursor: pointer;
+.warehouse-select-wrapper {
+  position: relative;
+
+  .warehouse-select {
+    width: 100%;
+    border: none;
+    background-color: $color-white;
+    color: $color-primary-dark;
+    @include box-shadow(0 4px 8px rgba(185, 122, 135, 0.3));
+    cursor: pointer;
+    padding: 12px 40px 12px 16px;
+    font-size: 0.95rem;
+    border-radius: $radius-sm;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  .select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: $color-primary-dark;
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+// Responsive
+@include responsive {
+  .warehouse-select-wrapper {
+    width: 100% !important;
+  }
 }
 
 .export {
