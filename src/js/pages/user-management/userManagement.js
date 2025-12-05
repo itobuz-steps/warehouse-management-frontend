@@ -2,15 +2,14 @@ import '../../../scss/user-management.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
 
-import {
-  getUserDetailsSubscribe,
-  deleteUserSubscribe,
-  updateUserSubscribe,
-} from './userManagementSubscribe.js';
+import { getUserDetailsSubscribe } from './userManagementSubscribe.js';
+import { updateUserSubscribe } from './updateProfile.js';
+import { deleteUserSubscribe } from './deleteUser.js';
 import userManagementSelection from './userManagementSelector.js';
 
 document.addEventListener('DOMContentLoaded', getUserDetailsSubscribe);
 
+//delete profile
 userManagementSelection.confirmDelete.addEventListener('click', async () => {
   await deleteUserSubscribe();
   localStorage.removeItem('accessToken');
@@ -18,6 +17,7 @@ userManagementSelection.confirmDelete.addEventListener('click', async () => {
   window.location.href = '../pages/login.html';
 });
 
+// update profile
 userManagementSelection.updateProfileForm.addEventListener(
   'submit',
   updateUserSubscribe
