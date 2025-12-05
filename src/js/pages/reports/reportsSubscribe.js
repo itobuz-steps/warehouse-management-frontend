@@ -7,222 +7,251 @@ import {
 import config from '../../config/config.js';
 import reportSelection from './reportsSelectors.js';
 
+let currentWarehouseId = 'ALL'; // track of the current warehouse ID
+
 async function transactionDetailsLoad() {
   try {
     const user = await getCurrentUser();
 
+    const warehouses = await getUserWarehouses();
     const transactionTemplate = new TransactionDetailsTemplate();
 
-    // get user specific warehouses
-    let warehouses = await getUserWarehouses();
-
-    const dropdown = document.querySelector('.warehouses-options');
-
-    // Add default ALL option
-    dropdown.innerHTML = `
-      <li>
-        <a class="dropdown-item warehouse-option active" data-id="ALL">All Warehouses</a>
-      </li>
-    `;
-
-    // Render user warehouses
-    warehouses.forEach((warehouse) => {
-      dropdown.innerHTML += transactionTemplate.warehouseOptions(warehouse);
-    });
-
-    // Attach click listeners
-    attachWarehouseFilter();
-
-    // Date filter button
-    document.getElementById('applyDateFilter').addEventListener('click', () => {
-      const warehouseId = document
-        .querySelector('.warehouse-option.active')
-        .getAttribute('data-id');
-      loadTransactions(warehouseId); // reload with date filters
-    });
+    renderWarehouseDropdown(warehouses, transactionTemplate);
+    attachEventListeners(user, warehouses, transactionTemplate);
 
     // Load ALL transactions by default
-    loadTransactions('ALL');
-
-    // Warehouse dropdown option click
-    function attachWarehouseFilter() {
-      document.querySelectorAll('.warehouse-option').forEach((option) => {
-        option.addEventListener('click', () => {
-          const id = option.getAttribute('data-id');
-          reportSelection.dropdownBtn.textContent = option.textContent.trim();
-
-          document.getElementById('startDate').value = '';
-          document.getElementById('endDate').value = '';
-
-          document.querySelectorAll('.warehouse-option').forEach((opt) => {
-            opt.classList.remove('active');
-          });
-
-          option.classList.add('active');
-
-          // Select ALL radio button
-          const allRadio = document.querySelector('#All');
-          if (allRadio) {
-            allRadio.checked = true;
-            const event = new Event('change');
-            allRadio.dispatchEvent(event);
-          }
-
-          loadTransactions(id);
-        });
-      });
-    }
-
-    // Load the transactions in the page
-    async function loadTransactions(warehouseId) {
-      let result;
-      // Read date filters
-      const startDate = document.getElementById('startDate').value;
-      const endDate = document.getElementById('endDate').value;
-
-      // Build query params
-      const params = new URLSearchParams();
-
-      if (startDate) {
-        params.append('startDate', startDate);
-      }
-
-      if (endDate) {
-        params.append('endDate', endDate);
-      }
-
-      let query = params.toString() ? `?${params.toString()}` : '';
-
-      if (warehouseId === 'ALL') {
-        // Load ALL transactions
-        result = await api.get(`${config.TRANSACTION_BASE_URL}/${query}`);
-      } else {
-        // Load warehouse specific
-        result = await api.get(
-          `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}${query}`
-        );
-      }
-
-      let allModifiedTransactions = result.data.data;
-      let allTransactions = [];
-
-      // Check for warehouseIds with transaction's warehouse Ids
-      if (user.role === 'manager') {
-        allModifiedTransactions.forEach((transaction) => {
-          let flag = false;
-          for (let warehouse of warehouses) {
-            if (
-              (transaction.sourceWarehouse &&
-                transaction.sourceWarehouse._id === warehouse._id) ||
-              (transaction.destinationWarehouse &&
-                transaction.destinationWarehouse._id === warehouse._id)
-            ) {
-              flag = true;
-              break;
-            }
-          }
-          if (flag) {
-            allTransactions.push(transaction);
-          }
-        });
-      } else {
-        allTransactions = allModifiedTransactions;
-      }
-
-      // Main render function
-      function renderTransactions(filterType = 'ALL') {
-        let filtered = allTransactions.filter(
-          (transaction) =>
-            filterType === 'ALL' || transaction.type === filterType
-        );
-        renderTransactionsList(filtered);
-      }
-
-      // Populate UI with generated HTML
-      function renderTransactionsList(transactions) {
-        reportSelection.reportSection.innerHTML = '';
-
-        if (!transactions || transactions.length === 0) {
-          reportSelection.reportSection.innerHTML =
-            transactionTemplate.noStockIndicate();
-          return;
-        }
-
-        transactions.forEach((transaction) => {
-          let block;
-
-          switch (transaction.type) {
-            case 'IN':
-              block = transactionTemplate.stockInDetails(transaction);
-              break;
-            case 'OUT':
-              block = transactionTemplate.stockOutDetails(transaction);
-              break;
-            case 'ADJUSTMENT':
-              block = transactionTemplate.stockAdjustDetails(transaction);
-              break;
-            case 'TRANSFER':
-              block = transactionTemplate.stockTransferDetails(transaction);
-              break;
-          }
-
-          reportSelection.reportSection.innerHTML += block;
-        });
-
-        attachInvoiceListeners();
-      }
-
-      // Load first time for default all types
-      renderTransactions();
-
-      // Filter by type (radio buttons)
-      document.querySelectorAll('input[name="btnradio"]').forEach((radio) => {
-        radio.addEventListener('change', () => {
-          let filterMap = {
-            All: 'ALL',
-            In: 'IN',
-            Out: 'OUT',
-            Adjust: 'ADJUSTMENT',
-            Transfer: 'TRANSFER',
-          };
-
-          document.getElementById('startDate').value = '';
-          document.getElementById('endDate').value = '';
-
-          renderTransactions(filterMap[radio.id]);
-        });
-      });
-
-      // Invoice listener
-      function attachInvoiceListeners() {
-        document.querySelectorAll('.invoice-btn').forEach((btn) => {
-          btn.addEventListener('click', async (event) => {
-            try {
-              const id = event.target.value;
-              const result = await api.get(
-                `${config.TRANSACTION_BASE_URL}/generate-invoice/${id}`,
-                { responseType: 'blob' }
-              );
-
-              const blob = new Blob([result.data], { type: 'application/pdf' });
-              const url = window.URL.createObjectURL(blob);
-
-              const pdfLink = document.createElement('a');
-              pdfLink.href = url;
-              pdfLink.download = 'invoice.pdf';
-              pdfLink.click();
-
-              window.URL.revokeObjectURL(url);
-            } catch (err) {
-              console.error(err);
-            }
-          });
-        });
-      }
-    }
+    loadTransactions('ALL', user, warehouses, transactionTemplate);
   } catch (err) {
-    console.error(err);
+    console.error('Error loading transaction details:', err);
   }
+}
+
+// Render warehouse dropdown with specific warehouses
+function renderWarehouseDropdown(warehouses, transactionTemplate) {
+  const dropdown = document.querySelector('.warehouses-options');
+  dropdown.innerHTML = `
+    <li>
+      <a class="dropdown-item warehouse-option active" data-id="ALL">All Warehouses</a>
+    </li>
+  `;
+
+  warehouses.forEach((warehouse) => {
+    dropdown.innerHTML += transactionTemplate.warehouseOptions(warehouse);
+  });
+}
+
+// Attach all necessary event listeners
+function attachEventListeners(user, warehouses, transactionTemplate) {
+  attachWarehouseFilter(user, warehouses, transactionTemplate);
+  attachDateFilter(user, warehouses, transactionTemplate);
+  attachRadioFilter(user, warehouses, transactionTemplate);
+}
+
+// Attach event listener for warehouse filter
+function attachWarehouseFilter(user, warehouses, transactionTemplate) {
+  document.querySelectorAll('.warehouse-option').forEach((option) => {
+    option.addEventListener('click', () => {
+      // Update selected warehouse-id
+      currentWarehouseId = option.getAttribute('data-id');
+
+      // Update UI to reflect the active warehouse
+      updateActiveWarehouse(option);
+
+      // Load transactions based on the selected warehouse, passing the required parameters
+      loadTransactions(
+        currentWarehouseId,
+        user,
+        warehouses,
+        transactionTemplate
+      );
+    });
+  });
+}
+
+// Update the UI when a warehouse option is clicked
+function updateActiveWarehouse(option) {
+  reportSelection.dropdownBtn.textContent = option.textContent.trim();
+
+  document.querySelectorAll('.warehouse-option').forEach((opt) => {
+    opt.classList.remove('active');
+  });
+
+  option.classList.add('active');
+  resetDateFilter();
+}
+
+// Reset the date filter
+function resetDateFilter() {
+  document.getElementById('startDate').value = '';
+  document.getElementById('endDate').value = '';
+}
+
+// Attach event listener for date filter button
+function attachDateFilter(user, warehouses, transactionTemplate) {
+  document.getElementById('applyDateFilter').addEventListener('click', () => {
+    const warehouseId = document
+      .querySelector('.warehouse-option.active')
+      .getAttribute('data-id');
+    loadTransactions(warehouseId, user, warehouses, transactionTemplate); // reload with date filters
+  });
+}
+
+// Attach event listener for type
+function attachRadioFilter(user, warehouses, transactionTemplate) {
+  document.querySelectorAll('input[name="btnradio"]').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      resetDateFilter();
+
+      loadTransactions(
+        currentWarehouseId,
+        user,
+        warehouses,
+        transactionTemplate
+      );
+    });
+  });
+}
+
+// Load transactions based on filters
+async function loadTransactions(
+  warehouseId,
+  user,
+  warehouses,
+  transactionTemplate
+) {
+  try {
+    let result;
+    const params = buildQueryParams();
+
+    if (warehouseId === 'ALL') {
+      result = await api.get(`${config.TRANSACTION_BASE_URL}/${params}`);
+    } else {
+      result = await api.get(
+        `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}${params}`
+      );
+    }
+
+    const allTransactions = filterTransactions(
+      result.data.data,
+      user,
+      warehouses
+    );
+    renderTransactionsList(allTransactions, transactionTemplate);
+  } catch (err) {
+    console.error('Error loading transactions:', err);
+  }
+}
+
+function buildQueryParams() {
+  const params = new URLSearchParams();
+
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+
+  if (startDate) {
+    params.append('startDate', startDate);
+  }
+
+  if (endDate) {
+    params.append('endDate', endDate);
+  }
+
+  const selectedRadio = document.querySelector(
+    'input[name="btnradio"]:checked'
+  );
+
+  if (selectedRadio) {
+    const filterMap = {
+      All: 'ALL',
+      In: 'IN',
+      Out: 'OUT',
+      Adjust: 'ADJUSTMENT',
+      Transfer: 'TRANSFER',
+    };
+    const type = filterMap[selectedRadio.id];
+    
+    if (type && type !== 'ALL') {
+      params.append('type', type);
+    }
+  }
+
+  return params.toString() ? `?${params.toString()}` : '';
+}
+
+// Filter transactions based on user role and warehouses
+function filterTransactions(allTransactions, user, warehouses) {
+  if (user.role === 'manager') {
+    return allTransactions.filter((transaction) => {
+      return warehouses.some(
+        (warehouse) =>
+          (transaction.sourceWarehouse &&
+            transaction.sourceWarehouse._id === warehouse._id) ||
+          (transaction.destinationWarehouse &&
+            transaction.destinationWarehouse._id === warehouse._id)
+      );
+    });
+  } else {
+    return allTransactions;
+  }
+}
+
+// Render list of transactions
+function renderTransactionsList(transactions, transactionTemplate) {
+  reportSelection.reportSection.innerHTML = '';
+
+  if (!transactions || transactions.length === 0) {
+    reportSelection.reportSection.innerHTML =
+      transactionTemplate.noStockIndicate();
+    return;
+  }
+
+  transactions.forEach((transaction) => {
+    let block;
+    switch (transaction.type) {
+      case 'IN':
+        block = transactionTemplate.stockInDetails(transaction);
+        break;
+      case 'OUT':
+        block = transactionTemplate.stockOutDetails(transaction);
+        break;
+      case 'ADJUSTMENT':
+        block = transactionTemplate.stockAdjustDetails(transaction);
+        break;
+      case 'TRANSFER':
+        block = transactionTemplate.stockTransferDetails(transaction);
+        break;
+    }
+    reportSelection.reportSection.innerHTML += block;
+  });
+
+  attachInvoiceListeners();
+}
+
+// Attach listeners for invoice download buttons
+function attachInvoiceListeners() {
+  document.querySelectorAll('.invoice-btn').forEach((btn) => {
+    btn.addEventListener('click', async (event) => {
+      try {
+        const id = event.target.value;
+        const result = await api.get(
+          `${config.TRANSACTION_BASE_URL}/generate-invoice/${id}`,
+          { responseType: 'blob' }
+        );
+
+        const blob = new Blob([result.data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+
+        const pdfLink = document.createElement('a');
+        pdfLink.href = url;
+        pdfLink.download = 'invoice.pdf';
+        pdfLink.click();
+
+        window.URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  });
 }
 
 export default transactionDetailsLoad;

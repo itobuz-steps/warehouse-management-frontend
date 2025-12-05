@@ -132,7 +132,7 @@ body {
   height: auto;
 }
 
-button.warehouse-dropdown {
+button.warehouse-dropdown, button.filter-btn {
   @include button();
 }
 
