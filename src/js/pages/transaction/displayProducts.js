@@ -4,57 +4,61 @@ import api from '../../api/interceptor';
 import { transactionSelectors } from './transactionSelector';
 
 const { containers, warehouses } = transactionSelectors;
-const { sourceWarehouse, destinationWarehouse } = warehouses;
+const { sourceWarehouse } = warehouses;
 
 // store last loaded products per container
 const lastLoadedProductsByContainer = {};
 
 export async function displayProducts(type) {
-  let warehouseId;
+  let warehouseId = null;
   let containerId;
 
   switch (type) {
     case 'IN':
-      warehouseId = destinationWarehouse.value;
       containerId = 'inProductsContainer';
       break;
+
     case 'OUT':
-      warehouseId = sourceWarehouse.value;
-      containerId = 'outProductsContainer';
-      break;
     case 'TRANSFER':
-      warehouseId = sourceWarehouse.value;
-      containerId = 'transferProductsContainer';
-      break;
     case 'ADJUSTMENT':
       warehouseId = sourceWarehouse.value;
-      containerId = 'adjustProductsContainer';
+      containerId = {
+        OUT: 'outProductsContainer',
+        TRANSFER: 'transferProductsContainer',
+        ADJUSTMENT: 'adjustProductsContainer',
+      }[type];
       break;
+
     default:
       return;
   }
 
   const container = containers[containerId];
-  if (!warehouseId) {
-    container.innerHTML =
-      "<p class='text-muted'>Please select a warehouse first.</p>";
-    lastLoadedProductsByContainer[containerId] = [];
-    return;
-  }
+  container.innerHTML = '<em>Loading products...</em>';
 
   try {
-    container.innerHTML = '<em>Loading products...</em>';
+    let products = [];
 
-    const res = await api.get(
-      `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
-    );
-    const products = res.data?.data || [];
+    if (type === 'IN') {
+      const res = await api.get(`${config.PRODUCT_BASE_URL}`);
+      products = res.data?.data || [];
+    } else {
+      if (!warehouseId || warehouseId.trim() === '') {
+        container.innerHTML =
+          "<p class='text-muted'>Please select a warehouse first.</p>";
+        lastLoadedProductsByContainer[containerId] = [];
+        return;
+      }
+      const res = await api.get(
+        `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
+      );
+      products = res.data?.data || [];
+    }
 
     container.innerHTML = '';
 
     if (!products.length) {
-      container.innerHTML =
-        "<p class='text-muted'>No products found for this warehouse.</p>";
+      container.innerHTML = "<p class='text-muted'>No products available.</p>";
       lastLoadedProductsByContainer[containerId] = [];
       return;
     }
@@ -82,15 +86,25 @@ export function addProductRowForContainer(containerId) {
 function addProductRow(container, products) {
   const row = document.createElement('div');
   row.className = 'product-row mb-2';
+
+  const isRawProduct = products.length && !products[0].product;
+  // true for Stock IN, false for OUT/TRANSFER/ADJUSTMENT
+
   row.innerHTML = `
     <select class="form-select productSelect mb-1">
       ${products
-        .map(
-          (p) =>
-            `<option value="${p.product._id}">${p.product.name} (Qty: ${p.quantity})</option>`
-        )
+        .map((p) => {
+          if (isRawProduct) {
+            // Stock IN (raw product object)
+            return `<option value="${p._id}">${p.name}</option>`;
+          } else {
+            // Warehouse-specific product
+            return `<option value="${p.product._id}">${p.product.name} (Qty: ${p.quantity})</option>`;
+          }
+        })
         .join('')}
     </select>
+
     <input
       type="number"
       min="1"
@@ -98,5 +112,6 @@ function addProductRow(container, products) {
       placeholder="Quantity"
     />
   `;
+
   container.appendChild(row);
 }

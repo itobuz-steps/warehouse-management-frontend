@@ -227,6 +227,9 @@ $font-family-base:
   }
 }
 
+.reset-form {
+  display: none;
+}
 .reset-password-btn {
   background-color: $color-primary;
   border: 2px solid $color-primary;
@@ -236,4 +239,14 @@ $font-family-base:
   background-color: $color-primary-dark;
   border: 2px solid $color-primary-dark;
   color: $white;
+}
+.timer {
+  color: $color-primary-dark;
+}
+.counter {
+  color: $body-color;
+  font-weight: 500;
+}
+.resend-btn {
+  display: none;
 }

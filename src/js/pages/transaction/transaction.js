@@ -11,6 +11,7 @@ import { addProductRowForContainer } from './displayProducts.js';
 import submitForm from './submitForm.js';
 import { transactionSelectors } from './transactionSelector.js';
 import Templates from '../../common/Templates';
+import { initTransactionProductEvents } from './transactionProductEvents.js';
 
 const toastMessage = new Templates();
 const { buttons, containers, form, typeSelect, toastSection } =
@@ -18,6 +19,9 @@ const { buttons, containers, form, typeSelect, toastSection } =
 
 // 1. Initial setup
 displayTransactionType();
+
+// Initialize product creation modal events
+initTransactionProductEvents();
 
 // When transaction type changes:
 typeSelect.addEventListener('change', () => {
