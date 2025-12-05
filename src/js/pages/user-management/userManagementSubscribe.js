@@ -23,15 +23,15 @@ export const getUserDetailsSubscribe = async () => {
     clearProfileData();
 
     userManagementSelection.userName.innerHTML = user.name;
-    userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`;
-    userManagementSelection.lastLogin.innerHTML = new Date(
-      user.lastLogin
-    ).toDateString();
+    userManagementSelection.userRole.innerHTML = user.role;
 
+    userManagementSelection.name.value = user.name;
+    userManagementSelection.userRole.style.textTransform = 'capitalize';
+
+    userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`;
     userManagementSelection.userImg.src =
       user.profileImage || '../../../assets/images/profile_default.svg';
 
-    userManagementSelection.userRole.innerHTML = user.role;
     userManagementSelection.createdAt.innerHTML = new Date(
       user.createdAt
     ).toDateString();
@@ -40,8 +40,9 @@ export const getUserDetailsSubscribe = async () => {
       user.updatedAt
     ).toDateString();
 
-    document.querySelector('#name').value = user.name;
-    userManagementSelection.userRole.style.textTransform = 'capitalize';
+    userManagementSelection.lastLogin.innerHTML = new Date(
+      user.lastLogin
+    ).toDateString();
 
     if (verifiedManagers.length) {
       verifiedManagers.forEach((manager) => {

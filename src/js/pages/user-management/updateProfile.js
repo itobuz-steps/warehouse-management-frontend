@@ -22,9 +22,10 @@ export const updateUserSubscribe = async (event) => {
 
     updateSpinner.classList.remove('d-none');
 
-    await getUserDetailsSubscribe();
     updateModalObj.hide();
     userManagementSelection.updateProfileForm.reset();
+    await getUserDetailsSubscribe();
+
     updateSpinner.classList.add('d-none');
   } catch (err) {
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(

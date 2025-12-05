@@ -13,7 +13,7 @@ const userManagementSelection = {
   confirmDelete: document.querySelector('#confirmDelete'),
   confirmUpdate: document.querySelector('#confirmUpdate'),
   profileImg: document.querySelector('#profileImg'),
-  name: document.querySelector('#name'),
+  name: document.getElementById('name'),
   updateProfileForm: document.querySelector('#updateProfile'),
   toastSection: document.getElementById('toastSection'),
   warehouseDetailsSelection: document.querySelector('.warehouse-list-section'),

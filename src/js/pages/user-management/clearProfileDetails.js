@@ -11,4 +11,5 @@ export default function clearProfileData() {
   userManagementSelection.verifiedManagerGrid.innerHTML = '';
   userManagementSelection.notVerifiedManagerGrid.innerHTML = '';
   userManagementSelection.warehouseGrid.innerHTML = '';
+  userManagementSelection.name.value = '';
 }
