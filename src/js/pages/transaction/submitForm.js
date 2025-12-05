@@ -2,6 +2,7 @@
 import api from '../../api/interceptor';
 import Templates from '../../common/Templates';
 import { transactionSelectors } from './transactionSelector.js';
+import { confirmTransaction } from '../../common/modals/confirmModal.js';
 import config from '../../config/config.js';
 
 const toastMessage = new Templates();
@@ -9,6 +10,10 @@ const { toastSection, warehouses, containers } = transactionSelectors;
 const submitSpinner = document.getElementById('submitSpinner');
 
 export default async function submitForm(type) {
+  const confirmed = await confirmTransaction(type);
+  if (!confirmed) {
+    return;
+  }
   let url = '';
   let body = {};
 
