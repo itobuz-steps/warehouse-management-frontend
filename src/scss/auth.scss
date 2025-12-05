@@ -228,7 +228,7 @@ $font-family-base:
 }
 
 .reset-form {
-  display: block;
+  display: none;
 }
 .reset-password-btn {
   background-color: $color-primary;
@@ -246,4 +246,7 @@ $font-family-base:
 .counter {
   color: $body-color;
   font-weight: 500;
+}
+.resend-btn {
+  display: none;
 }
