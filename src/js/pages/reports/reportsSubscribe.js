@@ -33,6 +33,14 @@ async function transactionDetailsLoad() {
     // Attach click listeners
     attachWarehouseFilter();
 
+    // Date filter button
+    document.getElementById('applyDateFilter').addEventListener('click', () => {
+      const warehouseId = document
+        .querySelector('.warehouse-option.active')
+        .getAttribute('data-id');
+      loadTransactions(warehouseId); // reload with date filters
+    });
+
     // Load ALL transactions by default
     loadTransactions('ALL');
 
@@ -42,6 +50,9 @@ async function transactionDetailsLoad() {
         option.addEventListener('click', () => {
           const id = option.getAttribute('data-id');
           reportSelection.dropdownBtn.textContent = option.textContent.trim();
+
+          document.getElementById('startDate').value = '';
+          document.getElementById('endDate').value = '';
 
           document.querySelectorAll('.warehouse-option').forEach((opt) => {
             opt.classList.remove('active');
@@ -65,14 +76,30 @@ async function transactionDetailsLoad() {
     // Load the transactions in the page
     async function loadTransactions(warehouseId) {
       let result;
+      // Read date filters
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+
+      // Build query params
+      const params = new URLSearchParams();
+
+      if (startDate) {
+        params.append('startDate', startDate);
+      }
+
+      if (endDate) {
+        params.append('endDate', endDate);
+      }
+
+      let query = params.toString() ? `?${params.toString()}` : '';
 
       if (warehouseId === 'ALL') {
-        // Load ALL warehouse transactions
-        result = await api.get(`${config.TRANSACTION_BASE_URL}/`);
+        // Load ALL transactions
+        result = await api.get(`${config.TRANSACTION_BASE_URL}/${query}`);
       } else {
-        // Load warehouse-specific transactions
+        // Load warehouse specific
         result = await api.get(
-          `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}`
+          `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}${query}`
         );
       }
 
@@ -158,6 +185,9 @@ async function transactionDetailsLoad() {
             Adjust: 'ADJUSTMENT',
             Transfer: 'TRANSFER',
           };
+
+          document.getElementById('startDate').value = '';
+          document.getElementById('endDate').value = '';
 
           renderTransactions(filterMap[radio.id]);
         });
