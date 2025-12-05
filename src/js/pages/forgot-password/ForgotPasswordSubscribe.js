@@ -20,6 +20,19 @@ class ForgotPasswordSubscribe {
 
         forgotPasswordSelection.toastSection.innerHTML =
           toastMessage.successToast('OTP sent! Check your Email');
+
+        let time = forgotPasswordSelection.otpCounter.innerHTML;
+        console.log(typeof time);
+
+        let counter = setInterval(() => {
+          if (time == '0') {
+            clearInterval(counter);
+          } else {
+            time -= 1;
+            console.log(time);
+            forgotPasswordSelection.otpCounter.innerHTML = time;
+          }
+        }, 1000);
       }
     } catch (err) {
       console.log(err);
