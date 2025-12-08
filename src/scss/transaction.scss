@@ -345,12 +345,25 @@ body {
   object-fit: cover;
   border-radius: 4px;
   margin-right: 8px;
-  display: inline-block; 
+  display: inline-block;
 }
 
 .custom-dropdown .dropdown-item img {
-  width: 32px !important;
-  height: 32px !important;
+  width: 30px !important;
+  height: 30px !important;
   object-fit: cover;
   border-radius: 4px;
+}
+
+.custom-dropdown {
+  width: 100%;
+  display: block;
+}
+
+.product-row {
+  gap: 10px;
+}
+
+.product-row .custom-dropdown {
+  flex: 1;
 }

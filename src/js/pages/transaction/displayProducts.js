@@ -121,7 +121,7 @@ function addProductRow(container, products) {
   // Dropdown + Quantity
   row.innerHTML = `
     <div class="custom-dropdown mb-1">
-      <button type="button" class="dropdown-toggle btn btn-light w-100 text-start" data-value="">
+      <button type="button" class="dropdown-toggle form-control w-100 text-start" data-value="">
         <img src="" class="dropdown-thumb d-none" />
         <span>Select Product</span>
       </button>
@@ -134,9 +134,10 @@ function addProductRow(container, products) {
             const img = product.productImage[0] || '';
             return `
               <div class="dropdown-item d-flex align-items-center product-option"
-                   data-id="${product._id}"
-                   data-name="${product.name}"
-                   data-img="${img}">
+                data-id="${product._id}"
+                data-name="${product.name}"
+                data-img="${img}"
+                data-qty="${isRawProduct ? '' : p.quantity}">
                 <img src="${img}" width="32" height="32"
                      class="me-2" style="object-fit:cover;border-radius:4px;">
                 <span>${product.name}${isRawProduct ? '' : ` (Quantity: ${p.quantity})`}</span>
@@ -166,12 +167,16 @@ function addProductRow(container, products) {
       const id = item.dataset.id;
       const name = item.dataset.name;
       const img = item.dataset.img || '';
+      const qty = item.dataset.qty;
 
       // Set product ID
       toggleBtn.dataset.value = id;
 
-      // Set product name
-      toggleBtn.querySelector('span').textContent = name;
+      if (!isRawProduct) {
+        toggleBtn.querySelector('span').textContent = `${name} (Quantity: ${qty})`;
+      } else {
+        toggleBtn.querySelector('span').textContent = name;
+      }
 
       // Set product image correctly
       if (img.trim() !== '') {
@@ -216,10 +221,11 @@ function updateAllProductDropdowns(container, products, isRawProduct) {
           <div class="dropdown-item d-flex align-items-center product-option"
                data-id="${product._id}"
                data-name="${product.name}"
-               data-img="${img}">
+               data-img="${img}"
+               data-qty="${isRawProduct ? '' : p.quantity}">
             <img src="${img}" width="32" height="32"
                  class="me-2" style="object-fit:cover;border-radius:4px;">
-            <span>${product.name}${isRawProduct ? '' : ` (Qty: ${p.quantity})`}</span>
+            <span>${product.name}${isRawProduct ? '' : ` (Quantity: ${p.quantity})`}</span>
           </div>
         `;
       })
@@ -231,9 +237,15 @@ function updateAllProductDropdowns(container, products, isRawProduct) {
         const id = item.dataset.id;
         const name = item.dataset.name;
         const img = item.dataset.img || '';
+        const qty = item.dataset.qty;
 
         btn.dataset.value = id;
-        btn.querySelector('span').textContent = name;
+
+        if (!isRawProduct) {
+          btn.querySelector('span').textContent = `${name} (Quantity: ${qty})`;
+        } else {
+          btn.querySelector('span').textContent = name;
+        }
 
         const thumb = btn.querySelector('.dropdown-thumb');
 
