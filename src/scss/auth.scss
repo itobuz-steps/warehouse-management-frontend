@@ -193,45 +193,6 @@
       .form-options {
         @include flex-between;
         margin-bottom: $spacing-6;
-
-        .remember-me {
-          @include flex-start;
-          gap: $spacing-2;
-
-          input[type='checkbox'] {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            border: 2px solid $color-gray-300;
-            cursor: pointer;
-            @include transition-all;
-
-            &:checked {
-              background-color: $color-primary;
-              border-color: $color-primary;
-            }
-          }
-
-          label {
-            font-size: $font-size-sm;
-            color: $text-secondary;
-            cursor: pointer;
-            user-select: none;
-          }
-        }
-      }
-
-      .forgot-password {
-        font-size: $font-size-sm;
-        color: $color-primary;
-        text-decoration: none;
-        font-weight: $font-weight-medium;
-        @include transition-all;
-
-        &:hover {
-          color: $color-primary-dark;
-          text-decoration: underline;
-        }
       }
 
       .login-btn {
@@ -267,6 +228,19 @@
           margin-right: $spacing-2;
         }
       }
+    }
+  }
+
+  .forgot-password {
+    font-size: $font-size-sm;
+    color: $color-primary;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    @include transition-all;
+
+    &:hover {
+      color: $color-primary-dark;
+      text-decoration: underline;
     }
   }
 
@@ -307,26 +281,6 @@
           }
         }
       }
-    }
-  }
-
-  // Utility classes
-  .text-gradient {
-    background: brown;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .shadow-soft {
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
-  }
-
-  .hover-lift {
-    @include transition-transform;
-
-    &:hover {
-      transform: translateY(-2px);
     }
   }
 }
