@@ -102,7 +102,12 @@ function addProductRow(container, products) {
 
   // Filter products: remove those already selected
   const availableProducts = products.filter((p) => {
-    const productId = isRawProduct ? p._id : p.product._id;
+    let productId;
+    if (isRawProduct) {
+      productId = p._id;
+    } else {
+      productId = p.product._id;
+    }
     return !selectedProductIds.includes(productId);
   });
 
@@ -155,11 +160,21 @@ function updateAllProductDropdowns(container, products, isRawProduct) {
   productSelects.forEach((select) => {
     const currentValue = select.value;
     const availableProducts = products.filter((p) => {
-      const productId = isRawProduct ? p._id : p.product._id;
+      let productId;
+      if (isRawProduct) {
+        productId = p._id;
+      } else {
+        productId = p.product._id;
+      }
       // Include products that are either not selected OR currently selected in this dropdown
-      return (
-        !selectedProductIds.includes(productId) || productId === currentValue
-      );
+      if (
+        !selectedProductIds.includes(productId) ||
+        productId === currentValue
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     });
 
     // Rebuild the select options
@@ -167,9 +182,17 @@ function updateAllProductDropdowns(container, products, isRawProduct) {
       '<option value="">-- Select Product --</option>',
       ...availableProducts.map((p) => {
         if (isRawProduct) {
-          return `<option value="${p._id}" ${p._id === currentValue ? 'selected' : ''}>${p.name}</option>`;
+          let selected = '';
+          if (p._id === currentValue) {
+            selected = 'selected';
+          }
+          return `<option value="${p._id}" ${selected}>${p.name}</option>`;
         } else {
-          return `<option value="${p.product._id}" ${p.product._id === currentValue ? 'selected' : ''}>${p.product.name} (Qty: ${p.quantity})</option>`;
+          let selected = '';
+          if (p.product._id === currentValue) {
+            selected = 'selected';
+          }
+          return `<option value="${p.product._id}" ${selected}>${p.product.name} (Qty: ${p.quantity})</option>`;
         }
       }),
     ];
