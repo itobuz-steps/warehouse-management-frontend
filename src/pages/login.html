@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | WarehousePro</title>
+    <title>Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,46 +14,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="../scss/auth.scss" />
-    <style>
-      body {
-        font-family:
-          'Inter',
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        color: #1f2937;
-      }
-
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 4px;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: #c1c1c1;
-        border-radius: 4px;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: #a1a1a1;
-      }
-    </style>
+    <script src="../js/pages/login/login.js" type="module"></script>
   </head>
   <body>
     <!-- Toast Container -->
-    <div id="toastContainer"></div>
+    <div id="toastSection"></div>
 
     <!-- Main Login Container -->
     <div class="main-container">
@@ -61,31 +26,19 @@
       <div class="brand-section">
         <div class="brand-content">
           <div class="logo">
-            <img
-              src="../assets/images/warehouse-logo-removebg-preview.png"
-              alt="WarehousePro Logo"
-            />
+            <img src="../assets/images/logo.png" alt="WarehousePro Logo" />
           </div>
-          <h1>Warehouse<span class="text-gradient">Pro</span></h1>
+
           <p class="tagline">
             Intelligent warehouse management for modern logistics
           </p>
         </div>
-
-        <!-- <div class="warehouse-illustration">
-          <img
-            src="../assets/images/warehouse-illustration.svg"
-            alt="Warehouse Management"
-            onerror="this.src='https://cdn-icons-png.flaticon.com/512/3067/3067256.png'"
-          />
-          <p class="illustration-title">Smart Inventory Management</p>
-        </div> -->
       </div>
 
       <!-- Right Login Section -->
       <div class="login-section">
         <div class="welcome-back">
-          <h2>Welcome Back 👋</h2>
+          <h2>Welcome Back</h2>
           <p class="subtitle">
             Sign in to access your warehouse management dashboard
           </p>
@@ -148,7 +101,7 @@
       </div>
     </div>
 
-    <!-- <script>
+    <script>
       // Toggle password visibility
       document
         .getElementById('togglePassword')
@@ -166,89 +119,6 @@
             icon.classList.add('fa-eye');
           }
         });
-
-      // Form submission with toast notification
-      document
-        .getElementById('loginForm')
-        .addEventListener('submit', function (e) {
-          e.preventDefault();
-
-          const email = document.getElementById('email').value;
-          const password = document.getElementById('password').value;
-
-          // Simulate API call
-          setTimeout(() => {
-            showToast('Success!', 'Logged in successfully.', 'success');
-            // In real app, redirect to dashboard
-            // window.location.href = '/dashboard';
-          }, 1000);
-        });
-
-      // Toast notification function
-      function showToast(title, message, type = 'info') {
-        const toastContainer = document.getElementById('toastContainer');
-        const toastId = 'toast-' + Date.now();
-
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.id = toastId;
-
-        toast.innerHTML = `
-          <div class="toast-content">
-            <div class="toast-icon">
-              ${
-                type === 'success'
-                  ? '✅'
-                  : type === 'error'
-                    ? '❌'
-                    : type === 'warning'
-                      ? '⚠️'
-                      : 'ℹ️'
-              }
-            </div>
-            <div class="toast-message">
-              <div class="toast-title">${title}</div>
-              <div class="toast-description">${message}</div>
-            </div>
-            <button class="toast-close" onclick="removeToast('${toastId}')">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        `;
-
-        toastContainer.appendChild(toast);
-
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-          removeToast(toastId);
-        }, 5000);
-      }
-
-      function removeToast(id) {
-        const toast = document.getElementById(id);
-        if (toast) {
-          toast.style.opacity = '0';
-          toast.style.transform = 'translateX(100%)';
-          setTimeout(() => {
-            toast.remove();
-          }, 300);
-        }
-      }
-
-      // Demo credentials auto-fill
-      document.addEventListener('DOMContentLoaded', () => {
-        // Auto-fill demo credentials for testing
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('demo') === 'true') {
-          document.getElementById('email').value = 'demo@warehousepro.com';
-          document.getElementById('password').value = 'demo123';
-          showToast(
-            'Demo Mode',
-            'Demo credentials loaded. Click Sign In to continue.',
-            'info'
-          );
-        }
-      });
-    </script> -->
+    </script>
   </body>
 </html>

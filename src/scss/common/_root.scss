@@ -10,7 +10,7 @@ body {
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  background: linear-gradient(135deg, #f0f9ff 0%, #fde4d0 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -36,4 +36,27 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a1a1a1;
+}
+
+.toast {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  color: #eee;
+  width: 300px;
+  font-weight: 700;
+  z-index: 100000;
+  animation: toast 500ms forwards;
+}
+
+@keyframes toast {
+  from {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

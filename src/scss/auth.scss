@@ -12,114 +12,12 @@
   }
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-// Toast notifications
-.toast {
-  position: fixed;
-  top: $spacing-8;
-  right: $spacing-4;
-  width: 320px;
-  padding: $spacing-4;
-  background: $color-white;
-  border-left: 4px solid $color-primary;
-  @include shadow-lg;
-  border-radius: $spacing-2;
-  z-index: $z-index-toast;
-  @include fade-in;
-  animation: slideInRight 0.3s ease-out;
-
-  &.success {
-    border-left-color: $color-success;
-    background: linear-gradient(90deg, #f0fdf4 0%, $color-white 100%);
-  }
-
-  &.error {
-    border-left-color: $color-danger;
-    background: linear-gradient(90deg, #fef2f2 0%, $color-white 100%);
-  }
-
-  &.warning {
-    border-left-color: $color-warning;
-    background: linear-gradient(90deg, #fffbeb 0%, $color-white 100%);
-  }
-
-  .toast-content {
-    @include flex-start;
-    gap: $spacing-3;
-
-    .toast-icon {
-      font-size: $font-size-xl;
-    }
-
-    .toast-message {
-      flex: 1;
-
-      .toast-title {
-        font-weight: $font-weight-semibold;
-        color: $text-primary;
-        margin-bottom: $spacing-1;
-      }
-
-      .toast-description {
-        font-size: $font-size-sm;
-        color: $text-secondary;
-        line-height: 1.4;
-      }
-    }
-
-    .toast-close {
-      background: none;
-      border: none;
-      color: $color-gray-400;
-      cursor: pointer;
-      padding: $spacing-1;
-      @include transition-all;
-
-      &:hover {
-        color: $color-gray-600;
-      }
-    }
-  }
-}
-
 // Main container
 .main-container {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  max-width: 1200px;
+  max-width: 900px;
   width: 100%;
-  min-height: 720px;
   background: $color-white;
   border-radius: $spacing-4;
   overflow: hidden;
@@ -136,7 +34,7 @@
   // Left Panel - Brand/Image Section
   .brand-section {
     position: relative;
-    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, #b78652 0%, $color-primary 100%);
     padding: $spacing-12;
     @include flex-column;
     justify-content: space-between;
@@ -155,22 +53,20 @@
     .brand-content {
       position: relative;
       z-index: 1;
+      margin: auto auto;
       text-align: center;
       animation: fadeIn 1s ease-out 0.2s both;
 
       .logo {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto $spacing-6;
-        background: $color-white;
-        border-radius: $spacing-3;
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
         @include flex-center;
-        @include shadow-md;
-        animation: float 6s ease-in-out infinite;
 
         img {
-          width: 60px;
-          height: 60px;
+          width: 180%;
+          height: 180%;
+          aspect-ratio: 1;
         }
       }
 
@@ -191,63 +87,6 @@
         line-height: 1.6;
       }
     }
-
-    .warehouse-illustration {
-      position: relative;
-      z-index: 1;
-      margin-top: $spacing-8;
-      text-align: center;
-
-      img {
-        max-width: 100%;
-        height: auto;
-        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
-        animation: slideIn 0.8s ease-out 0.4s both;
-      }
-
-      .illustration-title {
-        margin-top: $spacing-4;
-        font-size: $font-size-sm;
-        color: rgba($color-white, 0.8);
-        font-weight: $font-weight-medium;
-        letter-spacing: 0.5px;
-      }
-    }
-
-    .features {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: $spacing-4;
-      margin-top: $spacing-8;
-
-      .feature-item {
-        text-align: center;
-        padding: $spacing-3;
-        background: rgba($color-white, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: $spacing-2;
-        @include transition-all;
-
-        &:hover {
-          background: rgba($color-white, 0.2);
-          transform: translateY(-2px);
-        }
-
-        .feature-icon {
-          font-size: $font-size-xl;
-          margin-bottom: $spacing-2;
-          display: block;
-        }
-
-        .feature-text {
-          font-size: $font-size-sm;
-          color: $color-white;
-          font-weight: $font-weight-medium;
-        }
-      }
-    }
   }
 
   // Right Panel - Login Form Section
@@ -256,7 +95,6 @@
     @include flex-column;
     justify-content: center;
     background: $color-white;
-    animation: slideIn 0.8s ease-out;
 
     @media (max-width: $breakpoint-lg) {
       padding: $spacing-8 $spacing-6;
@@ -421,192 +259,70 @@
             height 0.6s;
         }
 
-        &:hover {
-          background: $color-primary-dark;
-          transform: translateY(-1px);
-          box-shadow: 0 10px 20px rgba($color-primary, 0.2);
-
-          &::before {
-            width: 300px;
-            height: 300px;
-          }
-        }
-
-        &:active {
-          transform: translateY(0);
-        }
-
         .btn-icon {
           margin-right: $spacing-2;
         }
       }
-
-      .divider {
-        display: flex;
-        align-items: center;
-        margin: $spacing-8 0;
-        color: $text-secondary;
-
-        &::before,
-        &::after {
-          content: '';
-          flex: 1;
-          height: 1px;
-          background: $color-gray-200;
-        }
-
-        span {
-          padding: 0 $spacing-4;
-          font-size: $font-size-sm;
-          color: $text-light;
-        }
-      }
-
-      .social-login {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: $spacing-3;
-        margin-bottom: $spacing-6;
-
-        .social-btn {
-          padding: $spacing-3;
-          border: 2px solid $color-gray-200;
-          border-radius: $spacing-2;
-          background: $color-white;
-          color: $text-primary;
-          font-size: $font-size-sm;
-          font-weight: $font-weight-medium;
-          cursor: pointer;
-          @include flex-center;
-          gap: $spacing-2;
-          @include transition-all;
-
-          &:hover {
-            border-color: $color-gray-300;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-          }
-
-          .social-icon {
-            font-size: $font-size-lg;
-          }
-        }
-      }
-
-      .signup-link {
-        text-align: center;
-        font-size: $font-size-sm;
-        color: $text-secondary;
-
-        a {
-          color: $color-primary;
-          text-decoration: none;
-          font-weight: $font-weight-semibold;
-          margin-left: $spacing-1;
-          @include transition-all;
-
-          &:hover {
-            text-decoration: underline;
-            color: $color-primary-dark;
-          }
-        }
-      }
-    }
-
-    .demo-credentials {
-      margin-top: $spacing-8;
-      padding: $spacing-4;
-      background: $color-gray-50;
-      border-radius: $spacing-2;
-      border-left: 4px solid $color-secondary;
-
-      h4 {
-        font-size: $font-size-sm;
-        font-weight: $font-weight-semibold;
-        color: $text-primary;
-        margin-bottom: $spacing-2;
-        display: flex;
-        align-items: center;
-        gap: $spacing-2;
-
-        &::before {
-          content: '💡';
-        }
-      }
-
-      .credentials {
-        font-size: $font-size-xs;
-        color: $text-secondary;
-        line-height: 1.5;
-
-        code {
-          background: $color-white;
-          padding: 2px 6px;
-          border-radius: 4px;
-          font-family: 'Monaco', 'Courier New', monospace;
-          border: 1px solid $color-gray-200;
-        }
-      }
     }
   }
-}
 
-// Responsive adjustments
-@media (max-width: $breakpoint-md) {
-  .main-container {
-    .brand-section {
-      padding: $spacing-8 $spacing-6;
+  // Responsive adjustments
+  @media (max-width: $breakpoint-md) {
+    .main-container {
+      .brand-section {
+        padding: $spacing-8 $spacing-6;
 
-      .brand-content {
-        h1 {
-          font-size: $font-size-2xl;
+        .brand-content {
+          h1 {
+            font-size: $font-size-2xl;
+          }
+
+          .tagline {
+            font-size: $font-size-base;
+          }
         }
 
-        .tagline {
-          font-size: $font-size-base;
-        }
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-        gap: $spacing-3;
-      }
-    }
-
-    .login-section {
-      padding: $spacing-6 $spacing-4;
-
-      .welcome-back {
-        h2 {
-          font-size: $font-size-xl;
-        }
-      }
-
-      .login-form {
-        .social-login {
+        .features {
           grid-template-columns: 1fr;
+          gap: $spacing-3;
+        }
+      }
+
+      .login-section {
+        padding: $spacing-6 $spacing-4;
+
+        .welcome-back {
+          h2 {
+            font-size: $font-size-xl;
+          }
+        }
+
+        .login-form {
+          .social-login {
+            grid-template-columns: 1fr;
+          }
         }
       }
     }
   }
-}
 
-// Utility classes
-.text-gradient {
-  background: linear-gradient(135deg, $color-primary, $warehouse-teal);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+  // Utility classes
+  .text-gradient {
+    background: brown;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-.shadow-soft {
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
-}
+  .shadow-soft {
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+  }
 
-.hover-lift {
-  @include transition-transform;
+  .hover-lift {
+    @include transition-transform;
 
-  &:hover {
-    transform: translateY(-2px);
+    &:hover {
+      transform: translateY(-2px);
+    }
   }
 }
