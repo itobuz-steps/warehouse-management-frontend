@@ -11,5 +11,7 @@ loginSelection.loginForm.addEventListener('submit', loginSubscribe);
 const passwordToggle = document.getElementById('togglePassword');
 
 passwordToggle.addEventListener('click', () => {
-  showPassToggle('password');
+  const newPasswordInput = document.getElementById('password');
+
+  showPassToggle(newPasswordInput);
 });
