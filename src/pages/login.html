@@ -3,66 +3,252 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <!-- <link rel="stylesheet" href="../scss/auth.scss" /> -->
-  </head>
-  <body
-    class="d-flex align-items-center justify-content-center min-vh-100 bg-light"
-  >
-    <div id="toastSection">
-      <!-- custom toast message -->
-    </div>
+    <title>Login | WarehousePro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../scss/auth.scss" />
+    <style>
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: #1f2937;
+      }
 
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #a1a1a1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <!-- Main Login Container -->
     <div class="main-container">
-      <div class="left-panel text-center">
-        <!-- <h1>Welcome to Lynch Logistics</h1> -->
-        <img
-          src="../assets/images/warehouse-logo-removebg-preview.png"
-          alt=""
-        />
+      <!-- Left Brand Section -->
+      <div class="brand-section">
+        <div class="brand-content">
+          <div class="logo">
+            <img
+              src="../assets/images/warehouse-logo-removebg-preview.png"
+              alt="WarehousePro Logo"
+            />
+          </div>
+          <h1>Warehouse<span class="text-gradient">Pro</span></h1>
+          <p class="tagline">
+            Intelligent warehouse management for modern logistics
+          </p>
+        </div>
+
+        <!-- <div class="warehouse-illustration">
+          <img
+            src="../assets/images/warehouse-illustration.svg"
+            alt="Warehouse Management"
+            onerror="this.src='https://cdn-icons-png.flaticon.com/512/3067/3067256.png'"
+          />
+          <p class="illustration-title">Smart Inventory Management</p>
+        </div> -->
       </div>
 
-      <div class="right-panel">
-        <h2>Let's login to your account.</h2>
+      <!-- Right Login Section -->
+      <div class="login-section">
+        <div class="welcome-back">
+          <h2>Welcome Back 👋</h2>
+          <p class="subtitle">
+            Sign in to access your warehouse management dashboard
+          </p>
+        </div>
 
         <form id="loginForm" class="login-form">
-          <div class="form-group mb-3">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="form-control"
-              placeholder="Example@gmail.com"
-              required
-            />
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <i class="input-icon fas fa-envelope"></i>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="admin@warehousepro.com"
+                required
+                autocomplete="username"
+              />
+            </div>
           </div>
 
-          <div class="form-group mb-3">
+          <!-- Password Field -->
+          <div class="form-group">
             <label for="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="form-control"
-              placeholder="Enter your password"
-              required
-            />
+            <div class="input-wrapper">
+              <i class="input-icon fas fa-lock"></i>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                id="togglePassword"
+                aria-label="Toggle password visibility"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
           </div>
 
-          <div class="remember-me d-flex justify-content-end mb-3">
-            <a
-              href="/pages/forgot-password.html"
-              class="text-muted forget-password"
-              >Forgot Password?</a
-            >
+          <!-- Form Options -->
+          <div class="form-options">
+            <a href="/pages/forgot-password.html" class="forgot-password">
+              Forgot Password?
+            </a>
           </div>
 
-          <button type="submit" class="btn login-btn">Login</button>
+          <!-- Submit Button -->
+          <button type="submit" class="login-btn hover-lift">
+            <i class="btn-icon fas fa-sign-in-alt"></i>
+            Sign In
+          </button>
         </form>
       </div>
     </div>
 
-    <script type="module" src="../js/pages/login/login.js"></script>
+    <!-- <script>
+      // Toggle password visibility
+      document
+        .getElementById('togglePassword')
+        .addEventListener('click', function () {
+          const passwordInput = document.getElementById('password');
+          const icon = this.querySelector('i');
+
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+          } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+          }
+        });
+
+      // Form submission with toast notification
+      document
+        .getElementById('loginForm')
+        .addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+
+          // Simulate API call
+          setTimeout(() => {
+            showToast('Success!', 'Logged in successfully.', 'success');
+            // In real app, redirect to dashboard
+            // window.location.href = '/dashboard';
+          }, 1000);
+        });
+
+      // Toast notification function
+      function showToast(title, message, type = 'info') {
+        const toastContainer = document.getElementById('toastContainer');
+        const toastId = 'toast-' + Date.now();
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.id = toastId;
+
+        toast.innerHTML = `
+          <div class="toast-content">
+            <div class="toast-icon">
+              ${
+                type === 'success'
+                  ? '✅'
+                  : type === 'error'
+                    ? '❌'
+                    : type === 'warning'
+                      ? '⚠️'
+                      : 'ℹ️'
+              }
+            </div>
+            <div class="toast-message">
+              <div class="toast-title">${title}</div>
+              <div class="toast-description">${message}</div>
+            </div>
+            <button class="toast-close" onclick="removeToast('${toastId}')">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `;
+
+        toastContainer.appendChild(toast);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          removeToast(toastId);
+        }, 5000);
+      }
+
+      function removeToast(id) {
+        const toast = document.getElementById(id);
+        if (toast) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            toast.remove();
+          }, 300);
+        }
+      }
+
+      // Demo credentials auto-fill
+      document.addEventListener('DOMContentLoaded', () => {
+        // Auto-fill demo credentials for testing
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('demo') === 'true') {
+          document.getElementById('email').value = 'demo@warehousepro.com';
+          document.getElementById('password').value = 'demo123';
+          showToast(
+            'Demo Mode',
+            'Demo credentials loaded. Click Sign In to continue.',
+            'info'
+          );
+        }
+      });
+    </script> -->
   </body>
 </html>
