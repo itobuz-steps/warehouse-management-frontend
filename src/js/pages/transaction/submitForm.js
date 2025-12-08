@@ -97,11 +97,14 @@ function collectProducts(containerId) {
 
   return [...container.querySelectorAll('.product-row')]
     .map((row) => {
-      const productId = row.querySelector('.productSelect')?.value;
-      const quantity = parseInt(
-        row.querySelector('.quantityInput')?.value || '0',
-        10
-      );
+      const toggleBtn = row.querySelector('.dropdown-toggle');
+      const productId = toggleBtn ? toggleBtn.dataset.value : null;
+
+      const quantityInput = row.querySelector('.quantityInput');
+      const quantity = quantityInput
+        ? parseInt(quantityInput.value || '0', 10)
+        : 0;
+
       return { productId, quantity };
     })
     .filter((p) => p.productId && p.quantity > 0);

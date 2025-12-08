@@ -31,15 +31,17 @@ export async function confirmTransaction(type) {
     // Collect product data
     const products = [];
     for (let row of rows) {
-      const select = row.querySelector('.productSelect');
+      const toggleBtn = row.querySelector('.dropdown-toggle'); // custom dropdown
       const qtyInput = row.querySelector('.quantityInput');
       const qty = qtyInput ? parseInt(qtyInput.value || '0', 10) : 0;
-      let name = 'N/A';
-      if (select && select.options[select.selectedIndex]) {
-        name = select.options[select.selectedIndex].text;
-      }
-      if (qty > 0) {
-        products.push({ name, qty });
+
+      const productId = toggleBtn ? toggleBtn.dataset.value : null;
+      const name = toggleBtn
+        ? toggleBtn.querySelector('span').textContent.trim()
+        : 'N/A';
+
+      if (productId && qty > 0) {
+        products.push({ productId, name, qty });
       }
     }
 

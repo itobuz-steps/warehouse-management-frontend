@@ -85,9 +85,9 @@ export function addProductRowForContainer(containerId) {
 
 // Helper function to get all currently selected product IDs in a container
 function getSelectedProductIds(container) {
-  return [...container.querySelectorAll('.productSelect')]
-    .map((select) => select.value)
-    .filter((value) => value); // Remove empty values
+  return [...container.querySelectorAll('.dropdown-toggle')]
+    .map((btn) => btn.dataset.value)
+    .filter((value) => value);
 }
 
 function addProductRow(container, products) {
@@ -118,35 +118,75 @@ function addProductRow(container, products) {
     return;
   }
 
+  // Dropdown + Quantity
   row.innerHTML = `
-    <select class="form-select productSelect mb-1">
-      <option value=""> Select Product </option>
-      ${availableProducts
-        .map((p) => {
-          if (isRawProduct) {
-            // Stock IN (raw product object)
-            return `<option value="${p._id}">${p.name}</option>`;
-          } else {
-            // Warehouse-specific product
-            return `<option value="${p.product._id}">${p.product.name} (Qty: ${p.quantity})</option>`;
-          }
-        })
-        .join('')}
-    </select>
+    <div class="custom-dropdown mb-1">
+      <button type="button" class="dropdown-toggle btn btn-light w-100 text-start" data-value="">
+        <img src="" class="dropdown-thumb d-none" />
+        <span>Select Product</span>
+      </button>
 
-    <input
-      type="number"
-      min="1"
-      class="form-control quantityInput"
-      placeholder="Quantity"
-    />
+      <div class="dropdown-menu p-2 border rounded bg-white shadow-sm"
+           style="display: none; max-height: 250px; overflow-y: auto;">
+        ${availableProducts
+          .map((p) => {
+            const product = isRawProduct ? p : p.product;
+            const img = product.productImage[0] || '';
+            return `
+              <div class="dropdown-item d-flex align-items-center product-option"
+                   data-id="${product._id}"
+                   data-name="${product.name}"
+                   data-img="${img}">
+                <img src="${img}" width="32" height="32"
+                     class="me-2" style="object-fit:cover;border-radius:4px;">
+                <span>${product.name}${isRawProduct ? '' : ` (Quantity: ${p.quantity})`}</span>
+              </div>
+            `;
+          })
+          .join('')}
+      </div>
+    </div>
+
+    <input type="number" min="1" class="form-control quantityInput" placeholder="Quantity"/>
   `;
 
-  const productSelect = row.querySelector('.productSelect');
+  // Elements
+  const toggleBtn = row.querySelector('.dropdown-toggle');
+  const menu = row.querySelector('.dropdown-menu');
+  const thumb = row.querySelector('.dropdown-thumb');
 
-  // Update other dropdowns when this product is changed
-  productSelect.addEventListener('change', () => {
-    updateAllProductDropdowns(container, products, isRawProduct);
+  // Toggle dropdown
+  toggleBtn.addEventListener('click', () => {
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  });
+
+  // Selection logic
+  menu.querySelectorAll('.product-option').forEach((item) => {
+    item.addEventListener('click', () => {
+      const id = item.dataset.id;
+      const name = item.dataset.name;
+      const img = item.dataset.img || '';
+
+      // Set product ID
+      toggleBtn.dataset.value = id;
+
+      // Set product name
+      toggleBtn.querySelector('span').textContent = name;
+
+      // Set product image correctly
+      if (img.trim() !== '') {
+        thumb.src = img;
+        thumb.classList.remove('d-none');
+      } else {
+        thumb.classList.add('d-none');
+      }
+
+      // Close menu
+      menu.style.display = 'none';
+
+      // Refresh other dropdowns
+      updateAllProductDropdowns(container, products, isRawProduct);
+    });
   });
 
   container.appendChild(row);
@@ -154,49 +194,60 @@ function addProductRow(container, products) {
 
 // Update all product dropdowns to reflect current selections
 function updateAllProductDropdowns(container, products, isRawProduct) {
-  const selectedProductIds = getSelectedProductIds(container);
-  const productSelects = container.querySelectorAll('.productSelect');
+  const selectedIds = getSelectedProductIds(container);
+  const dropdowns = container.querySelectorAll('.dropdown-toggle');
 
-  productSelects.forEach((select) => {
-    const currentValue = select.value;
+  dropdowns.forEach((btn) => {
+    const currentValue = btn.dataset.value;
+
     const availableProducts = products.filter((p) => {
-      let productId;
-      if (isRawProduct) {
-        productId = p._id;
-      } else {
-        productId = p.product._id;
-      }
-      // Include products that are either not selected OR currently selected in this dropdown
-      if (
-        !selectedProductIds.includes(productId) ||
-        productId === currentValue
-      ) {
-        return true;
-      } else {
-        return false;
-      }
+      const id = isRawProduct ? p._id : p.product._id;
+      return !selectedIds.includes(id) || id === currentValue;
     });
 
-    // Rebuild the select options
-    const options = [
-      '<option value=""> Select Product </option>',
-      ...availableProducts.map((p) => {
-        if (isRawProduct) {
-          let selected = '';
-          if (p._id === currentValue) {
-            selected = 'selected';
-          }
-          return `<option value="${p._id}" ${selected}>${p.name}</option>`;
-        } else {
-          let selected = '';
-          if (p.product._id === currentValue) {
-            selected = 'selected';
-          }
-          return `<option value="${p.product._id}" ${selected}>${p.product.name} (Qty: ${p.quantity})</option>`;
-        }
-      }),
-    ];
+    const menu = btn.parentElement.querySelector('.dropdown-menu');
 
-    select.innerHTML = options.join('');
+    // rebuild menu items
+    menu.innerHTML = availableProducts
+      .map((p) => {
+        const product = isRawProduct ? p : p.product;
+        const img = product.productImage[0] || '';
+        return `
+          <div class="dropdown-item d-flex align-items-center product-option"
+               data-id="${product._id}"
+               data-name="${product.name}"
+               data-img="${img}">
+            <img src="${img}" width="32" height="32"
+                 class="me-2" style="object-fit:cover;border-radius:4px;">
+            <span>${product.name}${isRawProduct ? '' : ` (Qty: ${p.quantity})`}</span>
+          </div>
+        `;
+      })
+      .join('');
+
+    // rebind click listeners
+    menu.querySelectorAll('.product-option').forEach((item) => {
+      item.addEventListener('click', () => {
+        const id = item.dataset.id;
+        const name = item.dataset.name;
+        const img = item.dataset.img || '';
+
+        btn.dataset.value = id;
+        btn.querySelector('span').textContent = name;
+
+        const thumb = btn.querySelector('.dropdown-thumb');
+
+        if (img.trim() !== '') {
+          thumb.src = img;
+          thumb.classList.remove('d-none');
+        } else {
+          thumb.classList.add('d-none');
+        }
+
+        menu.style.display = 'none';
+
+        updateAllProductDropdowns(container, products, isRawProduct);
+      });
+    });
   });
 }

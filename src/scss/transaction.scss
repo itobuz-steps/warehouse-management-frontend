@@ -319,3 +319,38 @@ body {
     transform: scale(1);
   }
 }
+
+.custom-dropdown {
+  position: relative;
+}
+
+.custom-dropdown .dropdown-menu {
+  position: absolute;
+  z-index: 100;
+}
+
+.dropdown-item {
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.dropdown-item:hover {
+  background: #f1f1f1;
+}
+
+.custom-dropdown .dropdown-thumb {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 8px;
+  display: inline-block; 
+}
+
+.custom-dropdown .dropdown-item img {
+  width: 32px !important;
+  height: 32px !important;
+  object-fit: cover;
+  border-radius: 4px;
+}
