@@ -1,0 +1,40 @@
+$color-primary: #3b82f6;
+$color-primary-dark: #1d4ed8;
+$color-primary-light: #93c5fd;
+$color-secondary: #f59e0b;
+$color-secondary-dark: #d97706;
+$color-success: #10b981;
+$color-warning: #f59e0b;
+$color-danger: #ef4444;
+$color-info: #3b82f6;
+
+// Neutrals
+$color-white: #ffffff;
+$color-black: #1f2937;
+$color-gray-50: #f9fafb;
+$color-gray-100: #f3f4f6;
+$color-gray-200: #e5e7eb;
+$color-gray-300: #d1d5db;
+$color-gray-400: #9ca3af;
+$color-gray-500: #6b7280;
+$color-gray-600: #4b5563;
+$color-gray-700: #374151;
+$color-gray-800: #1f2937;
+$color-gray-900: #111827;
+
+// Backgrounds
+$body-bg: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+$card-bg: $color-white;
+$sidebar-bg: linear-gradient(180deg, #1e40af 0%, #3b82f6 100%);
+
+// Text
+$text-primary: $color-gray-900;
+$text-secondary: $color-gray-600;
+$text-light: $color-gray-400;
+$text-white: $color-white;
+
+// Warehouse specific colors
+$warehouse-blue: #1e40af;
+$warehouse-teal: #0d9488;
+$warehouse-orange: #f97316;
+$warehouse-indigo: #4f46e5;
