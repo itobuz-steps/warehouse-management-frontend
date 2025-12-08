@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Analytics</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+    <script
+      type="module"
+      src="../js/common/notifications/notifications.js"
+    ></script>
+  </head>
+  <body>
+    <div id="toastSection">
+      <!-- custom toast message -->
+    </div>
+
+    <!-- Sidebar -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i title="Sidebar" class="fa-solid fa-circle-chevron-right"></i>
+    </button>
+    <div id="sidebar-container"></div>
+
+    <!-- Main Dashboard -->
+    <main class="main-content pt-3">
+      <section class="select">
+        <div class="warehouse-select-wrapper w-25 my-3">
+          <select id="warehouseSelect" class="form-control warehouse-select">
+            <!-- Options will be added dynamically -->
+          </select>
+          <i class="select-arrow fa-solid fa-angle-down"></i>
+        </div>
+
+        <div class="warehouse-select-wrapper w-25 my-3">
+          <select id="warehouseSelect" class="form-control warehouse-select">
+            <!-- Options will be added dynamically -->
+          </select>
+          <i class="select-arrow fa-solid fa-angle-down"></i>
+        </div>
+
+        <div class="warehouse-select-wrapper w-25 my-3">
+          <select id="warehouseSelect" class="form-control warehouse-select">
+            <!-- Options will be added dynamically -->
+          </select>
+          <i class="select-arrow fa-solid fa-angle-down"></i>
+        </div>
+      </section>
+
+      <!-- Static Charts -->
+      <section class="charts-grid">
+        <!-- Sales & Purchase Chart -->
+        <div class="chart-card bar-chart">
+          <h5>Top 5 Products</h5>
+          <div class="chart-container bar-chart-container">
+            <canvas id="barGraph"></canvas>
+          </div>
+
+          <button id="exportTop5" class="btn btn-success export mt-4">
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
+        </div>
+
+        <!-- Product Category Chart -->
+        <div class="chart-card">
+          <h5>Products category</h5>
+          <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+          </div>
+
+          <button id="exportCategory" class="btn btn-success mt-4 export">
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
+        </div>
+
+        <!-- Order Summary Chart -->
+        <div class="chart-card">
+          <h5>Transactions/day</h5>
+          <div class="line-chart chart-container">
+            <canvas id="lineChart"></canvas>
+          </div>
+          <button id="exportTransactions" class="btn btn-success mt-4 export">
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
+        </div>
+      </section>
+    </main>
+  </body>
+
+  <script type="module" src="../js/pages/analytics/analytics.js"></script>
+</html>
