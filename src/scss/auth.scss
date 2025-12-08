@@ -34,7 +34,11 @@
   // Left Panel - Brand/Image Section
   .brand-section {
     position: relative;
-    background: linear-gradient(135deg, #b78652 0%, $color-primary 100%);
+    background: linear-gradient(
+      135deg,
+      $color-secondary 0%,
+      $color-primary 100%
+    );
     padding: $spacing-12;
     @include flex-column;
     justify-content: space-between;
