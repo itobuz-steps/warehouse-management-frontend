@@ -1,176 +1,181 @@
 import * as bootstrap from 'bootstrap';
 import { transactionSelectors } from '../../pages/transaction/transactionSelector.js';
+import TransactionModalTemplate from '../template/transactionModalTemplate.js';
 
-export function confirmTransaction(type) {
+const template = new TransactionModalTemplate();
+
+export async function confirmTransaction(type) {
   return new Promise((resolve) => {
     const modalEl = document.getElementById('confirmTransactionModal');
     const summaryEl = document.getElementById('transactionSummary');
     const confirmBtn = document.getElementById('confirmTransactionBtn');
 
-    // Insert styled transaction summary
-    summaryEl.innerHTML = generateStyledSummary(type);
+    // container for products
+    let containerId = '';
+    if (type === 'IN') {
+      containerId = 'inProductsContainer';
+    } else if (type === 'OUT') {
+      containerId = 'outProductsContainer';
+    } else if (type === 'TRANSFER') {
+      containerId = 'transferProductsContainer';
+    } else if (type === 'ADJUSTMENT') {
+      containerId = 'adjustProductsContainer';
+    }
 
+    const container = transactionSelectors.containers[containerId];
+    let rows = [];
+    if (container) {
+      rows = [...container.querySelectorAll('.product-row')];
+    }
+
+    // Collect product data
+    const products = [];
+    for (let row of rows) {
+      const select = row.querySelector('.productSelect');
+      const qtyInput = row.querySelector('.quantityInput');
+      const qty = qtyInput ? parseInt(qtyInput.value || '0', 10) : 0;
+      let name = 'N/A';
+      if (select && select.options[select.selectedIndex]) {
+        name = select.options[select.selectedIndex].text;
+      }
+      if (qty > 0) {
+        products.push({ name, qty });
+      }
+    }
+
+    // Collect extra details
+    let extraHtml = '';
+    const { warehouses } = transactionSelectors;
+
+    if (type === 'IN') {
+      let warehouseName = 'N/A';
+      if (
+        warehouses.destinationWarehouse &&
+        warehouses.destinationWarehouse.options[
+          warehouses.destinationWarehouse.selectedIndex
+        ]
+      ) {
+        warehouseName =
+          warehouses.destinationWarehouse.options[
+            warehouses.destinationWarehouse.selectedIndex
+          ].text;
+      }
+      const supplier = document.getElementById('supplier')
+        ? document.getElementById('supplier').value
+        : '';
+      const notes = document.getElementById('inNotes')
+        ? document.getElementById('inNotes').value
+        : '';
+      extraHtml = template.stockInDetails(warehouseName, supplier, notes);
+    } else if (type === 'OUT') {
+      let warehouseName = 'N/A';
+      if (
+        warehouses.sourceWarehouse &&
+        warehouses.sourceWarehouse.options[
+          warehouses.sourceWarehouse.selectedIndex
+        ]
+      ) {
+        warehouseName =
+          warehouses.sourceWarehouse.options[
+            warehouses.sourceWarehouse.selectedIndex
+          ].text;
+      }
+      const customer = {
+        name: document.getElementById('customerName')
+          ? document.getElementById('customerName').value
+          : '',
+        email: document.getElementById('customerEmail')
+          ? document.getElementById('customerEmail').value
+          : '',
+        phone: document.getElementById('customerPhone')
+          ? document.getElementById('customerPhone').value
+          : '',
+        address: document.getElementById('customerAddress')
+          ? document.getElementById('customerAddress').value
+          : '',
+        orderNumber: document.getElementById('orderNumber')
+          ? document.getElementById('orderNumber').value
+          : '',
+      };
+      const notes = document.getElementById('outNotes')
+        ? document.getElementById('outNotes').value
+        : '';
+      extraHtml = template.stockOutDetails(warehouseName, customer, notes);
+    } else if (type === 'TRANSFER') {
+      let source = 'N/A';
+      if (
+        warehouses.sourceWarehouse &&
+        warehouses.sourceWarehouse.options[
+          warehouses.sourceWarehouse.selectedIndex
+        ]
+      ) {
+        source =
+          warehouses.sourceWarehouse.options[
+            warehouses.sourceWarehouse.selectedIndex
+          ].text;
+      }
+      let dest = 'N/A';
+      if (
+        warehouses.destinationWarehouse &&
+        warehouses.destinationWarehouse.options[
+          warehouses.destinationWarehouse.selectedIndex
+        ]
+      ) {
+        dest =
+          warehouses.destinationWarehouse.options[
+            warehouses.destinationWarehouse.selectedIndex
+          ].text;
+      }
+      const notes = document.getElementById('transferNotes')
+        ? document.getElementById('transferNotes').value
+        : '';
+      extraHtml = template.transferDetails(source, dest, notes);
+    } else if (type === 'ADJUSTMENT') {
+      let warehouseName = 'N/A';
+      if (
+        warehouses.sourceWarehouse &&
+        warehouses.sourceWarehouse.options[
+          warehouses.sourceWarehouse.selectedIndex
+        ]
+      ) {
+        warehouseName =
+          warehouses.sourceWarehouse.options[
+            warehouses.sourceWarehouse.selectedIndex
+          ].text;
+      }
+      const reason = document.getElementById('adjustReason')
+        ? document.getElementById('adjustReason').value
+        : '';
+      const notes = document.getElementById('adjustNotes')
+        ? document.getElementById('adjustNotes').value
+        : '';
+      extraHtml = template.adjustmentDetails(warehouseName, reason, notes);
+    }
+
+    // Render modal content
+    summaryEl.innerHTML = template.productTable(products) + extraHtml;
+
+    // Show modal
     const modal = new bootstrap.Modal(modalEl);
     modal.show();
 
-    const clean = () => {
-      confirmBtn.removeEventListener('click', onConfirm);
-      modalEl.removeEventListener('hidden.bs.modal', onCancel);
-    };
-
     const onConfirm = () => {
-      clean();
+      cleanup();
       modal.hide();
       resolve(true);
     };
 
     const onCancel = () => {
-      clean();
+      cleanup();
       resolve(false);
+    };
+
+    const cleanup = () => {
+      confirmBtn.removeEventListener('click', onConfirm);
+      modalEl.removeEventListener('hidden.bs.modal', onCancel);
     };
 
     confirmBtn.addEventListener('click', onConfirm);
     modalEl.addEventListener('hidden.bs.modal', onCancel);
   });
-}
-
-// Generate summary as table + extra fields
-function generateStyledSummary(type) {
-  const { containers, warehouses } = transactionSelectors;
-
-  const containerMap = {
-    IN: 'inProductsContainer',
-    OUT: 'outProductsContainer',
-    TRANSFER: 'transferProductsContainer',
-    ADJUSTMENT: 'adjustProductsContainer',
-  };
-
-  const container = containers[containerMap[type]];
-  const rows = container ? [...container.querySelectorAll('.product-row')] : [];
-
-
-  //  PRODUCT TABLE
-
-  const productRows = rows
-    .map((row) => {
-      const select = row.querySelector('.productSelect');
-      const qty = row.querySelector('.quantityInput')?.value || 0;
-      const productName = select?.options[select.selectedIndex]?.text || 'N/A';
-
-      return `
-        <tr>
-          <td><i class="fa-solid fa-box me-1 text-primary"></i>${productName}</td>
-          <td class="text-center fw-bold">${qty}</td>
-        </tr>
-      `;
-    })
-    .join('');
-
-  const productTable =
-    productRows.length > 0
-      ? `
-      <div class="summary-section p-3 rounded border mb-4 bg-light">
-        <h5 class="fw-bold mb-3 text-primary">
-          <i class="fa-solid fa-cubes me-2"></i>Products Summary
-        </h5>
-
-        <table class="table table-sm table-bordered">
-          <thead class="table-secondary">
-            <tr>
-              <th style="width:70%">Product</th>
-              <th class="text-center" style="width:30%">Quantity</th>
-            </tr>
-          </thead>
-          <tbody>${productRows}</tbody>
-        </table>
-      </div>`
-      : `
-      <div class="p-3 rounded border bg-light mb-4">
-        <p class="text-muted">No products added.</p>
-      </div>
-    `;
-
-  // Warehouse names
-  const sourceWarehouseName =
-    warehouses.sourceWarehouse.options[warehouses.sourceWarehouse.selectedIndex]
-      ?.text || 'N/A';
-
-  const destinationWarehouseName =
-    warehouses.destinationWarehouse.options[
-      warehouses.destinationWarehouse.selectedIndex
-    ]?.text || 'N/A';
-
-
-  let extraHtml = '';
-
-  const sectionBox = (title, content) => `
-    <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
-      <h6 class="fw-bold mb-2 text-primary">
-        <i class="fa-solid fa-circle-info me-2"></i>${title}
-      </h6>
-      ${content}
-    </div>
-  `;
-
-  switch (type) {
-    case 'IN':
-      extraHtml = sectionBox(
-        'Stock In Details',
-        `
-          <p><strong>Destination Warehouse:</strong> 
-            <span class="badge bg-success">${destinationWarehouseName}</span>
-          </p>
-          <p><strong>Supplier:</strong> ${document.getElementById('supplier').value || '-'}</p>
-          <p><strong>Notes:</strong> ${document.getElementById('inNotes').value || '-'}</p>
-        `
-      );
-      break;
-
-    case 'OUT':
-      extraHtml = sectionBox(
-        'Stock Out Details',
-        `
-          <p><strong>Source Warehouse:</strong> 
-            <span class="badge bg-danger">${sourceWarehouseName}</span>
-          </p>
-          <p><strong>Customer:</strong> ${document.getElementById('customerName').value || '-'}</p>
-          <p><strong>Email:</strong> ${document.getElementById('customerEmail').value || '-'}</p>
-          <p><strong>Phone:</strong> ${document.getElementById('customerPhone').value || '-'}</p>
-          <p><strong>Address:</strong> ${document.getElementById('customerAddress').value || '-'}</p>
-          <p><strong>Order Number:</strong> ${document.getElementById('orderNumber').value || '-'}</p>
-          <p><strong>Notes:</strong> ${document.getElementById('outNotes').value || '-'}</p>
-        `
-      );
-      break;
-
-    case 'TRANSFER':
-      extraHtml = sectionBox(
-        'Transfer Details',
-        `
-          <p><strong>Source Warehouse:</strong> 
-            <span class="badge bg-danger">${sourceWarehouseName}</span>
-          </p>
-          <p><strong>Destination Warehouse:</strong> 
-            <span class="badge bg-success">${destinationWarehouseName}</span>
-          </p>
-          <p><strong>Notes:</strong> ${document.getElementById('transferNotes').value || '-'}</p>
-        `
-      );
-      break;
-
-    case 'ADJUSTMENT':
-      extraHtml = sectionBox(
-        'Adjustment Details',
-        `
-          <p><strong>Warehouse:</strong> 
-            <span class="badge bg-warning text-dark">${sourceWarehouseName}</span>
-          </p>
-          <p><strong>Reason:</strong> ${document.getElementById('adjustReason').value || '-'}</p>
-          <p><strong>Notes:</strong> ${document.getElementById('adjustNotes').value || '-'}</p>
-        `
-      );
-      break;
-  }
-
-  return `${productTable}${extraHtml}`;
 }
