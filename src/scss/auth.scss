@@ -62,14 +62,14 @@
       animation: fadeIn 1s ease-out 0.2s both;
 
       .logo {
-        width: 200px;
-        height: 200px;
+        width: 150px;
+        height: 150px;
         margin: 0 auto;
         @include flex-center;
 
         img {
-          width: 180%;
-          height: 180%;
+          width: 150%;
+          height: 150%;
           aspect-ratio: 1;
         }
       }
@@ -406,46 +406,3 @@
   color: $color-white;
   text-decoration: none;
 }
-
-/* Responsive adjustments */
-// @media (max-width: $breakpoint-md) {
-//   .unauthorized img {
-//     max-height: 400px;
-//   }
-
-//   #expiredMessage {
-//     padding: $spacing-6;
-//   }
-
-//   #expiredMessage img {
-//     height: 250px;
-//     width: 250px;
-//   }
-
-//   #expiredMessage p {
-//     font-size: $font-size-xl;
-//   }
-
-//   .message-content {
-//     padding: $spacing-6;
-//   }
-
-//   .message-title {
-//     font-size: $font-size-2xl;
-//   }
-// }
-
-// @media (max-width: $breakpoint-sm) {
-//   .unauthorized img {
-//     max-height: 300px;
-//   }
-
-//   #expiredMessage img {
-//     height: 200px;
-//     width: 200px;
-//   }
-
-//   #expiredMessage p {
-//     font-size: $font-size-lg;
-//   }
-// }

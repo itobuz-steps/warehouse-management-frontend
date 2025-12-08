@@ -1,140 +1,169 @@
 @import 'bootstrap/scss/bootstrap';
-
-$color-bg: #ffffff;
-$color-primary: #b97a87;
-$color-text: #333333;
-$color-text-light: #666666;
-$color-hover-bg: #f5f6ff;
-$color-border: rgba(0, 0, 0, 0.05);
-
-$transition: all 0.25s ease;
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, sans-serif;
-  background: $color-bg;
-  min-height: 100vh;
-  color: $color-text;
-}
-
-.text-primary {
-  color: $color-primary !important;
-  background-color: transparent;
-}
+@import './common/variables';
 
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 250px;
-  background: $color-bg;
-  border-right: 1px solid $color-border;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-  padding-top: 25px;
-  z-index: 1000;
+  width: 280px;
+  background: $color-white;
+  border-right: 1px solid $color-gray-200;
+  box-shadow: 4px 0 15px rgba($color-gray-900, 0.05);
+  padding: $spacing-6 0;
+  z-index: $z-index-fixed;
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
 
   .sidebar-brand {
-    padding: 0 25px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $color-primary;
-    margin-bottom: 40px;
+    padding: 0 $spacing-6 $spacing-6;
+    border-bottom: 1px solid $color-gray-200;
+    margin-bottom: $spacing-6;
+
+    img {
+      height: 65px;
+      width: auto;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
   }
 
   .sidebar-menu {
     list-style: none;
-    padding-left: 0;
+    padding: 0 $spacing-4;
+    flex: 1;
+    overflow-y: auto;
 
     li {
-      margin-bottom: 5px;
-    }
+      margin-bottom: $spacing-2;
 
-    a {
-      display: flex;
-      align-items: center;
-      padding: 14px 25px;
-      color: $color-text-light;
-      text-decoration: none;
-      font-weight: 500;
-      border-left: 3px solid transparent;
-      transition: $transition;
+      a {
+        display: flex;
+        align-items: center;
+        padding: $spacing-3 $spacing-4;
+        color: $text-secondary;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+        font-size: $font-size-base;
+        border-radius: $spacing-2;
+        transition: all 0.25s ease;
+        border: 1px solid transparent;
 
-      &:hover,
-      &.active {
-        background: $color-hover-bg;
-        color: $color-primary;
-        border-left-color: $color-primary;
+        i {
+          width: 20px;
+          margin-right: $spacing-4;
+          font-size: $font-size-lg;
+          color: $color-gray-500;
+          transition: all 0.25s ease;
+        }
+
+        &:hover {
+          background: rgba($color-primary, 0.05);
+          color: $color-primary;
+          border-color: rgba($color-primary, 0.1);
+          transform: translateX(4px);
+
+          i {
+            color: $color-primary;
+            transform: scale(1.1);
+          }
+        }
+
+        &.active {
+          border-left: 5px solid $color-primary;
+          // color: $color-white;
+          font-weight: $font-weight-semibold;
+          box-shadow: 0 4px 12px rgba($color-primary, 0.2);
+        }
       }
     }
   }
-}
 
-.pr-2 {
-  margin-right: 10px;
+  .logout-button {
+    margin: $spacing-4 $spacing-6 $spacing-6;
+    background: linear-gradient(
+      135deg,
+      $color-danger 0%,
+      darken($color-danger, 10%) 100%
+    );
+    border: none;
+    border-radius: $spacing-2;
+    padding: $spacing-3 $spacing-4;
+    color: $color-white;
+    font-weight: $font-weight-medium;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    box-shadow: 0 4px 8px rgba($color-danger, 0.15);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba($color-danger, 0.25);
+    }
+
+    i {
+      font-size: $font-size-base;
+    }
+  }
 }
 
 .main-content {
-  margin-top: 0;
-  margin-left: 250px;
-  padding: 30px;
-  background: #f9fafc;
+  margin-left: 280px;
+  padding: $spacing-6;
   min-height: 100vh;
+  background: $body-bg;
   transition: margin-left 0.3s ease;
 }
 
-@media (max-width: 992px) {
+@media (max-width: $breakpoint-lg) {
   .sidebar {
     transform: translateX(-100%);
-    // width: 220px;
-    transition: transform 0.3s ease;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    z-index: 1000;
-    background: $color-bg;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-  }
 
-  .sidebar.active {
-    transform: translateX(0);
+    &.active {
+      transform: translateX(0);
+      box-shadow: 8px 0 25px rgba($color-gray-900, 0.1);
+    }
   }
 
   .sidebar-toggle {
     position: fixed;
-    left: -20px;
-    top: 20px;
-    color: $color-bg;
-    background-color: $color-primary;
+    top: $spacing-4;
+    left: $spacing-4;
+    z-index: $z-index-fixed + 10;
+    background: $color-primary;
+    color: $color-white;
     border: none;
-    border-radius: 4px;
-    padding: 0 20px 0 12px;
-    font-size: 1.5rem;
+    border-radius: $spacing-2;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-xl;
     cursor: pointer;
-    z-index: 10;
+    // box-shadow: $shadow-lg;
+    transition: all 0.3s ease;
 
-    &:hover{
-      scale: 1.1;
-      left: -15px;
+    &:hover {
+      background: $color-primary-dark;
+      transform: scale(1.05);
     }
   }
 
   .main-content {
     margin-left: 0;
-    padding: 20px;
+    padding: $spacing-6 $spacing-4;
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: $breakpoint-lg) {
   .sidebar-toggle {
     display: none;
   }
