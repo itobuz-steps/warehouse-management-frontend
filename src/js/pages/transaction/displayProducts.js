@@ -92,7 +92,7 @@ function getSelectedProductIds(container) {
 
 function addProductRow(container, products) {
   const row = document.createElement('div');
-  row.className = 'product-row mb-2';
+  row.className = 'product-row mb-2 d-flex flex-column flex-sm-row';
 
   const isRawProduct = products.length && !products[0].product;
   // true for Stock IN, false for OUT/TRANSFER/ADJUSTMENT
@@ -120,7 +120,7 @@ function addProductRow(container, products) {
 
   row.innerHTML = `
     <select class="form-select productSelect mb-1">
-      <option value="">-- Select Product --</option>
+      <option value=""> Select Product </option>
       ${availableProducts
         .map((p) => {
           if (isRawProduct) {
@@ -179,7 +179,7 @@ function updateAllProductDropdowns(container, products, isRawProduct) {
 
     // Rebuild the select options
     const options = [
-      '<option value="">-- Select Product --</option>',
+      '<option value=""> Select Product </option>',
       ...availableProducts.map((p) => {
         if (isRawProduct) {
           let selected = '';

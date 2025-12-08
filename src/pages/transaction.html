@@ -29,7 +29,7 @@
           <button class="sidebar-toggle" id="sidebarToggle">
             <i class="fa-solid fa-circle-chevron-right"></i>
           </button>
-          <h5 class="ms-4 m-auto mt-2">Transaction Management</h5>
+          <h2 class="ms-2 ps-4 m-auto mt-2 mt-md-0">Manage Transactions</h2>
         </div>
       </div>
 
@@ -75,7 +75,7 @@
 
           <!-- Stock IN Fields -->
           <div id="inFields" class="d-none">
-            <div id="inProductsContainer">
+            <div id="inProductsContainer" class="d-flex flex-column">
               <!-- products will displayed here -->
             </div>
 
@@ -98,7 +98,7 @@
 
             <div class="mb-3">
               <label class="form-label">Supplier</label>
-              <input id="supplier" class="form-control" />
+              <input id="supplier" class="form-control" required />
             </div>
 
             <input id="inNotes" class="form-control mb-2" placeholder="Notes" />
@@ -120,28 +120,32 @@
               id="customerName"
               class="form-control mb-2"
               placeholder="Customer Name"
+              required
             />
             <input
               id="customerEmail"
               type="email"
               class="form-control mb-2"
               placeholder="Customer Email"
+              required
             />
             <input
               id="customerPhone"
               class="form-control mb-2"
               placeholder="Customer Phone"
+              required
             />
             <input
               id="customerAddress"
               class="form-control mb-2"
               placeholder="Customer Address"
+              required
             />
-            <input
+            <!-- <input
               id="orderNumber"
               class="form-control mb-2"
               placeholder="Order Number"
-            />
+            /> -->
             <input
               id="outNotes"
               class="form-control mb-2"
@@ -175,6 +179,7 @@
               id="adjustReason"
               class="form-control mb-2"
               placeholder="Reason"
+              required
             />
             <input
               id="adjustNotes"
