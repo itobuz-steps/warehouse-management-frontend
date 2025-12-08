@@ -117,7 +117,7 @@ class ForgotPasswordSubscribe {
     let counter = setInterval(() => {
       if (time == '00') {
         clearInterval(counter);
-        forgotPasswordSelection.resendButton.style.display = 'inline';
+        forgotPasswordSelection.resendButton.classList.remove('d-none');
       } else {
         time -= 1;
         console.log(time);

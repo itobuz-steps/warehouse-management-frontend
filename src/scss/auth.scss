@@ -219,18 +219,18 @@
             user-select: none;
           }
         }
+      }
 
-        .forgot-password {
-          font-size: $font-size-sm;
-          color: $color-primary;
-          text-decoration: none;
-          font-weight: $font-weight-medium;
-          @include transition-all;
+      .forgot-password {
+        font-size: $font-size-sm;
+        color: $color-primary;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+        @include transition-all;
 
-          &:hover {
-            color: $color-primary-dark;
-            text-decoration: underline;
-          }
+        &:hover {
+          color: $color-primary-dark;
+          text-decoration: underline;
         }
       }
 
@@ -328,5 +328,29 @@
     &:hover {
       transform: translateY(-2px);
     }
+  }
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  color: $color-primary;
+  font-size: $font-size-sm;
+  border: 1px solid $color-primary;
+  border-radius: 5px;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  padding: $spacing-2;
+  text-decoration: none;
+  @include transition-all;
+
+  &:disabled {
+    color: $color-gray-400;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .btn-icon {
+    margin-right: $spacing-2;
   }
 }
