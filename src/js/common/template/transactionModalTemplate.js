@@ -12,7 +12,7 @@ class TransactionModalTemplate {
       .map(
         (p) => `
         <tr>
-          <td><i class="fa-solid fa-box me-1 text-primary"></i>${p.name}</td>
+          <td><i class=" me-1 text-primary"></i>${p.name}</td>
           <td class="text-center fw-bold">${p.qty}</td>
         </tr>
       `
@@ -22,7 +22,7 @@ class TransactionModalTemplate {
     return `
       <div class="summary-section p-3 rounded border mb-4 bg-light">
         <h5 class="fw-bold mb-3 text-primary">
-          <i class="fa-solid fa-cubes me-2"></i>Products Summary
+          <i class="fa-solid"></i>Products Summary
         </h5>
 
         <table class="table table-sm table-bordered">
