@@ -120,8 +120,8 @@ function addProductRow(container, products) {
 
   // Dropdown + Quantity
   row.innerHTML = `
-    <div class="custom-dropdown mb-1">
-      <button type="button" class="dropdown-toggle form-control w-100 text-start" data-value="">
+    <div class="custom-dropdown">
+      <button type="button" class="dropdown-toggle form-control text-start h-46" data-value="">
         <img src="" class="dropdown-thumb d-none" />
         <span>Select Product</span>
       </button>
@@ -148,7 +148,7 @@ function addProductRow(container, products) {
       </div>
     </div>
 
-    <input type="number" min="1" class="form-control quantityInput" placeholder="Quantity"/>
+    <input type="number" min="1" class="form-control quantityInput h-46" placeholder="Quantity"/>
   `;
 
   // Elements
