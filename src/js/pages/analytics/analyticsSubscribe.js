@@ -2,6 +2,37 @@ import api from '../../api/interceptor.js';
 import AnalyticsTemplate from '../../common/template/AnalyticsTemplate.js';
 import config from '../../config/config.js';
 import analyticsSelection from './analyticsSelector';
+import {
+  Chart,
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+  DoughnutController,
+  ArcElement,
+  LineController,
+  LineElement,
+  PointElement,
+} from 'chart.js';
+
+Chart.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+  DoughnutController,
+  ArcElement,
+  LineController,
+  LineElement,
+  PointElement
+);
+
+let barGraph = null;
+let lineGraph = null;
 
 class AnalyticsSubscribe {
   analyticsTemplate = new AnalyticsTemplate();
@@ -59,28 +90,96 @@ class AnalyticsSubscribe {
   };
 
   getComparisonData = async (event) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    const formData = new FormData(event.target);
+      const formData = new FormData(event.target);
 
-    const warehouseId = formData.get('warehouseSelect');
-    const product1 = formData.get('productSelect1');
-    const product2 = formData.get('productSelect2');
+      const warehouseId = formData.get('warehouseSelect');
+      const product1 = formData.get('productSelect1');
+      const product2 = formData.get('productSelect2');
 
-    analyticsSelection.noDataSection.style.display = 'none';
-    analyticsSelection.chartGrid.style.display = 'grid';
+      analyticsSelection.noDataSection.style.display = 'none';
+      analyticsSelection.chartGrid.style.display = 'grid';
 
-    const response1 = await api.get(
-      `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
-    );
+      const response1 = await api.get(
+        `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
+      );
 
-    console.log(response1);
+      await this.createBarChart(response1.data.data);
 
-    const response2 = await api.get(
-      `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
-    );
+      const response2 = await api.get(
+        `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
+      );
 
-    console.log(response2);
+      await this.createLineChart(response2.data.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  createBarChart = async (data) => {
+    console.log(data);
+
+    const barChart = analyticsSelection.barChart;
+
+    let labels = new Array(data.productA.name, data.productB.name);
+    let quantities = new Array(data.productA.quantity, data.productB.quantity);
+
+    console.log(labels, quantities);
+
+    if (barGraph) {
+      barGraph.destroy();
+    }
+
+    barGraph = new Chart(barChart, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            data: quantities,
+            backgroundColor: ['#ff6384', '#9966ff'],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Products',
+              color: '#2a030eff',
+              font: {
+                size: 15,
+              },
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Quantity',
+              color: '#2a030eff',
+              font: {
+                size: 15,
+              },
+            },
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  };
+
+  createLineChart = async (data) => {
+    console.log(data);
   };
 }
 

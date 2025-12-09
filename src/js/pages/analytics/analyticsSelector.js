@@ -12,6 +12,9 @@ const analyticsSelection = {
 
   noDataSection: document.getElementById('noDataFound'),
   chartGrid: document.getElementById('chartGrid'),
+
+  lineChart: document.getElementById('lineChart'),
+  barChart: document.getElementById('barChart'),
 };
 
 export default analyticsSelection;
