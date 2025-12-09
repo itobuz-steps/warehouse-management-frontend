@@ -39,7 +39,6 @@ class AnalyticsSubscribe {
       );
 
       const productDetails = result.data.data;
-      console.log('Loaded products:', productDetails);
 
       analyticsSelection.productSelect1.innerHTML = `<option value="">Select First Product</option>`;
       analyticsSelection.productSelect2.innerHTML = `<option value="">Select Another Product</option>`;

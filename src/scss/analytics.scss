@@ -181,6 +181,15 @@ body {
 button.analytics-submit {
   padding: 8px 8px;
   @include button($color-primary, $color-white);
+
+  &:active {
+    background-color: $color-primary-dark;
+  }
+
+  &:hover {
+    background-color: $color-primary-dark;
+    color: $color-white;
+  }
 }
 
 .select-wrapper {
