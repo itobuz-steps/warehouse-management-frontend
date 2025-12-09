@@ -9,10 +9,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <script type="module" src="../js/common/sidebar.js" defer></script>
-    <script
-      type="module"
-      src="../js/common/notifications/notifications.js"
-    ></script>
   </head>
   <body>
     <div id="toastSection">
@@ -27,30 +23,40 @@
 
     <!-- Main Dashboard -->
     <main class="main-content pt-3">
-      <form class="analytics-form">
+      <form id="analyticsForm" class="analytics-form">
         <section class="selection-section">
           <div class="select-wrapper w-25 my-1">
-            <select id="warehouseSelect" class="form-control select">
-              <!-- Options will be added dynamically -->
-            </select>
+            <select
+              id="warehouseSelect"
+              class="form-control select"
+              name="warehouseSelect"
+            ></select>
             <i class="select-arrow fa-solid fa-angle-down"></i>
           </div>
 
           <div class="select-wrapper w-25 my-1">
-            <select id="warehouseSelect" class="form-control select">
-              <!-- Options will be added dynamically -->
-            </select>
+            <select
+              id="productSelect1"
+              class="form-control select"
+              name="productSelect1"
+            ></select>
             <i class="select-arrow fa-solid fa-angle-down"></i>
           </div>
 
           <div class="select-wrapper w-25 my-1">
-            <select id="warehouseSelect" class="form-control select">
-              <!-- Options will be added dynamically -->
-            </select>
+            <select
+              id="productSelect2"
+              class="form-control select"
+              name="productSelect2"
+            ></select>
             <i class="select-arrow fa-solid fa-angle-down"></i>
           </div>
 
-          <button type="submit" class="btn analytics-submit">
+          <button
+            type="submit"
+            id="analyticsSubmit"
+            class="btn analytics-submit"
+          >
             Show Analytics
           </button>
         </section>
