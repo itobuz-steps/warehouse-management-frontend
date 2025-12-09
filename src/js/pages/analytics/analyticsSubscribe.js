@@ -65,8 +65,17 @@ class AnalyticsSubscribe {
 
     console.log('Comparison submitted:', { warehouseId, product1, product2 });
 
-    // TODO: Add API call for comparison here
-    // const response = await api.post('/compare', { warehouseId, product1, product2 });
+    const response1 = await api.get(
+      `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
+    );
+
+    console.log(response1);
+
+    const response2 = await api.get(
+      `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
+    );
+
+    console.log(response2);
   };
 }
 

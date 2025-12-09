@@ -68,9 +68,9 @@
       <section class="charts-grid mt-4">
         <!-- Sales & Purchase Chart -->
         <div class="chart-card bar-chart">
-          <h5>Top 5 Products</h5>
-          <div class="chart-container bar-chart-container">
-            <canvas id="barGraph"></canvas>
+          <h5>Transaction Comparison</h5>
+          <div class="chart-container bar-chart-container line-chart">
+            <canvas id="lineChart"></canvas>
           </div>
 
           <button id="exportTop5" class="btn btn-success export mt-4">
@@ -79,7 +79,7 @@
         </div>
 
         <!-- Product Category Chart -->
-        <div class="chart-card">
+        <!-- <div class="chart-card">
           <h5>Products category</h5>
           <div class="chart-container">
             <canvas id="pieChart"></canvas>
@@ -88,13 +88,13 @@
           <button id="exportCategory" class="btn btn-success mt-4 export">
             <i class="fa-solid fa-file-excel"></i> Export
           </button>
-        </div>
+        </div> -->
 
         <!-- Order Summary Chart -->
         <div class="chart-card">
-          <h5>Transactions/day</h5>
-          <div class="line-chart chart-container">
-            <canvas id="lineChart"></canvas>
+          <h5>Quantity Comparison</h5>
+          <div class="chart-container bar-chart-container">
+            <canvas id="barChart"></canvas>
           </div>
           <button id="exportTransactions" class="btn btn-success mt-4 export">
             <i class="fa-solid fa-file-excel"></i> Export
