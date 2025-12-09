@@ -328,6 +328,8 @@ body {
   .dropdown-menu {
     position: absolute;
     z-index: 100;
+    width: 100%;
+    min-width: 0;
   }
 
   .dropdown-thumb {
@@ -383,4 +385,10 @@ body {
 
 .h-46 {
   height: 46px;
+}
+
+.required::after {
+  content: '*';
+  color: red;
+  margin-left: 4px;
 }
