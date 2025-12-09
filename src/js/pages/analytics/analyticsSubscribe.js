@@ -25,6 +25,10 @@ class AnalyticsSubscribe {
         const selected = event.target.selectedOptions[0];
         const warehouseId = selected.id;
 
+        analyticsSelection.productSelectSection.forEach((item) => {
+          item.style.display = 'block';
+        });
+
         this.loadProductOptions(warehouseId);
       });
     } catch (err) {
@@ -63,7 +67,8 @@ class AnalyticsSubscribe {
     const product1 = formData.get('productSelect1');
     const product2 = formData.get('productSelect2');
 
-    console.log('Comparison submitted:', { warehouseId, product1, product2 });
+    analyticsSelection.noDataSection.style.display = 'none';
+    analyticsSelection.chartGrid.style.display = 'grid';
 
     const response1 = await api.get(
       `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`

@@ -221,11 +221,25 @@ button.analytics-submit {
     z-index: 1;
   }
 }
+.product-select {
+  display: none;
+}
 
 // Responsive
 @include responsive {
   .select-wrapper {
     width: 100% !important;
+  }
+}
+
+.no-data-found {
+  height: 100px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+
+  h5 {
+    color: $color-text;
   }
 }
 
@@ -242,6 +256,7 @@ button.analytics-submit {
 /* Default for mobile/tablet */
 .charts-grid {
   grid-template-columns: 1fr;
+  display: none;
 }
 
 /* Desktop & large screens */

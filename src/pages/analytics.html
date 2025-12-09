@@ -32,24 +32,27 @@
               id="warehouseSelect"
               class="form-control select"
               name="warehouseSelect"
+              required
             ></select>
             <i class="select-arrow fa-solid fa-angle-down"></i>
           </div>
 
-          <div class="select-wrapper w-25 my-1">
+          <div class="select-wrapper w-25 my-1 product-select">
             <select
               id="productSelect1"
               class="form-control select"
               name="productSelect1"
+              required
             ></select>
             <i class="select-arrow fa-solid fa-angle-down"></i>
           </div>
 
-          <div class="select-wrapper w-25 my-1">
+          <div class="select-wrapper w-25 my-1 product-select">
             <select
               id="productSelect2"
               class="form-control select"
               name="productSelect2"
+              required
             ></select>
             <i class="select-arrow fa-solid fa-angle-down"></i>
           </div>
@@ -64,8 +67,12 @@
         </section>
       </form>
 
+      <section id="noDataFound" class="no-data-found">
+        <h5>Please Select Warehouse Options to View Analytics</h5>
+      </section>
+
       <!-- Static Charts -->
-      <section class="charts-grid mt-4">
+      <section id="chartGrid" class="charts-grid mt-4">
         <!-- Sales & Purchase Chart -->
         <div class="chart-card bar-chart">
           <h5>Transaction Comparison</h5>
