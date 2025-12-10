@@ -106,8 +106,6 @@ class AnalyticsSubscribe {
         `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
       );
 
-      console.log(response1);
-
       await this.createBarChart(response1.data.data);
 
       const response2 = await api.get(
@@ -269,6 +267,34 @@ class AnalyticsSubscribe {
       const link = document.createElement('a');
       link.href = url;
       link.download = 'two-products-quantity.xlsx';
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  getTwoProductTransactionExcel = async () => {
+    try {
+      const warehouseId = analyticsSelection.warehouseSelect.value;
+      const product1Id = analyticsSelection.productSelect1.value;
+      const product2Id = analyticsSelection.productSelect2.value;
+
+      const result = await api.get(
+        `${config.PRODUCT_ANALYTICS_URL}/get-two-products-transaction-chart-data?warehouseId=${warehouseId}&productA=${product1Id}&productB=${product2Id}`,
+        { responseType: 'blob' }
+      );
+
+      const blob = new Blob([result.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'two-products-transaction.xlsx';
       link.click();
 
       window.URL.revokeObjectURL(url);

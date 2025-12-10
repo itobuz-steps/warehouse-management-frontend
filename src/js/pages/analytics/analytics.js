@@ -16,6 +16,11 @@ analyticsSelection.analyticsForm.addEventListener(
   analyticsSubscribe.getComparisonData
 );
 
+analyticsSelection.transactionExcel.addEventListener(
+  'click',
+  analyticsSubscribe.getTwoProductTransactionExcel
+);
+
 analyticsSelection.quantityExcel.addEventListener(
   'click',
   analyticsSubscribe.getTwoProductQuantityExcel
