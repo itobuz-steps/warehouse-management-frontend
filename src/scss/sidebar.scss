@@ -119,6 +119,7 @@
   padding: $spacing-6;
   min-height: 100vh;
   background: $body-bg;
+  width: 100%;
   transition: margin-left 0.3s ease;
 }
 
@@ -130,36 +131,6 @@
       transform: translateX(0);
       box-shadow: 8px 0 25px rgba($color-gray-900, 0.1);
     }
-  }
-
-  .sidebar-toggle {
-    position: fixed;
-    top: $spacing-4;
-    left: $spacing-4;
-    z-index: $z-index-fixed + 10;
-    background: $color-primary;
-    color: $color-white;
-    border: none;
-    border-radius: $spacing-2;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: $font-size-xl;
-    cursor: pointer;
-    // box-shadow: $shadow-lg;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: $color-primary-dark;
-      transform: scale(1.05);
-    }
-  }
-
-  .main-content {
-    margin-left: 0;
-    padding: $spacing-6 $spacing-4;
   }
 }
 
