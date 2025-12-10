@@ -66,7 +66,7 @@ class TransactionModalTemplate {
         <p><strong>Email:</strong> ${customer.email || '-'}</p>
         <p><strong>Phone:</strong> ${customer.phone || '-'}</p>
         <p><strong>Address:</strong> ${customer.address || '-'}</p>
-        <p><strong>Order Number:</strong> ${customer.orderNumber || '-'}</p>
+        <!--<p><strong>Order Number:</strong> ${customer.orderNumber || '-'}</p>-->
         <p><strong>Notes:</strong> ${notes || '-'}</p>
       </div>
     `;

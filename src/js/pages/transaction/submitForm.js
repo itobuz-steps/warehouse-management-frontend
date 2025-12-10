@@ -11,60 +11,73 @@ const submitSpinner = document.getElementById('submitSpinner');
 
 export default async function submitForm(type) {
   const confirmed = await confirmTransaction(type);
+
   if (!confirmed) {
     return;
   }
+
   let url = '';
   let body = {};
 
   switch (type) {
-    case 'IN':
+    case 'IN': {
+      const products = await collectProducts('inProductsContainer');
+
+      if (!products) {
+        return;
+      }
+
       url = `${config.TRANSACTION_BASE_URL}/stock-in`;
       body = {
-        products: collectProducts('inProductsContainer'),
+        products,
         supplier: document.getElementById('supplier').value,
         destinationWarehouse: warehouses.destinationWarehouse.value,
         notes: document.getElementById('inNotes').value,
       };
       break;
+    }
 
-    case 'OUT':
+    case 'OUT': {
       url = `${config.TRANSACTION_BASE_URL}/stock-out`;
       body = {
-        products: collectProducts('outProductsContainer'),
+        products: await collectProducts('outProductsContainer'),
         customerName: document.getElementById('customerName').value,
         customerEmail: document.getElementById('customerEmail').value,
         customerPhone: document.getElementById('customerPhone').value,
         customerAddress: document.getElementById('customerAddress').value,
-        orderNumber: document.getElementById('orderNumber').value,
+        // orderNumber: document.getElementById('orderNumber').value,
         sourceWarehouse: warehouses.sourceWarehouse.value,
         notes: document.getElementById('outNotes').value,
       };
       break;
+    }
 
-    case 'TRANSFER':
+    case 'TRANSFER': {
       url = `${config.TRANSACTION_BASE_URL}/transfer`;
       body = {
-        products: collectProducts('transferProductsContainer'),
+        products: await collectProducts('transferProductsContainer'),
         sourceWarehouse: warehouses.sourceWarehouse.value,
         destinationWarehouse: warehouses.destinationWarehouse.value,
         notes: document.getElementById('transferNotes').value,
       };
       break;
+    }
 
-    case 'ADJUSTMENT':
+    case 'ADJUSTMENT': {
       url = `${config.TRANSACTION_BASE_URL}/adjustment`;
       body = {
-        products: collectProducts('adjustProductsContainer'),
+        products: await collectProducts('adjustProductsContainer'),
         reason: document.getElementById('adjustReason').value,
         notes: document.getElementById('adjustNotes').value,
         // using common sourceWarehouse as adjustment warehouse
         warehouseId: warehouses.sourceWarehouse.value,
       };
       break;
+    }
 
-    default:
+    default: {
       return;
+    }
   }
 
   try {
@@ -80,7 +93,10 @@ export default async function submitForm(type) {
     Object.values(containers).forEach((c) => (c.innerHTML = ''));
 
     const warehouseDropdown = document.getElementById('warehouseDropdown');
-    if (warehouseDropdown) warehouseDropdown.classList.add('d-none');
+
+    if (warehouseDropdown) {
+      warehouseDropdown.classList.add('d-none');
+    }
 
     submitSpinner.classList.add('d-none');
 
@@ -91,20 +107,67 @@ export default async function submitForm(type) {
   }
 }
 
-function collectProducts(containerId) {
+async function collectProducts(containerId) {
   const container = containers[containerId];
-  if (!container) return [];
 
-  return [...container.querySelectorAll('.product-row')]
-    .map((row) => {
-      const productId = row.querySelector('.productSelect')?.value;
-      const quantity = parseInt(
-        row.querySelector('.quantityInput')?.value || '0',
-        10
+  if (!container) {
+    return [];
+  }
+
+  let warehouseCapacity = 0,
+    presentWarehouseCapacity = 0;
+
+  if (containerId === 'inProductsContainer') {
+    try {
+      const res = await api.get(
+        `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${warehouses.destinationWarehouse.value}`
       );
-      return { productId, quantity };
-    })
-    .filter((p) => p.productId && p.quantity > 0);
+
+      presentWarehouseCapacity = res?.data?.data?.totalQuantity ?? 0;
+      warehouseCapacity = res.data.data.warehouse.capacity;
+      // console.log('Total Warehouse capacity:', warehouseCapacity);
+    } catch (err) {
+      console.error('Failed to fetch warehouse capacity:', err);
+      presentWarehouseCapacity = 0;
+    }
+  }
+
+  const products = [];
+
+  for (const row of container.querySelectorAll('.product-row')) {
+    const toggleBtn = row.querySelector('.dropdown-toggle');
+    const productId = toggleBtn ? toggleBtn.dataset.value : null;
+
+    const quantityInput = row.querySelector('.quantityInput');
+    const quantity = quantityInput
+      ? parseInt(quantityInput.value || '0', 10)
+      : 0;
+
+    const limitInput = row.querySelector('.limitInput');
+    const limit = limitInput ? parseInt(limitInput.value || '0', 10) : 0;
+
+    // check warehouse capacity
+    if (containerId === 'inProductsContainer') {
+      // console.log(
+      //   `Checking product ${productId}: qty = ${quantity}, capacity = ${presentWarehouseCapacity}`
+      // );
+
+      if (quantity + presentWarehouseCapacity > warehouseCapacity) {
+        showToast(
+          'error',
+          `Can not Stock in Products, exceeded warehouse capacity.`
+        );
+
+        return null; // reject transaction
+      }
+
+      presentWarehouseCapacity += quantity;
+    }
+
+    products.push({ productId, quantity, limit });
+  }
+
+  return products;
 }
 
 function showToast(type, message) {

@@ -1,6 +1,6 @@
 // js/pages/transaction/loadWarehouses.js
-import config from '../../config/config';
-import api from '../../api/interceptor';
+// import config from '../../config/config';
+// import api from '../../api/interceptor';
 import { getUserWarehouses } from '../../common/api/HelperApi';
 
 const sourceWarehouseSelector = document.getElementById('sourceWarehouse');
