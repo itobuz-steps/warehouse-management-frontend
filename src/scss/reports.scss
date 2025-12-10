@@ -132,7 +132,7 @@ body {
   height: auto;
 }
 
-button.warehouse-dropdown, button.filter-btn {
+button.warehouse-dropdown {
   @include button();
 }
 
@@ -351,4 +351,26 @@ button.invoice-btn {
 .warehouse-option:active,
 .warehouse-option.active {
   background: $color-primary !important;
+}
+.supplier-status {
+  margin-top: 10px;
+}
+.shipment {
+  padding: 3px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: $color-primary-dark;
+  border: 2px solid $color-primary-dark;
+  background-color: $color-primary-light;
+}
+
+.date {
+  border: 2px solid $color-primary-dark;
+  padding: 6px;
+  border-radius: 5px;
+}
+
+button.filter-btn {
+  @include button($color-primary, $color-primary);
+  padding: 9px 20px;
 }

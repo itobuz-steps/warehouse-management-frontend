@@ -83,6 +83,13 @@ export function addProductRowForContainer(containerId) {
   addProductRow(container, products);
 }
 
+// Helper function to get all currently selected product IDs in a container
+function getSelectedProductIds(container) {
+  return [...container.querySelectorAll('.productSelect')]
+    .map((select) => select.value)
+    .filter((value) => value); // Remove empty values
+}
+
 function addProductRow(container, products) {
   const row = document.createElement('div');
   row.className = 'product-row mb-2';
@@ -90,9 +97,31 @@ function addProductRow(container, products) {
   const isRawProduct = products.length && !products[0].product;
   // true for Stock IN, false for OUT/TRANSFER/ADJUSTMENT
 
+  // Get already selected product IDs to exclude them
+  const selectedProductIds = getSelectedProductIds(container);
+
+  // Filter products: remove those already selected
+  const availableProducts = products.filter((p) => {
+    let productId;
+    if (isRawProduct) {
+      productId = p._id;
+    } else {
+      productId = p.product._id;
+    }
+    return !selectedProductIds.includes(productId);
+  });
+
+  // If all products are selected, show warning
+  if (!availableProducts.length) {
+    row.innerHTML = `<p class="text-warning">All products already selected.</p>`;
+    container.appendChild(row);
+    return;
+  }
+
   row.innerHTML = `
     <select class="form-select productSelect mb-1">
-      ${products
+      <option value="">-- Select Product --</option>
+      ${availableProducts
         .map((p) => {
           if (isRawProduct) {
             // Stock IN (raw product object)
@@ -113,5 +142,61 @@ function addProductRow(container, products) {
     />
   `;
 
+  const productSelect = row.querySelector('.productSelect');
+
+  // Update other dropdowns when this product is changed
+  productSelect.addEventListener('change', () => {
+    updateAllProductDropdowns(container, products, isRawProduct);
+  });
+
   container.appendChild(row);
+}
+
+// Update all product dropdowns to reflect current selections
+function updateAllProductDropdowns(container, products, isRawProduct) {
+  const selectedProductIds = getSelectedProductIds(container);
+  const productSelects = container.querySelectorAll('.productSelect');
+
+  productSelects.forEach((select) => {
+    const currentValue = select.value;
+    const availableProducts = products.filter((p) => {
+      let productId;
+      if (isRawProduct) {
+        productId = p._id;
+      } else {
+        productId = p.product._id;
+      }
+      // Include products that are either not selected OR currently selected in this dropdown
+      if (
+        !selectedProductIds.includes(productId) ||
+        productId === currentValue
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    // Rebuild the select options
+    const options = [
+      '<option value="">-- Select Product --</option>',
+      ...availableProducts.map((p) => {
+        if (isRawProduct) {
+          let selected = '';
+          if (p._id === currentValue) {
+            selected = 'selected';
+          }
+          return `<option value="${p._id}" ${selected}>${p.name}</option>`;
+        } else {
+          let selected = '';
+          if (p.product._id === currentValue) {
+            selected = 'selected';
+          }
+          return `<option value="${p.product._id}" ${selected}>${p.product.name} (Qty: ${p.quantity})</option>`;
+        }
+      }),
+    ];
+
+    select.innerHTML = options.join('');
+  });
 }

@@ -82,13 +82,13 @@ function updateActiveWarehouse(option) {
 
 // Reset the date filter
 function resetDateFilter() {
-  document.getElementById('startDate').value = '';
-  document.getElementById('endDate').value = '';
+  reportSelection.startDate.value = '';
+  reportSelection.endDate.value = '';
 }
 
 // Attach event listener for date filter button
 function attachDateFilter(user, warehouses, transactionTemplate) {
-  document.getElementById('applyDateFilter').addEventListener('click', () => {
+  reportSelection.dateFilter.addEventListener('click', () => {
     const warehouseId = document
       .querySelector('.warehouse-option.active')
       .getAttribute('data-id');
@@ -145,8 +145,8 @@ async function loadTransactions(
 function buildQueryParams() {
   const params = new URLSearchParams();
 
-  const startDate = document.getElementById('startDate').value;
-  const endDate = document.getElementById('endDate').value;
+  const startDate = reportSelection.startDate.value;
+  const endDate = reportSelection.endDate.value;
 
   if (startDate) {
     params.append('startDate', startDate);
@@ -169,7 +169,7 @@ function buildQueryParams() {
       Transfer: 'TRANSFER',
     };
     const type = filterMap[selectedRadio.id];
-    
+
     if (type && type !== 'ALL') {
       params.append('type', type);
     }
