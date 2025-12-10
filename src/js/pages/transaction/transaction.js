@@ -17,6 +17,8 @@ const toastMessage = new Templates();
 const { buttons, containers, form, typeSelect, toastSection } =
   transactionSelectors;
 
+typeSelect.selectedIndex = 0;
+
 // 1. Initial setup
 displayTransactionType();
 
