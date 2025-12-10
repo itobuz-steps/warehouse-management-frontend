@@ -4,7 +4,7 @@ import api from '../../api/interceptor';
 import { transactionSelectors } from './transactionSelector';
 
 const { containers, warehouses } = transactionSelectors;
-const { sourceWarehouse } = warehouses;
+const { sourceWarehouse, destinationWarehouse } = warehouses;
 
 // store last loaded products per container
 const lastLoadedProductsByContainer = {};
@@ -16,6 +16,7 @@ export async function displayProducts(type) {
   switch (type) {
     case 'IN':
       containerId = 'inProductsContainer';
+      warehouseId = destinationWarehouse.value;
       break;
 
     case 'OUT':
@@ -38,22 +39,40 @@ export async function displayProducts(type) {
 
   try {
     let products = [];
+    let warehouseProducts = [];
 
     if (type === 'IN') {
-      const res = await api.get(`${config.PRODUCT_BASE_URL}`);
-      products = res.data?.data || [];
+      // Fetch all products
+      const allRes = await api.get(`${config.PRODUCT_BASE_URL}`);
+      products = allRes.data?.data || [];
+
+      if (warehouseId && warehouseId.trim() !== '') {
+        console.log(warehouseId);
+        // Fetch warehouse existing products TOO
+        const wpRes = await api.get(
+          `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
+        );
+        warehouseProducts = wpRes.data?.data || [];
+      }
     } else {
+      // Outgoing → ONLY warehouse products
       if (!warehouseId || warehouseId.trim() === '') {
         container.innerHTML =
           "<p class='text-muted'>Please select a warehouse first.</p>";
         lastLoadedProductsByContainer[containerId] = [];
         return;
       }
+
       const res = await api.get(
         `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
       );
       products = res.data?.data || [];
+      warehouseProducts = products; // same list
     }
+
+    const existingProductIds = new Set(
+      warehouseProducts.map((p) => p.product?._id || p._id)
+    );
 
     container.innerHTML = '';
 
@@ -64,7 +83,7 @@ export async function displayProducts(type) {
     }
 
     lastLoadedProductsByContainer[containerId] = products;
-    addProductRow(container, products);
+    addProductRow(container, products, existingProductIds);
   } catch (err) {
     console.error(err);
     container.innerHTML = `<p class="text-danger">Failed to load products: ${
@@ -90,7 +109,7 @@ function getSelectedProductIds(container) {
     .filter((value) => value);
 }
 
-function addProductRow(container, products) {
+function addProductRow(container, products, existingProductIds) {
   const row = document.createElement('div');
   row.className = 'product-row mb-2 d-flex flex-column flex-sm-row';
 
@@ -149,12 +168,15 @@ function addProductRow(container, products) {
     </div>
 
     <input type="number" min="1" class="form-control quantityInput h-46" placeholder="Quantity"/>
+
+    <input type="number" min="1" class="form-control limitInput h-46"  placeholder="Min Limit" style="display:none"/>
   `;
 
   // Elements
   const toggleBtn = row.querySelector('.dropdown-toggle');
   const menu = row.querySelector('.dropdown-menu');
   const thumb = row.querySelector('.dropdown-thumb');
+  const limitInput = row.querySelector('.limitInput');
 
   // Toggle dropdown
   toggleBtn.addEventListener('click', () => {
@@ -173,7 +195,8 @@ function addProductRow(container, products) {
       toggleBtn.dataset.value = id;
 
       if (!isRawProduct) {
-        toggleBtn.querySelector('span').textContent = `${name} (Quantity: ${qty})`;
+        toggleBtn.querySelector('span').textContent =
+          `${name} (Quantity: ${qty})`;
       } else {
         toggleBtn.querySelector('span').textContent = name;
       }
@@ -189,8 +212,22 @@ function addProductRow(container, products) {
       // Close menu
       menu.style.display = 'none';
 
+      const exists = existingProductIds.has(id);
+
+      // Add/remove limit input dynamically
+      if (!exists) {
+        limitInput.style.display = 'block';
+      } else {
+        limitInput.style.display = 'none';
+      }
+
       // Refresh other dropdowns
-      updateAllProductDropdowns(container, products, isRawProduct);
+      updateAllProductDropdowns(
+        container,
+        products,
+        isRawProduct,
+        existingProductIds
+      );
     });
   });
 
@@ -198,21 +235,29 @@ function addProductRow(container, products) {
 }
 
 // Update all product dropdowns to reflect current selections
-function updateAllProductDropdowns(container, products, isRawProduct) {
+function updateAllProductDropdowns(
+  container,
+  products,
+  isRawProduct,
+  existingProductIds
+) {
   const selectedIds = getSelectedProductIds(container);
-  const dropdowns = container.querySelectorAll('.dropdown-toggle');
 
-  dropdowns.forEach((btn) => {
+  const rows = container.querySelectorAll('.product-row');
+
+  rows.forEach((row) => {
+    const btn = row.querySelector('.dropdown-toggle');
     const currentValue = btn.dataset.value;
+    const menu = row.querySelector('.dropdown-menu');
+    const limitInput = row.querySelector('.limitInput');
 
+    // Compute available products for this row
     const availableProducts = products.filter((p) => {
       const id = isRawProduct ? p._id : p.product._id;
       return !selectedIds.includes(id) || id === currentValue;
     });
 
-    const menu = btn.parentElement.querySelector('.dropdown-menu');
-
-    // rebuild menu items
+    // Rebuild dropdown menu
     menu.innerHTML = availableProducts
       .map((p) => {
         const product = isRawProduct ? p : p.product;
@@ -223,29 +268,25 @@ function updateAllProductDropdowns(container, products, isRawProduct) {
                data-name="${product.name}"
                data-img="${img}"
                data-qty="${isRawProduct ? '' : p.quantity}">
-            <img src="${img}" width="32" height="32"
-                 class="me-2" style="object-fit:cover;border-radius:4px;">
+            <img src="${img}" width="32" height="32" class="me-2" style="object-fit:cover;border-radius:4px;">
             <span>${product.name}${isRawProduct ? '' : ` (Quantity: ${p.quantity})`}</span>
           </div>
         `;
       })
       .join('');
 
-    // rebind click listeners
+    // Rebind selection logic
     menu.querySelectorAll('.product-option').forEach((item) => {
       item.addEventListener('click', () => {
         const id = item.dataset.id;
         const name = item.dataset.name;
-        const img = item.dataset.img || '';
+        const img = item.dataset.img;
         const qty = item.dataset.qty;
 
         btn.dataset.value = id;
-
-        if (!isRawProduct) {
-          btn.querySelector('span').textContent = `${name} (Quantity: ${qty})`;
-        } else {
-          btn.querySelector('span').textContent = name;
-        }
+        btn.querySelector('span').textContent = isRawProduct
+          ? name
+          : `${name} (Quantity: ${qty})`;
 
         const thumb = btn.querySelector('.dropdown-thumb');
 
@@ -258,7 +299,20 @@ function updateAllProductDropdowns(container, products, isRawProduct) {
 
         menu.style.display = 'none';
 
-        updateAllProductDropdowns(container, products, isRawProduct);
+        //Update limit input dynamically
+        const exists = existingProductIds.has(id);
+        if (!exists) {
+          limitInput.style.display = 'block';
+        } else {
+          limitInput.style.display = 'none';
+        }
+
+        updateAllProductDropdowns(
+          container,
+          products,
+          isRawProduct,
+          existingProductIds
+        );
       });
     });
   });

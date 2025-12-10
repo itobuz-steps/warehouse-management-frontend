@@ -93,7 +93,7 @@ export default async function submitForm(type) {
     Object.values(containers).forEach((c) => (c.innerHTML = ''));
 
     const warehouseDropdown = document.getElementById('warehouseDropdown');
-    
+
     if (warehouseDropdown) {
       warehouseDropdown.classList.add('d-none');
     }
@@ -109,7 +109,7 @@ export default async function submitForm(type) {
 
 async function collectProducts(containerId) {
   const container = containers[containerId];
-  
+
   if (!container) {
     return [];
   }
@@ -118,7 +118,6 @@ async function collectProducts(containerId) {
     presentWarehouseCapacity = 0;
 
   if (containerId === 'inProductsContainer') {
-    
     try {
       const res = await api.get(
         `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${warehouses.destinationWarehouse.value}`
@@ -126,7 +125,7 @@ async function collectProducts(containerId) {
 
       presentWarehouseCapacity = res?.data?.data?.totalQuantity ?? 0;
       warehouseCapacity = res.data.data.warehouse.capacity;
-      console.log('Initial warehouse capacity:', warehouseCapacity);
+      console.log('Total Warehouse capacity:', warehouseCapacity);
     } catch (err) {
       console.error('Failed to fetch warehouse capacity:', err);
       presentWarehouseCapacity = 0;
@@ -143,6 +142,9 @@ async function collectProducts(containerId) {
     const quantity = quantityInput
       ? parseInt(quantityInput.value || '0', 10)
       : 0;
+
+    const limitInput = row.querySelector('.limitInput');
+    const limit = limitInput ? parseInt(limitInput.value || '0', 10) : 0;
 
     // check warehouse capacity
     if (containerId === 'inProductsContainer') {
@@ -162,7 +164,7 @@ async function collectProducts(containerId) {
       presentWarehouseCapacity += quantity;
     }
 
-    products.push({ productId, quantity });
+    products.push({ productId, quantity, limit });
   }
 
   return products;
