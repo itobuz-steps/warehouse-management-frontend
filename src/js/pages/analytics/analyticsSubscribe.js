@@ -175,52 +175,40 @@ class AnalyticsSubscribe {
   };
 
   createLineChart = async (data) => {
-    console.log(data);
+    const dates = data.productA.history.map((item) => item.date).slice(-7);
 
-    const lineChart = analyticsSelection.lineChart;
+    const productATransactions = data.productA.history.map(
+      (item) => item.transactions
+    );
 
-    // const productAData = data.productA.history;
-    // const productBData = data.productB.history;
-
-    let dates = [];
-    data.productA.history.forEach((item) => {
-      dates.push(item.date);
-    });
-
-    let productATransactions = [];
-    data.productA.history.forEach((item) => {
-      productATransactions.push(item.transactions);
-    });
-
-    let productBTransactions = [];
-    data.productB.history.forEach((item) => {
-      productBTransactions.push(item.transactions);
-    });
+    const productBTransactions = data.productB.history.map(
+      (item) => item.transactions
+    );
 
     if (lineGraph) {
       lineGraph.destroy();
     }
 
-    lineGraph = new Chart(lineChart, {
+    lineGraph = new Chart(analyticsSelection.lineChart, {
       type: 'line',
       data: {
-        labels: dates.slice(-7), // last 7 days
+        labels: dates, // last 7 days
         datasets: [
           {
             label: data.productA.name,
             data: productATransactions,
             borderWidth: 2,
             fill: false,
-            borderColor: '#0077b6',
-            backgroundColor: '#0077b6',
+            borderColor: '#50af95',
+            backgroundColor: '#50af95',
           },
           {
             label: data.productB.name,
             data: productBTransactions,
             borderWidth: 2,
             fill: false,
-            borderColor: '#c1121f',
-            backgroundColor: '#c1121f',
+            borderColor: '#ef58c9ff',
+            backgroundColor: '#ef58c9ff',
           },
         ],
       },
