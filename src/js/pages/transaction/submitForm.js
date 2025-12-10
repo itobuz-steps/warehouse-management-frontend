@@ -45,7 +45,7 @@ export default async function submitForm(type) {
         customerEmail: document.getElementById('customerEmail').value,
         customerPhone: document.getElementById('customerPhone').value,
         customerAddress: document.getElementById('customerAddress').value,
-        orderNumber: document.getElementById('orderNumber').value,
+        // orderNumber: document.getElementById('orderNumber').value,
         sourceWarehouse: warehouses.sourceWarehouse.value,
         notes: document.getElementById('outNotes').value,
       };
@@ -163,6 +163,9 @@ async function collectProducts(containerId) {
 
       presentWarehouseCapacity += quantity;
     }
+    // else if (containerId === 'outProductsContainer') {
+
+    // }
 
     products.push({ productId, quantity, limit });
   }

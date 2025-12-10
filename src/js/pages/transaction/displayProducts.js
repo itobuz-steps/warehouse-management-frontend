@@ -8,6 +8,7 @@ const { sourceWarehouse, destinationWarehouse } = warehouses;
 
 // store last loaded products per container
 const lastLoadedProductsByContainer = {};
+const existingProductIdsByContainer = {};
 
 export async function displayProducts(type) {
   let warehouseId = null;
@@ -73,6 +74,8 @@ export async function displayProducts(type) {
     const existingProductIds = new Set(
       warehouseProducts.map((p) => p.product?._id || p._id)
     );
+    // console.log(warehouseProducts)
+    console.log(existingProductIds);
 
     container.innerHTML = '';
 
@@ -83,6 +86,7 @@ export async function displayProducts(type) {
     }
 
     lastLoadedProductsByContainer[containerId] = products;
+    existingProductIdsByContainer[containerId] = existingProductIds;
     addProductRow(container, products, existingProductIds);
   } catch (err) {
     console.error(err);
@@ -96,10 +100,13 @@ export async function displayProducts(type) {
 export function addProductRowForContainer(containerId) {
   const container = containers[containerId];
   const products = lastLoadedProductsByContainer[containerId];
+  const existingProductIds = existingProductIdsByContainer[containerId];
 
-  if (!container || !products || !products.length) return;
+  if (!container || !products || !products.length) {
+    return;
+  }
 
-  addProductRow(container, products);
+  addProductRow(container, products, existingProductIds);
 }
 
 // Helper function to get all currently selected product IDs in a container
@@ -109,7 +116,7 @@ function getSelectedProductIds(container) {
     .filter((value) => value);
 }
 
-function addProductRow(container, products, existingProductIds) {
+function addProductRow(container, products, existingProductIds = new Set()) {
   const row = document.createElement('div');
   row.className = 'product-row mb-2 d-flex flex-column flex-sm-row';
 
@@ -151,6 +158,7 @@ function addProductRow(container, products, existingProductIds) {
           .map((p) => {
             const product = isRawProduct ? p : p.product;
             const img = product.productImage[0] || '';
+            
             return `
               <div class="dropdown-item d-flex align-items-center product-option"
                 data-id="${product._id}"
