@@ -130,13 +130,8 @@ async function loadTransactions(
         `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}${params}`
       );
     }
-
-    const allTransactions = filterTransactions(
-      result.data.data,
-      user,
-      warehouses
-    );
-    renderTransactionsList(allTransactions, transactionTemplate);
+    
+    renderTransactionsList(result.data.data, transactionTemplate);
   } catch (err) {
     console.error('Error loading transactions:', err);
   }
@@ -179,21 +174,21 @@ function buildQueryParams() {
 }
 
 // Filter transactions based on user role and warehouses
-function filterTransactions(allTransactions, user, warehouses) {
-  if (user.role === 'manager') {
-    return allTransactions.filter((transaction) => {
-      return warehouses.some(
-        (warehouse) =>
-          (transaction.sourceWarehouse &&
-            transaction.sourceWarehouse._id === warehouse._id) ||
-          (transaction.destinationWarehouse &&
-            transaction.destinationWarehouse._id === warehouse._id)
-      );
-    });
-  } else {
-    return allTransactions;
-  }
-}
+// function filterTransactions(allTransactions, user, warehouses) {
+//   if (user.role === 'manager') {
+//     return allTransactions.filter((transaction) => {
+//       return warehouses.some(
+//         (warehouse) =>
+//           (transaction.sourceWarehouse &&
+//             transaction.sourceWarehouse._id === warehouse._id) ||
+//           (transaction.destinationWarehouse &&
+//             transaction.destinationWarehouse._id === warehouse._id)
+//       );
+//     });
+//   } else {
+//     return allTransactions;
+//   }
+// }
 
 // Render list of transactions
 function renderTransactionsList(transactions, transactionTemplate) {

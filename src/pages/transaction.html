@@ -53,7 +53,9 @@
           <!-- Warehouse Selector Dropdown -->
           <div class="mb-3 d-none" id="warehouseDropdown">
             <!-- source warehouse -->
-            <label id="sourceWarehouseDropdownLabel" class="form-label d-none required"
+            <label
+              id="sourceWarehouseDropdownLabel"
+              class="form-label d-none required"
               >Source Warehouse</label
             >
             <select
@@ -115,28 +117,30 @@
             >
               + Add Product
             </button>
-
-            <input
-              id="customerName"
-              class="form-control mb-2"
-              placeholder="Customer Name"
-            />
-            <input
-              id="customerEmail"
-              type="email"
-              class="form-control mb-2"
-              placeholder="Customer Email"
-            />
-            <input
-              id="customerPhone"
-              class="form-control mb-2"
-              placeholder="Customer Phone"
-            />
-            <input
-              id="customerAddress"
-              class="form-control mb-2"
-              placeholder="Customer Address"            
-            />
+            <div class="mb-3">
+              <label class="form-label required">Customer Details</label>
+              <input
+                id="customerName"
+                class="form-control mb-2"
+                placeholder="Customer Name"
+              />
+              <input
+                id="customerEmail"
+                type="email"
+                class="form-control mb-2"
+                placeholder="Customer Email"
+              />
+              <input
+                id="customerPhone"
+                class="form-control mb-2"
+                placeholder="Customer Phone"
+              />
+              <input
+                id="customerAddress"
+                class="form-control mb-2"
+                placeholder="Customer Address"
+              />
+            </div>
             <!-- <input
               id="orderNumber"
               class="form-control mb-2"
@@ -171,11 +175,15 @@
           <div id="adjustmentFields" class="d-none">
             <!-- Uses Source Warehouse selector above -->
             <div id="adjustProductsContainer"></div>
-            <input
-              id="adjustReason"
-              class="form-control mb-2"
-              placeholder="Reason"              
-            />
+
+            <div class="mb-3">
+              <label class="form-label required">Reason for Adjustment</label>
+              <input
+                id="adjustReason"
+                class="form-control mb-2"
+                placeholder="Reason"
+              />
+            </div>
             <input
               id="adjustNotes"
               class="form-control mb-2"
@@ -249,7 +257,9 @@
             class="modal-form"
           >
             <div class="form-group">
-              <label for="transactionProductName">Product Name</label>
+              <label class="required" for="transactionProductName"
+                >Product Name</label
+              >
               <input
                 type="text"
                 id="transactionProductName"
@@ -259,7 +269,9 @@
             </div>
 
             <div class="form-group">
-              <label for="transactionProductCategory">Category</label>
+              <label class="required" for="transactionProductCategory"
+                >Category</label
+              >
               <select id="transactionProductCategory" name="category" required>
                 <option value="">Select Category</option>
                 <option value="Electronics">Electronics</option>
@@ -276,12 +288,16 @@
             </div>
 
             <div class="form-group">
-              <label for="transactionProductDescription">Description</label>
+              <label class="required" for="transactionProductDescription"
+                >Description</label
+              >
               <input id="transactionProductDescription" name="description" />
             </div>
 
             <div class="form-group">
-              <label for="transactionProductPrice">Price</label>
+              <label class="required" for="transactionProductPrice"
+                >Price</label
+              >
               <input
                 type="number"
                 id="transactionProductPrice"
@@ -291,7 +307,9 @@
             </div>
 
             <div class="form-group">
-              <label for="transactionProductImage">Product Images</label>
+              <label class="required" for="transactionProductImage"
+                >Product Images</label
+              >
               <input
                 type="file"
                 id="transactionProductImage"

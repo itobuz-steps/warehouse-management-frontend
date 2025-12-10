@@ -125,7 +125,7 @@ async function collectProducts(containerId) {
 
       presentWarehouseCapacity = res?.data?.data?.totalQuantity ?? 0;
       warehouseCapacity = res.data.data.warehouse.capacity;
-      console.log('Total Warehouse capacity:', warehouseCapacity);
+      // console.log('Total Warehouse capacity:', warehouseCapacity);
     } catch (err) {
       console.error('Failed to fetch warehouse capacity:', err);
       presentWarehouseCapacity = 0;
@@ -148,9 +148,9 @@ async function collectProducts(containerId) {
 
     // check warehouse capacity
     if (containerId === 'inProductsContainer') {
-      console.log(
-        `Checking product ${productId}: qty = ${quantity}, capacity = ${presentWarehouseCapacity}`
-      );
+      // console.log(
+      //   `Checking product ${productId}: qty = ${quantity}, capacity = ${presentWarehouseCapacity}`
+      // );
 
       if (quantity + presentWarehouseCapacity > warehouseCapacity) {
         showToast(
@@ -163,9 +163,6 @@ async function collectProducts(containerId) {
 
       presentWarehouseCapacity += quantity;
     }
-    // else if (containerId === 'outProductsContainer') {
-
-    // }
 
     products.push({ productId, quantity, limit });
   }
