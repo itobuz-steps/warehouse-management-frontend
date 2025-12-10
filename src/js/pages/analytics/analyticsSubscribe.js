@@ -119,14 +119,10 @@ class AnalyticsSubscribe {
   };
 
   createBarChart = async (data) => {
-    console.log(data);
-
     const barChart = analyticsSelection.barChart;
 
     let labels = new Array(data.productA.name, data.productB.name);
     let quantities = new Array(data.productA.quantity, data.productB.quantity);
-
-    console.log(labels, quantities);
 
     if (barGraph) {
       barGraph.destroy();
@@ -180,6 +176,87 @@ class AnalyticsSubscribe {
 
   createLineChart = async (data) => {
     console.log(data);
+
+    const lineChart = analyticsSelection.lineChart;
+
+    // const productAData = data.productA.history;
+    // const productBData = data.productB.history;
+
+    let dates = [];
+    data.productA.history.forEach((item) => {
+      dates.push(item.date);
+    });
+
+    let productATransactions = [];
+    data.productA.history.forEach((item) => {
+      productATransactions.push(item.transactions);
+    });
+
+    let productBTransactions = [];
+    data.productB.history.forEach((item) => {
+      productBTransactions.push(item.transactions);
+    });
+
+    if (lineGraph) {
+      lineGraph.destroy();
+    }
+
+    lineGraph = new Chart(lineChart, {
+      type: 'line',
+      data: {
+        labels: dates.slice(-7), // last 7 days
+        datasets: [
+          {
+            label: data.productA.name,
+            data: productATransactions,
+            borderWidth: 2,
+            fill: false,
+            borderColor: '#0077b6',
+            backgroundColor: '#0077b6',
+          },
+          {
+            label: data.productB.name,
+            data: productBTransactions,
+            borderWidth: 2,
+            fill: false,
+            borderColor: '#c1121f',
+            backgroundColor: '#c1121f',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { title: { display: true, text: 'Last 7 Days (Daily)' } },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Last 7 Days',
+              color: '#864a5b',
+              font: {
+                size: 15,
+              },
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Transactions',
+              color: '#864a5b',
+              font: {
+                size: 15,
+              },
+            },
+            ticks: {
+              stepSize: 1,
+            },
+
+            beginAtZero: true,
+          },
+        },
+      },
+    });
   };
 }
 
