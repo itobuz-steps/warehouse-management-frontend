@@ -45,7 +45,7 @@ async function registerAndSubscribe() {
 
     // 5. Send subscription to backend
     await api.post(
-      `${config.BROWSER_NOTIFICATION_URL}/subscribe`,
+      `${config.BROWSER_NOTIFICATION_BASE_URL}/subscribe`,
       subscription.toJSON(),
       { headers: { 'Content-Type': 'application/json' } }
     );
@@ -67,7 +67,7 @@ async function sendNotification(title, body) {
 
     // POST request to your backend to trigger the notification
     const response = await api.post(
-      `${config.BROWSER_NOTIFICATION_URL}/trigger`,
+      `${config.BROWSER_NOTIFICATION_BASE_URL}/trigger`,
       payload,
       { headers: { 'Content-Type': 'application/json' } }
     );
@@ -86,7 +86,9 @@ async function sendNotification(title, body) {
 export async function loadNotifications(offset) {
   try {
     console.log('Load notifications is called');
-    const res = await api.get(`${config.BROWSER_NOTIFICATION_URL}/${offset}`);
+    const res = await api.get(
+      `${config.BROWSER_NOTIFICATION_BASE_URL}/${offset}`
+    );
 
     if (!res.data.success) {
       throw new Error('Error in loading notification');
@@ -123,7 +125,7 @@ export async function loadNotifications(offset) {
 async function addSingleNotification() {
   try {
     const notification = await api.get(
-      `${config.BROWSER_NOTIFICATION_URL}/get-single-notification`
+      `${config.BROWSER_NOTIFICATION_BASE_URL}/get-single-notification`
     );
 
     browserNotificationsSelection.notificationList.innerHTML +=
@@ -153,8 +155,6 @@ async function renderNotifications(notifications) {
 
     const shipButtons = document.querySelectorAll('.ship-btn');
 
-    console.log(shipButtons);
-
     shipButtons.forEach((button) => {
       button.addEventListener('click', async (event) => {
         const transactionId = event.target.id;
@@ -166,12 +166,13 @@ async function renderNotifications(notifications) {
 
         //calling API to change the shipment status.
         await api.patch(
-          `${config.NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
+          `${config.BROWSER_NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
         );
 
         button.disabled = true;
       });
     });
+    
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -184,7 +185,12 @@ async function renderNotifications(notifications) {
 // Mark all notifications as seen
 async function markAllAsSeen() {
   try {
-    await api.patch(`${config.BROWSER_NOTIFICATION_BASE_URL}/mark-all-seen`);
+    //if everything is already seen, then mark as seen will not be called.
+    if(browserNotificationsSelection.notificationCount.innerHTML == 0){
+      return;
+    }
+
+    await api.put(`${config.BROWSER_NOTIFICATION_BASE_URL}/mark-all-seen`);
 
     browserNotificationsSelection.notificationCount.style.display = 'none';
   } catch (err) {
@@ -195,6 +201,8 @@ async function markAllAsSeen() {
     }, 3000);
   }
 }
+
+
 
 export {
   registerAndSubscribe,

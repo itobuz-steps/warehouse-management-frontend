@@ -1,23 +1,27 @@
 const createNotificationTemplate = (notification) => {
-  console.log(notification);
-  const { title, message, transactionId, createdAt, seen, type } = notification;
+  const { title, message, transactionId, createdAt, seen, type, isShipped, shippedBy} =
+    notification;
+    console.log(shippedBy);
 
   const unseenClass = !seen ? 'bg-light' : '';
   const formattedDate = new Date(createdAt).toLocaleString();
 
   let shipButton = '';
-
-  console.log(type);
+  let shipmentDetail = '';
 
   if (type === 'PENDING_SHIPMENT') {
-    shipButton = `
-      <div class="mt-2">
-        <button 
-          class="btn btn-sm btn-primary ship-btn" 
-          style="background-color: #864a5b; border-color: #2d292aff;" id="${transactionId}">
-          Ship
-        </button>
-      </div>`;
+    if(!isShipped){
+      shipButton = `
+          <div class="mt-2">
+            <button 
+              class="btn btn-sm btn-primary ship-btn" 
+              style="background-color: #864a5b; border-color: #2d292aff;" id="${transactionId}">
+              Ship
+            </button>
+          </div>`;
+    } else{
+      shipmentDetail = `Shipped By: ${shippedBy}`;
+    }
   }
 
   return `
@@ -26,6 +30,7 @@ const createNotificationTemplate = (notification) => {
       <p class="mb-0 small">${message}</p>
       <small class="text-muted">${formattedDate}</small>
       ${shipButton}
+      <p>${shipmentDetail}</p>
     </div>
   `;
 };
