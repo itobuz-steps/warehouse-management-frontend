@@ -15,6 +15,9 @@ const analyticsSelection = {
 
   lineChart: document.getElementById('lineChart'),
   barChart: document.getElementById('barChart'),
+
+  transactionExcel: document.getElementById('transactionExcel'),
+  quantityExcel: document.getElementById('quantityExcel'),
 };
 
 export default analyticsSelection;

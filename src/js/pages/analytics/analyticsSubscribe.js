@@ -1,7 +1,7 @@
 import api from '../../api/interceptor.js';
 import AnalyticsTemplate from '../../common/template/AnalyticsTemplate.js';
 import config from '../../config/config.js';
-import analyticsSelection from './analyticsSelector';
+import analyticsSelection from './analyticsSelector.js';
 import {
   Chart,
   BarController,
@@ -105,6 +105,8 @@ class AnalyticsSubscribe {
       const response1 = await api.get(
         `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
       );
+
+      console.log(response1);
 
       await this.createBarChart(response1.data.data);
 
@@ -245,6 +247,34 @@ class AnalyticsSubscribe {
         },
       },
     });
+  };
+
+  getTwoProductQuantityExcel = async () => {
+    try {
+      const warehouseId = analyticsSelection.warehouseSelect.value;
+      const product1Id = analyticsSelection.productSelect1.value;
+      const product2Id = analyticsSelection.productSelect2.value;
+
+      const result = await api.get(
+        `${config.PRODUCT_ANALYTICS_URL}/get-two-products-quantity-chart-data?warehouseId=${warehouseId}&productA=${product1Id}&productB=${product2Id}`,
+        { responseType: 'blob' }
+      );
+
+      const blob = new Blob([result.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'two-products-quantity.xlsx';
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+    }
   };
 }
 
