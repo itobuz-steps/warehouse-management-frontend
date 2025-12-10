@@ -4,65 +4,99 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <!-- <link rel="stylesheet" href="../scss/auth.scss" /> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="../js/pages/login/login.js" type="module" defer></script>
   </head>
-  <body
-    class="d-flex align-items-center justify-content-center min-vh-100 bg-light"
-  >
-    <div id="toastSection">
-      <!-- custom toast message -->
-    </div>
+  <body>
+    <!-- Toast Container -->
+    <div id="toastSection"></div>
 
+    <!-- Main Login Container -->
     <div class="main-container">
-      <div class="left-panel text-center">
-        <!-- <h1>Welcome to Lynch Logistics</h1> -->
-        <img
-          src="../assets/images/warehouse-logo-removebg-preview.png"
-          alt=""
-        />
+      <!-- Left Brand Section -->
+      <div class="brand-section">
+        <div class="brand-content">
+          <div class="logo">
+            <img src="../assets/images/logo.png" alt="Logo" />
+          </div>
+
+          <p class="tagline">
+            Intelligent warehouse management for modern logistics
+          </p>
+        </div>
       </div>
 
-      <div class="right-panel">
-        <h2>Let's login to your account.</h2>
+      <!-- Right Login Section -->
+      <div class="login-section">
+        <div class="welcome-back">
+          <h2>Welcome Back</h2>
+          <p class="subtitle">
+            Sign in to access your warehouse management dashboard
+          </p>
+        </div>
 
         <form id="loginForm" class="login-form">
-          <div class="form-group mb-3">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="form-control"
-              placeholder="Example@gmail.com"
-              required
-            />
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <i class="input-icon fas fa-envelope"></i>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="admin@domain.com"
+                autocomplete="username"
+              />
+            </div>
           </div>
 
-          <div class="form-group mb-3">
+          <!-- Password Field -->
+          <div class="form-group">
             <label for="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="form-control"
-              placeholder="Enter your password"
-              required
-            />
+            <div class="input-wrapper">
+              <i class="input-icon fas fa-lock"></i>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                id="togglePassword"
+                aria-label="Toggle password visibility"
+              >
+                <i class="fas fa-eye" id="eyeBtn"></i>
+              </button>
+            </div>
           </div>
 
-          <div class="remember-me d-flex justify-content-end mb-3">
-            <a
-              href="/pages/forgot-password.html"
-              class="text-muted forget-password"
-              >Forgot Password?</a
-            >
+          <!-- Form Options -->
+          <div class="form-options">
+            <a href="/pages/forgot-password.html" class="forgot-password">
+              Forgot Password?
+            </a>
           </div>
 
-          <button type="submit" class="btn login-btn">Login</button>
+          <!-- Submit Button -->
+          <button type="submit" class="login-btn hover-lift">
+            <i class="btn-icon fas fa-sign-in-alt"></i>
+            Sign In
+          </button>
         </form>
       </div>
     </div>
-
-    <script type="module" src="../js/pages/login/login.js"></script>
   </body>
 </html>

@@ -1,5 +1,5 @@
 const signupSelection = {
-  signupForm: document.querySelector('.signup-form'),
+  signupForm: document.getElementById('signupForm'),
 };
 
 export default signupSelection;

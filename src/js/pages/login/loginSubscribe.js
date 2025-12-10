@@ -31,7 +31,7 @@ const loginSubscribe = async (event) => {
 
     setTimeout(() => {
       window.location.href = '/pages/dashboard.html';
-    }, 3000);
+    }, 1000);
   } catch (err) {
     console.log(err);
     toastSection.innerHTML = displayToast.errorToast(err.response.data.message);

@@ -3,6 +3,7 @@ import '../../../scss/auth.scss';
 import * as bootstrap from 'bootstrap';
 import forgotPasswordSelection from './forgotPasswordSelector.js';
 import ForgotPasswordSubscribe from './ForgotPasswordSubscribe.js';
+import { showPassToggle } from '../../common/showPasswordToggle.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const forgotPasswordSubscribe = new ForgotPasswordSubscribe();
@@ -21,4 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
     'click',
     forgotPasswordSubscribe.resendOtp
   );
+});
+
+const toggleNewPassword = document.getElementById('toggleNewPassword');
+
+toggleNewPassword.addEventListener('click', () => {
+  const newPasswordInput = document.getElementById('newPassword');
+
+  showPassToggle(newPasswordInput);
 });

@@ -16,7 +16,7 @@ class ForgotPasswordSubscribe {
 
       if (res.data.success) {
         forgotPasswordSelection.emailForm.style.display = 'none';
-        forgotPasswordSelection.otpForm.style.display = 'block';
+        forgotPasswordSelection.otpForm.classList.remove('d-none');
 
         forgotPasswordSelection.toastSection.innerHTML =
           toastMessage.successToast('OTP sent! Check your Email');
@@ -24,7 +24,6 @@ class ForgotPasswordSubscribe {
 
       this.timer();
     } catch (err) {
-      console.log(err);
       forgotPasswordSelection.toastSection.innerHTML = toastMessage.errorToast(
         err.response.data.message
       );
@@ -112,15 +111,13 @@ class ForgotPasswordSubscribe {
 
   timer = () => {
     let time = forgotPasswordSelection.otpCounter.innerHTML.split(':')[1];
-    console.log(typeof time);
 
     let counter = setInterval(() => {
       if (time == '00') {
         clearInterval(counter);
-        forgotPasswordSelection.resendButton.style.display = 'inline';
+        forgotPasswordSelection.resendButton.classList.remove('d-none');
       } else {
         time -= 1;
-        console.log(time);
         forgotPasswordSelection.otpCounter.innerHTML =
           time < 10 ? '00:0' + time : '00:' + time;
       }
