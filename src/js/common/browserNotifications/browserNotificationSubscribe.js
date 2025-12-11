@@ -189,7 +189,9 @@ const observer = new IntersectionObserver(callback, options);
 
 // Start observing the sentinel
 const sentinel = document.querySelector('#sentinel');
-observer.observe(sentinel);
+if(sentinel){
+  observer.observe(sentinel);
+}
 
 export {
   registerAndSubscribe,
