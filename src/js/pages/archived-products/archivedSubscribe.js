@@ -8,9 +8,9 @@ import {
 
 import { openArchivedModal } from './archivedModal.js';
 
-let archivedList = [];
-let currentPage = 1;
-const perPage = 12;
+export let archivedList = [];
+export let currentPage = 1;
+export const perPage = 12;
 
 export const loadArchivedProducts = async () => {
   try {
