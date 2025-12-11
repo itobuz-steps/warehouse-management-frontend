@@ -109,7 +109,21 @@ export async function loadNotifications(offset) {
       browserNotificationsSelection.notificationCount.style.display = 'none';
     }
 
-    renderNotifications(notifications);
+    renderNotifications(notifications, offset);
+
+    // const loadMoreItem = `<div
+    //   class="load-more"
+    //   style="text-align: center; margin-top: 20px;"
+    // >
+    //   <button
+    //     id="loadMoreButton"
+    //     style="background-color: #864a5b; border: none; color: white; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: all 0.3s ease;"
+    //   >
+    //     Load More
+    //   </button>
+    // </div>`;
+
+    // browserNotificationsSelection.notificationList.innerHTML += loadMoreItem;
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -142,9 +156,11 @@ export async function loadNotifications(offset) {
 // }
 
 // rendering notifications & handling bell unseen notification.
-async function renderNotifications(notifications) {
+async function renderNotifications(notifications, offset) {
   try {
-    browserNotificationsSelection.notificationList.innerHTML = '';
+    if (offset === 0) {
+      browserNotificationsSelection.notificationList.innerHTML = '';
+    }
 
     notifications.forEach((notification) => {
       browserNotificationsSelection.notificationList.innerHTML +=
@@ -198,7 +214,6 @@ async function markAllAsSeen() {
     // notificationItems.forEach((item) => {
     //   item.classList.remove('bg-light');
     // });
-
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -208,10 +223,35 @@ async function markAllAsSeen() {
   }
 }
 
+// Callback function for the IntersectionObserver
+const callback = (entries, observer) => {
+
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const offset =
+        browserNotificationsSelection.notificationList.children.length;
+      loadNotifications(offset); 
+    }
+  });
+};
+
+// Options for the IntersectionObserver
+const options = {
+  root: document.querySelector('#scrollArea'), 
+  rootMargin: '0px', 
+  threshold: 1.0,
+}
+
+// Create the observer
+const observer = new IntersectionObserver(callback, options);
+
+// Start observing the sentinel
+const sentinel = document.querySelector('#sentinel');
+observer.observe(sentinel);
+
 export {
   registerAndSubscribe,
   sendNotification,
-  // addSingleNotification,
   renderNotifications,
   markAllAsSeen,
 };

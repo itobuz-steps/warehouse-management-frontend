@@ -38,4 +38,6 @@ const createNotificationTemplate = (notification) => {
   `;
 };
 
+
+
 export default createNotificationTemplate;
