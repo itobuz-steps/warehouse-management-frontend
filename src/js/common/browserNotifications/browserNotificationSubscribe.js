@@ -98,15 +98,13 @@ export async function loadNotifications(offset) {
     const notifications = res.data.data || [];
     const unseenCount = res.data.unseenCount;
 
-    console.log(notifications);
-    console.log(unseenCount);
-
     //updating unseen notification count.
     if (unseenCount > 0) {
       browserNotificationsSelection.notificationCount.textContent = unseenCount;
       browserNotificationsSelection.notificationCount.style.display =
         'inline-block';
     } else {
+      //fix unseen count to zero and remove top number.
       browserNotificationsSelection.notificationCount.textContent = 0;
       browserNotificationsSelection.notificationCount.style.display = 'none';
     }
@@ -122,26 +120,26 @@ export async function loadNotifications(offset) {
 }
 
 //adding single notification in the list.
-async function addSingleNotification() {
-  try {
-    const notification = await api.get(
-      `${config.BROWSER_NOTIFICATION_BASE_URL}/get-single-notification`
-    );
+// async function addSingleNotification() {
+//   try {
+//     const notification = await api.get(
+//       `${config.BROWSER_NOTIFICATION_BASE_URL}/get-single-notification`
+//     );
 
-    browserNotificationsSelection.notificationList.innerHTML +=
-      createNotificationTemplate(notification);
+//     browserNotificationsSelection.notificationList.innerHTML +=
+//       createNotificationTemplate(notification);
 
-    browserNotificationsSelection.notificationCount.innerText += 1;
-    browserNotificationsSelection.notificationCount.style.display =
-      'inline-block';
-  } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+//     browserNotificationsSelection.notificationCount.innerText += 1;
+//     browserNotificationsSelection.notificationCount.style.display =
+//       'inline-block';
+//   } catch (err) {
+//     toastSection.innerHTML = displayToast.errorToast(err.message);
 
-    setTimeout(() => {
-      toastSection.innerHTML = '';
-    }, 3000);
-  }
-}
+//     setTimeout(() => {
+//       toastSection.innerHTML = '';
+//     }, 3000);
+//   }
+// }
 
 // rendering notifications & handling bell unseen notification.
 async function renderNotifications(notifications) {
@@ -157,22 +155,24 @@ async function renderNotifications(notifications) {
 
     shipButtons.forEach((button) => {
       button.addEventListener('click', async (event) => {
+        console.log('shipment button clicked');
         const transactionId = event.target.id;
+
         if (!transactionId) {
           return;
         }
 
-        event.target.innerText = 'Shipped';
+        console.log(transactionId);
 
         //calling API to change the shipment status.
         await api.patch(
           `${config.BROWSER_NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
         );
 
+        event.target.innerText = 'Shipped';
         button.disabled = true;
       });
     });
-    
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -186,13 +186,19 @@ async function renderNotifications(notifications) {
 async function markAllAsSeen() {
   try {
     //if everything is already seen, then mark as seen will not be called.
-    if(browserNotificationsSelection.notificationCount.innerHTML == 0){
+    if (browserNotificationsSelection.notificationCount.innerHTML == 0) {
       return;
     }
 
     await api.put(`${config.BROWSER_NOTIFICATION_BASE_URL}/mark-all-seen`);
 
     browserNotificationsSelection.notificationCount.style.display = 'none';
+
+    // const notificationItems = document.querySelectorAll('.notif-item');
+    // notificationItems.forEach((item) => {
+    //   item.classList.remove('bg-light');
+    // });
+
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -202,12 +208,10 @@ async function markAllAsSeen() {
   }
 }
 
-
-
 export {
   registerAndSubscribe,
   sendNotification,
-  addSingleNotification,
+  // addSingleNotification,
   renderNotifications,
   markAllAsSeen,
 };
