@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Archived Products</title>
+
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+    <script
+      type="module"
+      src="../js/pages/archived-products/archivedProducts.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i class="fa-solid fa-circle-chevron-right"></i>
+    </button>
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+      <div id="toastSection">
+        <!-- custom toast message -->
+      </div>
+      <div class="page-header">
+        <h1>Archived Products</h1>
+      </div>
+
+      <!-- search-filter-bar -->
+      <div class="search-filter-bar d-flex flex-column gap-1 pb-3">
+        <input
+          type="text"
+          id="searchInput"
+          class="form-control my-1"
+          placeholder="Search products..."
+        />
+
+        <div class="d-flex gap-3">
+          <div class="custom-select-wrapper">
+            <select id="categoryFilter" class="form-control my-1">
+              <option value="">All Categories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Food & Beverage">Food & Beverage</option>
+              <option value="Medical Supplies">Medical Supplies</option>
+              <option value="Industrial Tools">Industrial Tools</option>
+              <option value="Automotive Parts">Automotive Parts</option>
+              <option value="Office Supplies">Office Supplies</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Others">Others</option>
+            </select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
+
+          <div class="custom-select-wrapper">
+            <select id="sortSelect" class="form-control my-1">
+              <option value="">Sort By</option>
+              <option value="name_asc">Name (A–Z)</option>
+              <option value="name_desc">Name (Z–A)</option>
+              <option value="quantity_asc">Quantity (Low → High)</option>
+              <option value="quantity_desc">Quantity (High → Low)</option>
+              <option value="category_asc">Category (A–Z)</option>
+            </select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Show Product Modal -->
+      <div id="productModal" class="product-modal hidden">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+
+          <div class="modal-body d-flex justify-content-evenly">
+            <div class="carousel-container">
+              <button class="carousel-btn prev">&#10094;</button>
+              <img id="carouselImage" src="" alt="Product Image" />
+              <button class="carousel-btn next">&#10095;</button>
+            </div>
+
+            <div
+              class="product-info justify-content-center align-content-center"
+            >
+              <h2 id="modalProductName" class="product-name"></h2>
+              <p id="modalDescription"></p>
+              <p>
+                <strong>Category:</strong>
+                <span id="modalCategory" class="product-category"></span>
+              </p>
+              <p><strong>Price:</strong> ₹<span id="modalPrice"></span></p>
+
+              <hr />
+
+              <div id="quantitySection"></div>
+              <div id="productQr">
+                <img class="qr-code" src="" />
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button id="deleteProductBtn" class="btn btn-danger">
+              Restore Product
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirm Modal -->
+      <div id="confirmDeleteModal" class="product-modal hidden">
+        <div class="modal-content">
+          <h3>Confirm Restore</h3>
+          <p>Are you sure you want to restore this product?</p>
+
+          <div class="modal-footer justify-content-around">
+            <button id="cancelDeleteBtn" class="btn btn-secondary">
+              Cancel
+            </button>
+            <button id="confirmDeleteBtn" class="btn btn-danger">
+              Restore
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="productGrid" class="product-grid">
+        <!-- Cards will load dynamically -->
+      </div>
+
+      <div id="pagination" class="pagination"></div>
+    </div>
+  </body>
+</html>
