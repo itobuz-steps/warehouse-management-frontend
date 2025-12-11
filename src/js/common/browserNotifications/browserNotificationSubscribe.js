@@ -60,45 +60,9 @@ async function registerAndSubscribe() {
   }
 }
 
-//triggering notification section.
-async function sendNotification(title, body) {
-  try {
-    const payload = { title, body };
-
-    // POST request to your backend to trigger the notification
-    const response = await api.post(
-      `${config.BROWSER_NOTIFICATION_BASE_URL}/trigger`,
-      payload,
-      { headers: { 'Content-Type': 'application/json' } }
-    );
-
-    console.log('Notification triggered:', response.data);
-  } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
-
-    setTimeout(() => {
-      toastSection.innerHTML = '';
-    }, 3000);
-  }
-}
-
-let loading = false;
-let allLoaded = false;
-
-// Create loader instance (lv is global from CDN)
-const loader = lv.create(browserNotificationsSelection.loaderContainer.querySelector('.lv-dots'));
-
-// Load notifications from the API
 export async function loadNotifications(offset) {
-  if (loading || allLoaded) return;
-  loading = true;
 
-  // Show loader
   browserNotificationsSelection.loaderContainer.style.display = 'block';
-  loader.show();
-
-  // Wait intentionally for 2 seconds
-  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   try {
     console.log('Load notifications is called');
@@ -127,19 +91,6 @@ export async function loadNotifications(offset) {
 
     renderNotifications(notifications, offset);
 
-    // const loadMoreItem = `<div
-    //   class="load-more"
-    //   style="text-align: center; margin-top: 20px;"
-    // >
-    //   <button
-    //     id="loadMoreButton"
-    //     style="background-color: #864a5b; border: none; color: white; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: all 0.3s ease;"
-    //   >
-    //     Load More
-    //   </button>
-    // </div>`;
-
-    // browserNotificationsSelection.notificationList.innerHTML += loadMoreItem;
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -147,35 +98,9 @@ export async function loadNotifications(offset) {
       toastSection.innerHTML = '';
     }, 3000);
   } finally {
-
-    // Hide loader
-    loader.hide();
     browserNotificationsSelection.loaderContainer.style.display = 'none';
-    loading = false;
   }
 }
-
-//adding single notification in the list.
-// async function addSingleNotification() {
-//   try {
-//     const notification = await api.get(
-//       `${config.BROWSER_NOTIFICATION_BASE_URL}/get-single-notification`
-//     );
-
-//     browserNotificationsSelection.notificationList.innerHTML +=
-//       createNotificationTemplate(notification);
-
-//     browserNotificationsSelection.notificationCount.innerText += 1;
-//     browserNotificationsSelection.notificationCount.style.display =
-//       'inline-block';
-//   } catch (err) {
-//     toastSection.innerHTML = displayToast.errorToast(err.message);
-
-//     setTimeout(() => {
-//       toastSection.innerHTML = '';
-//     }, 3000);
-//   }
-// }
 
 // rendering notifications & handling bell unseen notification.
 async function renderNotifications(notifications, offset) {
@@ -232,10 +157,6 @@ async function markAllAsSeen() {
 
     browserNotificationsSelection.notificationCount.style.display = 'none';
 
-    // const notificationItems = document.querySelectorAll('.notif-item');
-    // notificationItems.forEach((item) => {
-    //   item.classList.remove('bg-light');
-    // });
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
 
@@ -272,7 +193,6 @@ observer.observe(sentinel);
 
 export {
   registerAndSubscribe,
-  sendNotification,
   renderNotifications,
   markAllAsSeen,
 };
