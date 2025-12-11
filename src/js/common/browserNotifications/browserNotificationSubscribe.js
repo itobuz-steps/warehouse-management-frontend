@@ -82,8 +82,24 @@ async function sendNotification(title, body) {
   }
 }
 
+let loading = false;
+let allLoaded = false;
+
+// Create loader instance (lv is global from CDN)
+const loader = lv.create(browserNotificationsSelection.loaderContainer.querySelector('.lv-dots'));
+
 // Load notifications from the API
 export async function loadNotifications(offset) {
+  if (loading || allLoaded) return;
+  loading = true;
+
+  // Show loader
+  browserNotificationsSelection.loaderContainer.style.display = 'block';
+  loader.show();
+
+  // Wait intentionally for 2 seconds
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   try {
     console.log('Load notifications is called');
     const res = await api.get(
@@ -130,6 +146,12 @@ export async function loadNotifications(offset) {
     setTimeout(() => {
       toastSection.innerHTML = '';
     }, 3000);
+  } finally {
+
+    // Hide loader
+    loader.hide();
+    browserNotificationsSelection.loaderContainer.style.display = 'none';
+    loading = false;
   }
 }
 
@@ -225,22 +247,21 @@ async function markAllAsSeen() {
 
 // Callback function for the IntersectionObserver
 const callback = (entries, observer) => {
-
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       const offset =
         browserNotificationsSelection.notificationList.children.length;
-      loadNotifications(offset); 
+      loadNotifications(offset);
     }
   });
 };
 
 // Options for the IntersectionObserver
 const options = {
-  root: document.querySelector('#scrollArea'), 
-  rootMargin: '0px', 
+  root: document.querySelector('#scrollArea'),
+  rootMargin: '0px',
   threshold: 1.0,
-}
+};
 
 // Create the observer
 const observer = new IntersectionObserver(callback, options);

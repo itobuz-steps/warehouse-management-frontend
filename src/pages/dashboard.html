@@ -19,7 +19,16 @@
       src="../js/common/notifications/notifications.js"
     ></script>
 
-    <script type="module" src="../js/common/browserNotifications/browserNotification.js"> </script>
+    <script
+      type="module"
+      src="../js/common/browserNotifications/browserNotification.js"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/loading-visualization/dist/main.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/loading-visualization/dist/main.js"></script>
   </head>
   <body>
     <div id="toastSection">
@@ -131,6 +140,13 @@
           <div id="notif-list">
             <p class="text-muted text-center">Loading notifications...</p>
           </div>
+          <div
+            id="loaderContainer"
+            style="text-align: center; padding: 20px; display: none"
+          >
+          </div>
+
+          <div id="sentinel"></div>
         </div>
       </div>
 
@@ -163,9 +179,7 @@
         </div>
       </section>
 
-      <div class="no-dashboard-box">
-        
-      </div>  
+      <div class="no-dashboard-box"></div>
 
       <!-- Static Charts -->
       <section class="charts-grid">
@@ -225,7 +239,5 @@
       type="module"
       src="../js/pages/dashboard/dashboardSelector.js"
     ></script>
-
-
   </body>
 </html>
