@@ -16,7 +16,7 @@
     <script type="module" src="../js/common/sidebar.js" defer></script>
     <script
       type="module"
-      src="../js/common/notifications/notifications.js"
+      src="../js/common/browserNotifications/browserNotification.js"
     ></script>
 
     <script
@@ -136,17 +136,24 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-body">
+
+        <!-- SCROLLABLE BODY -->
+        <div class="offcanvas-body" style="overflow-y: auto">
+          <!-- Notification List -->
           <div id="notif-list">
             <p class="text-muted text-center">Loading notifications...</p>
           </div>
+
+          <!-- Loader -->
           <div
             id="loaderContainer"
-            style="text-align: center; padding: 20px; display: none"
+            style="display: none; text-align: center; padding: 20px"
           >
+            <div class="spinner-border text-primary" role="status"></div>
           </div>
 
-          <div id="sentinel"></div>
+          <!-- Intersection Observer Target -->
+          <div id="sentinel" style="height: 1px"></div>
         </div>
       </div>
 
