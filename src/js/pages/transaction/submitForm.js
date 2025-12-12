@@ -39,7 +39,6 @@ export default async function submitForm(type) {
 
     case 'OUT': {
       url = `${config.TRANSACTION_BASE_URL}/stock-out`;
-      
       body = {
         products: await collectProducts('outProductsContainer'),
         customerName: document.getElementById('customerName').value,

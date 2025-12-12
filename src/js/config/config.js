@@ -9,7 +9,6 @@ const config = {
   WAREHOUSE_BASE_URL: 'http://localhost:3000/warehouse',
   NOTIFICATION_BASE_URL: 'http://localhost:3000/notifications',
   TRANSACTION_BASE_URL: 'http://localhost:3000/transaction',
-  BROWSER_NOTIFICATION_BASE_URL: 'http://localhost:3000/browser-notifications',
   BROWSER_NOTIFICATION_URL: 'http://localhost:3000/browser-notifications',
   PRODUCT_ANALYTICS_URL: 'http://localhost:3000/analytics',
 

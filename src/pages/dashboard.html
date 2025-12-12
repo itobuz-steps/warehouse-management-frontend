@@ -11,19 +11,8 @@
     <script type="module" src="../js/common/sidebar.js" defer></script>
     <script
       type="module"
-      src="../js/common/browserNotifications/browserNotification.js"
+      src="../js/common/notifications/notifications.js"
     ></script>
-
-    <script
-      type="module"
-      src="../js/common/browserNotifications/browserNotification.js"
-    ></script>
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/loading-visualization/dist/main.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/loading-visualization/dist/main.js"></script>
   </head>
   <body>
     <div id="toastSection">
@@ -131,24 +120,10 @@
             aria-label="Close"
           ></button>
         </div>
-
-        <!-- SCROLLABLE BODY -->
-        <div class="offcanvas-body" style="overflow-y: auto">
-          <!-- Notification List -->
+        <div class="offcanvas-body">
           <div id="notif-list">
             <p class="text-muted text-center">Loading notifications...</p>
           </div>
-
-          <!-- Loader -->
-          <div
-            id="loaderContainer"
-            style="display: none; text-align: center; padding: 20px"
-          >
-            <div class="spinner-border text-primary" role="status"></div>
-          </div>
-
-          <!-- Intersection Observer Target -->
-          <div id="sentinel" style="height: 1px"></div>
         </div>
       </div>
 

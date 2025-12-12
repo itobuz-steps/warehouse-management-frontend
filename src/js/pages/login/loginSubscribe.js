@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../../config/config.js';
 import Templates from '../../common/Templates.js';
-import { registerAndSubscribe } from '../../common/browserNotifications/browserNotificationSubscribe.js'
+import { registerAndSubscribe } from './notificationSubscribe.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
