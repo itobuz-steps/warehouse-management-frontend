@@ -5,62 +5,72 @@ import userManagementSelection from './userManagementSelector.js';
 import {
   verifiedManagerCard,
   unverifiedManagerCard,
+  emptyCard,
 } from '../../common/template/profileTemplate.js';
+import clearProfileData from './clearProfileDetails.js';
 import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';
 import { getUserWarehouses } from '../../common/api/HelperApi.js';
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
 
 export const getUserDetailsSubscribe = async () => {
   try {
     const res = await api.get(`${config.PROFILE_BASE_URL}/`);
-
     const user = res.data.data.user;
-
     const verifiedManagers = res.data.data.verifiedManagers;
     const unverifiedManagers = res.data.data.unverifiedManagers;
 
-    userManagementSelection.userName.innerText = user.name;
+    clearProfileData();
+
+    userManagementSelection.userName.innerHTML = user.name;
+    userManagementSelection.userRole.innerHTML = user.role;
+
+    userManagementSelection.name.value = user.name;
+    userManagementSelection.userRole.style.textTransform = 'capitalize';
+
     userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`;
     userManagementSelection.userImg.src =
       user.profileImage || '../../../assets/images/profile_default.svg';
-    userManagementSelection.userRole.innerText = user.role;
-    userManagementSelection.createdAt.innerText = new Date(
+
+    userManagementSelection.createdAt.innerHTML = new Date(
       user.createdAt
-    ).toLocaleDateString();
-    userManagementSelection.updatedAt.innerText = new Date(
+    ).toDateString();
+
+    userManagementSelection.updatedAt.innerHTML = new Date(
       user.updatedAt
-    ).toLocaleDateString();
+    ).toDateString();
 
-    document.querySelector('#name').value = user.name;
+    userManagementSelection.lastLogin.innerHTML = new Date(
+      user.lastLogin
+    ).toDateString();
 
-    userManagementSelection.userRole.style.textTransform = 'capitalize';
-
-    if (verifiedManagers.length != 0) {
+    if (verifiedManagers.length) {
       verifiedManagers.forEach((manager) => {
-        let card;
+        const lastLogin = new Date(manager.lastLogin).toLocaleDateString();
 
-        if (!manager.profileImage) {
-          card = verifiedManagerCard(manager.name, manager.email);
-        } else {
-          card = verifiedManagerCard(
-            manager.name,
-            manager.email,
-            manager.profileImage
-          );
-        }
+        const card = verifiedManagerCard(
+          manager._id,
+          manager.name,
+          manager.email,
+          lastLogin,
+          manager.isActive,
+          manager.profileImage
+        );
 
         userManagementSelection.verifiedManagerGrid.innerHTML += card;
       });
+    } else {
+      userManagementSelection.verifiedManagerGrid.innerHTML = emptyCard();
     }
 
-    if (unverifiedManagers.length != 0) {
+    if (unverifiedManagers.length) {
       unverifiedManagers.forEach((manager) => {
         const card = unverifiedManagerCard(manager.email);
 
         userManagementSelection.notVerifiedManagerGrid.innerHTML += card;
       });
+    } else {
+      userManagementSelection.notVerifiedManagerGrid.innerHTML = emptyCard();
     }
 
     if (user.role === 'manager') {
@@ -70,14 +80,14 @@ export const getUserDetailsSubscribe = async () => {
 
       userManagementSelection.warehouseDetailsSelection.style.display = 'block';
 
-      const warehouses = getUserWarehouses();
+      const warehouses = await getUserWarehouses();
 
-      if(!warehouses.length){
+      if (!warehouses.length) {
         userManagementSelection.noWarehouseParagraph.style.display = 'block';
-        userManagementSelection.noWarehouseParagraph.innerText = `No warehouse assigned yet!`
+        userManagementSelection.noWarehouseParagraph.innerText = `No warehouse assigned yet!`;
         return;
       }
-      
+
       userManagementSelection.noWarehouseParagraph.style.display = 'none';
       warehouses.forEach(async (warehouse) => {
         const res = await api.get(
@@ -101,50 +111,12 @@ export const getUserDetailsSubscribe = async () => {
       });
     }
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
-  } finally {
-    setTimeout(() => {
-      toastSection.innerHTML = '';
-    }, 3000);
-  }
-};
-
-export const updateUserSubscribe = async (event) => {
-  event.preventDefault();
-  const formData = new FormData(userManagementSelection.updateProfileForm);
-  try {
-
-    await api.patch(
-      `${config.PROFILE_BASE_URL}/update-profile`,
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
+    userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
     );
-
-  } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
-    console.log(err);
   } finally {
     setTimeout(() => {
-      toastSection.innerHTML = '';
-    }, 3000);
-    window.location.reload();
-  }
-};
-
-export const deleteUserSubscribe = async () => {
-  try {
-    const res = await api.delete(`${config.PROFILE_BASE_URL}/`);
-
-    console.log(res);
-  } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
-  } finally {
-    setTimeout(() => {
-      toastSection.innerHTML = '';
+      userManagementSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };

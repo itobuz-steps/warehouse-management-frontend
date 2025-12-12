@@ -27,7 +27,7 @@
             <h5 class="modal-title text-danger fs-4">Confirm Action</h5>
           </div>
 
-          <div class="modal-body text-center">
+          <div class="modal-body">
             <p class="fs-5">Are you sure you want to delete your Profile?</p>
           </div>
 
@@ -54,7 +54,7 @@
     <!--Edit User Profile-->
     <div
       class="modal fade"
-      id="update-profile"
+      id="updateProfileModal"
       tabindex="-1"
       aria-hidden="true"
     >
@@ -102,6 +102,11 @@
                   class="btn btn-primary fs-5 action"
                   id="confirmUpdate"
                 >
+                  <div
+                    class="spinner-border d-none"
+                    role="status"
+                    id="updateSpinner"
+                  ></div>
                   Update
                 </button>
               </div>
@@ -134,12 +139,19 @@
             <p class="user-email mb-3"></p>
             <p class="user-role-badge"></p>
             <p class="my-0">
-              <i class="fa-regular fa-calendar mx-1 verified"></i>
+              <i class="fa-regular fa-calendar-plus mx-1 verified"> </i>
+              Created on:
               <span class="created-at"></span>
             </p>
-            <p>
-              <i class="fa-regular fa-calendar-check mx-1"></i>
+            <p class="my-0">
+              <i class="fa-regular fa-calendar-check mx-1 verified"></i>
+              Updated on:
               <span class="updated-at"></span>
+            </p>
+            <p>
+              <i class="fa-solid fa-user mx-1 verified"> </i>
+              Last login :
+              <span id="lastLogin"></span>
             </p>
           </div>
         </div>
@@ -148,7 +160,7 @@
           <button
             class="action btn-edit"
             data-bs-toggle="modal"
-            data-bs-target="#update-profile"
+            data-bs-target="#updateProfileModal"
           >
             Edit Profile
           </button>

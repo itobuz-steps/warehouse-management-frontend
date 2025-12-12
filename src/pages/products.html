@@ -45,29 +45,35 @@
           placeholder="Search products..."
         />
 
-        <div class="d-flex gap-1">
-          <select id="categoryFilter" class="form-control my-1">
-            <option value="">All Categories</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Furniture">Furniture</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Food & Beverage">Food & Beverage</option>
-            <option value="Medical Supplies">Medical Supplies</option>
-            <option value="Industrial Tools">Industrial Tools</option>
-            <option value="Automotive Parts">Automotive Parts</option>
-            <option value="Office Supplies">Office Supplies</option>
-            <option value="Accessories">Accessories</option>
-            <option value="Others">Others</option>
-          </select>
+        <div class="d-flex gap-3">
+          <div class="custom-select-wrapper">
+            <select id="categoryFilter" class="form-control my-1">
+              <option value="">All Categories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Food & Beverage">Food & Beverage</option>
+              <option value="Medical Supplies">Medical Supplies</option>
+              <option value="Industrial Tools">Industrial Tools</option>
+              <option value="Automotive Parts">Automotive Parts</option>
+              <option value="Office Supplies">Office Supplies</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Others">Others</option>
+            </select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
 
-          <select id="sortSelect" class="form-control my-1">
-            <option value="">Sort By</option>
-            <option value="name_asc">Name (A–Z)</option>
-            <option value="name_desc">Name (Z–A)</option>
-            <option value="quantity_asc">Quantity (Low → High)</option>
-            <option value="quantity_desc">Quantity (High → Low)</option>
-            <option value="category_asc">Category (A–Z)</option>
-          </select>
+          <div class="custom-select-wrapper">
+            <select id="sortSelect" class="form-control my-1">
+              <option value="">Sort By</option>
+              <option value="name_asc">Name (A–Z)</option>
+              <option value="name_desc">Name (Z–A)</option>
+              <option value="quantity_asc">Quantity (Low → High)</option>
+              <option value="quantity_desc">Quantity (High → Low)</option>
+              <option value="category_asc">Category (A–Z)</option>
+            </select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
         </div>
       </div>
 
@@ -176,14 +182,20 @@
             <div
               class="product-info justify-content-center align-content-center"
             >
-              <h2 id="modalProductName"></h2>
+              <h2 id="modalProductName" class="product-name"></h2>
               <p id="modalDescription"></p>
-              <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+              <p>
+                <strong>Category:</strong>
+                <span id="modalCategory" class="product-category"></span>
+              </p>
               <p><strong>Price:</strong> ₹<span id="modalPrice"></span></p>
 
               <hr />
 
               <div id="quantitySection"></div>
+              <div id="productQr">
+                <img class="qr-code" src="" />
+              </div>
             </div>
           </div>
 

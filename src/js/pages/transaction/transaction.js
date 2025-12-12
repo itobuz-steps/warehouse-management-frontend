@@ -10,19 +10,24 @@ import {
 import { addProductRowForContainer } from './displayProducts.js';
 import submitForm from './submitForm.js';
 import { transactionSelectors } from './transactionSelector.js';
-import Templates from '../../common/Templates';
+// import Templates from '../../common/Templates';
+import { initTransactionProductEvents } from './transactionProductEvents.js';
 
-const toastMessage = new Templates();
-const { buttons, containers, form, typeSelect, toastSection } =
-  transactionSelectors;
+// const toastMessage = new Templates();
+const { buttons, containers, form, typeSelect } = transactionSelectors;
 
 // 1. Initial setup
 displayTransactionType();
+displayWarehouseDropdown();
+
+// Initialize product creation modal events
+initTransactionProductEvents();
 
 // When transaction type changes:
 typeSelect.addEventListener('change', () => {
   // clear previous products
   Object.values(containers).forEach((c) => (c.innerHTML = ''));
+
   displayWarehouseDropdown();
 });
 
@@ -32,29 +37,21 @@ if (buttons.addInProduct) {
     addProductRowForContainer('inProductsContainer')
   );
 }
+
 if (buttons.addOutProduct) {
   buttons.addOutProduct.addEventListener('click', () =>
     addProductRowForContainer('outProductsContainer')
   );
 }
+
 if (buttons.addTransferProduct) {
   buttons.addTransferProduct.addEventListener('click', () =>
     addProductRowForContainer('transferProductsContainer')
   );
 }
 
-// 3. Form submit
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const type = typeSelect.value;
-
-  if (!type || !['IN', 'OUT', 'TRANSFER', 'ADJUSTMENT'].includes(type)) {
-    toastSection.innerHTML = toastMessage.errorToast(
-      'Please select a transaction type.'
-    );
-    setTimeout(() => (toastSection.innerHTML = ''), 3000);
-    return;
-  }
-
   submitForm(type);
 });

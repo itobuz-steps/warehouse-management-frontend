@@ -136,6 +136,9 @@ class TransactionDetailsTemplate {
                   <div class="supplier-address supplier">
                     Address: <span>${transaction.sourceWarehouse?.address ?? 'N/A'}</span>
                   </div>
+                  <div class="supplier-status supplier">
+                    Status: <span class="shipment">${transaction.shipment ?? 'N/A'}</span>
+                  </div>
                 </div>
                 <hr />
                 <div class="other-details">

@@ -12,8 +12,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
     />
+    <script type="module" src="../js/pages/reports/reports.js" defer></script>
     <script type="module" src="../js/common/sidebar.js" defer></script>
-    <link rel="stylesheet" href="../scss/reports.scss" />
+    <!-- <link rel="stylesheet" href="../scss/reports.scss" /> -->
   </head>
   <body>
     <div id="toastSection">
@@ -43,7 +44,7 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Warehouses
+            All Warehouses
           </button>
           <ul class="dropdown-menu warehouses-options">
             <li>
@@ -108,6 +109,21 @@
           <label class="btn btn-type" for="Adjust">ADJUSTMENT</label>
         </div>
       </section>
+      <section
+        class="date-filter d-flex flex-sm-row flex-column gap-md-5 gap-3 mt-3 justify-content-center justify-content-lg-start align-content-center"
+      >
+        <div class="date-input d-flex gap-1 align-items-center m-auto m-sm-0">
+          <label for="startDate">From:</label>
+          <input type="date" id="startDate" class="date" class="form-control" />
+        </div>
+
+        <div class="date-input d-flex gap-4 gap-sm-2 align-items-center m-auto m-sm-0">
+          <label for="endDate">To:</label>
+          <input type="date" id="endDate" class="date" class="form-control" />
+        </div>
+
+        <button id="applyDateFilter" class="btn filter-btn">Filter</button>
+      </section>
 
       <hr />
 
@@ -120,7 +136,5 @@
         </div>
       </section>
     </main>
-
-    <script type="module" src="../js/pages/reports/reports.js" defer></script>
   </body>
 </html>

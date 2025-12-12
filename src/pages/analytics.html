@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Analytics</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+  </head>
+  <body>
+    <div id="toastSection">
+      <!-- custom toast message -->
+    </div>
+
+    <!-- Sidebar -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i title="Sidebar" class="fa-solid fa-circle-chevron-right"></i>
+    </button>
+    <div id="sidebar-container"></div>
+
+    <!-- Main Dashboard -->
+    <main class="main-content pt-3">
+      <h1 class="ps-4">Product Comparison Analysis</h1>
+
+      <form id="analyticsForm" class="analytics-form">
+        <section class="selection-section">
+          <div class="select-wrapper w-25 my-1">
+            <select
+              id="warehouseSelect"
+              class="form-control select"
+              name="warehouseSelect"
+              required
+            ></select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
+
+          <div class="select-wrapper w-25 my-1 product-select">
+            <select
+              id="productSelect1"
+              class="form-control select"
+              name="productSelect1"
+              required
+            ></select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
+
+          <div class="select-wrapper w-25 my-1 product-select">
+            <select
+              id="productSelect2"
+              class="form-control select"
+              name="productSelect2"
+              required
+            ></select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
+
+          <button
+            type="submit"
+            id="analyticsSubmit"
+            class="btn analytics-submit"
+          >
+            Show Analytics
+          </button>
+        </section>
+      </form>
+
+      <section id="noDataFound" class="no-data-found">
+        <p>Please Select Warehouse Options to View Analytics</p>
+      </section>
+
+      <!-- Static Charts -->
+      <section id="chartGrid" class="charts-grid mt-4">
+        <!-- Line Chart for Transactions -->
+        <div class="chart-card bar-chart">
+          <h5>Transaction Comparison</h5>
+          <div class="chart-container bar-chart-container line-chart">
+            <canvas id="lineChart"></canvas>
+          </div>
+
+          <button id="transactionExcel" class="btn btn-success export mt-4">
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
+        </div>
+
+        <!-- Quantity Chart -->
+        <div class="chart-card">
+          <h5>Quantity Comparison</h5>
+          <div class="chart-container bar-chart-container">
+            <canvas id="barChart"></canvas>
+          </div>
+          <button id="quantityExcel" class="btn btn-success mt-4 export">
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
+        </div>
+      </section>
+    </main>
+  </body>
+
+  <script type="module" src="../js/pages/analytics/analytics.js"></script>
+</html>

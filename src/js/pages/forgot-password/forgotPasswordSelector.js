@@ -6,6 +6,9 @@ const forgotPasswordSelection = {
   newPasswordInput: document.getElementById('newPassword'),
   toastSection: document.getElementById('toastSection'),
   resendButton: document.querySelector('.resend-btn'),
+
+  otpTimerSection: document.querySelector('.timer'),
+  otpCounter: document.querySelector('.counter'),
 };
 
 export default forgotPasswordSelection;

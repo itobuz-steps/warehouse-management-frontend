@@ -1,3 +1,4 @@
+@import 'bootstrap/scss/bootstrap';
 $font-stack:
   -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
   Arial, sans-serif;
@@ -92,7 +93,7 @@ $transition: all 0.3s ease;
   box-shadow: $shadow;
 }
 
-@mixin grid($columns: auto-fit, $min: 220px, $gap: 20px) {
+@mixin grid($columns: auto-fit, $min: 250px, $gap: 20px) {
   display: grid;
   grid-template-columns: repeat($columns, minmax($min, 1fr));
   gap: $gap;
@@ -342,4 +343,34 @@ button.warehouse-dropdown {
 
 button.invoice-btn {
   @include button();
+}
+
+.warehouse-dropdown:active,
+.warehouse-dropdown:focus,
+.warehouse-option:focus,
+.warehouse-option:active,
+.warehouse-option.active {
+  background: $color-primary !important;
+}
+.supplier-status {
+  margin-top: 10px;
+}
+.shipment {
+  padding: 3px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: $color-primary-dark;
+  border: 2px solid $color-primary-dark;
+  background-color: $color-primary-light;
+}
+
+.date {
+  border: 2px solid $color-primary-dark;
+  padding: 6px;
+  border-radius: 5px;
+}
+
+button.filter-btn {
+  @include button($color-primary, $color-primary);
+  padding: 9px 20px;
 }

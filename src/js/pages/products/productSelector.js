@@ -1,4 +1,4 @@
-export const dom = {
+export const productSelection = {
   toastSection: document.getElementById('toastSection'),
   productGrid: document.getElementById('productGrid'),
   warehouseSelect: document.getElementById('warehouseSelect'),
@@ -6,7 +6,6 @@ export const dom = {
   addProductsButton: document.getElementById('addProducts'),
   addProductModal: document.getElementById('addProductModal'),
   closeModalButton: document.getElementById('closeModal'),
-  // productWarehouseSelect: document.getElementById('productWarehouse'),
   addProductForm: document.getElementById('addProductForm'),
   searchInput: document.getElementById('searchInput'),
   categoryFilter: document.getElementById('categoryFilter'),
@@ -23,6 +22,9 @@ export const dom = {
   modalPrice: document.getElementById('modalPrice'),
   modalCategory: document.getElementById('modalCategory'),
   quantitySection: document.getElementById('quantitySection'),
+
+  qrCodeSection: document.querySelector('#productQr'),
+  qrCodeItem: document.querySelector('.qr-code'),
 
   editModal: document.getElementById('editProductModal'),
   closeEditModal: document.querySelector('.close-edit-modal'),

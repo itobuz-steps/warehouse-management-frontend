@@ -1,35 +1,51 @@
-import Templates from '../../common/Templates.js';
-import { dom } from './productSelector.js';
+import Templates from '../Templates.js';
+import { productSelection } from '../../pages/products/productSelector.js';
 
 const templates = new Templates();
 
 export const showToast = (type, msg) => {
-  dom.toastSection.innerHTML =
+  productSelection.toastSection.innerHTML =
     type === 'success'
       ? templates.successToast(msg)
       : templates.errorToast(msg);
 
-  setTimeout(() => (dom.toastSection.innerHTML = ''), 3000);
+  setTimeout(() => (productSelection.toastSection.innerHTML = ''), 3000);
+};
+
+export const resetSearchFilters = () => {
+  productSelection.searchInput.value = '';
+  productSelection.categoryFilter.value = '';
+  productSelection.sortSelect.value = '';
+};
+
+export const updateWarehouseVisibility = (filter) => {
+  productSelection.warehouseSelect.disabled = filter !== 'warehouses';
+
+  Array.from(productSelection.sortSelect.options).forEach((option) => {
+    if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
+      option.style.display = filter === 'warehouses' ? 'block' : 'none';
+    }
+  });
 };
 
 export const showEmptyState = (msg = 'No products found.') => {
-  dom.productGrid.className = 'empty';
-  dom.productGrid.innerHTML = `<div>${msg}</div>`;
-  dom.pagination.innerHTML = '';
+  productSelection.productGrid.className = 'empty';
+  productSelection.productGrid.innerHTML = `<div>${msg}</div>`;
+  productSelection.pagination.innerHTML = '';
 };
 
 export const showErrorState = () => {
-  dom.productGrid.className = 'error';
-  dom.productGrid.innerHTML = `<div>Failed to load products. Please try again.</div>`;
-  dom.pagination.innerHTML = '';
+  productSelection.productGrid.className = 'error';
+  productSelection.productGrid.innerHTML = `<div>Failed to load products. Please try again.</div>`;
+  productSelection.pagination.innerHTML = '';
 };
 
 export const openModal = () => {
-  dom.addProductModal.style.display = 'flex';
+  productSelection.addProductModal.style.display = 'flex';
 };
 
 export const closeModal = () => {
-  dom.addProductModal.style.display = 'none';
+  productSelection.addProductModal.style.display = 'none';
 };
 
 export const populateWarehouseSelect = (
@@ -58,7 +74,6 @@ export function createProductCard(product) {
     <div class="card-body">
       <h5>${product.name}</h5>
 
-        <!--<p>${product.description || 'No description available.'}</p>-->
       <div class="info-row">
         <span class="price">₹${product.price ?? 'N/A'}</span>
         <span class="category">${product.category ?? 'Not Categorized'}</span>

@@ -16,13 +16,14 @@ class ForgotPasswordSubscribe {
 
       if (res.data.success) {
         forgotPasswordSelection.emailForm.style.display = 'none';
-        forgotPasswordSelection.otpForm.style.display = 'block';
+        forgotPasswordSelection.otpForm.classList.remove('d-none');
 
         forgotPasswordSelection.toastSection.innerHTML =
           toastMessage.successToast('OTP sent! Check your Email');
       }
+
+      this.timer();
     } catch (err) {
-      console.log(err);
       forgotPasswordSelection.toastSection.innerHTML = toastMessage.errorToast(
         err.response.data.message
       );
@@ -78,6 +79,10 @@ class ForgotPasswordSubscribe {
 
   resendOtp = async () => {
     const email = forgotPasswordSelection.emailInput.value.trim();
+    forgotPasswordSelection.otpCounter.innerHTML = '00:59';
+    this.timer();
+    forgotPasswordSelection.resendButton.style.display = 'none';
+
     try {
       const res = await axios.post(`${config.AUTH_BASE_URL}/send-otp`, {
         email,
@@ -102,6 +107,21 @@ class ForgotPasswordSubscribe {
         forgotPasswordSelection.toastSection.innerHTML = '';
       }, 3000);
     }
+  };
+
+  timer = () => {
+    let time = forgotPasswordSelection.otpCounter.innerHTML.split(':')[1];
+
+    let counter = setInterval(() => {
+      if (time == '00') {
+        clearInterval(counter);
+        forgotPasswordSelection.resendButton.classList.remove('d-none');
+      } else {
+        time -= 1;
+        forgotPasswordSelection.otpCounter.innerHTML =
+          time < 10 ? '00:0' + time : '00:' + time;
+      }
+    }, 1000);
   };
 }
 

@@ -2,37 +2,38 @@ import {
   fetchProductQuantityWarehouse,
   fetchProductSpecificWarehouses,
   fetchTotalProductQuantity,
-} from './productApiHelper';
+  qrCodeFetch,
+} from '../../common/api/productApiHelper';
 import {
   deleteProductHandler,
   editProductHandler,
   handleDelete,
   handleEditProductSubmit,
 } from './productEvents';
-import { dom } from './productSelector';
+import { productSelection } from './productSelector';
 import { getCurrentUser } from '../../common/api/HelperApi';
 
 let currentImageIndex = 0;
 let currentImages = [];
 let selectedProductId = null;
 
-dom.closeModalBtn.addEventListener('click', () =>
-  dom.modal.classList.add('hidden')
+productSelection.closeModalBtn.addEventListener('click', () =>
+  productSelection.modal.classList.add('hidden')
 );
 
 window.addEventListener('click', (e) => {
-  if (e.target === dom.modal) {
-    dom.modal.classList.add('hidden');
+  if (e.target === productSelection.modal) {
+    productSelection.modal.classList.add('hidden');
   }
 });
 
-dom.cancelDeleteBtn.addEventListener('click', () => {
-  dom.confirmDeleteModal.classList.add('hidden');
+productSelection.cancelDeleteBtn.addEventListener('click', () => {
+  productSelection.confirmDeleteModal.classList.add('hidden');
 });
 
 window.addEventListener('click', (e) => {
-  if (e.target === dom.confirmDeleteModal) {
-    dom.confirmDeleteModal.classList.add('hidden');
+  if (e.target === productSelection.confirmDeleteModal) {
+    productSelection.confirmDeleteModal.classList.add('hidden');
   }
 });
 
@@ -42,9 +43,9 @@ export const openProductModal = async (product) => {
   const user = await getCurrentUser();
 
   if (user.role !== 'admin') {
-    dom.deleteProductBtn.style.display = 'none';
+    productSelection.deleteProductBtn.style.display = 'none';
   } else {
-    dom.deleteProductBtn.style.display = 'block';
+    productSelection.deleteProductBtn.style.display = 'block';
   }
 
   currentImages = product.productImage?.length
@@ -52,28 +53,34 @@ export const openProductModal = async (product) => {
     : ['/images/placeholder.png'];
 
   currentImageIndex = 0;
-  dom.carouselImg.src = currentImages[0];
+  productSelection.carouselImg.src = currentImages[0];
 
-  dom.modalProductName.textContent = product.name;
-  dom.modalDescription.textContent =
+  productSelection.modalProductName.textContent = product.name;
+  productSelection.modalDescription.textContent =
     product.description || 'No description available.';
-  dom.modalPrice.textContent = product.price ?? 'N/A';
-  dom.modalCategory.textContent = product.category ?? 'Not Categorized';
+  productSelection.modalPrice.textContent = product.price ?? 'N/A';
+  productSelection.modalCategory.textContent =
+    product.category ?? 'Not Categorized';
 
   await loadQuantityInfo(selectedProductId);
 
-  dom.modal.classList.remove('hidden');
+  const qrCode = await qrCodeFetch(selectedProductId)
+
+  const imageUrl = URL.createObjectURL(qrCode.data);
+  productSelection.qrCodeItem.src = imageUrl;
+
+  productSelection.modal.classList.remove('hidden');
 };
 
-dom.prev.addEventListener('click', () => {
+productSelection.prev.addEventListener('click', () => {
   currentImageIndex =
     (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-  dom.carouselImg.src = currentImages[currentImageIndex];
+  productSelection.carouselImg.src = currentImages[currentImageIndex];
 });
 
-dom.next.addEventListener('click', () => {
+productSelection.next.addEventListener('click', () => {
   currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-  dom.carouselImg.src = currentImages[currentImageIndex];
+  productSelection.carouselImg.src = currentImages[currentImageIndex];
 });
 
 async function loadQuantityInfo(productId) {
@@ -82,12 +89,12 @@ async function loadQuantityInfo(productId) {
     const filter = params.get('filter');
 
     if (filter !== 'warehouses') {
-      dom.quantitySection.innerHTML = '';
+      productSelection.quantitySection.innerHTML = '';
       return;
     }
 
     const user = await getCurrentUser();
-    dom.quantitySection.innerHTML = 'Loading quantity...';
+    productSelection.quantitySection.innerHTML = 'Loading quantity...';
 
     params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId') || user.warehouseId;
@@ -96,7 +103,7 @@ async function loadQuantityInfo(productId) {
       const res = await fetchProductQuantityWarehouse(productId, warehouseId);
 
       const qty = res.data.data[0].quantity;
-      dom.quantitySection.innerHTML = `
+      productSelection.quantitySection.innerHTML = `
         <p><strong>Quantity in this Warehouse:</strong> ${qty}</p>
         ${qty <= res.data.data[0].limit ? `<button class="btn btn-danger low-stock"> ⚠ LOW STOCK</button>` : ''}
       `;
@@ -115,7 +122,7 @@ async function loadQuantityInfo(productId) {
         )
         .join('');
 
-      dom.quantitySection.innerHTML = `
+      productSelection.quantitySection.innerHTML = `
         <p><strong>Total Quantity Across Warehouses:</strong> ${totalQty}</p>
         <hr/>
         <p><strong>Warehouses:</strong></p>
@@ -123,18 +130,21 @@ async function loadQuantityInfo(productId) {
       `;
     }
   } catch {
-    dom.quantitySection.innerHTML = 'Error loading quantity.';
+    productSelection.quantitySection.innerHTML = 'Error loading quantity.';
   }
 }
 
-dom.editProductBtn.addEventListener('click', editProductHandler);
+productSelection.editProductBtn.addEventListener('click', editProductHandler);
 
-dom.editProductForm.addEventListener('submit', (e) => {
+productSelection.editProductForm.addEventListener('submit', (e) => {
   handleEditProductSubmit(e, selectedProductId);
 });
 
-dom.deleteProductBtn.addEventListener('click', deleteProductHandler);
+productSelection.deleteProductBtn.addEventListener(
+  'click',
+  deleteProductHandler
+);
 
-dom.confirmDeleteBtn.addEventListener('click', () => {
+productSelection.confirmDeleteBtn.addEventListener('click', () => {
   handleDelete(selectedProductId);
 });

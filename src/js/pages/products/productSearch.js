@@ -2,10 +2,13 @@ import api from '../../api/interceptor.js';
 import config from '../../config/config.js';
 import { fetchProducts, renderPaginatedProducts } from './productSubscribe.js';
 import { getCurrentUser } from '../../common/api/HelperApi.js';
-import { dom } from './productSelector.js';
+import { productSelection } from './productSelector.js';
 import { loadWarehouses } from './productWarehouse.js';
-import { showToast } from './productTemplate.js';
-import { resetSearchFilters } from './productEvents.js';
+import { showToast } from '../../common/template/productTemplate.js';
+import {
+  resetSearchFilters,
+  updateWarehouseVisibility,
+} from '../../common/template/productTemplate.js';
 
 let searchQuery = '';
 let selectedCategory = '';
@@ -13,15 +16,10 @@ let selectedSort = '';
 
 export const initProductSearch = async () => {
   const url = new URL(window.location);
-  const filter = url.searchParams.get('filter') || '';
+  const filter = url.searchParams.get('filter') || 'products';
 
-  dom.warehouseSelect.disabled = filter !== 'warehouses';
-
-  Array.from(dom.sortSelect.options).forEach((option) => {
-    if (option.value === 'quantity_asc' || option.value === 'quantity_desc') {
-      option.style.display = filter === 'warehouses' ? 'block' : 'none';
-    }
-  });
+  productSelection.filterTypeSelect.value = filter;
+  updateWarehouseVisibility(filter);
 
   let user;
 
@@ -35,23 +33,23 @@ export const initProductSearch = async () => {
 
   resetSearchFilters();
 
-  dom.searchInput.addEventListener('input', (e) => {
+  productSelection.searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.trim();
-    fetchSearch(user.role, dom.warehouseSelect?.value || '');
+    fetchSearch(user.role, productSelection.warehouseSelect?.value || '');
   });
 
-  dom.categoryFilter.addEventListener('change', (e) => {
+  productSelection.categoryFilter.addEventListener('change', (e) => {
     selectedCategory = e.target.value;
-    fetchSearch(user.role, dom.warehouseSelect?.value || '');
+    fetchSearch(user.role, productSelection.warehouseSelect?.value || '');
   });
 
-  dom.sortSelect.addEventListener('change', (e) => {
+  productSelection.sortSelect.addEventListener('change', (e) => {
     selectedSort = e.target.value;
-    fetchSearch(user.role, dom.warehouseSelect?.value || '');
+    fetchSearch(user.role, productSelection.warehouseSelect?.value || '');
   });
 
-  if (dom.warehouseSelect) {
-    dom.warehouseSelect.addEventListener('change', (e) => {
+  if (productSelection.warehouseSelect) {
+    productSelection.warehouseSelect.addEventListener('change', (e) => {
       fetchSearch(user.role, e.target.value);
     });
   }
@@ -75,7 +73,15 @@ export const fetchSearch = async (role, warehouseId = '') => {
       return;
     }
 
-    const searchApi = `${config.QUANTITY_BASE_URL}/all-products-having-quantity`;
+    console.log(warehouseId);
+
+    const url = new URL(window.location);
+    const filter = url.searchParams.get('filter');
+
+    const searchApi =
+      filter === 'warehouses'
+        ? `${config.QUANTITY_BASE_URL}/all-products-having-quantity`
+        : config.PRODUCT_BASE_URL;
 
     const response = await api.get(searchApi, {
       params: {

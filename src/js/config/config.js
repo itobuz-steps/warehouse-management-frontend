@@ -10,6 +10,9 @@ const config = {
   NOTIFICATION_BASE_URL: 'http://localhost:3000/notifications',
   TRANSACTION_BASE_URL: 'http://localhost:3000/transaction',
   BROWSER_NOTIFICATION_BASE_URL: 'http://localhost:3000/browser-notifications',
+  BROWSER_NOTIFICATION_URL: 'http://localhost:3000/browser-notifications',
+  PRODUCT_ANALYTICS_URL: 'http://localhost:3000/analytics',
+
   VAPID_PUBLIC_KEY: import.meta.env.VITE_VAPID_PUBLIC_KEY,
   VAPID_PRIVATE_KEY: import.meta.env.VITE_VAPID_PRIVATE_KEY,
 };
