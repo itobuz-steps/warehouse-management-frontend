@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../../config/config.js';
 import Templates from '../../common/Templates.js';
-import { registerAndSubscribe } from '../../common/browserNotifications/browserNotificationSubscribe.js'
+import { registerAndSubscribe } from '../../common/browserNotifications/browserNotificationSubscribe.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
@@ -21,8 +21,8 @@ const loginSubscribe = async (event) => {
       loginData
     );
 
-    localStorage.setItem('access_token', response.data.data.accessToken);
-    localStorage.setItem('refresh_token', response.data.data.refreshToken);
+    localStorage.setItem('access_token', response.data.accessToken);
+    localStorage.setItem('refresh_token', response.data.refreshToken);
 
     const subscription = await registerAndSubscribe();
     console.log(subscription);
