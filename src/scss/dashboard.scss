@@ -444,6 +444,7 @@ body {
 
 .table-card {
   @include glass-card($radius-lg, 20px);
+  overflow-x: auto; // Enable horizontal scroll
 
   h5 {
     font-weight: 700;
@@ -454,6 +455,9 @@ body {
   }
 
   table {
+    width: 100%;
+    min-width: 400px; // Prevent table from getting too cramped
+
     thead {
       background: rgba(249, 250, 251, 0.5);
 
@@ -465,6 +469,7 @@ body {
         text-transform: uppercase;
         font-size: 0.75rem;
         letter-spacing: 0.05em;
+        white-space: nowrap; // Prevent header wrapping
       }
     }
 
@@ -482,6 +487,7 @@ body {
           font-weight: 500;
           font-size: 0.9rem;
           letter-spacing: -0.01em;
+          white-space: nowrap; // Prevent cell wrapping
         }
       }
     }
@@ -494,6 +500,23 @@ body {
       letter-spacing: 0.02em;
       background-color: $color-primary;
       backdrop-filter: blur(10px);
+    }
+  }
+}
+
+// Additional responsive fix for very small screens
+@media (max-width: 400px) {
+  .table-card {
+    padding: 12px;
+
+    table {
+      min-width: 350px;
+      font-size: 0.85rem;
+
+      th,
+      td {
+        padding: 8px 6px;
+      }
     }
   }
 }
