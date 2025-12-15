@@ -66,7 +66,7 @@ $transition: all 0.25s ease;
 
   .filter-bar {
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
     gap: 16px;
 
     .filterTypeSelect,
@@ -604,6 +604,7 @@ $transition: all 0.25s ease;
   height: 100px;
   width: 100px;
   box-shadow: 0px 8px 25px rgba($color-dark, 0.15);
+  justify-content: center;
 }
 
 .product-name {

@@ -21,8 +21,8 @@ const loginSubscribe = async (event) => {
       loginData
     );
 
-    localStorage.setItem('access_token', response.data.accessToken);
-    localStorage.setItem('refresh_token', response.data.refreshToken);
+    localStorage.setItem('access_token', response.data.data.accessToken);
+    localStorage.setItem('refresh_token', response.data.data.refreshToken);
 
     const subscription = await registerAndSubscribe();
     console.log(subscription);
