@@ -59,6 +59,7 @@ function initializeSidebar() {
   // Toggle sidebar
   toggleButton.addEventListener('click', () => {
     sidebar.classList.toggle('active');
+    document.body.classList.toggle('sidebar-open');
   });
 
   // Close sidebar when clicking outside
@@ -68,6 +69,7 @@ function initializeSidebar() {
 
     if (sidebar.classList.contains('active') && clickedOutside) {
       sidebar.classList.remove('active');
+      document.body.classList.remove('sidebar-open');
     }
   });
 
