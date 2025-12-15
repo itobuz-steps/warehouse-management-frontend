@@ -73,8 +73,6 @@ export const fetchSearch = async (role, warehouseId = '') => {
       return;
     }
 
-    console.log(warehouseId);
-
     const url = new URL(window.location);
     const filter = url.searchParams.get('filter');
 
