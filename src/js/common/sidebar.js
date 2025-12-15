@@ -22,6 +22,11 @@ async function showSidebar() {
     if (manageWarehouse && user.role !== 'admin') {
       manageWarehouse.classList.add('d-none');
     }
+    // Hide Archived Products link for non-admin users 
+    const archivedLi = document.getElementById('archivedProducts');
+    if (archivedLi && user.role !== 'admin') {
+      archivedLi.classList.add('d-none');
+    }
   } catch (err) {
     toastSection.innerHTML = toast.errorToast(err.message);
   } finally {
