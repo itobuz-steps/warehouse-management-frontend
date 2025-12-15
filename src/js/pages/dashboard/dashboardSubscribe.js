@@ -78,11 +78,11 @@ async function showTopProductsSubscribe(warehouseId) {
             data: quantities,
             label: 'Quantity',
             backgroundColor: [
-              '#ff6384',
-              '#ffd166',
-              '#9966ff',
-              '#00a5cf',
-              '#50af95',
+              '#bc8f8fd0',
+              '#ffd166c2',
+              '#2c3e50c0',
+              '#3d2817ad',
+              '#2d5a4fb9',
             ],
           },
         ],
@@ -150,16 +150,16 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
           label: 'Quantity',
           data: quantities,
           backgroundColor: [
-            '#ff6384',
-            '#36a2eb',
-            '#ffce56',
-            '#4bc0c0',
-            '#9966ff',
-            '#ff9f40',
-            '#50af95',
-            '#f4445a',
-            '#feb4eb',
-            '#c9cbcf',
+            '#8e5b68',
+            '#92b57aff',
+            '#ffd166c2',
+            '#4a5f6a',
+            '#8a62b0bf',
+            '#4d5d53',
+            '#6d4c41',
+            '#673147',
+            '#722f37',
+            '#3d2817ad',
           ],
           hoverOffset: 4,
         },
@@ -314,7 +314,7 @@ const showLowStockProducts = async (warehouseId) => {
         <td>${item.productName}</td>
         <td>${item.quantity} units</td>
         <td>
-          <span class="badge bg-danger">Low</span>
+          <span class="badge">Low</span>
         </td>
       </tr>`;
 

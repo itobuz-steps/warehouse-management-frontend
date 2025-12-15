@@ -154,8 +154,8 @@
 .sidebar-toggle {
   position: fixed;
   top: 16px;
-  left: 16px;
-  // z-index: 1;
+  left: 4px;
+  z-index: 1;
   background: $color-white;
   border: 1px solid $color-gray-200;
   border-radius: 8px;
@@ -174,13 +174,20 @@
   }
 }
 
-// Hide toggle button when sidebar is open (mobile only)
-@media (min-width: $breakpoint-md) {
+// Hide toggle button when sidebar is open (mobile/tablet only)
+@media (max-width: $breakpoint-lg) {
   body.sidebar-open {
     .sidebar-toggle {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
+  }
+}
+
+// Hide toggle button on large screens (sidebar is always visible)
+@media (min-width: $breakpoint-lg) {
+  .sidebar-toggle {
+    display: none;
   }
 }
