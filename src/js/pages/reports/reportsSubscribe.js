@@ -136,8 +136,25 @@ async function loadTransactions(
   transactionTemplate
 ) {
   try {
-    let result;
+    //Fetch ALL types for counts
+    const countParams = buildQueryParamsWithoutType();
+    let countResult;
+
+    if (warehouseId === 'ALL') {
+      countResult = await api.get(
+        `${config.TRANSACTION_BASE_URL}/${countParams}`
+      );
+    } else {
+      countResult = await api.get(
+        `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}${countParams}`
+      );
+    }
+
+    updateTransactionCounts(countResult.data.data);
+
+    //Fetch filtered transactions for rendering
     const params = buildQueryParams();
+    let result;
 
     if (warehouseId === 'ALL') {
       result = await api.get(`${config.TRANSACTION_BASE_URL}/${params}`);
@@ -195,6 +212,53 @@ function buildQueryParams() {
   }
 
   return params.toString() ? `?${params.toString()}` : '';
+}
+
+function buildQueryParamsWithoutType() {
+  const params = new URLSearchParams();
+
+  const startDate = reportSelection.startDate.value;
+  const endDate = reportSelection.endDate.value;
+
+  if (startDate) {
+    params.append('startDate', startDate);
+  }
+
+  if (endDate) {
+    params.append('endDate', endDate);
+  }
+
+  const selectedStatus = document.querySelector(
+    'input[name="statusRadio"]:checked'
+  );
+
+  if (selectedStatus && selectedStatus.id !== 'statusAll') {
+    params.append('status', selectedStatus.id);
+  }
+
+  return params.toString() ? `?${params.toString()}` : '';
+}
+
+function updateTransactionCounts(transactions) {
+  const counts = {
+    ALL: transactions.length,
+    IN: 0,
+    OUT: 0,
+    TRANSFER: 0,
+    ADJUSTMENT: 0,
+  };
+
+  transactions.forEach((transaction) => {
+    if (counts[transaction.type] !== undefined) {
+      counts[transaction.type]++;
+    }
+  });
+
+  document.getElementById('count-all').textContent = `${counts.ALL}`;
+  document.getElementById('count-in').textContent = `${counts.IN}`;
+  document.getElementById('count-out').textContent = `${counts.OUT}`;
+  document.getElementById('count-transfer').textContent = `${counts.TRANSFER}`;
+  document.getElementById('count-adjust').textContent = `${counts.ADJUSTMENT}`;
 }
 
 // Filter transactions based on user role and warehouses
