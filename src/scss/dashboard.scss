@@ -1,35 +1,12 @@
+@import './common/dashboard-mixins';
+@import './common/colors';
+@import './common/variables';
+@import './common/animations';
+
+// Font stack
 $font-stack:
   -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
   'Helvetica Neue', 'Segoe UI', Roboto, Arial, sans-serif;
-
-$color-primary: #6b2d2d; // Deep Wine Red
-$color-primary-dark: #4a1f1f; // Dark Burgundy
-$color-secondary: #e8e4e1; // Cool Gray
-$color-secondary-dark: #d1ccc7; // Darker Gray
-
-$color-text: #1a1a1a;
-$color-text-light: #5a5a5a;
-$color-border: rgba(255, 255, 255, 0.3);
-$color-bg: linear-gradient(135deg, #f5f3f1 0%, #ffffff 100%);
-$color-white: #ffffff;
-
-// Accent colors for charts and highlights
-$color-success: #2d7a4f; // Forest Green
-$color-warning: #d97706; // Bold Orange
-$color-danger: #a26161; // Pure Red
-$color-info: #1e40af; // Royal Blue
-
-$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-$shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
-$shadow-hover: 0 8px 24px rgba(196, 30, 58, 0.15);
-
-$radius-sm: 12px;
-$radius-md: 16px;
-$radius-lg: 20px;
-
-$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-$transition-fast: all 0.2s ease;
 
 .toast {
   position: fixed;
@@ -46,72 +23,6 @@ $transition-fast: all 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-@keyframes toast {
-  from {
-    opacity: 0;
-    transform: translateX(120%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@mixin flex($justify: flex-start, $align: center, $direction: row, $gap: 0) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
-  flex-direction: $direction;
-  gap: $gap;
-}
-
-@mixin glass-card($radius: $radius-md, $padding: 16px) {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: $radius;
-  padding: $padding;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-  transition: $transition;
-}
-
-@mixin button($bg: $color-primary, $hover: $color-primary-dark) {
-  padding: 10px 20px;
-  background: rgba($bg, 0.9);
-  backdrop-filter: blur(10px);
-  color: $color-white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: $radius-sm;
-  font-weight: 600;
-  cursor: pointer;
-  transition: $transition;
-  font-size: 0.9rem;
-  letter-spacing: -0.01em;
-
-  &:hover {
-    background: rgba($hover, 1);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba($hover, 0.3);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-@mixin grid($columns: auto-fit, $min: 220px, $gap: 16px) {
-  display: grid;
-  grid-template-columns: repeat($columns, minmax($min, 1fr));
-  gap: $gap;
-}
-
-@mixin responsive {
-  @media (max-width: 768px) {
-    @content;
-  }
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -122,9 +33,9 @@ $transition-fast: all 0.2s ease;
 
 body {
   font-family: $font-stack;
-  background: $color-bg;
+  background: $body-bg;
   min-height: 100vh;
-  color: $color-text;
+  color: $text-primary;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
@@ -139,7 +50,7 @@ body {
   border-radius: 50%;
   background: rgba($color-primary, 0.85);
   backdrop-filter: blur(10px);
-  @include flex(center, center);
+  @include dashboard-flex(center, center);
   color: $color-white;
   font-size: 1.2rem;
   cursor: pointer;
@@ -155,7 +66,7 @@ body {
 
 /* Notification List Styling */
 .notif-item {
-  @include glass-card($radius-sm, 12px);
+  @include dashboard-glass-card($radius-sm, 12px);
   margin-bottom: 10px;
   cursor: pointer;
   border-left: 2px solid transparent;
@@ -173,7 +84,7 @@ body {
 
   strong {
     font-size: 13px;
-    color: $color-text;
+    color: $text-primary;
     display: block;
     margin-bottom: 4px;
     font-weight: 600;
@@ -182,7 +93,7 @@ body {
 
   p.small {
     font-size: 12px;
-    color: $color-text-light;
+    color: $text-secondary;
     margin-bottom: 4px;
     font-weight: 400;
   }
@@ -229,19 +140,7 @@ body {
   }
 }
 
-@keyframes fadeInNotif {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .notif-item {
-  opacity: 0;
   animation: fadeInNotif 0.5s forwards ease;
 }
 
@@ -255,28 +154,28 @@ body {
   align-items: center;
   height: 300px;
   font-size: 1.1rem;
-  color: $color-text-light;
-  @include glass-card($radius-lg, 40px);
+  color: $text-secondary;
+  @include dashboard-glass-card($radius-lg, 40px);
   font-weight: 500;
   letter-spacing: -0.01em;
 }
 
 .dashboard-header {
-  @include flex(space-between, center);
+  @include dashboard-flex(space-between, center);
   margin-bottom: 24px;
-  @include glass-card($radius-lg, 20px 24px);
+  @include dashboard-glass-card($radius-lg, 20px 24px);
 
   .welcome-text {
     h1 {
       font-size: 1.6rem;
       font-weight: 700;
-      color: $color-text;
+      color: $text-primary;
       margin-bottom: 4px;
       letter-spacing: -0.02em;
     }
 
     p {
-      color: $color-text-light;
+      color: $text-secondary;
       font-size: 0.9rem;
       font-weight: 400;
       letter-spacing: -0.01em;
@@ -289,11 +188,11 @@ body {
   }
 
   .header-actions {
-    @include flex(flex-start, center, row, 12px);
+    @include dashboard-flex(flex-start, center, row, 12px);
 
     .add-manager-btn,
     .add-warehouse-btn {
-      @include button($color-primary, $color-primary-dark);
+      @include dashboard-button($color-primary, $color-primary-dark);
     }
 
     .user-avatar {
@@ -306,7 +205,7 @@ body {
         rgba($color-primary-dark, 0.9)
       );
       backdrop-filter: blur(10px);
-      @include flex(center, center);
+      @include dashboard-flex(center, center);
       color: $color-white;
       font-weight: 600;
       font-size: 1rem;
@@ -317,24 +216,24 @@ body {
 
 /* OVERVIEW CARDS */
 .overview-grid {
-  @include grid(auto-fit, 240px, 16px);
+  @include dashboard-grid(auto-fit, 240px, 16px);
   margin-bottom: 24px;
 }
 
 @media (min-width: 768px) and (max-width: 1200px) {
   .overview-grid {
-    @include grid(2, 0, 16px);
+    @include dashboard-grid(2, 0, 16px);
   }
 }
 
 @media (min-width: 1200px) {
   .overview-grid {
-    @include grid(4, 0, 16px);
+    @include dashboard-grid(4, 0, 16px);
   }
 }
 
 .overview-card {
-  @include glass-card($radius-md, 18px);
+  @include dashboard-glass-card($radius-md, 18px);
   transition: $transition;
   border-left: 3px solid $color-primary;
   position: relative;
@@ -350,7 +249,7 @@ body {
   .card-title {
     font-weight: 600;
     font-size: 0.85rem;
-    color: $color-text-light;
+    color: $text-secondary;
     margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -366,7 +265,7 @@ body {
 
   .card-sub {
     font-size: 0.85rem;
-    color: $color-text-light;
+    color: $text-secondary;
     font-weight: 400;
     letter-spacing: -0.01em;
   }
@@ -393,12 +292,12 @@ body {
 }
 
 .chart-card {
-  @include glass-card($radius-lg, 20px);
+  @include dashboard-glass-card($radius-lg, 20px);
 
   h5 {
     margin-bottom: 16px;
     font-weight: 700;
-    color: $color-text-light;
+    color: $text-secondary;
     font-size: 1.05rem;
     // letter-spacing: -0.02em;
   }
@@ -439,17 +338,17 @@ body {
 
 /* TABLES */
 .stock-grid {
-  @include grid(auto-fit, 280px, 16px);
+  @include dashboard-grid(auto-fit, 280px, 16px);
 }
 
 .table-card {
-  @include glass-card($radius-lg, 20px);
+  @include dashboard-glass-card($radius-lg, 20px);
   overflow-x: auto; // Enable horizontal scroll
 
   h5 {
     font-weight: 700;
     margin-bottom: 16px;
-    color: $color-text;
+    color: $text-primary;
     font-size: 1.05rem;
     letter-spacing: -0.02em;
   }
@@ -462,7 +361,7 @@ body {
       background: rgba(249, 250, 251, 0.5);
 
       th {
-        color: $color-text;
+        color: $text-primary;
         font-weight: 700;
         padding: 12px 10px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -483,7 +382,7 @@ body {
 
         td {
           padding: 12px 10px;
-          color: $color-text;
+          color: $text-primary;
           font-weight: 500;
           font-size: 0.9rem;
           letter-spacing: -0.01em;
@@ -525,7 +424,7 @@ body {
 .modal-content {
   border: none;
   border-radius: $radius-lg;
-  @include glass-card($radius-lg, 0);
+  @include dashboard-glass-card($radius-lg, 0);
   overflow: hidden;
 }
 
@@ -537,7 +436,7 @@ body {
 
 .modal-title {
   font-weight: 700;
-  color: $color-text;
+  color: $text-primary;
   font-size: 1.2rem;
   letter-spacing: -0.02em;
 }
@@ -549,7 +448,7 @@ body {
 .add-form {
   .form-label {
     font-weight: 600;
-    color: $color-text;
+    color: $text-primary;
     margin-bottom: 6px;
     font-size: 0.9rem;
     letter-spacing: -0.01em;
@@ -575,7 +474,7 @@ body {
   }
 
   .btn-primary {
-    @include button($color-primary, $color-primary-dark);
+    @include dashboard-button($color-primary, $color-primary-dark);
     width: 100%;
     margin-top: 16px;
     padding: 12px 20px;
@@ -591,7 +490,7 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.1);
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
-    color: $color-text;
+    color: $text-primary;
     box-shadow: $shadow-sm;
     cursor: pointer;
     padding: 12px 45px 12px 16px;
@@ -632,7 +531,7 @@ body {
 .export {
   width: 110px;
   font-weight: 600;
-  @include button($color-success, darken($color-success, 10%));
+  @include dashboard-button($color-success, darken($color-success, 10%));
   font-size: 0.85rem;
 
   i {
@@ -641,7 +540,7 @@ body {
 }
 
 /* Responsive */
-@include responsive {
+@include dashboard-responsive {
   .sidebar {
     transform: translateX(-100%);
   }
