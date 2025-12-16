@@ -1,30 +1,13 @@
-$font-stack:
-  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-  Arial, sans-serif;
-
-$color-primary: #b97a87;
-$color-primary-dark: #864a5b;
-$color-secondary: #efe1e1;
-$color-text: #1a1a1a;
-$color-text-light: #666;
-$color-border: #f0f0f0;
-$color-bg: linear-gradient(135deg, #efe1e1 0%, #fafafa 100%);
-$color-white: #ffffff;
-
-$shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
-$shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
-
-$radius-sm: 8px;
-$radius-md: 12px;
-$radius-lg: 15px;
-
-$transition: all 0.3s ease;
+@import './common/colors';
+@import './common/variables';
+@import './common/mixins';
+@import './common/animations';
 
 .toast {
   position: fixed;
   top: 50px;
   right: 20px;
-  color: #eee;
+  color: $color-white;
   width: 300px;
   font-weight: 700;
   z-index: 100000;
@@ -43,51 +26,9 @@ $transition: all 0.3s ease;
   }
 }
 
-@mixin flex($justify: flex-start, $align: center, $direction: row, $gap: 0) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
-  flex-direction: $direction;
-  gap: $gap;
-}
-
-@mixin card($radius: $radius-md, $padding: 20px, $shadow: $shadow-sm) {
-  background: $color-white;
-  border-radius: $radius;
-  padding: $padding;
-  box-shadow: $shadow;
-}
-
-@mixin button($bg: $color-primary, $hover: $color-primary-dark) {
-  padding: 12px 24px;
-  background: $bg;
-  color: $color-white;
-  border: none;
-  border-radius: $radius-sm;
-  font-weight: 600;
-  cursor: pointer;
-  transition: $transition;
-
-  &:hover {
-    background: $hover;
-    transform: translateY(-2px);
-  }
-}
-
-@mixin grid($columns: auto-fit, $min: 220px, $gap: 20px) {
-  display: grid;
-  grid-template-columns: repeat($columns, minmax($min, 1fr));
-  gap: $gap;
-}
-
-@mixin responsive {
-  @media (max-width: 768px) {
-    @content;
-  }
-}
 
 .verified {
-  color: #1da1f2;
+  color: $color-info;
 }
 .description {
   color: $color-primary;
@@ -119,10 +60,10 @@ $transition: all 0.3s ease;
         .user-name {
           font-weight: 700;
           font-size: 1.5rem;
-          color: $color-text;
+          color: $text-primary;
         }
         .user-email {
-          color: $color-text-light;
+          color: $text-secondary;
           font-size: 0.95rem;
           margin-bottom: 5px;
 
@@ -164,7 +105,7 @@ $transition: all 0.3s ease;
     h3 {
       font-weight: 700;
       margin-bottom: 20px;
-      color: $color-text;
+      color: $text-primary;
     }
 
     .manager-grid {
@@ -187,11 +128,11 @@ $transition: all 0.3s ease;
 
         .manager-name {
           font-weight: 600;
-          color: $color-text;
+          color: $text-primary;
         }
 
         .manager-email {
-          color: $color-text-light;
+          color: $text-secondary;
           font-size: 0.9rem;
         }
         .manager-info {
@@ -215,7 +156,7 @@ $transition: all 0.3s ease;
         }
 
         .manager-last-login {
-          color: #666;
+          color: $text-light;
           font-size: 0.85rem;
           margin: 5px 0;
           display: flex;
@@ -224,15 +165,15 @@ $transition: all 0.3s ease;
           gap: 6px;
 
           i {
-            color: #888;
+            color: $text-light;
             font-size: 0.9rem;
           }
         }
 
         .block-user-btn,
         .unblock-user-btn {
-          background-color: rgb(172, 40, 40);
-          color: white;
+          background-color: $color-danger;
+          color: $color-white;
           border: none;
           padding: 8px 16px;
           border-radius: 6px;
@@ -256,9 +197,9 @@ $transition: all 0.3s ease;
         }
 
         .unblock-user-btn {
-          background-color: rgb(7, 148, 7);
+          background-color: $color-success;
           &:hover {
-            background-color: rgb(11, 64, 11);
+            background-color: darken($color: $color-success, $amount: 30%);
           }
         }
       }
@@ -272,7 +213,7 @@ $transition: all 0.3s ease;
     h3 {
       font-weight: 700;
       margin-bottom: 20px;
-      color: $color-text;
+      color: $text-primary;
     }
 
     .warehouse-grid {
@@ -301,7 +242,7 @@ $transition: all 0.3s ease;
         }
 
         .warehouse-detail {
-          color: $color-text-light;
+          color: $text-secondary;
           font-size: 1rem;
           margin-top: 10px;
 
@@ -311,13 +252,13 @@ $transition: all 0.3s ease;
             font-weight: 500;
           }
           .low {
-            background-color: green;
+            background-color: $color-success;
           }
           .moderate {
-            background-color: orange;
+            background-color: $color-warning;
           }
           .high {
-            background-color: red;
+            background-color: $color-danger;
           }
         }
 

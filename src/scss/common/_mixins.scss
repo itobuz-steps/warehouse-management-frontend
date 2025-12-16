@@ -130,7 +130,7 @@
   gap: $gap;
 }
 
-@mixin responsive($breakpoint: $breakpoint-tablet) {
+@mixin responsive($breakpoint: $breakpoint-md) {
   @media (max-width: $breakpoint) {
     @content;
   }
