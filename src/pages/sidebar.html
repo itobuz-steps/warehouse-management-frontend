@@ -10,6 +10,9 @@
     <script src="../js/common/sidebar.js" defer></script>
   </head>
   <body>
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i class="fas fa-bars"></i>
+    </button>
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-brand text-center">
@@ -41,7 +44,7 @@
             <span>Products</span>
           </a>
         </li>
-        <li>
+        <li id="archivedProducts">
           <a href="restore-products.html">
             <i class="fas fa-chart-line pr-2"></i>Archived Products</a
           >

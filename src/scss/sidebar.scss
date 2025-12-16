@@ -144,7 +144,7 @@
   }
 }
 
-@media (min-width: $breakpoint-lg) {
+@media (min-width: $breakpoint-lg) and (max-width: $breakpoint-2xl) {
   .sidebar-toggle {
     display: none;
   }
@@ -154,13 +154,12 @@
 .sidebar-toggle {
   position: fixed;
   top: 16px;
-  left: 16px;
-  z-index: 1400;
+  left: 4px;
+  z-index: 1;
   background: $color-white;
   border: 1px solid $color-gray-200;
   border-radius: 8px;
   padding: 8px 10px;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 10px rgba($color-gray-900, 0.06);
@@ -175,7 +174,7 @@
   }
 }
 
-// Hide toggle button when sidebar is open (mobile only)
+// Hide toggle button when sidebar is open (mobile/tablet only)
 @media (max-width: $breakpoint-lg) {
   body.sidebar-open {
     .sidebar-toggle {
@@ -183,5 +182,12 @@
       visibility: hidden;
       pointer-events: none;
     }
+  }
+}
+
+// Hide toggle button on large screens (sidebar is always visible)
+@media (min-width: $breakpoint-lg) {
+  .sidebar-toggle {
+    display: none;
   }
 }
