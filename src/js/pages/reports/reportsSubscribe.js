@@ -45,6 +45,7 @@ function attachEventListeners(user, warehouses, transactionTemplate) {
   attachWarehouseFilter(user, warehouses, transactionTemplate);
   attachDateFilter(user, warehouses, transactionTemplate);
   attachRadioFilter(user, warehouses, transactionTemplate);
+  attachStatusFilter(user, warehouses, transactionTemplate);
 }
 
 // Attach event listener for warehouse filter
@@ -112,6 +113,21 @@ function attachRadioFilter(user, warehouses, transactionTemplate) {
   });
 }
 
+// shipment status filter
+function attachStatusFilter(user, warehouses, transactionTemplate) {
+  document.querySelectorAll('input[name="statusRadio"]').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      resetDateFilter();
+      loadTransactions(
+        currentWarehouseId,
+        user,
+        warehouses,
+        transactionTemplate
+      );
+    });
+  });
+}
+
 // Load transactions based on filters
 async function loadTransactions(
   warehouseId,
@@ -130,7 +146,7 @@ async function loadTransactions(
         `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}${params}`
       );
     }
-    
+
     renderTransactionsList(result.data.data, transactionTemplate);
   } catch (err) {
     console.error('Error loading transactions:', err);
@@ -168,6 +184,14 @@ function buildQueryParams() {
     if (type && type !== 'ALL') {
       params.append('type', type);
     }
+  }
+
+  const selectedStatus = document.querySelector(
+    'input[name="statusRadio"]:checked'
+  );
+
+  if (selectedStatus && selectedStatus.id !== 'statusAll') {
+    params.append('status', selectedStatus.id);
   }
 
   return params.toString() ? `?${params.toString()}` : '';
