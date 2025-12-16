@@ -99,15 +99,48 @@ export async function renderNotifications(notifications, offset) {
 
     shipButtons.forEach((btn) => {
       btn.addEventListener('click', async (e) => {
-        const transactionId = e.target.id;
+        const transactionId = e.target.dataset.id;
         if (!transactionId) return;
 
-        await api.patch(
-          `${config.BROWSER_NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
-        );
+        try {
+          await api.patch(
+            `${config.BROWSER_NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
+          );
 
-        e.target.innerText = 'Shipped';
-        btn.disabled = true;
+          e.target.innerText = 'Shipped';
+          e.target.disabled = true;
+
+          const cancelBtn = btn.parentElement.querySelector('.cancel-btn');
+          if (cancelBtn) cancelBtn.disabled = true;
+        } catch (err) {
+          toastSection.innerHTML = displayToast.errorToast(err.message);
+          setTimeout(() => (toastSection.innerHTML = ''), 3000);
+        }
+      });
+    });
+
+    // cancel buttons
+    const cancelButtons = document.querySelectorAll('.cancel-btn');
+
+    cancelButtons.forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        const transactionId = e.target.dataset.id;
+        if (!transactionId) return;
+
+        try {
+          await api.patch(
+            `${config.BROWSER_NOTIFICATION_BASE_URL}/cancel-shipment/${transactionId}`
+          );
+
+          e.target.innerText = 'Cancelled';
+          e.target.disabled = true;
+
+          const shipBtn = btn.parentElement.querySelector('.ship-btn');
+          if (shipBtn) shipBtn.disabled = true;
+        } catch (err) {
+          toastSection.innerHTML = displayToast.errorToast(err.message);
+          setTimeout(() => (toastSection.innerHTML = ''), 3000);
+        }
       });
     });
   } catch (err) {
@@ -116,9 +149,7 @@ export async function renderNotifications(notifications, offset) {
   }
 }
 
-
 //  Mark all seen
-
 export async function markAllAsSeen() {
   try {
     if (browserNotificationsSelection.notificationCount.innerHTML == 0) return;
@@ -131,10 +162,7 @@ export async function markAllAsSeen() {
   }
 }
 
-
-//  Infinite Scroll Observer 
-
-
+//  Infinite Scroll Observer
 let isLoading = false;
 
 const callback = async (entries) => {
@@ -163,6 +191,9 @@ const observer = new IntersectionObserver(callback, {
 });
 
 const sentinel = document.querySelector('#sentinel');
-if (sentinel) observer.observe(sentinel);
+
+if (sentinel) {
+  observer.observe(sentinel);
+}
 
 export { registerAndSubscribe };
