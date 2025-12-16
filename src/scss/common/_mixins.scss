@@ -87,3 +87,51 @@
 @mixin pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+@mixin flex($justify: flex-start, $align: center, $direction: row, $gap: 0) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin card($radius: $radius-md, $padding: 20px, $shadow: $shadow-sm) {
+  background: $color-white;
+  border-radius: $radius;
+  padding: $padding;
+  box-shadow: $shadow;
+}
+
+@mixin button($bg: $color-primary, $hover: $color-primary-dark) {
+  padding: 12px 24px;
+  background-color: $bg;
+  color: $color-white;
+  border: none;
+  border-radius: $radius-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition;
+
+  &:hover {
+    background: $hover;
+    transform: translateY(-2px);
+    color: $color-white;
+  }
+}
+
+@mixin box-shadow($shadow...) {
+  box-shadow: $shadow;
+}
+
+@mixin grid($columns: auto-fit, $min: 250px, $gap: 20px) {
+  display: grid;
+  grid-template-columns: repeat($columns, minmax($min, 1fr));
+  gap: $gap;
+}
+
+@mixin responsive($breakpoint: $breakpoint-tablet) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}

@@ -33,8 +33,8 @@ $transition: all 0.25s ease;
 .page-header {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   margin-bottom: 20px;
 
@@ -66,28 +66,43 @@ $transition: all 0.25s ease;
 
   .filter-bar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    // flex-direction: column;
+    gap: 16px;
 
     .filterTypeSelect,
     .warehouseSelect {
-      width: 200px;
+      width: 100%;
       height: 40px;
-      padding: 10px;
-      gap: 10px;
-      background-color: $color-hover-bg;
-      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1f2937;
+      background-color: $color-bg;
+      border: 1px solid #000;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: $transition;
+
+      &:hover {
+        background-color: lighten($color-hover-bg, 3%);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
     }
   }
 
-  @media (max-width: 600px) {
+  @media (min-width: 640px) {
     .filter-bar {
-      flex-direction: column;
-      gap: 15px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
 
       .filterTypeSelect,
       .warehouseSelect {
-        width: 100%;
+        width: 180px;
       }
     }
   }
@@ -95,10 +110,8 @@ $transition: all 0.25s ease;
 
 #productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
-  justify-items: center;
-  width: 100%;
 
   .empty,
   .error {
@@ -591,6 +604,7 @@ $transition: all 0.25s ease;
   height: 100px;
   width: 100px;
   box-shadow: 0px 8px 25px rgba($color-dark, 0.15);
+  justify-content: center;
 }
 
 .product-name {
