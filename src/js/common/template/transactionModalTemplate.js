@@ -12,7 +12,7 @@ class TransactionModalTemplate {
       .map(
         (p) => `
         <tr>
-          <td><i class=" me-1 text-primary"></i>${p.name}</td>
+          <td><i class=" me-1 text-secondary"></i>${p.name}</td>
           <td class="text-center fw-bold">${p.qty}</td>
         </tr>
       `
@@ -21,7 +21,7 @@ class TransactionModalTemplate {
 
     return `
       <div class="summary-section p-3 rounded border mb-4 bg-light">
-        <h5 class="fw-bold mb-3 text-primary">
+        <h5 class="fw-bold mb-3 text-secondary">
           <i class="fa-solid"></i>Products Summary
         </h5>
 
@@ -41,7 +41,7 @@ class TransactionModalTemplate {
   stockInDetails = (warehouseName, supplier, notes) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
-        <h6 class="fw-bold mb-2 text-primary">
+        <h6 class="fw-bold mb-2 text-secondary">
           <i class="fa-solid fa-circle-info me-2"></i>Stock In Details
         </h6>
         <p><strong>Destination Warehouse:</strong> 
@@ -56,7 +56,7 @@ class TransactionModalTemplate {
   stockOutDetails = (warehouseName, customer, notes) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
-        <h6 class="fw-bold mb-2 text-primary">
+        <h6 class="fw-bold mb-2 text-secondary">
           <i class="fa-solid fa-circle-info me-2"></i>Stock Out Details
         </h6>
         <p><strong>Source Warehouse:</strong> 
@@ -75,7 +75,7 @@ class TransactionModalTemplate {
   transferDetails = (source, dest, notes) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
-        <h6 class="fw-bold mb-2 text-primary">
+        <h6 class="fw-bold mb-2 text-secondary">
           <i class="fa-solid fa-circle-info me-2"></i>Transfer Details
         </h6>
         <p><strong>Source Warehouse:</strong> 
@@ -92,7 +92,7 @@ class TransactionModalTemplate {
   adjustmentDetails = (warehouseName, reason, notes) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
-        <h6 class="fw-bold mb-2 text-primary">
+        <h6 class="fw-bold mb-2 text-secondary">
           <i class="fa-solid fa-circle-info me-2"></i>Adjustment Details
         </h6>
         <p><strong>Warehouse:</strong> 

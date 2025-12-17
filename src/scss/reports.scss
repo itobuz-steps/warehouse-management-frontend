@@ -1,38 +1,20 @@
 @import 'bootstrap/scss/bootstrap';
-$font-stack:
-  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-  Arial, sans-serif;
+@import './common/colors';
+@import './common/variables';
+@import './common/mixins';
+@import './common/animations';
 
-$color-primary: #b97a87;
-$color-primary-dark: #864a5b;
-$color-primary-light: #f1e8ea;
-$color-secondary: #efe1e1;
-$color-text: #1a1a1a;
-$color-text-light: #666;
-$color-border: #f0f0f0;
-$color-bg: linear-gradient(135deg, #efe1e1 0%, #fafafa 100%);
-$color-white: #ffffff;
-
-$color-in: #109648;
+$color-in: $color-success;
 $color-in-light: #e9f8ef;
 
-$color-out: #e36414;
+$color-out: $color-primary-light;
 $color-out-light: #fde8db;
 
-$color-transfer: #014f86;
+$color-transfer: $color-info;
 $color-transfer-light: #d3e7f6;
 
-$color-adjust: #da2c38;
+$color-adjust: $color-danger;
 $color-adjust-light: #f6d2d4;
-
-$shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
-$shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
-
-$radius-sm: 8px;
-$radius-md: 12px;
-$radius-lg: 15px;
-
-$transition: all 0.3s ease;
 
 .toast {
   position: fixed;
@@ -57,54 +39,6 @@ $transition: all 0.3s ease;
   }
 }
 
-@mixin flex($justify: flex-start, $align: center, $direction: row, $gap: 0) {
-  display: flex;
-  justify-content: $justify;
-  align-items: $align;
-  flex-direction: $direction;
-  gap: $gap;
-}
-
-@mixin card($radius: $radius-md, $padding: 20px, $shadow: $shadow-sm) {
-  background: $color-white;
-  border-radius: $radius;
-  padding: $padding;
-  box-shadow: $shadow;
-}
-
-@mixin button($bg: $color-primary, $hover: $color-primary-dark) {
-  padding: 12px 24px;
-  background-color: $bg;
-  color: $color-white;
-  border: none;
-  border-radius: $radius-sm;
-  font-weight: 600;
-  cursor: pointer;
-  transition: $transition;
-
-  &:hover {
-    background: $hover;
-    transform: translateY(-2px);
-    color: $color-white;
-  }
-}
-
-@mixin box-shadow($shadow...) {
-  box-shadow: $shadow;
-}
-
-@mixin grid($columns: auto-fit, $min: 250px, $gap: 20px) {
-  display: grid;
-  grid-template-columns: repeat($columns, minmax($min, 1fr));
-  gap: $gap;
-}
-
-@mixin responsive {
-  @media (max-width: 768px) {
-    @content;
-  }
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -112,10 +46,10 @@ $transition: all 0.3s ease;
 }
 
 body {
-  font-family: $font-stack;
-  background: $color-bg;
+  font-family: $font-family-base;
+  background: $body-bg;
   min-height: 100vh;
-  color: $color-text;
+  color: $text-primary;
 }
 
 .sidebar-container {
@@ -206,7 +140,7 @@ button.warehouse-dropdown {
 
   .accordion-body {
     background: $color-white;
-    color: $color-text;
+    color: $text-primary;
     padding: 15px;
   }
 }
@@ -307,7 +241,7 @@ button.warehouse-dropdown {
   display: flex;
   justify-content: space-between;
   font-weight: 600;
-  color: $color-text;
+  color: $text-primary;
 
   span {
     color: $color-primary-dark;
@@ -316,7 +250,7 @@ button.warehouse-dropdown {
 
 .supplier {
   font-weight: 600;
-  color: $color-text;
+  color: $text-primary;
 
   span {
     font-weight: 400;
@@ -326,7 +260,7 @@ button.warehouse-dropdown {
 
 .other {
   font-weight: 600;
-  color: $color-text;
+  color: $text-primary;
 
   span {
     font-weight: 400;

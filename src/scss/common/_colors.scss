@@ -1,12 +1,12 @@
-$color-primary: #6b2d2d; 
-$color-primary-dark: #654321; 
-$color-primary-light: #d2691e; 
-$color-secondary: #bb8e5e; 
-$color-secondary-dark: #8b6914; 
-$color-success: #228b22; 
-$color-warning: #ff8c00; 
-$color-danger: #b22222; 
-$color-info: #5f9ea0; 
+$color-primary: #6b2d2d;
+$color-primary-dark: #4a1f1f;
+$color-primary-light: #d2691e;
+$color-secondary: #e8e4e1;
+$color-secondary-dark: #d1ccc7;
+$color-success: #2d7a4f;
+$color-warning: #ff8c00;
+$color-danger: #b22222;
+$color-info: #5f9ea0;
 
 // Neutrals
 $color-white: #ffffff;
@@ -23,7 +23,7 @@ $color-gray-800: #322b25;
 $color-gray-900: #211b16;
 
 // Backgrounds
-$body-bg: linear-gradient(135deg, #f9f5f0 0%, #f0e6dc 100%);
+$body-bg: linear-gradient(135deg, #f5f3f1 0%, #ffffff 100%);
 $card-bg: $color-white;
 $sidebar-bg: linear-gradient(180deg, #654321 0%, #8b4513 100%);
 
@@ -32,6 +32,12 @@ $text-primary: $color-gray-900;
 $text-secondary: $color-gray-700;
 $text-light: $color-gray-500;
 $text-white: $color-white;
+
+// Shadows
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+$shadow-hover: 0 8px 24px rgba(196, 30, 58, 0.15);
 
 // Warehouse specific colors
 $warehouse-brown: #5d4037; // Brown Blue

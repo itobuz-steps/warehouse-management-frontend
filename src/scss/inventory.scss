@@ -1,11 +1,15 @@
 @import 'bootstrap/scss/bootstrap';
+@import './common/colors';
+@import './common/variables';
+@import './common/mixins';
+@import './common/root';
 
 :root {
-  --primary-color: #b97a87;
-  --primary-dark: #a86a77;
-  --light-bg: #f8f9fa;
-  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  --primary-color: #{$color-primary};
+  --primary-dark: #{$color-primary-dark};
+  --light-bg: #{$body-bg};
+  --card-shadow: #{$shadow-lg};
+  --hover-shadow: #{$shadow-md};
 }
 
 .btn-primary {
@@ -35,11 +39,11 @@
 }
 
 .table-header th:first-child {
-  border-top-left-radius: 12px;
+  border-top-left-radius: $radius-sm;
 }
 
 .table-header th:last-child {
-  border-top-right-radius: 12px;
+  border-top-right-radius: $radius-sm;
 }
 
 .table {
@@ -48,28 +52,28 @@
 
   width: 100%;
   box-shadow: var(--card-shadow);
-  border-radius: 12px;
+  border-radius: $radius-sm;
 }
 
 .table tbody tr {
-  background-color: white;
+  background-color: $color-white;
   transition: all 0.2s ease;
 }
 
 .table tbody tr:hover {
-  background-color: #f8f0f2;
+  background-color: $color-white;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .table tbody td {
   padding: 15px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid $text-light;
   vertical-align: middle;
 }
 
 .active-warehouse {
-  color: #bc2745 !important;
+  color: $color-danger !important;
   background-color: transparent !important;
   font-weight: 600;
 }
@@ -83,8 +87,8 @@
   font-weight: 700;
   z-index: 100000;
   animation: toast 500ms forwards;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: $radius-sm;
+  box-shadow: $shadow-md;
 }
 
 @keyframes toast {
@@ -101,7 +105,7 @@
 /* Card enhancements */
 .card {
   border: none;
-  border-radius: 12px;
+  border-radius: $radius-sm;
   box-shadow: var(--card-shadow);
   transition: all 0.3s ease;
 }
@@ -112,11 +116,11 @@
 
 .card-header {
   background-color: white;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid $color-secondary;
   padding: 16px 20px;
   font-weight: 600;
-  color: #333;
-  border-radius: 12px 12px 0 0 !important;
+  color: $text-primary;
+  border-radius: $radius-sm $radius-sm 0 0 !important;
 }
 
 .card-body {
@@ -126,12 +130,12 @@
 /* Modal enhancements */
 .modal-content {
   border: none;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-radius: $radius-sm;
+  box-shadow: $shadow-lg;
 }
 
 .modal-header {
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid $color-secondary;
   padding: 16px 20px;
 }
 
@@ -141,21 +145,21 @@
 
 /* Form enhancements */
 .form-control {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border: 1px solid $text-light;
+  border-radius: $radius-sm;
   padding: 10px 12px;
   transition: all 0.3s ease;
 }
 
 .form-control:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(185, 122, 135, 0.2);
+  box-shadow: 0 0 0 3px rgba($color-primary, 0.2);
 }
 
 .form-label {
   font-weight: 500;
   margin-bottom: 6px;
-  color: #444;
+  color: $text-secondary;
 }
 
 /* Button enhancements */
@@ -163,8 +167,8 @@
 /* Dropdown enhancements */
 .dropdown-menu {
   border: none;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: $radius-sm;
+  box-shadow: $shadow-md;
   padding: 8px 0;
 }
 
@@ -174,16 +178,16 @@
 }
 
 .dropdown-item:hover {
-  background-color: rgba(185, 122, 135, 0.1);
+  background-color: rgba($color-primary, 0.1);
 }
 
 /* Manager tags in modal */
 .manager {
   display: inline-block;
-  background-color: rgba(185, 122, 135, 0.1);
+  background-color: rgba($color-primary, 0.1);
   color: var(--primary-color);
   padding: 6px 12px;
-  border-radius: 20px;
+  border-radius: $radius-lg;
   margin: 4px;
   font-size: 0.85rem;
   font-weight: 500;
@@ -192,19 +196,19 @@
 /* Status badge */
 .status-badge {
   padding: 6px 12px;
-  border-radius: 20px;
+  border-radius: $radius-lg;
   font-size: 0.85rem;
   font-weight: 500;
 }
 
 .status-active {
-  background-color: rgba(76, 175, 80, 0.1);
-  color: #4caf50;
+  background-color: rgba($color-success, 0.1);
+  color: $color-success;
 }
 
 .status-inactive {
-  background-color: rgba(244, 67, 54, 0.1);
-  color: #f44336;
+  background-color: rgba($color-danger, 0.1);
+  color: $color-danger;
 }
 
 /* Responsive improvements */
