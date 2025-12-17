@@ -12,16 +12,24 @@ function urlBase64ToUint8Array(base64String) {
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
   const raw = atob(base64);
   const outputArray = new Uint8Array(raw.length);
-  for (let i = 0; i < raw.length; ++i) outputArray[i] = raw.charCodeAt(i);
+
+  for (let i = 0; i < raw.length; ++i) {
+    outputArray[i] = raw.charCodeAt(i);
+  }
+
   return outputArray;
 }
 
 async function registerAndSubscribe() {
   try {
     const permission = await Notification.requestPermission();
-    if (permission !== 'granted') return;
+
+    if (permission !== 'granted') {
+      return;
+    }
 
     const swRegistration = await navigator.serviceWorker.register('/sw.js');
+
     await navigator.serviceWorker.ready;
 
     let subscription = await swRegistration.pushManager.getSubscription();
@@ -47,7 +55,6 @@ async function registerAndSubscribe() {
 }
 
 // Load Notifications with Loader
-
 export async function loadNotifications(offset) {
   // show loader while loading
   browserNotificationsSelection.loaderContainer.style.display = 'block';
@@ -57,7 +64,9 @@ export async function loadNotifications(offset) {
       `${config.BROWSER_NOTIFICATION_BASE_URL}/${offset}`
     );
 
-    if (!res.data.success) throw new Error('Error loading notifications');
+    if (!res.data.success) {
+      throw new Error('Error loading notifications');
+    }
 
     const notifications = res.data.data || [];
     const unseenCount = res.data.unseenCount;
@@ -83,11 +92,12 @@ export async function loadNotifications(offset) {
 }
 
 // Render notifications
-
 export async function renderNotifications(notifications, offset) {
   try {
-    if (offset === 0)
+    
+    if (offset === 0) {
       browserNotificationsSelection.notificationList.innerHTML = '';
+    }
 
     notifications.forEach((notification) => {
       browserNotificationsSelection.notificationList.innerHTML +=
@@ -99,15 +109,61 @@ export async function renderNotifications(notifications, offset) {
 
     shipButtons.forEach((btn) => {
       btn.addEventListener('click', async (e) => {
-        const transactionId = e.target.id;
-        if (!transactionId) return;
+        const transactionId = e.target.dataset.id;
 
-        await api.patch(
-          `${config.BROWSER_NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
-        );
+        if (!transactionId) {
+          return;
+        }
 
-        e.target.innerText = 'Shipped';
-        btn.disabled = true;
+        try {
+          await api.patch(
+            `${config.BROWSER_NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
+          );
+
+          e.target.innerText = 'Shipped';
+          e.target.disabled = true;
+
+          const cancelBtn = btn.parentElement.querySelector('.cancel-btn');
+
+          if (cancelBtn) {
+            cancelBtn.disabled = true;
+          }
+        } catch (err) {
+          toastSection.innerHTML = displayToast.errorToast(err.message);
+          setTimeout(() => (toastSection.innerHTML = ''), 3000);
+        }
+      });
+    });
+
+    // cancel buttons
+    const cancelButtons = document.querySelectorAll('.cancel-btn');
+
+    cancelButtons.forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        const transactionId = e.target.dataset.id;
+
+        if (!transactionId) {
+          return;
+        }
+
+        try {
+          await api.patch(
+            `${config.BROWSER_NOTIFICATION_BASE_URL}/cancel-shipment/${transactionId}`
+          );
+
+          e.target.innerText = 'Cancelled';
+          e.target.disabled = true;
+
+          const shipBtn = btn.parentElement.querySelector('.ship-btn');
+
+          if (shipBtn) {
+            shipBtn.disabled = true;
+          }
+
+        } catch (err) {
+          toastSection.innerHTML = displayToast.errorToast(err.message);
+          setTimeout(() => (toastSection.innerHTML = ''), 3000);
+        }
       });
     });
   } catch (err) {
@@ -116,14 +172,16 @@ export async function renderNotifications(notifications, offset) {
   }
 }
 
-
 //  Mark all seen
-
 export async function markAllAsSeen() {
   try {
-    if (browserNotificationsSelection.notificationCount.innerHTML == 0) return;
+
+    if (browserNotificationsSelection.notificationCount.innerHTML == 0) {
+      return;
+    }
 
     await api.put(`${config.BROWSER_NOTIFICATION_BASE_URL}/mark-all-seen`);
+
     browserNotificationsSelection.notificationCount.style.display = 'none';
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
@@ -131,14 +189,12 @@ export async function markAllAsSeen() {
   }
 }
 
-
-//  Infinite Scroll Observer 
-
-
+//  Infinite Scroll Observer
 let isLoading = false;
 
 const callback = async (entries) => {
   for (const entry of entries) {
+    
     if (entry.isIntersecting && !isLoading) {
       isLoading = true;
 
@@ -163,6 +219,9 @@ const observer = new IntersectionObserver(callback, {
 });
 
 const sentinel = document.querySelector('#sentinel');
-if (sentinel) observer.observe(sentinel);
+
+if (sentinel) {
+  observer.observe(sentinel);
+}
 
 export { registerAndSubscribe };

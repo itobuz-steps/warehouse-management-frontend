@@ -53,6 +53,7 @@ export const populateWarehouseSelect = (
   element,
   defaultOption = false
 ) => {
+  
   if (!defaultOption) {
     element.innerHTML = '';
   }

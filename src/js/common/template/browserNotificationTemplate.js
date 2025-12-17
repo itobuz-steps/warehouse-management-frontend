@@ -1,28 +1,36 @@
 const createNotificationTemplate = (notification) => {
-  let unseenClass;
-
-  if (!notification.seen) {
-    unseenClass = 'bg-light';
-  } else {
-    unseenClass = '';
-  }
-
+  const unseenClass = !notification.seen ? 'bg-light' : '';
   const formattedDate = new Date(notification.createdAt).toLocaleString();
-  let shipButton = '';
+
+  let buttons = '';
   let shipmentDetails = '';
 
   if (notification.type === 'PENDING_SHIPMENT') {
-    if (!notification.isShipped) {
-      shipButton = `
-          <div class="mt-2">
-            <button 
-              class="btn btn-sm btn-primary ship-btn" 
-              style="background-color: #864a5b; border-color: #2d292aff;" id="${notification.transactionId}">
-              Ship
-            </button>
-          </div>`;
-    } else {
-      shipmentDetails = `Shipped By: ${notification.shippedBy}`;
+    if (!notification.isShipped && !notification.isCancelled) {
+      buttons = `
+        <div class="mt-2 d-flex gap-2">
+          <button 
+            class="btn btn-sm btn-primary ship-btn"
+            style="background-color: #864a5b; border-color: #2d292aff;"
+            data-id="${notification.transactionId}">
+            Ship
+          </button>
+
+          <button 
+            class="btn btn-sm btn-danger cancel-btn"
+            data-id="${notification.transactionId}">
+            Cancel
+          </button>
+        </div>
+      `;
+    }
+
+    if (notification.isShipped) {
+      shipmentDetails = `Shipped By: ${notification.reportedBy || notification.shippedBy}`;
+    }
+
+    if (notification.isCancelled) {
+      shipmentDetails = `Cancelled By: ${notification.reportedBy}`;
     }
   }
 
@@ -30,14 +38,12 @@ const createNotificationTemplate = (notification) => {
     <div class="notif-item border-bottom py-2 ${unseenClass}">
       <strong>${notification.title || 'Notification'}</strong>
       <p class="mb-0 small">${notification.message}</p>
-      <p class="mb-0 small">Transaction Id:${notification.transactionId}</p>
+      <p class="mb-0 small">Transaction Id: ${notification.transactionId}</p>
       <small class="text-muted">${formattedDate}</small>
-      ${shipButton}
+      ${buttons}
       <p class="mb-0 small">${shipmentDetails}</p>
     </div>
   `;
 };
-
-
 
 export default createNotificationTemplate;

@@ -67,7 +67,9 @@
             autocomplete="off"
             checked
           />
-          <label class="btn btn-type" for="All">ALL</label>
+          <label class="btn btn-type" for="All">
+            ALL <span class="count" id="count-all">0</span>
+          </label>
 
           <input
             type="radio"
@@ -76,7 +78,9 @@
             id="In"
             autocomplete="off"
           />
-          <label class="btn btn-type" for="In">IN</label>
+          <label class="btn btn-type" for="In">
+            IN <span class="count" id="count-in">0</span>
+          </label>
 
           <input
             type="radio"
@@ -85,7 +89,9 @@
             id="Out"
             autocomplete="off"
           />
-          <label class="btn btn-type" for="Out">OUT</label>
+          <label class="btn btn-type" for="Out">
+            OUT <span class="count" id="count-out">0</span>
+          </label>
 
           <input
             type="radio"
@@ -94,7 +100,9 @@
             id="Transfer"
             autocomplete="off"
           />
-          <label class="btn btn-type" for="Transfer">TRANSFER</label>
+          <label class="btn btn-type" for="Transfer">
+            TRANSFER <span class="count" id="count-transfer">0</span>
+          </label>
 
           <input
             type="radio"
@@ -103,9 +111,67 @@
             id="Adjust"
             autocomplete="off"
           />
-          <label class="btn btn-type" for="Adjust">ADJUSTMENT</label>
+          <label class="btn btn-type" for="Adjust">
+            ADJUSTMENT <span class="count" id="count-adjust">0</span>
+          </label>
         </div>
       </section>
+
+      <section
+        class="status-filter justify-content-center justify-content-lg-start align-content-center"
+      >
+        <div
+          class="btn-group type-filter"
+          role="group"
+          aria-label="Status radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="statusRadio"
+            id="statusAll"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-type" for="statusAll"
+            >ALL <span class="count" id="count-all-status">0</span></label
+          >
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="statusRadio"
+            id="PENDING"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="PENDING"
+            >PENDING <span class="count" id="count-pending">0</span></label
+          >
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="statusRadio"
+            id="SHIPPED"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="SHIPPED"
+            >SHIPPED <span class="count" id="count-shipped">0</span></label
+          >
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="statusRadio"
+            id="CANCELLED"
+            autocomplete="off"
+          />
+          <label class="btn btn-type" for="CANCELLED"
+            >CANCELLED <span class="count" id="count-cancelled">0</span></label
+          >
+        </div>
+      </section>
+
       <section
         class="date-filter d-flex flex-sm-row flex-column gap-md-5 gap-3 mt-3 justify-content-center justify-content-lg-start align-content-center"
       >
@@ -114,7 +180,9 @@
           <input type="date" id="startDate" class="date" class="form-control" />
         </div>
 
-        <div class="date-input d-flex gap-4 gap-sm-2 align-items-center m-auto m-sm-0">
+        <div
+          class="date-input d-flex gap-4 gap-sm-2 align-items-center m-auto m-sm-0"
+        >
           <label for="endDate">To:</label>
           <input type="date" id="endDate" class="date" class="form-control" />
         </div>
@@ -124,12 +192,15 @@
 
       <hr />
 
-      <section class="transaction-details">
+      <section class="transaction-details d-flex flex-column">
         <div
           class="accordion accordion-flush custom-accordion transaction-reports"
           id="accordionFlushExample"
         >
           <!--All Transaction Items-->
+        </div>
+        <div class="d-flex justify-content-center">
+          <button id="loadMoreBtn" class="btn filter-btn">Load More</button>
         </div>
       </section>
     </main>

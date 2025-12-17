@@ -1,5 +1,5 @@
 import api from '../../api/interceptor.js';
-import TransactionDetailsTemplate from '../../common/template/transactionDetailsTemplate.js';
+import TransactionDetailsTemplate from '../../common/template/TransactionDetailsTemplate.js';
 import {
   getCurrentUser,
   getUserWarehouses,
@@ -8,6 +8,9 @@ import config from '../../config/config.js';
 import reportSelection from './reportsSelectors.js';
 
 let currentWarehouseId = 'ALL'; // track of the current warehouse ID
+let currentPage = 1; // current page
+const pageSize = 10; // items per page
+let totalPages = 1; // total pages from backend
 
 async function transactionDetailsLoad() {
   try {
@@ -45,6 +48,7 @@ function attachEventListeners(user, warehouses, transactionTemplate) {
   attachWarehouseFilter(user, warehouses, transactionTemplate);
   attachDateFilter(user, warehouses, transactionTemplate);
   attachRadioFilter(user, warehouses, transactionTemplate);
+  attachStatusFilter(user, warehouses, transactionTemplate);
 }
 
 // Attach event listener for warehouse filter
@@ -101,7 +105,24 @@ function attachRadioFilter(user, warehouses, transactionTemplate) {
   document.querySelectorAll('input[name="btnradio"]').forEach((radio) => {
     radio.addEventListener('change', () => {
       resetDateFilter();
+      toggleStatusFilter();
+      loadTransactions(
+        currentWarehouseId,
+        user,
+        warehouses,
+        transactionTemplate
+      );
+    });
+  });
 
+  toggleStatusFilter();
+}
+
+// shipment status filter
+function attachStatusFilter(user, warehouses, transactionTemplate) {
+  document.querySelectorAll('input[name="statusRadio"]').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      resetDateFilter();
       loadTransactions(
         currentWarehouseId,
         user,
@@ -112,16 +133,32 @@ function attachRadioFilter(user, warehouses, transactionTemplate) {
   });
 }
 
+function toggleStatusFilter() {
+  const selectedType = document.querySelector(
+    'input[name="btnradio"]:checked'
+  ).id;
+  const statusFilterSection = document.querySelector('.status-filter');
+
+  if (selectedType === 'Out') {
+    statusFilterSection.style.display = 'flex'; // show
+  } else {
+    statusFilterSection.style.display = 'none'; // hide
+
+    document.getElementById('statusAll').checked = true;
+  }
+}
+
 // Load transactions based on filters
 async function loadTransactions(
   warehouseId,
   user,
   warehouses,
-  transactionTemplate
+  transactionTemplate,
+  append = false // if true, append instead of replace
 ) {
   try {
     let result;
-    const params = buildQueryParams();
+    const params = buildQueryParams(currentPage);
 
     if (warehouseId === 'ALL') {
       result = await api.get(`${config.TRANSACTION_BASE_URL}/${params}`);
@@ -130,14 +167,70 @@ async function loadTransactions(
         `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}${params}`
       );
     }
-    
-    renderTransactionsList(result.data.data, transactionTemplate);
+
+    const { transactions, counts, pagination } = result.data.data;
+
+    if (append) {
+      renderTransactionsListAppend(transactions, transactionTemplate);
+    } else {
+      renderTransactionsList(transactions, transactionTemplate);
+    }
+
+    renderCounts(counts);
+
+    totalPages = Math.ceil(pagination.total / pagination.limit);
+    toggleLoadMoreButton();
   } catch (err) {
     console.error('Error loading transactions:', err);
   }
 }
 
-function buildQueryParams() {
+function toggleLoadMoreButton() {
+  const btn = document.getElementById('loadMoreBtn');
+  btn.style.display = currentPage < totalPages ? 'block' : 'none';
+}
+
+document.getElementById('loadMoreBtn').addEventListener('click', () => {
+  currentPage++;
+  loadTransactions(
+    currentWarehouseId,
+    null,
+    null,
+    new TransactionDetailsTemplate(),
+    true
+  );
+});
+
+function renderTransactionsListAppend(transactions, transactionTemplate) {
+
+  if (!transactions || transactions.length === 0) {
+    return;
+  }
+
+  transactions.forEach((transaction) => {
+    let block;
+
+    switch (transaction.type) {
+      case 'IN':
+        block = transactionTemplate.stockInDetails(transaction);
+        break;
+      case 'OUT':
+        block = transactionTemplate.stockOutDetails(transaction);
+        break;
+      case 'ADJUSTMENT':
+        block = transactionTemplate.stockAdjustDetails(transaction);
+        break;
+      case 'TRANSFER':
+        block = transactionTemplate.stockTransferDetails(transaction);
+        break;
+    }
+    reportSelection.reportSection.innerHTML += block;
+  });
+
+  attachInvoiceListeners();
+}
+
+function buildQueryParams(page = 1) {
   const params = new URLSearchParams();
 
   const startDate = reportSelection.startDate.value;
@@ -155,6 +248,7 @@ function buildQueryParams() {
     'input[name="btnradio"]:checked'
   );
 
+  let type;
   if (selectedRadio) {
     const filterMap = {
       All: 'ALL',
@@ -163,32 +257,82 @@ function buildQueryParams() {
       Adjust: 'ADJUSTMENT',
       Transfer: 'TRANSFER',
     };
-    const type = filterMap[selectedRadio.id];
+    type = filterMap[selectedRadio.id];
 
     if (type && type !== 'ALL') {
       params.append('type', type);
     }
   }
 
+  const selectedStatus = document.querySelector(
+    'input[name="statusRadio"]:checked'
+  );
+
+  if (type === 'OUT' && selectedStatus && selectedStatus.id !== 'statusAll') {
+    params.append('status', selectedStatus.id);
+  }
+
+  params.append('page', page);
+  params.append('limit', pageSize);
+
   return params.toString() ? `?${params.toString()}` : '';
 }
 
-// Filter transactions based on user role and warehouses
-// function filterTransactions(allTransactions, user, warehouses) {
-//   if (user.role === 'manager') {
-//     return allTransactions.filter((transaction) => {
-//       return warehouses.some(
-//         (warehouse) =>
-//           (transaction.sourceWarehouse &&
-//             transaction.sourceWarehouse._id === warehouse._id) ||
-//           (transaction.destinationWarehouse &&
-//             transaction.destinationWarehouse._id === warehouse._id)
-//       );
-//     });
-//   } else {
-//     return allTransactions;
-//   }
-// }
+function renderCounts(counts) {
+  document.getElementById('count-all').textContent = 0;
+  document.getElementById('count-in').textContent = 0;
+  document.getElementById('count-out').textContent = 0;
+  document.getElementById('count-transfer').textContent = 0;
+  document.getElementById('count-adjust').textContent = 0;
+  document.getElementById('count-all-status').textContent = 0;
+  document.getElementById('count-pending').textContent = 0;
+  document.getElementById('count-shipped').textContent = 0;
+  document.getElementById('count-cancelled').textContent = 0;
+
+  counts.types.forEach((item) => {
+    switch (item._id) {
+      case 'IN':
+        document.getElementById('count-in').textContent = item.count;
+        break;
+      case 'OUT':
+        document.getElementById('count-out').textContent = item.count;
+        break;
+      case 'TRANSFER':
+        document.getElementById('count-transfer').textContent = item.count;
+        break;
+      case 'ADJUSTMENT':
+        document.getElementById('count-adjust').textContent = item.count;
+        break;
+      default:
+        break;
+    }
+  });
+
+  // Calculate total for ALL types
+  const totalTypes = counts.types.reduce((acc, curr) => acc + curr.count, 0);
+  document.getElementById('count-all').textContent = totalTypes;
+
+  // Update status counts (only for OUT type)
+  counts.status.forEach((item) => {
+    switch (item._id) {
+      case 'PENDING':
+        document.getElementById('count-pending').textContent = item.count;
+        break;
+      case 'SHIPPED':
+        document.getElementById('count-shipped').textContent = item.count;
+        break;
+      case 'CANCELLED':
+        document.getElementById('count-cancelled').textContent = item.count;
+        break;
+      default:
+        break;
+    }
+  });
+
+  // Total status for ALL
+  const totalStatus = counts.status.reduce((acc, curr) => acc + curr.count, 0);
+  document.getElementById('count-all-status').textContent = totalStatus;
+}
 
 // Render list of transactions
 function renderTransactionsList(transactions, transactionTemplate) {
