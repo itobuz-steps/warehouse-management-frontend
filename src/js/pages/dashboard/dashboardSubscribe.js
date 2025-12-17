@@ -78,11 +78,11 @@ async function showTopProductsSubscribe(warehouseId) {
             data: quantities,
             label: 'Quantity',
             backgroundColor: [
-              '#bc8f8fd0',
-              '#ffd166c2',
-              '#2c3e50c0',
-              '#3d2817ad',
-              '#2d5a4fb9',
+              '#00A6A6', 
+              '#0077B6', 
+              '#FF6B6B', 
+              '#FFD166', 
+              '#06D6A0',
             ],
           },
         ],
@@ -150,16 +150,18 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
           label: 'Quantity',
           data: quantities,
           backgroundColor: [
-            '#8e5b68',
-            '#92b57aff',
-            '#ffd166c2',
-            '#4a5f6a',
-            '#8a62b0bf',
-            '#4d5d53',
-            '#6d4c41',
-            '#673147',
-            '#722f37',
-            '#3d2817ad',
+            '#66c59dff',
+            '#376dc0ff',
+            '#009494',
+            '#536a6aff',
+            '#0077B6',
+            '#48CAE4',
+            '#FFD166',
+            '#FF6B6B',
+            '#06D6A0',
+            '#8338EC',
+            '#FF9F1C',
+            '#F72585',
           ],
           hoverOffset: 4,
         },
@@ -195,16 +197,16 @@ const showProductTransactionSubscribe = async (warehouseId) => {
             data: IN,
             borderWidth: 2,
             fill: false,
-            borderColor: '#0077b6',
-            backgroundColor: '#0077b6',
+            borderColor: '#00A6A6',
+            backgroundColor: '#00A6A6',
           },
           {
             label: 'Stock Out',
             data: OUT,
             borderWidth: 2,
             fill: false,
-            borderColor: '#c1121f',
-            backgroundColor: '#c1121f',
+            borderColor: '#FF6B6B',
+            backgroundColor: '#FF6B6B',
           },
         ],
       },
@@ -352,8 +354,6 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
     //fetching user details.
     const user = await getCurrentUser();
     const warehouses = await getUserWarehouses();
-
-    dashboardSelection.username.innerText = user.name;
 
     if (user.role === 'manager') {
       dashboardSelection.addManagerButton.remove();

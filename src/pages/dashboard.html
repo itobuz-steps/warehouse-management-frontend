@@ -77,26 +77,38 @@
 
     <!-- Main Dashboard -->
     <main class="main-content pt-3">
-      <div class="dashboard-header mb-1">
-        <div>
-          <h1>Hello <span class="user-role">Admin</span>, Welcome Back</h1>
-          <p>Here's an overview of your warehouse performance</p>
+      <!-- DASHBOARD TOP BAR -->
+      <div class="dashboard-topbar">
+        <!-- Left -->
+        <div class="topbar-left">
+          <h1 class="page-title">Dashboard</h1>
         </div>
-        <div class="header-actions">
+
+        <!-- Right -->
+        <div class="topbar-right">
+          <!-- Warehouse Select -->
+          <div class="warehouse-select-wrapper">
+            <select id="warehouseSelect" class="form-control warehouse-select">
+              <!-- dynamic -->
+            </select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
+
+          <!-- Add Manager -->
           <button
             class="add-manager-btn"
             data-bs-toggle="modal"
             data-bs-target="#addManagerModal"
           >
-            Add Manager
+            + Manager
           </button>
 
+          <!-- Notifications -->
           <div
             class="notif-bell position-relative"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNotifications"
             aria-controls="offcanvasNotifications"
-            style="cursor: pointer"
           >
             <i class="fa-regular fa-bell"></i>
             <span
@@ -147,13 +159,6 @@
           <!-- Intersection Observer Target -->
           <div id="sentinel" style="height: 1px"></div>
         </div>
-      </div>
-
-      <div class="warehouse-select-wrapper w-25 my-3">
-        <select id="warehouseSelect" class="form-control warehouse-select">
-          <!-- Options will be added dynamically -->
-        </select>
-        <i class="select-arrow fa-solid fa-angle-down"></i>
       </div>
 
       <section class="overview-grid my-3">
@@ -217,19 +222,51 @@
         </div>
       </section>
 
-      <section class="stock-grid">
-        <div class="table-card">
+      <!-- STOCK & ACTIVITY SECTION -->
+      <section class="stock-activity-grid">
+        <!-- Low Quantity Stock -->
+        <div class="table-card low-stock-card">
           <h5>LOW QUANTITY STOCK</h5>
-          <table class="table table-hover align-middle" id="lowStockTable">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Remaining</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="lowStockTableBody"></tbody>
-          </table>
+
+          <div class="table-scroll-wrapper">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Remaining</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="lowStockTableBody">
+                <!-- dynamic rows -->
+                <!--
+          <tr>
+            <td>Wireless Earbuds</td>
+            <td>5 units</td>
+            <td><span class="badge">Low</span></td>
+          </tr>
+          -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity-card">
+          <h5>RECENT ACTIVITY</h5>
+
+          <div class="activity-list" id="recentActivityList">
+            <!-- Dynamic activity items -->
+            <!--
+      <div class="activity-item">
+        <span class="dot success"></span>
+        <div>
+          <p><strong>Order #876</strong> received at Warehouse A</p>
+          <small>10:22 AM · Today</small>
+        </div>
+      </div>
+      -->
+          </div>
         </div>
       </section>
     </main>
