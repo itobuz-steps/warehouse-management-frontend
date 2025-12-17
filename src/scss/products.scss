@@ -17,7 +17,6 @@ $color-border: $color-gray-300;
   padding-bottom: 110px;
 
   @media (min-width: 992px) {
-    margin-left: 280px; // match sidebar width
     padding: 25px 30px;
     padding-bottom: 90px;
   }
@@ -120,10 +119,10 @@ $color-border: $color-gray-300;
 
 .product-card {
   background: $body-bg;
-   border: 1px solid $color-border;
+  border: 1px solid $color-border;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow:  $shadow-md;
+  box-shadow: $shadow-md;
   transition: $transition;
   display: flex;
   flex-direction: column;

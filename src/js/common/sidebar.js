@@ -22,7 +22,7 @@ async function showSidebar() {
     if (manageWarehouse && user.role !== 'admin') {
       manageWarehouse.classList.add('d-none');
     }
-    // Hide Archived Products link for non-admin users 
+    // Hide Archived Products link for non-admin users
     const archivedLi = document.getElementById('archivedProducts');
     if (archivedLi && user.role !== 'admin') {
       archivedLi.classList.add('d-none');
@@ -62,7 +62,8 @@ function initializeSidebar() {
   }
 
   // Toggle sidebar
-  toggleButton.addEventListener('click', () => {
+  toggleButton.addEventListener('click', (e) => {
+    e.stopPropagation();
     sidebar.classList.toggle('active');
     document.body.classList.toggle('sidebar-open');
   });

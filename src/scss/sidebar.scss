@@ -11,12 +11,16 @@
   border-right: 1px solid $color-gray-200;
   box-shadow: 4px 0 15px rgba($color-gray-900, 0.05);
   padding: $spacing-6 0;
-  z-index: $z-index-fixed;
-  transition:
-    transform 0.3s ease,
-    width 0.3s ease;
+  z-index: 1030;
+  transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
+  transform: translateX(-100%);
+
+  &.active {
+    transform: translateX(0);
+    box-shadow: 8px 0 25px rgba($color-gray-900, 0.1);
+  }
 
   .sidebar-brand {
     padding: 0 $spacing-6 $spacing-6;
@@ -78,7 +82,6 @@
 
         &.active {
           border-left: 5px solid $color-primary;
-          // color: $color-white;
           font-weight: $font-weight-semibold;
           box-shadow: 0 4px 12px rgba($color-primary, 0.2);
         }
@@ -116,78 +119,47 @@
   }
 }
 
-// Default: mobile / small screens
+// Pages have margins so they're not under the toggle button
 .main-content {
-  margin-left: 0;
   padding: $spacing-6;
+  padding-top: $spacing-10;
   min-height: 100vh;
   background: $body-bg;
   width: 100%;
+  margin-left: 0;
   transition: margin-left 0.3s ease;
 }
 
-// Show sidebar and give space on larger screens
-@media (min-width: $breakpoint-lg) {
-  .main-content {
-    margin-left: 280px;
-  }
-}
-
-@media (max-width: $breakpoint-lg) {
-  .sidebar {
-    transform: translateX(-100%);
-
-    &.active {
-      transform: translateX(0);
-      box-shadow: 8px 0 25px rgba($color-gray-900, 0.1);
-    }
-  }
-}
-
-@media (min-width: $breakpoint-lg) and (max-width: $breakpoint-2xl) {
-  .sidebar-toggle {
-    display: none;
-  }
-}
-
-// Toggle button visible on small screens
+// Toggle button - always visible
 .sidebar-toggle {
   position: fixed;
   top: 16px;
-  left: 4px;
-  z-index: 1;
+  left: 16px;
+  z-index: 1040;
   background: $color-white;
   border: 1px solid $color-gray-200;
   border-radius: 8px;
   padding: 8px 10px;
+  display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 10px rgba($color-gray-900, 0.06);
   cursor: pointer;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: all 0.3s ease;
 
   i {
     color: $text-secondary;
     font-size: 18px;
   }
-}
 
-// Hide toggle button when sidebar is open (mobile/tablet only)
-@media (max-width: $breakpoint-lg) {
-  body.sidebar-open {
-    .sidebar-toggle {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+  &:hover {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: $color-white;
+    transform: scale(1.05);
+
+    i {
+      color: $color-white;
     }
-  }
-}
-
-// Hide toggle button on large screens (sidebar is always visible)
-@media (min-width: $breakpoint-lg) {
-  .sidebar-toggle {
-    display: none;
   }
 }
