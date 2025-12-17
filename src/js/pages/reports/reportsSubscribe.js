@@ -1,5 +1,5 @@
 import api from '../../api/interceptor.js';
-import TransactionDetailsTemplate from '../../common/template/transactionDetailsTemplate.js';
+import TransactionDetailsTemplate from '../../common/template/TransactionDetailsTemplate.js';
 import {
   getCurrentUser,
   getUserWarehouses,
@@ -136,25 +136,8 @@ async function loadTransactions(
   transactionTemplate
 ) {
   try {
-    //Fetch ALL types for counts
-    const countParams = buildQueryParamsWithoutType();
-    let countResult;
-
-    if (warehouseId === 'ALL') {
-      countResult = await api.get(
-        `${config.TRANSACTION_BASE_URL}/${countParams}`
-      );
-    } else {
-      countResult = await api.get(
-        `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}${countParams}`
-      );
-    }
-
-    updateTransactionCounts(countResult.data.data);
-
-    //Fetch filtered transactions for rendering
-    const params = buildQueryParams();
     let result;
+    const params = buildQueryParams();
 
     if (warehouseId === 'ALL') {
       result = await api.get(`${config.TRANSACTION_BASE_URL}/${params}`);
@@ -213,70 +196,6 @@ function buildQueryParams() {
 
   return params.toString() ? `?${params.toString()}` : '';
 }
-
-function buildQueryParamsWithoutType() {
-  const params = new URLSearchParams();
-
-  const startDate = reportSelection.startDate.value;
-  const endDate = reportSelection.endDate.value;
-
-  if (startDate) {
-    params.append('startDate', startDate);
-  }
-
-  if (endDate) {
-    params.append('endDate', endDate);
-  }
-
-  const selectedStatus = document.querySelector(
-    'input[name="statusRadio"]:checked'
-  );
-
-  if (selectedStatus && selectedStatus.id !== 'statusAll') {
-    params.append('status', selectedStatus.id);
-  }
-
-  return params.toString() ? `?${params.toString()}` : '';
-}
-
-function updateTransactionCounts(transactions) {
-  const counts = {
-    ALL: transactions.length,
-    IN: 0,
-    OUT: 0,
-    TRANSFER: 0,
-    ADJUSTMENT: 0,
-  };
-
-  transactions.forEach((transaction) => {
-    if (counts[transaction.type] !== undefined) {
-      counts[transaction.type]++;
-    }
-  });
-
-  document.getElementById('count-all').textContent = `${counts.ALL}`;
-  document.getElementById('count-in').textContent = `${counts.IN}`;
-  document.getElementById('count-out').textContent = `${counts.OUT}`;
-  document.getElementById('count-transfer').textContent = `${counts.TRANSFER}`;
-  document.getElementById('count-adjust').textContent = `${counts.ADJUSTMENT}`;
-}
-
-// Filter transactions based on user role and warehouses
-// function filterTransactions(allTransactions, user, warehouses) {
-//   if (user.role === 'manager') {
-//     return allTransactions.filter((transaction) => {
-//       return warehouses.some(
-//         (warehouse) =>
-//           (transaction.sourceWarehouse &&
-//             transaction.sourceWarehouse._id === warehouse._id) ||
-//           (transaction.destinationWarehouse &&
-//             transaction.destinationWarehouse._id === warehouse._id)
-//       );
-//     });
-//   } else {
-//     return allTransactions;
-//   }
-// }
 
 // Render list of transactions
 function renderTransactionsList(transactions, transactionTemplate) {
