@@ -2,6 +2,7 @@
 @import './common/colors';
 @import './common/variables';
 @import './common/mixins';
+@import './common/root';
 
 :root {
   --primary-color: #{$color-primary};

@@ -5,36 +5,6 @@
 
 $color-border: $color-gray-700;
 
-body {
-  background: $body-bg;
-  color: $text-primary;
-  font-family: $font-family-base;
-}
-
-.toast {
-  position: fixed;
-  top: 50px;
-  right: 20px;
-  color: #eee;
-  width: 300px;
-  font-weight: 700;
-  z-index: 100000;
-  animation: toast 500ms forwards;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-@keyframes toast {
-  from {
-    opacity: 0;
-    transform: translateX(120%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 .main-content {
   margin-left: 250px;
   padding: 40px;

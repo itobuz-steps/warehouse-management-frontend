@@ -2,30 +2,7 @@
 @import './common/variables';
 @import './common/mixins';
 @import './common/animations';
-
-.toast {
-  position: fixed;
-  top: 50px;
-  right: 20px;
-  color: $color-white;
-  width: 300px;
-  font-weight: 700;
-  z-index: 100000;
-  animation: toast 500ms forwards;
-}
-
-@keyframes toast {
-  from {
-    opacity: 0;
-    transform: translateX(120%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
+@import './common/root';
 
 .verified {
   color: $color-info;

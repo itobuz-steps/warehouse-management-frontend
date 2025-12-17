@@ -2,42 +2,11 @@
 @import './common/colors';
 @import './common/variables';
 @import './common/animations';
-
-// Font stack
-$font-stack:
-  -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
-  'Helvetica Neue', 'Segoe UI', Roboto, Arial, sans-serif;
-
-.toast {
-  position: fixed;
-  top: 50px;
-  right: 20px;
-  color: #eee;
-  width: 300px;
-  font-weight: 600;
-  z-index: 100000;
-  animation: toast 500ms forwards;
-  border-radius: $radius-md;
-  backdrop-filter: blur(20px);
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+@import './common/root';
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  font-family: $font-stack;
-  background: $body-bg;
-  min-height: 100vh;
-  color: $text-primary;
-  font-weight: 400;
-  letter-spacing: -0.01em;
 }
 
 .sidebar-container {
