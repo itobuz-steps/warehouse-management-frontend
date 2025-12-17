@@ -8,6 +8,9 @@ import config from '../../config/config.js';
 import reportSelection from './reportsSelectors.js';
 
 let currentWarehouseId = 'ALL'; // track of the current warehouse ID
+let currentPage = 1; // current page
+const pageSize = 10; // items per page
+let totalPages = 1; // total pages from backend
 
 async function transactionDetailsLoad() {
   try {
@@ -150,11 +153,12 @@ async function loadTransactions(
   warehouseId,
   user,
   warehouses,
-  transactionTemplate
+  transactionTemplate,
+  append = false // if true, append instead of replace
 ) {
   try {
     let result;
-    const params = buildQueryParams();
+    const params = buildQueryParams(currentPage);
 
     if (warehouseId === 'ALL') {
       result = await api.get(`${config.TRANSACTION_BASE_URL}/${params}`);
@@ -164,14 +168,69 @@ async function loadTransactions(
       );
     }
 
-    renderTransactionsList(result.data.data, transactionTemplate);
-    renderCounts(result.data.counts);
+    const { transactions, counts, pagination } = result.data.data;
+
+    if (append) {
+      renderTransactionsListAppend(transactions, transactionTemplate);
+    } else {
+      renderTransactionsList(transactions, transactionTemplate);
+    }
+
+    renderCounts(counts);
+
+    totalPages = Math.ceil(pagination.total / pagination.limit);
+    toggleLoadMoreButton();
   } catch (err) {
     console.error('Error loading transactions:', err);
   }
 }
 
-function buildQueryParams() {
+function toggleLoadMoreButton() {
+  const btn = document.getElementById('loadMoreBtn');
+  btn.style.display = currentPage < totalPages ? 'block' : 'none';
+}
+
+document.getElementById('loadMoreBtn').addEventListener('click', () => {
+  currentPage++;
+  loadTransactions(
+    currentWarehouseId,
+    null,
+    null,
+    new TransactionDetailsTemplate(),
+    true
+  );
+});
+
+function renderTransactionsListAppend(transactions, transactionTemplate) {
+
+  if (!transactions || transactions.length === 0) {
+    return;
+  }
+
+  transactions.forEach((transaction) => {
+    let block;
+
+    switch (transaction.type) {
+      case 'IN':
+        block = transactionTemplate.stockInDetails(transaction);
+        break;
+      case 'OUT':
+        block = transactionTemplate.stockOutDetails(transaction);
+        break;
+      case 'ADJUSTMENT':
+        block = transactionTemplate.stockAdjustDetails(transaction);
+        break;
+      case 'TRANSFER':
+        block = transactionTemplate.stockTransferDetails(transaction);
+        break;
+    }
+    reportSelection.reportSection.innerHTML += block;
+  });
+
+  attachInvoiceListeners();
+}
+
+function buildQueryParams(page = 1) {
   const params = new URLSearchParams();
 
   const startDate = reportSelection.startDate.value;
@@ -208,15 +267,18 @@ function buildQueryParams() {
   const selectedStatus = document.querySelector(
     'input[name="statusRadio"]:checked'
   );
+
   if (type === 'OUT' && selectedStatus && selectedStatus.id !== 'statusAll') {
     params.append('status', selectedStatus.id);
   }
+
+  params.append('page', page);
+  params.append('limit', pageSize);
 
   return params.toString() ? `?${params.toString()}` : '';
 }
 
 function renderCounts(counts) {
-  // Reset all counts to 0 first
   document.getElementById('count-all').textContent = 0;
   document.getElementById('count-in').textContent = 0;
   document.getElementById('count-out').textContent = 0;
@@ -227,7 +289,6 @@ function renderCounts(counts) {
   document.getElementById('count-shipped').textContent = 0;
   document.getElementById('count-cancelled').textContent = 0;
 
-  // Update type counts
   counts.types.forEach((item) => {
     switch (item._id) {
       case 'IN':
