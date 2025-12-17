@@ -205,11 +205,6 @@ $color-border: $color-gray-300;
   padding: 0.75rem 0;
   z-index: 10;
   box-shadow: 0 -2px 5px $color-border;
-
-  @media (min-width: 992px) {
-    left: 280px; // match sidebar width
-    width: calc(100% - 280px);
-  }
 }
 
 .page-btn {

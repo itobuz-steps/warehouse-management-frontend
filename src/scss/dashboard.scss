@@ -129,57 +129,80 @@
   letter-spacing: -0.01em;
 }
 
-.dashboard-header {
-  @include dashboard-flex(space-between, center);
-  margin-bottom: 24px;
-  @include dashboard-glass-card($radius-lg, 20px 24px);
+/* ================================
+   DASHBOARD TOP BAR (COMPACT)
+================================ */
 
-  .welcome-text {
-    h1 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: $text-primary;
-      margin-bottom: 4px;
-      letter-spacing: -0.02em;
-    }
+.dashboard-topbar {
+  @include dashboard-glass-card($radius-lg, 16px 20px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
 
-    p {
-      color: $text-secondary;
-      font-size: 0.9rem;
-      font-weight: 400;
-      letter-spacing: -0.01em;
-    }
+/* LEFT */
+.topbar-left {
+  display: flex;
+  align-items: center;
+}
 
-    .user-role {
-      color: $color-primary;
-      font-weight: 600;
-    }
+.page-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+/* RIGHT */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Warehouse Select (reuse your styles) */
+.dashboard-topbar .warehouse-select-wrapper {
+  width: 200px;
+}
+
+/* Buttons */
+.dashboard-topbar .add-manager-btn {
+  @include dashboard-button($color-primary, $color-primary-dark);
+  font-size: 0.85rem;
+  padding: 8px 14px;
+}
+
+/* Notification Bell */
+.dashboard-topbar .notif-bell {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+}
+
+/* ================================
+   MOBILE FIRST
+================================ */
+
+@media (max-width: 768px) {
+  .dashboard-topbar {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .header-actions {
-    @include dashboard-flex(flex-start, center, row, 12px);
+  .topbar-right {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 
-    .add-manager-btn,
-    .add-warehouse-btn {
-      @include dashboard-button($color-primary, $color-primary-dark);
-    }
+  .dashboard-topbar .warehouse-select-wrapper {
+    width: 100%;
+  }
 
-    .user-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(
-        135deg,
-        rgba($color-primary, 0.9),
-        rgba($color-primary-dark, 0.9)
-      );
-      backdrop-filter: blur(10px);
-      @include dashboard-flex(center, center);
-      color: $color-white;
-      font-weight: 600;
-      font-size: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+  .dashboard-topbar .add-manager-btn {
+    flex: 1;
   }
 }
 
@@ -305,70 +328,196 @@
   padding: 16px;
 }
 
-/* TABLES */
-.stock-grid {
-  @include dashboard-grid(auto-fit, 280px, 16px);
+/* ================================
+   STOCK + RECENT ACTIVITY LAYOUT
+================================ */
+
+.stock-activity-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-.table-card {
+/* ================================
+   LOW STOCK TABLE
+================================ */
+
+.low-stock-card {
   @include dashboard-glass-card($radius-lg, 20px);
-  overflow-x: auto; // Enable horizontal scroll
 
   h5 {
     font-weight: 700;
-    margin-bottom: 16px;
-    color: $text-primary;
+    margin-bottom: 12px;
     font-size: 1.05rem;
+    color: $text-primary;
     letter-spacing: -0.02em;
   }
+}
 
-  table {
-    width: 100%;
-    min-width: 400px; // Prevent table from getting too cramped
+.table-scroll-wrapper {
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+}
 
-    thead {
-      background: rgba(249, 250, 251, 0.5);
+/* Scrollbar styling */
+.table-scroll-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
 
-      th {
-        color: $text-primary;
-        font-weight: 700;
-        padding: 12px 10px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 0.05em;
-        white-space: nowrap; // Prevent header wrapping
-      }
-    }
+.table-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: rgba($color-primary, 0.4);
+  border-radius: 8px;
+}
 
-    tbody {
-      tr {
-        transition: $transition-fast;
+.table-scroll-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-        &:hover {
-          background-color: rgba(250, 250, 250, 0.5);
-        }
+.low-stock-card table {
+  width: 100%;
+  min-width: 380px;
 
-        td {
-          padding: 12px 10px;
-          color: $text-primary;
-          font-weight: 500;
-          font-size: 0.9rem;
-          letter-spacing: -0.01em;
-          white-space: nowrap; // Prevent cell wrapping
-        }
-      }
-    }
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: rgba(249, 250, 251, 0.95);
 
-    .badge {
-      padding: 5px 12px;
-      border-radius: 8px;
-      font-weight: 600;
+    th {
       font-size: 0.75rem;
-      letter-spacing: 0.02em;
-      background-color: $color-primary;
-      backdrop-filter: blur(10px);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 10px;
+      font-weight: 700;
+      color: $text-primary;
+      white-space: nowrap;
     }
+  }
+
+  tbody tr {
+    transition: $transition-fast;
+
+    &:hover {
+      background: rgba(250, 250, 250, 0.6);
+    }
+
+    td {
+      padding: 12px 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+      color: $text-primary;
+    }
+  }
+
+  .badge {
+    background: rgba($color-primary, 0.9);
+    color: $color-white;
+    font-size: 0.7rem;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+}
+
+/* ================================
+   RECENT ACTIVITY
+================================ */
+
+.recent-activity-card {
+  @include dashboard-glass-card($radius-lg, 20px);
+
+  h5 {
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+    color: $text-primary;
+    letter-spacing: -0.02em;
+  }
+}
+
+.activity-list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* Scrollbar */
+.activity-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.activity-list::-webkit-scrollbar-thumb {
+  background: rgba($color-primary, 0.4);
+  border-radius: 8px;
+}
+
+.activity-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: $radius-sm;
+  transition: $transition-fast;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateX(4px);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $text-primary;
+  }
+
+  small {
+    font-size: 0.75rem;
+    color: $text-secondary;
+  }
+}
+
+/* Activity dot */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 6px;
+
+  &.success {
+    background: $color-success;
+  }
+
+  &.warning {
+    background: $color-warning;
+  }
+
+  &.danger {
+    background: $color-primary-dark;
+  }
+}
+
+/* ================================
+   LARGE SCREENS – SIDE BY SIDE
+================================ */
+
+@media (min-width: 1200px) {
+  .stock-activity-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ================================
+   MOBILE POLISH
+================================ */
+
+@media (max-width: 480px) {
+  .table-scroll-wrapper,
+  .activity-list {
+    max-height: 260px;
   }
 }
 
@@ -517,12 +666,6 @@
   .main-content {
     margin-left: 0;
     padding: 16px;
-  }
-
-  .dashboard-header {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
   }
 
   .stats-grid,

@@ -1,5 +1,4 @@
 const dashboardSelection = {
-  dashboardHeader: document.querySelector('.header-actions'),
   addManagerButton: document.querySelector('.add-manager-btn'),
   addManagerForm: document.querySelector('.add-manager-form'),
   addWarehouseForm: document.querySelector('.add-warehouse-form'),
@@ -18,7 +17,6 @@ const dashboardSelection = {
   saleQuantity: document.querySelector('#saleQuantity'),
   lowStockTable: document.querySelector('#lowStockTableBody'),
   shipmentInput: document.querySelector('#shipmentInput'),
-  username: document.querySelector('.user-role'),
   tableCard: document.querySelector('.table-card'),
 
   topFiveExport: document.querySelector('#exportTop5'),
