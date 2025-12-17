@@ -165,6 +165,7 @@ async function loadTransactions(
     }
 
     renderTransactionsList(result.data.data, transactionTemplate);
+    renderCounts(result.data.counts);
   } catch (err) {
     console.error('Error loading transactions:', err);
   }
@@ -212,6 +213,64 @@ function buildQueryParams() {
   }
 
   return params.toString() ? `?${params.toString()}` : '';
+}
+
+function renderCounts(counts) {
+  // Reset all counts to 0 first
+  document.getElementById('count-all').textContent = 0;
+  document.getElementById('count-in').textContent = 0;
+  document.getElementById('count-out').textContent = 0;
+  document.getElementById('count-transfer').textContent = 0;
+  document.getElementById('count-adjust').textContent = 0;
+  document.getElementById('count-all-status').textContent = 0;
+  document.getElementById('count-pending').textContent = 0;
+  document.getElementById('count-shipped').textContent = 0;
+  document.getElementById('count-cancelled').textContent = 0;
+
+  // Update type counts
+  counts.types.forEach((item) => {
+    switch (item._id) {
+      case 'IN':
+        document.getElementById('count-in').textContent = item.count;
+        break;
+      case 'OUT':
+        document.getElementById('count-out').textContent = item.count;
+        break;
+      case 'TRANSFER':
+        document.getElementById('count-transfer').textContent = item.count;
+        break;
+      case 'ADJUSTMENT':
+        document.getElementById('count-adjust').textContent = item.count;
+        break;
+      default:
+        break;
+    }
+  });
+
+  // Calculate total for ALL types
+  const totalTypes = counts.types.reduce((acc, curr) => acc + curr.count, 0);
+  document.getElementById('count-all').textContent = totalTypes;
+
+  // Update status counts (only for OUT type)
+  counts.status.forEach((item) => {
+    switch (item._id) {
+      case 'PENDING':
+        document.getElementById('count-pending').textContent = item.count;
+        break;
+      case 'SHIPPED':
+        document.getElementById('count-shipped').textContent = item.count;
+        break;
+      case 'CANCELLED':
+        document.getElementById('count-cancelled').textContent = item.count;
+        break;
+      default:
+        break;
+    }
+  });
+
+  // Total status for ALL
+  const totalStatus = counts.status.reduce((acc, curr) => acc + curr.count, 0);
+  document.getElementById('count-all-status').textContent = totalStatus;
 }
 
 // Render list of transactions
