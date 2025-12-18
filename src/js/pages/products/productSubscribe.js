@@ -14,6 +14,8 @@ import {
   fetchAllProducts,
   fetchProductsHavingQuantity,
 } from '../../common/api/productApiHelper.js';
+import { paginationRenderer } from '../../common/paginationRenderer.js';
+import { renderProductGrid } from '../../common/productGridRenderer.js';
 
 const state = {
   page: 1,
@@ -175,69 +177,23 @@ export const loadProducts = async (overrides = {}) => {
   }
 };
 
-const renderProducts = (details = []) => {
-  productSelection.productGrid.innerHTML = '';
-
-  if (!details.length) {
-    showEmptyState();
-    return;
-  }
-
-  details.forEach((detail) => {
-    const product = detail.product || detail;
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = createProductCard(product);
-    productSelection.productGrid.appendChild(card);
-  });
-
-  document.querySelectorAll('#viewDetails').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      openProductModal(JSON.parse(e.target.dataset.product));
-    });
+const renderProducts = (products) => {
+  renderProductGrid({
+    container: productSelection.productGrid,
+    products,
+    createCardHTML: createProductCard,
+    onViewDetails: openProductModal,
+    emptyState: showEmptyState,
   });
 };
 
 const renderPagination = (totalPages) => {
-  const pagination = productSelection.pagination;
-  pagination.innerHTML = '';
-
-  if (totalPages <= 1) {
-    pagination.style.display = 'none';
-    return;
-  }
-
-  pagination.style.display = 'flex';
-
-  const current = state.page;
-
-  const createBtn = (label, page, disabled = false) => {
-    const btn = document.createElement('button');
-    btn.textContent = label;
-    btn.className = 'page-btn';
-
-    if (disabled) {
-      btn.disabled = true;
-      btn.classList.add('disabled');
-      return btn;
-    }
-
-    btn.addEventListener('click', () => {
+  paginationRenderer({
+    container: productSelection.pagination,
+    currentPage: state.page,
+    totalPages,
+    onPageChange: (page) => {
       loadProducts({ page, warehouseId: state.warehouseId });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    return btn;
-  };
-
-  pagination.appendChild(createBtn('<<', 1, current === 1));
-  pagination.appendChild(createBtn('<', current - 1, current === 1));
-
-  const info = document.createElement('span');
-  info.className = 'page-info';
-  info.textContent = `${current} of ${totalPages}`;
-  pagination.appendChild(info);
-
-  pagination.appendChild(createBtn('>', current + 1, current === totalPages));
-  pagination.appendChild(createBtn('>>', totalPages, current === totalPages));
+    },
+  });
 };

@@ -1,4 +1,6 @@
 import { fetchArchivedProducts } from '../../common/api/productApiHelper.js';
+import { paginationRenderer } from '../../common/paginationRenderer.js';
+import { renderProductGrid } from '../../common/productGridRenderer.js';
 import {
   createProductCard,
   showEmptyState,
@@ -50,68 +52,25 @@ export const loadArchivedProducts = async () => {
 };
 
 const renderProducts = (products) => {
-  const grid = document.getElementById('productGrid');
-  grid.innerHTML = '';
-
-  products.forEach((product) => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = createProductCard(product);
-    grid.appendChild(card);
-  });
-
-  document.querySelectorAll('#viewDetails').forEach((btn) => {
-    btn.onclick = (e) => {
-      const product = JSON.parse(e.target.dataset.product);
-      openArchivedModal(product);
-    };
+  renderProductGrid({
+    container: document.getElementById('productGrid'),
+    products,
+    createCardHTML: createProductCard,
+    onViewDetails: openArchivedModal,
+    emptyState: showEmptyState,
   });
 };
 
 const renderPagination = (totalPages) => {
-  const pagination = document.getElementById('pagination');
-  pagination.innerHTML = '';
-
-  if (totalPages <= 1) {
-    pagination.style.display = 'none';
-    return;
-  }
-
-  pagination.style.display = 'flex';
-
-  const current = state.page;
-
-  const createBtn = (label, page, disabled = false) => {
-    const btn = document.createElement('button');
-    btn.textContent = label;
-    btn.className = 'page-btn';
-
-    if (disabled) {
-      btn.disabled = true;
-      btn.classList.add('disabled');
-      return btn;
-    }
-
-    btn.addEventListener('click', async () => {
+  paginationRenderer({
+    container: document.getElementById('pagination'),
+    currentPage: state.page,
+    totalPages,
+    onPageChange: async (page) => {
       state.page = page;
       await loadArchivedProducts();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    return btn;
-  };
-
-  pagination.appendChild(createBtn('<<', 1, current === 1));
-  pagination.appendChild(createBtn('<', current - 1, current === 1));
-
-  // page info
-  const info = document.createElement('span');
-  info.className = 'page-info';
-  info.textContent = `${current} of ${totalPages}`;
-  pagination.appendChild(info);
-
-  pagination.appendChild(createBtn('>', current + 1, current === totalPages));
-  pagination.appendChild(createBtn('>>', totalPages, current === totalPages));
+    },
+  });
 };
 
 const initSearchControls = () => {
