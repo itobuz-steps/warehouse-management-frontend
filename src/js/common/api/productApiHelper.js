@@ -57,8 +57,11 @@ export const qrCodeFetch = (productId) =>
     responseType: 'blob',
   });
 
-export const fetchArchivedProducts = () =>
-  api.get(`${config.PRODUCT_BASE_URL}/archived/all`);
+export const fetchArchivedProducts = (params) => {
+  return api.get(`${config.PRODUCT_BASE_URL}/archived/all`, {
+    params,
+  });
+};
 
 export const restoreProduct = (productId) =>
   api.patch(`${config.PRODUCT_BASE_URL}/${productId}`);

@@ -26,8 +26,7 @@ export const openArchivedModal = async (product) => {
 
   // QR Code
   const qr = await qrCodeFetch(product._id);
-  const qrUrl = URL.createObjectURL(qr.data);
-  document.querySelector('.qr-code').src = qrUrl;
+  document.querySelector('.qr-code').src = URL.createObjectURL(qr.data);
 
   modal.classList.remove('hidden');
 

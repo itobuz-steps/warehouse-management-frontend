@@ -1,6 +1,6 @@
 import { restoreProduct } from '../../common/api/productApiHelper.js';
-import { loadArchivedProducts } from './archivedSubscribe.js';
 import { showToast } from '../../common/template/productTemplate.js';
+import { loadArchivedProducts } from './archivedSubscribe.js';
 
 let selectedProductId = null;
 
@@ -15,9 +15,12 @@ export const initArchivedEvents = () => {
     .addEventListener('click', async () => {
       try {
         const res = await restoreProduct(selectedProductId);
+
         showToast('success', res.data.message);
+
         document.getElementById('confirmDeleteModal').classList.add('hidden');
         document.getElementById('productModal').classList.add('hidden');
+
         await loadArchivedProducts();
       } catch (err) {
         console.error(err);

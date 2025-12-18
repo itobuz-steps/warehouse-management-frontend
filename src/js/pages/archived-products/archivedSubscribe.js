@@ -1,55 +1,59 @@
 import { fetchArchivedProducts } from '../../common/api/productApiHelper.js';
-
 import {
   createProductCard,
   showEmptyState,
   showErrorState,
 } from '../../common/template/productTemplate.js';
-
 import { openArchivedModal } from './archivedModal.js';
 
-export let archivedList = [];
-export let currentPage = 1;
-export const perPage = 12;
+const state = {
+  page: 1,
+  limit: 12,
+  totalPages: 1,
+  search: '',
+  category: '',
+  sort: '',
+};
+
+export const initArchivedController = () => {
+  initSearchControls();
+  loadArchivedProducts();
+};
 
 export const loadArchivedProducts = async () => {
   try {
-    const res = await fetchArchivedProducts();
-    const products = res.data.data || [];
+    const res = await fetchArchivedProducts({
+      page: state.page,
+      limit: state.limit,
+      search: state.search,
+      category: state.category,
+      sort: state.sort,
+    });
+
+    const { products, totalPages, currentPage } = res.data.data;
+
+    state.totalPages = totalPages;
+    state.page = currentPage;
 
     if (!products.length) {
       showEmptyState();
+      renderPagination(0);
       return;
     }
 
-    archivedList = products;
-    currentPage = 1;
-
-    renderPaginatedArchived(archivedList);
+    renderProducts(products);
+    renderPagination(state.totalPages);
   } catch (err) {
     console.error(err);
     showErrorState();
   }
 };
 
-export const renderPaginatedArchived = (allProducts) => {
-  const start = (currentPage - 1) * perPage;
-  const pageItems = allProducts.slice(start, start + perPage);
-
-  renderArchived(pageItems);
-  renderArchivedPagination(allProducts);
-};
-
-export const renderArchived = (items) => {
+const renderProducts = (products) => {
   const grid = document.getElementById('productGrid');
   grid.innerHTML = '';
 
-  if (!items.length) {
-    showEmptyState();
-    return;
-  }
-
-  items.forEach((product) => {
+  products.forEach((product) => {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.innerHTML = createProductCard(product);
@@ -57,18 +61,17 @@ export const renderArchived = (items) => {
   });
 
   document.querySelectorAll('#viewDetails').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
+    btn.onclick = (e) => {
       const product = JSON.parse(e.target.dataset.product);
       openArchivedModal(product);
-    });
+    };
   });
 };
 
-export const renderArchivedPagination = (allProducts) => {
+const renderPagination = (totalPages) => {
   const pagination = document.getElementById('pagination');
   pagination.innerHTML = '';
 
-  const totalPages = Math.ceil(allProducts.length / perPage);
   if (totalPages <= 1) {
     pagination.style.display = 'none';
     return;
@@ -76,17 +79,63 @@ export const renderArchivedPagination = (allProducts) => {
 
   pagination.style.display = 'flex';
 
-  for (let i = 1; i <= totalPages; i++) {
-    const btn = document.createElement('button');
-    btn.textContent = i;
-    btn.className = i === currentPage ? 'page-btn active' : 'page-btn';
+  const current = state.page;
 
-    btn.addEventListener('click', () => {
-      currentPage = i;
-      renderPaginatedArchived(allProducts);
-      window.scrollTo(0, 0);
+  const createBtn = (label, page, disabled = false) => {
+    const btn = document.createElement('button');
+    btn.textContent = label;
+    btn.className = 'page-btn';
+
+    if (disabled) {
+      btn.disabled = true;
+      btn.classList.add('disabled');
+      return btn;
+    }
+
+    btn.addEventListener('click', async () => {
+      state.page = page;
+      await loadArchivedProducts();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    pagination.appendChild(btn);
-  }
+    return btn;
+  };
+
+  pagination.appendChild(createBtn('<<', 1, current === 1));
+  pagination.appendChild(createBtn('<', current - 1, current === 1));
+
+  // page info
+  const info = document.createElement('span');
+  info.className = 'page-info';
+  info.textContent = `${current} of ${totalPages}`;
+  pagination.appendChild(info);
+
+  pagination.appendChild(createBtn('>', current + 1, current === totalPages));
+  pagination.appendChild(createBtn('>>', totalPages, current === totalPages));
+};
+
+const initSearchControls = () => {
+  const searchInput = document.getElementById('searchInput');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const sortSelect = document.getElementById('sortSelect');
+
+  searchInput.addEventListener('input', (e) => {
+    state.search = e.target.value.trim();
+    resetPageAndFetch();
+  });
+
+  categoryFilter.addEventListener('change', (e) => {
+    state.category = e.target.value;
+    resetPageAndFetch();
+  });
+
+  sortSelect.addEventListener('change', (e) => {
+    state.sort = e.target.value;
+    resetPageAndFetch();
+  });
+};
+
+const resetPageAndFetch = async () => {
+  state.page = 1;
+  await loadArchivedProducts();
 };
