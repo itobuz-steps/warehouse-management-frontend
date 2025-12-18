@@ -26,10 +26,13 @@ export const addProductQuantity = (productId, warehouseId, quantity, limit) => {
   });
 };
 
-export const fetchAllProducts = () => api.get(config.PRODUCT_BASE_URL);
+export const fetchAllProducts = (params = {}) =>
+  api.get(config.PRODUCT_BASE_URL, { params });
 
-export const fetchProductsHavingQuantity = () =>
-  api.get(`${config.QUANTITY_BASE_URL}/all-products-having-quantity`);
+export const fetchProductsHavingQuantity = (params = {}) =>
+  api.get(`${config.QUANTITY_BASE_URL}/all-products-having-quantity`, {
+    params,
+  });
 
 export const fetchProductsByWarehouse = (warehouseId) =>
   api.get(
