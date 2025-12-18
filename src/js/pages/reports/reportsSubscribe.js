@@ -88,6 +88,7 @@ function updateActiveWarehouse(option) {
 function resetDateFilter() {
   reportSelection.startDate.value = '';
   reportSelection.endDate.value = '';
+  currentPage = 1;
 }
 
 // Attach event listener for date filter button
@@ -178,7 +179,7 @@ async function loadTransactions(
 
     renderCounts(counts);
 
-    totalPages = Math.ceil(pagination.total / pagination.limit);
+    totalPages = pagination.totalPages;
     toggleLoadMoreButton();
   } catch (err) {
     console.error('Error loading transactions:', err);
