@@ -1,8 +1,6 @@
 import '../../../scss/products.scss';
-import { loadArchivedProducts } from './archivedSubscribe.js';
-import { initArchivedEvents } from './archivedEvents.js';
-import { initArchivedSearch } from './archivedSearch.js';
+import { initArchivedEvents } from './archivedEvents';
+import { initArchivedController } from './archivedSubscribe';
 
 initArchivedEvents();
-await loadArchivedProducts();
-initArchivedSearch();
+initArchivedController();

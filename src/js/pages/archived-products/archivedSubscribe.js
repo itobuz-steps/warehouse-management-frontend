@@ -1,92 +1,98 @@
 import { fetchArchivedProducts } from '../../common/api/productApiHelper.js';
-
+import { paginationRenderer } from '../../common/paginationRenderer.js';
+import { renderProductGrid } from '../../common/productGridRenderer.js';
 import {
   createProductCard,
   showEmptyState,
   showErrorState,
 } from '../../common/template/productTemplate.js';
-
 import { openArchivedModal } from './archivedModal.js';
+import archivedSelection from './archivedSelector.js';
 
-export let archivedList = [];
-export let currentPage = 1;
-export const perPage = 12;
+const state = {
+  page: 1,
+  limit: 12,
+  totalPages: 1,
+  search: '',
+  category: '',
+  sort: '',
+};
+
+export const initArchivedController = () => {
+  initSearchControls();
+  loadArchivedProducts();
+};
 
 export const loadArchivedProducts = async () => {
   try {
-    const res = await fetchArchivedProducts();
-    const products = res.data.data || [];
+    const res = await fetchArchivedProducts({
+      page: state.page,
+      limit: state.limit,
+      search: state.search,
+      category: state.category,
+      sort: state.sort,
+    });
+
+    const { products, totalPages, currentPage } = res.data.data;
+
+    state.totalPages = totalPages;
+    state.page = currentPage;
 
     if (!products.length) {
       showEmptyState();
+      renderPagination(0);
       return;
     }
 
-    archivedList = products;
-    currentPage = 1;
-
-    renderPaginatedArchived(archivedList);
+    renderProducts(products);
+    renderPagination(state.totalPages);
   } catch (err) {
     console.error(err);
     showErrorState();
   }
 };
 
-export const renderPaginatedArchived = (allProducts) => {
-  const start = (currentPage - 1) * perPage;
-  const pageItems = allProducts.slice(start, start + perPage);
-
-  renderArchived(pageItems);
-  renderArchivedPagination(allProducts);
-};
-
-export const renderArchived = (items) => {
-  const grid = document.getElementById('productGrid');
-  grid.innerHTML = '';
-
-  if (!items.length) {
-    showEmptyState();
-    return;
-  }
-
-  items.forEach((product) => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = createProductCard(product);
-    grid.appendChild(card);
-  });
-
-  document.querySelectorAll('#viewDetails').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      const product = JSON.parse(e.target.dataset.product);
-      openArchivedModal(product);
-    });
+const renderProducts = (products) => {
+  renderProductGrid({
+    container: archivedSelection.productGrid,
+    products,
+    createCardHTML: createProductCard,
+    onViewDetails: openArchivedModal,
+    emptyState: showEmptyState,
   });
 };
 
-export const renderArchivedPagination = (allProducts) => {
-  const pagination = document.getElementById('pagination');
-  pagination.innerHTML = '';
+const renderPagination = (totalPages) => {
+  paginationRenderer({
+    container: archivedSelection.pagination,
+    currentPage: state.page,
+    totalPages,
+    onPageChange: async (page) => {
+      state.page = page;
+      await loadArchivedProducts();
+    },
+  });
+};
 
-  const totalPages = Math.ceil(allProducts.length / perPage);
-  if (totalPages <= 1) {
-    pagination.style.display = 'none';
-    return;
-  }
+const initSearchControls = () => {
 
-  pagination.style.display = 'flex';
+  archivedSelection.searchInput.addEventListener('input', (e) => {
+    state.search = e.target.value.trim();
+    resetPageAndFetch();
+  });
 
-  for (let i = 1; i <= totalPages; i++) {
-    const btn = document.createElement('button');
-    btn.textContent = i;
-    btn.className = i === currentPage ? 'page-btn active' : 'page-btn';
+  archivedSelection.categoryFilter.addEventListener('change', (e) => {
+    state.category = e.target.value;
+    resetPageAndFetch();
+  });
 
-    btn.addEventListener('click', () => {
-      currentPage = i;
-      renderPaginatedArchived(allProducts);
-      window.scrollTo(0, 0);
-    });
+  archivedSelection.sortSelect.addEventListener('change', (e) => {
+    state.sort = e.target.value;
+    resetPageAndFetch();
+  });
+};
 
-    pagination.appendChild(btn);
-  }
+const resetPageAndFetch = async () => {
+  state.page = 1;
+  await loadArchivedProducts();
 };

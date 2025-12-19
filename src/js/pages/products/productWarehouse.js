@@ -8,47 +8,6 @@ import {
   showEmptyState,
   showToast,
 } from '../../common/template/productTemplate.js';
-import { fetchProducts } from './productSubscribe.js';
-import {
-  resetSearchFilters,
-  updateWarehouseVisibility,
-} from '../../common/template/productTemplate.js';
-
-productSelection.filterTypeSelect.addEventListener('change', async () => {
-  const type = productSelection.filterTypeSelect.value;
-
-  updateWarehouseVisibility(type);
-
-  resetSearchFilters();
-
-  const url = new URL(window.location);
-  url.searchParams.set('filter', type);
-  window.history.replaceState({}, '', url);
-
-  if (type === 'warehouses') {
-    await loadWarehouses();
-  } else {
-    fetchProducts();
-  }
-});
-
-productSelection.warehouseSelect.addEventListener('change', async (e) => {
-  if (productSelection.filterTypeSelect.value !== 'warehouses') {
-    return;
-  }
-
-  const warehouseId = e.target.value;
-  const url = new URL(window.location);
-
-  if (warehouseId) {
-    url.searchParams.set('warehouseId', warehouseId);
-  } else {
-    url.searchParams.delete('warehouseId');
-  }
-
-  window.history.replaceState({}, '', url);
-  await loadWarehouses();
-});
 
 export const loadWarehouses = async () => {
   try {
@@ -66,7 +25,11 @@ export const loadWarehouses = async () => {
 
     if (isAdmin) {
       productSelection.warehouseSelect.innerHTML = `<option value="">All Warehouses</option>`;
-      populateWarehouseSelect(warehouses, productSelection.warehouseSelect, true);
+      populateWarehouseSelect(
+        warehouses,
+        productSelection.warehouseSelect,
+        true
+      );
     } else {
       populateWarehouseSelect(warehouses, productSelection.warehouseSelect);
 
@@ -89,8 +52,7 @@ export const loadWarehouses = async () => {
     if (selectedId) {
       productSelection.warehouseSelect.value = selectedId;
     }
-
-    fetchProducts(productSelection.warehouseSelect.value);
+    
   } catch (err) {
     console.error(err);
     showToast('error', 'Error fetching warehouses');
