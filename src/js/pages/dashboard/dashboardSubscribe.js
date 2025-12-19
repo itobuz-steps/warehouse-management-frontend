@@ -392,7 +392,9 @@ const showRecentTransactions = async (warehouseId) => {
             ? `Stock Out of <strong>${productName}</strong> (${qty} units)`
             : type === 'TRANSFER'
               ? `Transfer <strong>${productName}</strong> (${qty} units) to ${targetWarehouse}`
-              : `<strong>${productName}</strong> (${qty} units)`;
+              : type === 'ADJUSTMENT' 
+                  ? `Adjustment made on <strong>${productName}</strong> (${qty} units)`
+                : `<strong>${productName}</strong> (${qty} units)`;
 
       const item = `
       <div class="activity-item">
