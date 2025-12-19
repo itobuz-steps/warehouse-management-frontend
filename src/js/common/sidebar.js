@@ -2,7 +2,7 @@ import '../../scss/sidebar.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
 import Templates from './Templates';
-import { getCurrentUser } from './api/HelperApi';
+import { getCurrentUser } from './api/helperApi.js';
 
 const toast = new Templates();
 const toastSection = document.getElementById('toastSection');

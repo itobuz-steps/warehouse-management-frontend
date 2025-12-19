@@ -78,10 +78,10 @@ async function showTopProductsSubscribe(warehouseId) {
             data: quantities,
             label: 'Quantity',
             backgroundColor: [
-              '#00A6A6', 
-              '#0077B6', 
-              '#FF6B6B', 
-              '#FFD166', 
+              '#00A6A6',
+              '#0077B6',
+              '#FF6B6B',
+              '#FFD166',
               '#06D6A0',
             ],
           },
@@ -349,6 +349,73 @@ const warehouseDisplay = () => {
   dashboardSelection.noDashboardBox.style.display = 'none';
 };
 
+const showRecentTransactions = async (warehouseId) => {
+  try {
+    if (!warehouseId) return;
+
+    const res = await api.get(
+      `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}?page=1&limit=10`
+    );
+
+    const transactions = res.data.data.transactions || [];
+
+    dashboardSelection.recentActivityList.innerHTML = '';
+
+    if (!transactions.length) {
+      dashboardSelection.recentActivityList.innerHTML =
+        '<p class="text-muted">No recent activity</p>';
+      return;
+    }
+
+    transactions.forEach((tx) => {
+      const productName = tx.product?.productName || tx.product?.name || 'Item';
+      const qty = tx.quantity ?? tx.qty ?? 0;
+      const performedBy =
+        tx.performedBy?.name || tx.performedBy?.fullName || 'System';
+      const type = tx.type || tx._doc?.type || 'UNKNOWN';
+      const updatedAt = tx.updatedAt || tx.createdAt;
+      const time = updatedAt ? new Date(updatedAt).toLocaleString() : '';
+
+      let dotClass = 'info';
+      if (type === 'IN') dotClass = 'success';
+      else if (type === 'OUT') dotClass = 'info';
+      else if (type === 'TRANSFER') dotClass = 'warning';
+      else if (type === 'ADJUSTMENT' || type === 'ADJ') dotClass = 'danger';
+
+      const targetWarehouse =
+        tx.destinationWarehouse?.name || tx.sourceWarehouse?.name || '';
+
+      const actionText =
+        type === 'IN'
+          ? `Stock In of <strong>${productName}</strong> (${qty} units)`
+          : type === 'OUT'
+            ? `Stock Out of <strong>${productName}</strong> (${qty} units)`
+            : type === 'TRANSFER'
+              ? `Transfer <strong>${productName}</strong> (${qty} units) to ${targetWarehouse}`
+              : `<strong>${productName}</strong> (${qty} units)`;
+
+      const item = `
+      <div class="activity-item">
+        <span class="dot ${dotClass}"></span>
+        <div>
+          <p><strong>${performedBy}</strong> · ${actionText}</p>
+          <small>${time}</small>
+        </div>
+      </div>
+      `;
+
+      dashboardSelection.recentActivityList.innerHTML += item;
+    });
+  } catch (err) {
+    dashboardSelection.recentActivityList.innerHTML =
+      '<p class="text-danger">Unable to load recent activity</p>';
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
 const fetchUserAndWarehouses = async (warehouseSelect) => {
   try {
     //fetching user details.
@@ -393,4 +460,5 @@ export {
   fetchUserAndWarehouses,
   showTransactionStatsSubscribe,
   showLowStockProducts,
+  showRecentTransactions,
 };
