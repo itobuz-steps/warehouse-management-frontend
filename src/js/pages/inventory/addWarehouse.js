@@ -26,6 +26,7 @@ export const addWarehouseSubscribe = async (event) => {
     const name = form.querySelector('#name').value.trim();
     const address = form.querySelector('#address').value.trim();
     const description = form.querySelector('#description').value.trim();
+    const capacity = form.querySelector('#capacity').value;
 
     // Get selected managers from Choices.js
     const selectedManagers = managerSelect.getValue(true); // returns an array of manager id
@@ -35,6 +36,7 @@ export const addWarehouseSubscribe = async (event) => {
       address,
       description,
       managers: selectedManagers,
+      capacity,
     };
 
     const response = await api.post(
