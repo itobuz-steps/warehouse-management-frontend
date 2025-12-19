@@ -32,7 +32,7 @@
     <main class="main-content">
       <!-- Page Header -->
       <div
-        class="page-header d-flex flex-column flex-md-row justify-content-between align-items-center mb-4"
+        class="page-header topbar d-flex flex-column flex-md-row justify-content-between align-items-center mb-4"
       >
         <div class="d-flex flex-column justify-content-center">
           <h2 class="page-title text-center">Warehouses</h2>
@@ -40,7 +40,7 @@
         </div>
 
         <button
-          class="btn btn-primary"
+          class="btn btn-primary theme-button"
           id="addWarehouseBtn"
           data-bs-toggle="modal"
           data-bs-target="#addWarehouseModal"
@@ -51,28 +51,31 @@
       </div>
 
       <!-- Stats Section -->
-      <div class="row g-3 mb-4">
+      <!-- <div class="row g-3 mb-4">
         <div class="col-md-4">
-          <div class="stat-card">
-            <h6>Total Warehouses</h6>
-            <h3 id="totalWarehouses">0</h3>
+          <div class="overview-card">
+            <div class="card-title">Total Warehouses</div>
+            <div class="card-value" id="totalWarehouses">0</div>
+            <div class="card-sub">All registered locations</div>
           </div>
         </div>
 
         <div class="col-md-4">
-          <div class="stat-card">
-            <h6>Available Capacity</h6>
-            <h3 class="text-success">-</h3>
+          <div class="overview-card">
+            <div class="card-title">Available Capacity</div>
+            <div class="card-value text-success" id="availableCapacity">-</div>
+            <div class="card-sub">Across all warehouses</div>
           </div>
         </div>
 
         <div class="col-md-4">
-          <div class="stat-card">
-            <h6>Total Managers</h6>
-            <h3 id="totalManagers">0</h3>
+          <div class="overview-card">
+            <div class="card-title">Total Managers</div>
+            <div class="card-value" id="totalManagers">0</div>
+            <div class="card-sub">Assigned managers</div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Warehouse Cards -->
       <div class="row g-4" id="warehouseCards">

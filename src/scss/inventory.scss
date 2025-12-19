@@ -3,6 +3,8 @@
 @import './common/variables';
 @import './common/mixins';
 @import './common/root';
+@import './common/button';
+@import './common/card';
 
 :root {
   --primary-color: #{$color-primary};
@@ -26,51 +28,51 @@
   box-shadow: 0 4px 8px rgba(185, 122, 135, 0.3);
 }
 
-.text-heading {
-  color: var(--primary-color);
-}
+// .text-heading {
+//   color: var(--primary-color);
+// }
 
-.table-header th {
-  background-color: var(--primary-color);
-  color: #fff;
-  font-weight: 600;
-  padding: 12px 15px;
-  border: none;
-}
+// .table-header th {
+//   background-color: var(--primary-color);
+//   color: #fff;
+//   font-weight: 600;
+//   padding: 12px 15px;
+//   border: none;
+// }
 
-.table-header th:first-child {
-  border-top-left-radius: $radius-sm;
-}
+// .table-header th:first-child {
+//   border-top-left-radius: $radius-sm;
+// }
 
-.table-header th:last-child {
-  border-top-right-radius: $radius-sm;
-}
+// .table-header th:last-child {
+//   border-top-right-radius: $radius-sm;
+// }
 
-.table {
-  border-collapse: separate;
-  border-spacing: 0;
+// .table {
+//   border-collapse: separate;
+//   border-spacing: 0;
 
-  width: 100%;
-  box-shadow: var(--card-shadow);
-  border-radius: $radius-sm;
-}
+//   width: 100%;
+//   box-shadow: var(--card-shadow);
+//   border-radius: $radius-sm;
+// }
 
-.table tbody tr {
-  background-color: $color-white;
-  transition: all 0.2s ease;
-}
+// .table tbody tr {
+//   background-color: $color-white;
+//   transition: all 0.2s ease;
+// }
 
-.table tbody tr:hover {
-  background-color: $color-white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
+// .table tbody tr:hover {
+//   background-color: $color-white;
+//   transform: translateY(-1px);
+//   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+// }
 
-.table tbody td {
-  padding: 15px;
-  border-bottom: 1px solid $text-light;
-  vertical-align: middle;
-}
+// .table tbody td {
+//   padding: 15px;
+//   border-bottom: 1px solid $text-light;
+//   vertical-align: middle;
+// }
 
 .active-warehouse {
   color: $color-danger !important;
@@ -227,5 +229,65 @@
 
   .card-body {
     padding: 15px;
+  }
+}
+
+.page-title {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.page-subtitle {
+  font-size: 0.9rem;
+  color: $text-secondary;
+}
+
+.warehouse-card {
+  background: $card-bg;
+  border-radius: $radius-sm;
+  padding: 20px;
+  box-shadow: $shadow-md;
+  transition: all 0.3s ease;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+.warehouse-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h5 {
+    font-weight: 600;
+    margin: 0;
+    color: $text-primary;
+  }
+}
+
+.warehouse-address {
+  font-size: 0.9rem;
+  color: $text-secondary;
+  margin: 10px 0 14px;
+}
+
+.manager-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.warehouse-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+
+  .btn {
+    flex: 1;
+    font-size: 0.85rem;
   }
 }

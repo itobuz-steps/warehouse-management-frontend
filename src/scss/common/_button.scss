@@ -1,0 +1,12 @@
+@import './dashboard-mixins';
+.theme-button {
+  @include dashboard-button($color-primary, $color-primary-dark);
+  font-size: 0.85rem;
+  padding: 8px 14px;
+}
+
+.theme-outline-button {
+  @include dashboard-button($color-primary, $color-primary-light);
+    font-size: 0.85rem;
+  padding: 8px 14px;
+}

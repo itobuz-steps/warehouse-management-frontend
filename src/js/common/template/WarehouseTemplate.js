@@ -12,13 +12,13 @@ export default class WarehouseTemplate {
           </div>
 
           <p class="warehouse-address">
-            <i class="fa fa-map-marker me-1"></i>
+            <i class="fa-solid fa-location-dot"></i>
             ${data.address}
           </p>
 
           <div class="warehouse-actions">
             <button
-              class="btn btn-light btn-sm"
+              class="btn btn-light rounded-4"
               onclick="viewWarehouseDetails('${data._id}')"
               data-bs-toggle="modal"
               data-bs-target="#viewWarehouseModal"
@@ -27,7 +27,7 @@ export default class WarehouseTemplate {
             </button>
 
             <button
-              class="btn btn-light btn-sm"
+              class="btn theme-outline-button rounded-4"
               onclick="editWarehouse('${data._id}')"
               data-bs-toggle="modal"
               data-bs-target="#editWarehouseModal"
@@ -36,7 +36,7 @@ export default class WarehouseTemplate {
             </button>
 
             <button
-              class="btn btn-danger btn-sm"
+              class="btn btn-danger rounded-4"
               onclick="deleteWarehouse('${data._id}')"
               data-bs-toggle="modal"
               data-bs-target="#deleteWarehouseModal"
