@@ -7,6 +7,7 @@ import {
   showErrorState,
 } from '../../common/template/productTemplate.js';
 import { openArchivedModal } from './archivedModal.js';
+import archivedSelection from './archivedSelector.js';
 
 const state = {
   page: 1,
@@ -53,7 +54,7 @@ export const loadArchivedProducts = async () => {
 
 const renderProducts = (products) => {
   renderProductGrid({
-    container: document.getElementById('productGrid'),
+    container: archivedSelection.productGrid,
     products,
     createCardHTML: createProductCard,
     onViewDetails: openArchivedModal,
@@ -63,7 +64,7 @@ const renderProducts = (products) => {
 
 const renderPagination = (totalPages) => {
   paginationRenderer({
-    container: document.getElementById('pagination'),
+    container: archivedSelection.pagination,
     currentPage: state.page,
     totalPages,
     onPageChange: async (page) => {
@@ -74,21 +75,18 @@ const renderPagination = (totalPages) => {
 };
 
 const initSearchControls = () => {
-  const searchInput = document.getElementById('searchInput');
-  const categoryFilter = document.getElementById('categoryFilter');
-  const sortSelect = document.getElementById('sortSelect');
 
-  searchInput.addEventListener('input', (e) => {
+  archivedSelection.searchInput.addEventListener('input', (e) => {
     state.search = e.target.value.trim();
     resetPageAndFetch();
   });
 
-  categoryFilter.addEventListener('change', (e) => {
+  archivedSelection.categoryFilter.addEventListener('change', (e) => {
     state.category = e.target.value;
     resetPageAndFetch();
   });
 
-  sortSelect.addEventListener('change', (e) => {
+  archivedSelection.sortSelect.addEventListener('change', (e) => {
     state.sort = e.target.value;
     resetPageAndFetch();
   });

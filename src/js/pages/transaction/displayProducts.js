@@ -45,7 +45,7 @@ export async function displayProducts(type) {
     if (type === 'IN') {
       // Fetch all products
       const allRes = await api.get(`${config.PRODUCT_BASE_URL}`);
-      products = allRes.data?.data || [];
+      products = allRes.data?.data.products || [];
 
       if (warehouseId && warehouseId.trim() !== '') {
         console.log(warehouseId);
@@ -56,7 +56,7 @@ export async function displayProducts(type) {
         warehouseProducts = wpRes.data?.data || [];
       }
     } else {
-      // Outgoing → ONLY warehouse products
+
       if (!warehouseId || warehouseId.trim() === '') {
         container.innerHTML =
           "<p class='text-muted'>Please select a warehouse first.</p>";
@@ -67,15 +67,16 @@ export async function displayProducts(type) {
       const res = await api.get(
         `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
       );
+
       products = res.data?.data || [];
       warehouseProducts = products; // same list
     }
 
     const existingProductIds = new Set(
-      warehouseProducts.map((p) => p.product?._id || p._id)
+      warehouseProducts.map((product) => product.product?._id || product._id)
     );
     // console.log(warehouseProducts)
-    console.log(existingProductIds);
+    // console.log(existingProductIds);
 
     container.innerHTML = '';
 
@@ -127,12 +128,12 @@ function addProductRow(container, products, existingProductIds = new Set()) {
   const selectedProductIds = getSelectedProductIds(container);
 
   // Filter products: remove those already selected
-  const availableProducts = products.filter((p) => {
+  const availableProducts = products.filter((product) => {
     let productId;
     if (isRawProduct) {
-      productId = p._id;
+      productId = product._id;
     } else {
-      productId = p.product._id;
+      productId = product.product._id;
     }
     return !selectedProductIds.includes(productId);
   });
@@ -158,7 +159,6 @@ function addProductRow(container, products, existingProductIds = new Set()) {
           .map((p) => {
             const product = isRawProduct ? p : p.product;
             const img = product.productImage[0] || '';
-            
             return `
               <div class="dropdown-item d-flex align-items-center product-option"
                 data-id="${product._id}"
