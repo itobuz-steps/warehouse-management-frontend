@@ -1,47 +1,64 @@
 export default class WarehouseTemplate {
   activeWarehouse = (data) => {
-    return `<tr>
-              <td>${data.name}</td>
-              <td>${data.address}</td>
-              
-              <td class="">
-                <div class="d-flex flex-column gap-2 flex-sm-row">
-                  <button
-                    type="button"
-                    class="btn p-0"
-                    onclick="viewWarehouseDetails('${data._id}')"
-                    data-bs-toggle="modal"
-                    data-bs-target="#viewWarehouseModal"
-                    data-bs-whatever="@getbootstrap"
-                  >
-                    <i class="fa fa-eye"></i>
-                  </button>
+    return `
+      <div class="col-md-6 col-xl-4">
+        <div class="warehouse-card">
 
-                  <button
-                  class="btn p-0"
-                  id="addWarehouseBtn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editWarehouseModal"
-                  onclick = "editWarehouse('${data._id}')"
-                  >
-                    <i class="fa fa-edit"></i>
-                    </button>
+          <div class="warehouse-card-header">
+            <h5>${data.name}</h5>
+            <span class="status-badge status-active">
+              ${data.capacity || 'High'}
+            </span>
+          </div>
 
-                  <button type="button" onclick="deleteWarehouse('${data._id}')" data-bs-toggle="modal" class="btn p-0 text-danger" data-bs-target="#deleteWarehouseModal">
-                    <i class="fa fa-trash-o"></i>
-                  </button>
-                </div>
-              </td>
-              
-            </tr>`;
+          <p class="warehouse-address">
+            <i class="fa fa-map-marker me-1"></i>
+            ${data.address}
+          </p>
+
+          <div class="warehouse-actions">
+            <button
+              class="btn btn-light btn-sm"
+              onclick="viewWarehouseDetails('${data._id}')"
+              data-bs-toggle="modal"
+              data-bs-target="#viewWarehouseModal"
+            >
+              <i class="fa fa-eye"></i> View
+            </button>
+
+            <button
+              class="btn btn-light btn-sm"
+              onclick="editWarehouse('${data._id}')"
+              data-bs-toggle="modal"
+              data-bs-target="#editWarehouseModal"
+            >
+              <i class="fa fa-edit"></i> Edit
+            </button>
+
+            <button
+              class="btn btn-danger btn-sm"
+              onclick="deleteWarehouse('${data._id}')"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteWarehouseModal"
+            >
+              <i class="fa fa-trash"></i> Delete
+            </button>
+          </div>
+
+        </div>
+      </div>
+    `;
   };
 
   emptyWarehouse = () => {
-    return `<tr>
-              <td>No Warehouse Found.</td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>`;
+    return `
+      <div class="col-12">
+        <div class="empty-state text-center p-5">
+          <i class="fa fa-archive fs-1 mb-3 text-muted"></i>
+          <h5>No Warehouses Found</h5>
+          <p class="text-muted">Start by adding a new warehouse</p>
+        </div>
+      </div>
+    `;
   };
 }

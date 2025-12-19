@@ -6,7 +6,7 @@ import config from '../../config/config';
 const displayToast = new Templates();
 const displayRows = new WarehouseTemplate();
 const toastSection = document.getElementById('toastSection');
-const rowsContainer = document.getElementById('warehouseTable');
+const rowsContainer = document.getElementById('warehouseCards');
 
 export async function displayWarehouse() {
   try {
@@ -15,12 +15,14 @@ export async function displayWarehouse() {
     );
 
     const rows = warehouseDetails.data.data;
-
-    if (!rows) {
-      rowsContainer.innerHTML = displayRows.emptyWarehouse();
-    }
+    console.log(rows);
 
     rowsContainer.innerHTML = '';
+
+    if (!rows || rows.length === 0) {
+      rowsContainer.innerHTML = displayRows.emptyWarehouse();
+      return;
+    }
 
     for (let i = rows.length - 1; i >= 0; i--) {
       if (rows[i].active) {
