@@ -66,6 +66,10 @@ function initializeSidebar() {
     e.stopPropagation();
     sidebar.classList.toggle('active');
     document.body.classList.toggle('sidebar-open');
+    // Hide toggle when sidebar is open
+    toggleButton.style.display = sidebar.classList.contains('active')
+      ? 'none'
+      : 'flex';
   });
 
   // Close sidebar when clicking outside
@@ -76,6 +80,8 @@ function initializeSidebar() {
     if (sidebar.classList.contains('active') && clickedOutside) {
       sidebar.classList.remove('active');
       document.body.classList.remove('sidebar-open');
+      // Show toggle when sidebar is closed
+      toggleButton.style.display = 'flex';
     }
   });
 
