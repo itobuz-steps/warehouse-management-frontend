@@ -1,12 +1,11 @@
 import { setSelectedProduct } from './archivedEvents.js';
 import { qrCodeFetch } from '../../common/api/productApiHelper.js';
+import archivedSelection from './archivedSelector.js';
 
 let currentImages = [];
 let currentIndex = 0;
 
 export const openArchivedModal = async (product) => {
-  const modal = document.getElementById('productModal');
-  const img = document.getElementById('carouselImage');
 
   setSelectedProduct(product._id);
 
@@ -15,46 +14,44 @@ export const openArchivedModal = async (product) => {
     : ['/images/placeholder.png'];
 
   currentIndex = 0;
-  img.src = currentImages[0];
+  archivedSelection.carouselImage.src = currentImages[0];
 
-  document.getElementById('modalProductName').textContent = product.name;
-  document.getElementById('modalDescription').textContent =
+  archivedSelection.modalProductName.textContent = product.name;
+  archivedSelection.modalDescription.textContent =
     product.description || 'No description available.';
-  document.getElementById('modalPrice').textContent = product.price ?? 'N/A';
-  document.getElementById('modalCategory').textContent =
+  archivedSelection.modalPrice.textContent = product.price ?? 'N/A';
+  archivedSelection.modalCategory.textContent =
     product.category ?? 'Not categorized';
 
   // QR Code
   const qr = await qrCodeFetch(product._id);
-  const qrUrl = URL.createObjectURL(qr.data);
-  document.querySelector('.qr-code').src = qrUrl;
+  archivedSelection.qrCodeImage.src = URL.createObjectURL(qr.data);
 
-  modal.classList.remove('hidden');
+  archivedSelection.productModal.classList.remove('hidden');
 
   // restore button
-  const restoreBtn = document.getElementById('deleteProductBtn');
-  restoreBtn.textContent = 'Restore Product';
+  archivedSelection.deleteProductBtn.textContent = 'Restore Product';
 
   // open confirm restore modal
-  restoreBtn.onclick = () => {
-    document.getElementById('confirmDeleteModal').classList.remove('hidden');
+  archivedSelection.deleteProductBtn.onclick = () => {
+    archivedSelection.confirmDeleteModal.classList.remove('hidden');
   };
 };
 
 // carousel left
-document.querySelector('.prev').addEventListener('click', () => {
+archivedSelection.prevBtn.addEventListener('click', () => {
   currentIndex =
     (currentIndex - 1 + currentImages.length) % currentImages.length;
-  document.getElementById('carouselImage').src = currentImages[currentIndex];
+  archivedSelection.carouselImage.src = currentImages[currentIndex];
 });
 
 // carousel right
-document.querySelector('.next').addEventListener('click', () => {
+archivedSelection.nextBtn.addEventListener('click', () => {
   currentIndex = (currentIndex + 1) % currentImages.length;
-  document.getElementById('carouselImage').src = currentImages[currentIndex];
+  archivedSelection.carouselImage.src = currentImages[currentIndex];
 });
 
 // close modal
-document.querySelector('.close-modal').addEventListener('click', () => {
-  document.getElementById('productModal').classList.add('hidden');
+archivedSelection.closeModalBtn.addEventListener('click', () => {
+  archivedSelection.productModal.classList.add('hidden');
 });

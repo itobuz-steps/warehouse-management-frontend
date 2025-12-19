@@ -64,7 +64,7 @@ export const openProductModal = async (product) => {
 
   await loadQuantityInfo(selectedProductId);
 
-  const qrCode = await qrCodeFetch(selectedProductId)
+  const qrCode = await qrCodeFetch(selectedProductId);
 
   const imageUrl = URL.createObjectURL(qrCode.data);
   productSelection.qrCodeItem.src = imageUrl;

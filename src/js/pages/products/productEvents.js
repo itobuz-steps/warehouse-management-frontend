@@ -3,25 +3,19 @@ import {
   openModal,
   closeModal,
   showToast,
-  resetSearchFilters,
+  // resetSearchFilters,
 } from '../../common/template/productTemplate.js';
 import {
   addProduct,
   deleteProduct,
   editProduct,
 } from '../../common/api/productApiHelper.js';
-import { fetchProducts } from './productSubscribe.js';
+import { loadProducts } from './productSubscribe.js';
 import { getCurrentUser } from '../../common/api/HelperApi.js';
 
 export const initEvents = () => {
   productSelection.addProductsButton.addEventListener('click', openModal);
   productSelection.closeModalButton.addEventListener('click', closeModal);
-
-  productSelection.warehouseSelect.addEventListener('change', (e) => {
-    resetSearchFilters();
-    fetchProducts(e.target.value);
-  });
-
   productSelection.addProductForm.addEventListener('submit', handleAddProduct);
 };
 
@@ -32,8 +26,14 @@ export const handleAddProduct = async (e) => {
   const user = await getCurrentUser();
 
   formData.append('name', productSelection.addProductForm.productName.value);
-  formData.append('category', productSelection.addProductForm.productCategory.value);
-  formData.append('description', productSelection.addProductForm.productDescription.value);
+  formData.append(
+    'category',
+    productSelection.addProductForm.productCategory.value
+  );
+  formData.append(
+    'description',
+    productSelection.addProductForm.productDescription.value
+  );
   formData.append('price', productSelection.addProductForm.productPrice.value);
   formData.append('createdBy', user._id);
 
@@ -56,32 +56,36 @@ export const handleAddProduct = async (e) => {
     const params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId');
 
-    fetchProducts(warehouseId);
+    loadProducts({ warehouseId, page: 1 });
   } catch (err) {
     console.error(err);
     showToast('error', 'Error adding product');
   }
 };
 
-export const editProductHandler = () => {
-  productSelection.editName.value = productSelection.modalProductName.textContent;
-  productSelection.editDescription.value = productSelection.modalDescription.textContent;
-  productSelection.editCategory.value = productSelection.modalCategory.textContent;
+export function editProductHandler() {
+  productSelection.editName.value =
+    productSelection.modalProductName.textContent;
+
+  productSelection.editDescription.value =
+    productSelection.modalDescription.textContent;
+
+  productSelection.editCategory.value =
+    productSelection.modalCategory.textContent;
+
   productSelection.editPrice.value = productSelection.modalPrice.textContent;
 
   productSelection.editModal.classList.remove('hidden');
-};
+}
 
 productSelection.closeEditModal.addEventListener('click', () =>
   productSelection.editModal.classList.add('hidden')
 );
 
 window.addEventListener('click', (e) => {
-  
   if (e.target === productSelection.editModal) {
     productSelection.editModal.classList.add('hidden');
   }
-  
 });
 
 export const handleEditProductSubmit = async (e, selectedProductId) => {
@@ -105,7 +109,7 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
     productSelection.modal.classList.add('hidden');
     const params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId');
-    fetchProducts(warehouseId);
+    loadProducts({ warehouseId, page: 1 });
 
     showToast('success', res.data.message);
   } catch (err) {
@@ -114,9 +118,9 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
   }
 };
 
-export const deleteProductHandler = () => {
+export function deleteProductHandler() {
   productSelection.confirmDeleteModal.classList.remove('hidden');
-};
+}
 
 export async function handleDelete(selectedProductId) {
   try {
@@ -128,7 +132,7 @@ export async function handleDelete(selectedProductId) {
     const params = new URLSearchParams(window.location.search);
     const warehouseId = params.get('warehouseId');
 
-    fetchProducts(warehouseId);
+    loadProducts({ warehouseId, page: 1 });
     showToast('success', res.data.message);
   } catch (err) {
     console.error(err);
