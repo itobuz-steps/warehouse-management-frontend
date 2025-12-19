@@ -9,30 +9,40 @@ import { addWarehouseSubscribe, showManagerOptions } from './addWarehouse.js';
 import { displayWarehouse } from './displayWarehouse.js';
 import { confirmDelete } from './deleteWarehouse.js';
 import { updateWarehouse, selectedManagerOptions } from './editWarehouse.js';
+import inventorySelection from './inventorySelector.js';
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
-const addWarehouseForm = document.getElementById('addWarehouseForm');
-const addWarehouseButton = document.getElementById('addWarehouseBtn');
-const deleteWarehouseBtn = document.getElementById('deleteWarehouseBtn');
-const editWarehouseForm = document.getElementById('editWarehouseForm');
-const editWarehouseName = document.getElementById('editWarehouseName');
-const editWarehouseAddress = document.getElementById('editWarehouseAddress');
-const editWarehouseDescription = document.getElementById(
-  'editWarehouseDescription'
-);
+// const toastSection = document.getElementById('toastSection');
+// const addWarehouseForm = document.getElementById('addWarehouseForm');
+// const addWarehouseButton = document.getElementById('addWarehouseBtn');
+// const deleteWarehouseBtn = document.getElementById('deleteWarehouseBtn');
+// const editWarehouseForm = document.getElementById('editWarehouseForm');
+// const editWarehouseName = document.getElementById('editWarehouseName');
+// const editWarehouseAddress = document.getElementById('editWarehouseAddress');
+// const editWarehouseDescription = document.getElementById(
+//   'editWarehouseDescription'
+// );
 
 // add warehouse
-addWarehouseForm.addEventListener('submit', addWarehouseSubscribe);
-addWarehouseButton.addEventListener('click', showManagerOptions); // Get all managers when Add-Warehouse button triggered
+inventorySelection.addWarehouseForm.addEventListener(
+  'submit',
+  addWarehouseSubscribe
+);
+inventorySelection.addWarehouseButton.addEventListener(
+  'click',
+  showManagerOptions
+); // Get all managers when Add-Warehouse button triggered
 
 // display warehouse
 displayWarehouse();
 
 //delete warehouse
 function deleteWarehouse(id) {
-  deleteWarehouseBtn.setAttribute('data-id', id);
-  deleteWarehouseBtn.addEventListener('click', confirmDelete);
+  inventorySelection.deleteWarehouseBtn.setAttribute('data-id', id);
+  inventorySelection.deleteWarehouseBtn.addEventListener(
+    'click',
+    confirmDelete
+  );
 }
 
 window.deleteWarehouse = deleteWarehouse;
@@ -40,23 +50,28 @@ window.deleteWarehouse = deleteWarehouse;
 //edit warehouse
 async function editWarehouse(warehouseId) {
   try {
-    editWarehouseForm.setAttribute('data-id', warehouseId);
+    inventorySelection.editWarehouseForm.setAttribute('data-id', warehouseId);
 
     const warehouseDetails = await api.get(
       `${config.WAREHOUSE_BASE_URL}/get-warehouses/${warehouseId}`
     );
     const warehouse = warehouseDetails.data.data;
-    editWarehouseName.value = warehouse.name;
-    editWarehouseAddress.value = warehouse.address;
-    editWarehouseDescription.value = warehouse.description;
+    inventorySelection.editWarehouseName.value = warehouse.name;
+    inventorySelection.editWarehouseAddress.value = warehouse.address;
+    inventorySelection.editWarehouseDescription.value = warehouse.description;
     selectedManagerOptions(warehouse.managerIds);
 
-    editWarehouseForm.addEventListener('submit', updateWarehouse);
+    inventorySelection.editWarehouseForm.addEventListener(
+      'submit',
+      updateWarehouse
+    );
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    inventorySelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
   } finally {
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      inventorySelection.toastSection.innerHTML = '';
     }, 3000);
   }
 }

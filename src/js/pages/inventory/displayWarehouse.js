@@ -2,11 +2,12 @@ import Templates from '../../common/Templates.js';
 import WarehouseTemplate from '../../common/template/WarehouseTemplate.js';
 import api from '../../api/interceptor';
 import config from '../../config/config';
+import inventorySelection from './inventorySelector.js';
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
+// const toastSection = document.getElementById('toastSection');
 const warehouseTemplate = new WarehouseTemplate();
-const warehouseCards = document.getElementById('warehouseCards');
+// const warehouseCards = document.getElementById('warehouseCards');
 
 export async function displayWarehouse() {
   try {
@@ -15,7 +16,8 @@ export async function displayWarehouse() {
     const warehouses = res.data.data;
 
     if (!warehouses || warehouses.length === 0) {
-      warehouseCards.innerHTML = warehouseTemplate.emptyWarehouse();
+      inventorySelection.warehouseCards.innerHTML =
+        warehouseTemplate.emptyWarehouse();
       return;
     }
 
@@ -38,13 +40,15 @@ export async function displayWarehouse() {
         storagePercentage,
       });
     }
-    warehouseCards.innerHTML = html;
+    inventorySelection.warehouseCards.innerHTML = html;
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    inventorySelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
     console.log(err)
   } finally {
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      inventorySelection.toastSection.innerHTML = '';
     }, 3000);
   }
 }

@@ -4,17 +4,20 @@ import Templates from '../../common/Templates.js';
 import Choices from 'choices.js';
 import { displayWarehouse } from './displayWarehouse.js';
 import * as bootstrap from 'bootstrap';
+import inventorySelection from './inventorySelector.js';
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
-const editWarehouseName = document.getElementById('editWarehouseName');
-const editWarehouseAddress = document.getElementById('editWarehouseAddress');
-const editWarehouseDescription = document.getElementById(
-  'editWarehouseDescription'
+// const toastSection = document.getElementById('toastSection');
+// const editWarehouseName = document.getElementById('editWarehouseName');
+// const editWarehouseAddress = document.getElementById('editWarehouseAddress');
+// const editWarehouseDescription = document.getElementById(
+//   'editWarehouseDescription'
+// );
+// const editWarehouseForm = document.getElementById('editWarehouseForm');
+// const editWarehouseModal = document.getElementById('editWarehouseModal');
+const editModalObject = new bootstrap.Modal(
+  inventorySelection.editWarehouseModal
 );
-const editWarehouseForm = document.getElementById('editWarehouseForm');
-const editWarehouseModal = document.getElementById('editWarehouseModal');
-const editModalObject = new bootstrap.Modal(editWarehouseModal);
 
 const managerSelect = new Choices('#editManagers', {
   removeItemButton: true,
@@ -27,13 +30,13 @@ export async function updateWarehouse(event) {
   try {
     event.preventDefault();
 
-    const id = editWarehouseForm.getAttribute('data-id');
+    const id = inventorySelection.editWarehouseForm.getAttribute('data-id');
     const selectedManagers = managerSelect.getValue(true); // returns an array of manager id
 
     const warehouse = {
-      name: editWarehouseName.value,
-      address: editWarehouseAddress.value,
-      description: editWarehouseDescription.value,
+      name: inventorySelection.editWarehouseName.value,
+      address: inventorySelection.editWarehouseAddress.value,
+      description: inventorySelection.editWarehouseDescription.value,
       managers: selectedManagers,
     };
 
@@ -45,12 +48,16 @@ export async function updateWarehouse(event) {
     editModalObject.hide();
     displayWarehouse();
 
-    toastSection.innerHTML = displayToast.successToast(response.data.message);
+    inventorySelection.toastSection.innerHTML = displayToast.successToast(
+      response.data.message
+    );
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    inventorySelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
   } finally {
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      inventorySelection.toastSection.innerHTML = '';
     }, 3000);
   }
 }
@@ -77,10 +84,12 @@ export const selectedManagerOptions = async (selectedManagers) => {
 
     console.log(response.data.message);
   } catch (error) {
-    toastSection.innerHTML = displayToast.errorToast(error.message);
+    inventorySelection.toastSection.innerHTML = displayToast.errorToast(
+      error.message
+    );
   } finally {
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      inventorySelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
