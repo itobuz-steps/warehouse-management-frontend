@@ -4,7 +4,6 @@ import * as bootstrap from 'bootstrap';
 
 import api from '../../api/interceptor';
 import config from '../../config/config';
-import './viewWarehouseDetails.js';
 import Templates from '../../common/Templates.js';
 import { addWarehouseSubscribe, showManagerOptions } from './addWarehouse.js';
 import { displayWarehouse } from './displayWarehouse.js';

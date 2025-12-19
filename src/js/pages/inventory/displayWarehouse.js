@@ -4,33 +4,44 @@ import api from '../../api/interceptor';
 import config from '../../config/config';
 
 const displayToast = new Templates();
-const displayRows = new WarehouseTemplate();
 const toastSection = document.getElementById('toastSection');
-const rowsContainer = document.getElementById('warehouseCards');
+const warehouseTemplate = new WarehouseTemplate();
+const warehouseCards = document.getElementById('warehouseCards');
 
 export async function displayWarehouse() {
   try {
-    const warehouseDetails = await api.get(
-      `${config.WAREHOUSE_BASE_URL}/get-warehouses/`
-    );
+    const res = await api.get(`${config.WAREHOUSE_BASE_URL}/get-warehouses`);
 
-    const rows = warehouseDetails.data.data;
-    console.log(rows);
+    const warehouses = res.data.data;
 
-    rowsContainer.innerHTML = '';
-
-    if (!rows || rows.length === 0) {
-      rowsContainer.innerHTML = displayRows.emptyWarehouse();
+    if (!warehouses || warehouses.length === 0) {
+      warehouseCards.innerHTML = warehouseTemplate.emptyWarehouse();
       return;
     }
 
-    for (let i = rows.length - 1; i >= 0; i--) {
-      if (rows[i].active) {
-        rowsContainer.innerHTML += displayRows.activeWarehouse(rows[i]);
+    let html = '';
+
+    for (const warehouse of warehouses) {
+      let storagePercentage = null;
+
+      try {
+        const capacityRes = await api.get(
+          `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${warehouse._id}`
+        );
+        storagePercentage = capacityRes.data.data.percentage;
+      } catch {
+        console.log(`Capacity fetch failed for warehouse ${warehouse._id}`);
       }
+
+      html += warehouseTemplate.activeWarehouse({
+        ...warehouse,
+        storagePercentage,
+      });
     }
+    warehouseCards.innerHTML = html;
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
+    console.log(err)
   } finally {
     setTimeout(() => {
       toastSection.innerHTML = '';

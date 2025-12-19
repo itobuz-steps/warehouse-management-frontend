@@ -232,6 +232,7 @@
   }
 }
 
+
 .page-title {
   font-weight: 700;
   color: var(--primary-color);
@@ -242,17 +243,21 @@
   color: $text-secondary;
 }
 
+
 .warehouse-card {
-  background: $card-bg;
-  border-radius: $radius-sm;
+  background: #ffffff;
+  border-radius: 14px;
   padding: 20px;
-  box-shadow: $shadow-md;
-  transition: all 0.3s ease;
   height: 100%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: $shadow-lg;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
   }
 }
 
@@ -260,34 +265,85 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
 
   h5 {
+    font-size: 1.05rem;
     font-weight: 600;
     margin: 0;
-    color: $text-primary;
+    color: #212529;
   }
+}
+
+.status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .warehouse-address {
   font-size: 0.9rem;
-  color: $text-secondary;
-  margin: 10px 0 14px;
+  color: #6c757d;
+  margin-bottom: 10px;
+
+  i {
+    margin-right: 6px;
+    color: #adb5bd;
+  }
 }
 
-.manager-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 16px;
+.warehouse-description {
+  font-size: 0.9rem;
+  color: #495057;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.warehouse-managers {
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+
+  strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #343a40;
+  }
+}
+
+.manager-badge {
+  display: inline-block;
+  background: #f1f3f5;
+  color: #495057;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  margin-right: 6px;
+  margin-bottom: 6px;
 }
 
 .warehouse-actions {
   display: flex;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
+  margin-top: auto;
 
-  .btn {
+  button {
     flex: 1;
     font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+}
+
+.warehouse-products-link {
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  color: #0d6efd;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
