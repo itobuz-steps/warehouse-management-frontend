@@ -114,10 +114,6 @@
   animation: fadeInNotif 0.5s forwards ease;
 }
 
-.main-content {
-  padding: 24px 32px;
-}
-
 .no-dashboard-box {
   display: flex;
   justify-content: center;
@@ -130,15 +126,11 @@
   letter-spacing: -0.01em;
 }
 
-/* ================================
-   DASHBOARD TOP BAR (COMPACT)
-================================ */
-
 .dashboard-topbar {
   @include dashboard-glass-card($radius-lg, 16px 20px);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: 16px;
   margin-bottom: 20px;
 }
@@ -147,9 +139,13 @@
 .topbar-left {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .page-title {
+  margin: 0;
+  display: flex;
+  align-items: center;
   font-size: 1.4rem;
   font-weight: 700;
   color: $text-primary;
@@ -159,13 +155,25 @@
 /* RIGHT */
 .topbar-right {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
+  justify-content: space-between;
+}
+
+.topbar-hamburger {
+  width: 30px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border-radius: 10px;
 }
 
 /* Warehouse Select (reuse your styles) */
 .dashboard-topbar .warehouse-select-wrapper {
-  width: 200px;
+  width: 100%;
 }
 
 /* Buttons */
@@ -173,6 +181,7 @@
   @include dashboard-button($color-primary, $color-primary-dark);
   font-size: 0.85rem;
   padding: 8px 14px;
+  flex: 1;
 }
 
 /* Notification Bell */
@@ -182,47 +191,10 @@
   font-size: 1rem;
 }
 
-/* ================================
-   MOBILE FIRST
-================================ */
-
-@media (max-width: 768px) {
-  .dashboard-topbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .topbar-right {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .dashboard-topbar .warehouse-select-wrapper {
-    width: 100%;
-  }
-
-  .dashboard-topbar .add-manager-btn {
-    flex: 1;
-  }
-}
-
 /* OVERVIEW CARDS */
 .overview-grid {
-  @include dashboard-grid(auto-fit, 240px, 16px);
+  @include dashboard-grid(1, 0, 16px);
   margin-bottom: 24px;
-}
-
-@media (min-width: 768px) and (max-width: 1200px) {
-  .overview-grid {
-    @include dashboard-grid(2, 0, 16px);
-  }
-}
-
-@media (min-width: 1200px) {
-  .overview-grid {
-    @include dashboard-grid(4, 0, 16px);
-  }
 }
 
 .overview-card {
@@ -269,19 +241,7 @@
   display: grid;
   gap: 16px;
   margin-bottom: 24px;
-
-  @media (max-width: 1199px) {
-    grid-template-columns: 1fr;
-  }
-
-  @media (min-width: 1200px) {
-    // grid-template-columns: 70% 30%;
-    // grid-template-rows: auto auto;
-
-    .chart-card:nth-child(3) {
-      grid-column: 1 / span 2;
-    }
-  }
+  grid-template-columns: 1fr;
 }
 
 .chart-card {
@@ -329,20 +289,12 @@
   padding: 16px;
 }
 
-/* ================================
-   STOCK + RECENT ACTIVITY LAYOUT
-================================ */
-
 .stock-activity-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
   margin-bottom: 24px;
 }
-
-/* ================================
-   LOW STOCK TABLE
-================================ */
 
 .low-stock-card {
   @include dashboard-glass-card($radius-lg, 20px);
@@ -424,10 +376,6 @@
   }
 }
 
-/* ================================
-   RECENT ACTIVITY
-================================ */
-
 .recent-activity-card {
   @include dashboard-glass-card($radius-lg, 20px);
 
@@ -444,6 +392,12 @@
   max-height: 320px;
   overflow-y: auto;
   padding-right: 6px;
+  position: relative;
+  padding-left: 0;
+
+  &::before {
+    display: none;
+  }
 }
 
 /* Scrollbar */
@@ -457,15 +411,32 @@
 }
 
 .activity-item {
+  position: relative;
   display: flex;
   gap: 12px;
-  padding: 12px;
+  padding: 12px 12px 12px 28px;
   border-radius: $radius-sm;
   transition: $transition-fast;
 
   &:hover {
     background: rgba(255, 255, 255, 0.6);
-    transform: translateX(4px);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba($color-primary, 0.25);
+  }
+
+  &:last-child::before {
+    height: 18px; // stops line after last dot
+  }
+  &:first-child::before {
+    top: 12px; // starts line after first dot
   }
 
   p {
@@ -483,13 +454,20 @@
 
 /* Activity dot */
 .dot {
-  width: 8px;
-  height: 8px;
+  position: relative;
+  z-index: 1;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   margin-top: 6px;
+  right: 25px;
 
   &.success {
     background: $color-success;
+  }
+
+  &.info {
+    background: $color-info;
   }
 
   &.warning {
@@ -501,45 +479,6 @@
   }
 }
 
-/* ================================
-   LARGE SCREENS – SIDE BY SIDE
-================================ */
-
-@media (min-width: 1200px) {
-  .stock-activity-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* ================================
-   MOBILE POLISH
-================================ */
-
-@media (max-width: 480px) {
-  .table-scroll-wrapper,
-  .activity-list {
-    max-height: 260px;
-  }
-}
-
-// Additional responsive fix for very small screens
-@media (max-width: 400px) {
-  .table-card {
-    padding: 12px;
-
-    table {
-      min-width: 350px;
-      font-size: 0.85rem;
-
-      th,
-      td {
-        padding: 8px 6px;
-      }
-    }
-  }
-}
-
-/* MODAL */
 .modal-content {
   border: none;
   border-radius: $radius-lg;
@@ -658,30 +597,102 @@
   }
 }
 
-/* Responsive */
-@include dashboard-responsive {
-  .sidebar {
-    transform: translateX(-100%);
-  }
-
-  .main-content {
-    margin-left: 0;
-    padding: 16px;
-  }
-
-  .stats-grid,
-  .overview-grid,
-  .charts-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .warehouse-select-wrapper {
-    width: 100%;
-  }
-}
-
 /* Chart canvas improvements */
 .chart-card canvas {
   width: 100%;
   height: auto;
+}
+
+@media (min-width: 768px) {
+  .dashboard-topbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .topbar-hamburger {
+    top: 40px;
+  }
+
+  .topbar-right {
+    width: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+  }
+
+  .dashboard-topbar .warehouse-select-wrapper {
+    width: 200px;
+  }
+
+  .dashboard-topbar .add-manager-btn {
+    flex: none;
+  }
+
+  .overview-grid {
+    @include dashboard-grid(2, 0, 16px);
+  }
+}
+
+@media (min-width: 1200px) {
+  .overview-grid {
+    @include dashboard-grid(4, 0, 16px);
+  }
+
+  .charts-grid {
+    // grid-template-columns: 70% 30%;
+    // grid-template-rows: auto auto;
+
+    .chart-card:nth-child(3) {
+      grid-column: 1 / span 2;
+    }
+  }
+
+  .stock-activity-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-scroll-wrapper,
+  .activity-list {
+    max-height: 260px;
+  }
+  .main-content {
+    padding: 16px;
+  }
+
+  .stock-activity-grid {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .low-stock-card,
+  .recent-activity-card {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .table-scroll-wrapper {
+    overflow-x: auto;
+  }
+
+  .low-stock-card table {
+    min-width: 360px;
+  }
+}
+
+@media (max-width: 400px) {
+  .table-card {
+    padding: 12px;
+
+    table {
+      min-width: 350px;
+      font-size: 0.85rem;
+
+      th,
+      td {
+        padding: 8px 6px;
+      }
+    }
+  }
 }

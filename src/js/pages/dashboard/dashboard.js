@@ -10,6 +10,7 @@ import {
   showProductTransactionSubscribe,
   fetchUserAndWarehouses,
   showTransactionStatsSubscribe,
+  showRecentTransactions,
   showLowStockProducts,
 } from './dashboardSubscribe.js';
 import api from '../../api/interceptor.js';
@@ -22,18 +23,20 @@ dashboardSelection.addManagerForm.addEventListener(
 
 document.addEventListener('DOMContentLoaded', async () => {
   console.log(dashboardSelection.warehouseSelect);
-  const warehouse = await fetchUserAndWarehouses(dashboardSelection.warehouseSelect);
+  const warehouse = await fetchUserAndWarehouses(
+    dashboardSelection.warehouseSelect
+  );
 
   //if user has warehouses assigned.
-  if(warehouse){
+  if (warehouse) {
     const firstWarehouse = dashboardSelection.warehouseSelect.value;
     await showTopProductsSubscribe(firstWarehouse);
     await showInventoryCategorySubscribe(firstWarehouse);
     await showProductTransactionSubscribe(firstWarehouse);
     await showTransactionStatsSubscribe(firstWarehouse);
     await showLowStockProducts(firstWarehouse);
+    await showRecentTransactions(firstWarehouse);
   }
-
 });
 
 dashboardSelection.warehouseSelect.addEventListener('change', async () => {
@@ -43,6 +46,7 @@ dashboardSelection.warehouseSelect.addEventListener('change', async () => {
   await showProductTransactionSubscribe(selectedWarehouseId);
   await showTransactionStatsSubscribe(selectedWarehouseId);
   await showLowStockProducts(selectedWarehouseId);
+  await showRecentTransactions(selectedWarehouseId);
 });
 
 dashboardSelection.topFiveExport.addEventListener('click', async () => {

@@ -18,6 +18,7 @@ const dashboardSelection = {
   lowStockTable: document.querySelector('#lowStockTableBody'),
   shipmentInput: document.querySelector('#shipmentInput'),
   tableCard: document.querySelector('.table-card'),
+  recentActivityList: document.querySelector('#recentActivityList'),
 
   topFiveExport: document.querySelector('#exportTop5'),
   categoryExport: document.querySelector('#exportCategory'),
