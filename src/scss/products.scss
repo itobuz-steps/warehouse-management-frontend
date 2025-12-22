@@ -4,22 +4,13 @@
 @import './common/mixins';
 @import './common/animations';
 @import './common/root';
+@import './common/button';
+@import './common/card';
 
 $color-border: $color-gray-300;
 
 .main-content {
-  margin-left: 0;
-  padding: 20px;
-  margin-top: 0;
-  background: $body-bg;
-  min-height: 100vh;
-  transition: margin-left 0.3s ease;
-  padding-bottom: 110px;
-
-  @media (min-width: 992px) {
-    padding: 25px 30px;
-    padding-bottom: 90px;
-  }
+  padding-bottom: 85px;
 }
 
 .page-header {
@@ -27,53 +18,38 @@ $color-border: $color-gray-300;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: $spacing-4;
+  margin-bottom: $spacing-5;
 
-  @media (min-width: 992px) {
+  @media (min-width: 830px) {
     flex-direction: row;
   }
 
-  h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
+  h2 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
     color: $color-primary;
-  }
-
-  button {
-    background-color: $color-primary;
-    border: none;
-    color: $text-white;
-    padding: 0.5rem 1.25rem;
-    border-radius: 5px;
-    font-weight: 500;
-    transition: $transition;
-
-    &:hover {
-      background-color: $color-primary-dark;
-      transform: translateY(-2px);
-      color: $text-white;
-    }
   }
 
   .filter-bar {
     display: flex;
-    // flex-direction: column;
-    gap: 16px;
+    flex-direction: column;
+    gap: $spacing-3;
+    width: 100%;
 
     .filterTypeSelect,
     .warehouseSelect {
       width: 100%;
       height: 40px;
-      padding: 0 12px;
-      font-size: 1rem;
-      font-weight: 500;
-      color: #1f2937;
+      padding: 0 $spacing-3;
+      font-size: $font-size-base;
+      font-weight: $font-weight-medium;
+      color: $color-gray-800;
       background-color: $body-bg;
-      border: 1px solid #000;
-      border-radius: 10px;
+      border: 1px solid $color-gray-400;
+      border-radius: $radius-sm;
       cursor: pointer;
-      transition: $transition;
+      transition: background-color 0.3s ease;
 
       &:hover {
         background-color: lighten($color-secondary, 3%);
@@ -86,11 +62,12 @@ $color-border: $color-gray-300;
     }
   }
 
-  @media (min-width: 640px) {
+  @media (min-width: 500px) {
     .filter-bar {
       flex-direction: row;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: $spacing-3;
+      width: fit-content;
 
       .filterTypeSelect,
       .warehouseSelect {
@@ -216,17 +193,17 @@ $color-border: $color-gray-300;
   transition:
     background 0.3s,
     transform 0.2s;
-}
 
-.page-btn:hover {
-  background-color: $color-secondary;
-  transform: translateY(-1px);
-}
+  &:hover {
+    background-color: $color-secondary;
+    transform: translateY(-1px);
+  }
 
-.page-btn.active {
-  background-color: $color-primary;
-  color: white;
-  border-color: $color-primary;
+  &:active {
+    background-color: $color-primary;
+    color: white;
+    border-color: $color-primary;
+  }
 }
 
 #addProductModal.modal-overlay {
@@ -305,6 +282,7 @@ $color-border: $color-gray-300;
       min-height: 90px;
     }
   }
+
   .form-group select {
     padding: 10px 12px;
     border: 1px solid $color-border;
@@ -491,17 +469,6 @@ $color-border: $color-gray-300;
   p {
     margin-bottom: 20px;
     font-size: 15px;
-  }
-}
-
-.theme-button {
-  background: $color-primary;
-  margin-top: 15px;
-  color: $text-white;
-
-  &:hover {
-    background: $color-primary-dark;
-    color: $text-white;
   }
 }
 
