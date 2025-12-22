@@ -20,22 +20,28 @@ export default class WarehouseTemplate {
       <div class="col-md-6 col-xl-4">
         <div class="warehouse-card">
 
-          <div class="warehouse-card-header d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-2">
-              <h5 class="mb-0">${data.name}</h5>
+          <div class="warehouse-card-header d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center gap-2">
+                <h5 class="mb-0">${data.name}</h5>
 
-              <!-- Speedometer Capacity -->
-              <span 
-                class="capacity-indicator"
-                style="color:${storageColor};"
-                title="Storage usage"
-              >
-                <i class="fa-solid fa-gauge-high"></i>
-                <small class="fw-bold ms-1">${storageLabel}</small>
-              </span>
+                <span 
+                  class="capacity-indicator"
+                  style="color:${storageColor};"
+                  title="Storage usage"
+                >
+                  <i class="fa-solid fa-gauge-high"></i>
+                  <small class="fw-bold ms-1">${storageLabel}</small>
+                </span>
+              </div>
+
+              <p class="warehouse-address mb-0">
+                <i class="fa-solid fa-location-dot me-1"></i>
+                ${data.address}
+              </p>
             </div>
 
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center ms-auto mb-1">
               <button
                 class="btn btn-sm btn-outline-soft me-1"
                 onclick="editWarehouse('${data._id}')"
@@ -58,19 +64,14 @@ export default class WarehouseTemplate {
             </div>
           </div>
 
-            <p class="warehouse-address">
-              <i class="fa-solid fa-location-dot me-1"></i>
-              ${data.address}
-            </p>
-
             <p class="text-small text-info-soft mb-3">
               <i class="fa-solid fa-circle-info me-1"></i>
               ${data.description || 'No description available'}
             </p>
 
           <div class="warehouse-managers mb-3">
-            <strong>Managers:</strong>
-           <!--<i class="fa-solid fa-users"></i>-->
+            <!--<strong>Managers:</strong>-->
+           <i class="fa-solid fa-user-group"></i>
             ${
               data.managerIds?.length
                 ? data.managerIds
@@ -82,7 +83,7 @@ export default class WarehouseTemplate {
 
           <a 
             href="/pages/products.html?warehouseId=${data._id}&filter=warehouses"
-            class="btn btn-primary w-100 mt-auto"
+            class="btn btn-sm btn-primary w-100 mt-auto"
           >
             View Products
           </a>
