@@ -4,7 +4,6 @@ export default class WarehouseTemplate {
     let storageColor = '#6c757d';
 
     if (data.storagePercentage !== null) {
-      
       if (data.storagePercentage < 50) {
         // storageLabel = 'HIGH';
         storageColor = 'green';
@@ -15,35 +14,63 @@ export default class WarehouseTemplate {
         // storageLabel = 'LOW';
         storageColor = 'red';
       }
-
     }
 
     return `
       <div class="col-md-6 col-xl-4">
         <div class="warehouse-card">
 
-          <div class="warehouse-card-header">
-            <h5>${data.name}</h5>
-            <span 
-              class="status-badge bg-light"
-              style="color:${storageColor};"
-            >
-              ${storageLabel}
-            </span>
+          <div class="warehouse-card-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+              <h5 class="mb-0">${data.name}</h5>
+
+              <!-- Speedometer Capacity -->
+              <span 
+                class="capacity-indicator"
+                style="color:${storageColor};"
+                title="Storage usage"
+              >
+                <i class="fa-solid fa-gauge-high"></i>
+                <small class="fw-bold ms-1">${storageLabel}</small>
+              </span>
+            </div>
+
+            <div class="d-flex align-items-center">
+              <button
+                class="btn btn-sm btn-outline-soft me-1"
+                onclick="editWarehouse('${data._id}')"
+                data-bs-toggle="modal"
+                data-bs-target="#editWarehouseModal"
+                title="Edit"
+              >
+                <i class="fa fa-edit"></i>
+              </button>
+
+              <button
+                class="btn btn-sm btn-outline-danger"
+                onclick="deleteWarehouse('${data._id}')"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteWarehouseModal"
+                title="Delete"
+              >
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
           </div>
 
-          <p class="warehouse-address">
-            <i class="fa-solid fa-location-dot"></i>
-            ${data.address}
-          </p>
+            <p class="warehouse-address">
+              <i class="fa-solid fa-location-dot me-1"></i>
+              ${data.address}
+            </p>
 
-          <p class="text-muted">
-            <i class="fa-solid fa-circle-info"></i>
-            ${data.description || 'No description available'}
-          </p>
+            <p class="text-small text-info-soft mb-3">
+              <i class="fa-solid fa-circle-info me-1"></i>
+              ${data.description || 'No description available'}
+            </p>
 
-          <div class="warehouse-managers mb-2">
+          <div class="warehouse-managers mb-3">
             <strong>Managers:</strong>
+           <!--<i class="fa-solid fa-users"></i>-->
             ${
               data.managerIds?.length
                 ? data.managerIds
@@ -55,30 +82,10 @@ export default class WarehouseTemplate {
 
           <a 
             href="/pages/products.html?warehouseId=${data._id}&filter=warehouses"
-            class="btn btn-sm btn-outline-soft mb-3"
+            class="btn btn-primary w-100 mt-auto"
           >
             View Products
           </a>
-
-          <div class="warehouse-actions">
-            <button
-              class="theme-button rounded-4"
-              onclick="editWarehouse('${data._id}')"
-              data-bs-toggle="modal"
-              data-bs-target="#editWarehouseModal"
-            >
-              <i class="fa fa-edit"></i> Edit
-            </button>
-
-            <button
-              class="btn btn-danger rounded-4"
-              onclick="deleteWarehouse('${data._id}')"
-              data-bs-toggle="modal"
-              data-bs-target="#deleteWarehouseModal"
-            >
-              <i class="fa fa-trash"></i> Delete
-            </button>
-          </div>
 
         </div>
       </div>

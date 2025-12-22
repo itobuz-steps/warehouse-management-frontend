@@ -232,7 +232,6 @@
   }
 }
 
-
 .page-title {
   font-weight: 700;
   color: var(--primary-color);
@@ -243,10 +242,10 @@
   color: $text-secondary;
 }
 
-
 .warehouse-card {
   background: #ffffff;
   border-radius: 14px;
+  border-left: 3px solid $color-primary;
   padding: 20px;
   height: 100%;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
@@ -265,13 +264,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
 
   h5 {
     font-size: 1.05rem;
     font-weight: 600;
     margin: 0;
     color: #212529;
+    max-width: 100%;
+    word-break: break-word;
   }
 }
 
@@ -285,7 +285,7 @@
 }
 
 .warehouse-address {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #6c757d;
   margin-bottom: 10px;
 
@@ -293,13 +293,6 @@
     margin-right: 6px;
     color: #adb5bd;
   }
-}
-
-.warehouse-description {
-  font-size: 0.9rem;
-  color: #495057;
-  line-height: 1.5;
-  margin-bottom: 14px;
 }
 
 .warehouse-managers {
@@ -325,18 +318,6 @@
   margin-bottom: 6px;
 }
 
-.warehouse-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: auto;
-
-  button {
-    flex: 1;
-    font-size: 0.85rem;
-    padding: 8px 12px;
-  }
-}
-
 .warehouse-products-link {
   font-size: 0.8rem;
   margin-bottom: 12px;
@@ -345,5 +326,39 @@
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.text-small {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.text-info-soft {
+  color: #6c8db5;
+}
+
+.text-info-soft i {
+  opacity: 0.7;
+}
+
+.capacity-indicator {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85rem;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.capacity-indicator i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 400px) {
+  .warehouse-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
   }
 }
