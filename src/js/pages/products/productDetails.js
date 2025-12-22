@@ -61,6 +61,11 @@ export const openProductModal = async (product) => {
   productSelection.modalPrice.textContent = product.price ?? 'N/A';
   productSelection.modalCategory.textContent =
     product.category ?? 'Not Categorized';
+  productSelection.modalMarkup.textContent = product.markup ?? '10';
+  productSelection.modalMarkupPrice.textContent = (
+    product.price +
+    (product.price * (product.markup || 10)) / 100
+  ).toFixed(2);
 
   await loadQuantityInfo(selectedProductId);
 

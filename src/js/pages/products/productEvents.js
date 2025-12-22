@@ -35,7 +35,7 @@ export const handleAddProduct = async (e) => {
     productSelection.addProductForm.productDescription.value
   );
   formData.append('price', productSelection.addProductForm.productPrice.value);
-  formData.append('markup', productSelection.addProductForm.markup.value)
+  formData.append('markup', productSelection.addProductForm.markup.value);
   formData.append('createdBy', user._id);
 
   [...productSelection.addProductForm.productImage.files].forEach((file) =>
@@ -76,6 +76,8 @@ export function editProductHandler() {
 
   productSelection.editPrice.value = productSelection.modalPrice.textContent;
 
+  productSelection.editMarkup.value = productSelection.modalMarkup.textContent;
+
   productSelection.editModal.classList.remove('hidden');
 }
 
@@ -97,6 +99,7 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
   formData.append('description', productSelection.editDescription.value);
   formData.append('category', productSelection.editCategory.value);
   formData.append('price', productSelection.editPrice.value);
+  formData.append('markup', productSelection.editMarkup.value);
 
   const files = productSelection.editImages.files;
 

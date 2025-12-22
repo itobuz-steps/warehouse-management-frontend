@@ -126,7 +126,7 @@
 
             <div class="form-group">
               <label for="markup">Markup</label>
-              <input type="number" id="markup" name="markup" required />
+              <input type="number" id="markup" name="markup"/>
             </div>
 
             <div class="form-group">
@@ -175,7 +175,8 @@
                 <span id="modalCategory" class="product-category"></span>
               </p>
               <p><strong>Price:</strong> ₹<span id="modalPrice"></span></p>
-
+              <p><strong>Markup:</strong><span id="modalMarkup"></span>%</p>
+              <p><strong>Selling Price:</strong> ₹<span id="modalMarkupPrice"></span></p>
               <hr />
 
               <div id="quantitySection"></div>
@@ -251,10 +252,13 @@
                 type="number"
                 id="editPrice"
                 name="price"
-                step="0.01"
                 class="form-control"
                 placeholder="Price"
               />
+            </div>
+            <div class="form-group">
+              <label for="editMarkup">Markup</label>
+              <input type="number" id="editMarkup" name="Markup" />
             </div>
             <div class="form-group">
               <label>Upload New Images</label>
