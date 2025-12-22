@@ -30,49 +30,56 @@
 
     <!-- Main content -->
     <main class="main-content">
-      <!-- list of warehouse section -->
+      <!-- Page Header -->
       <div
-        class="list-warehouse-head d-flex justify-content-between flex-column gap-2 flex-sm-row"
+        class="page-header topbar d-flex flex-column flex-md-row justify-content-between align-items-center mb-4"
       >
-        <div class="icon-group d-flex">
-          <!-- <button
-            id="sidebarToggle"
-            class="text-primary border-0 fs-2 mb-1 d-lg-none"
-          >
-            <i class="fa-solid fa-circle-chevron-right"></i>
-          </button> -->
-
-            <!-- <i class="fa-solid fa-circle-chevron-right"></i> -->
-          </button>
-          <h2 class="ms-2 ps-4 m-auto mt-2 mt-md-0">Warehouse Details</h2>
+        <div class="d-flex flex-column justify-content-center">
+          <h2 class="page-title text-center">Warehouses</h2>
+          <!-- <p class="page-subtitle text-center">Warehouse Details</p> -->
         </div>
 
-        <!-- add warehouse section -->
         <button
-          class="btn btn-primary rounded-2"
+          class="btn btn-primary theme-button"
           id="addWarehouseBtn"
           data-bs-toggle="modal"
           data-bs-target="#addWarehouseModal"
         >
-          <i class="fa fa-plus"></i>
+          <i class="fa fa-plus me-1"></i>
           Add Warehouse
         </button>
       </div>
 
-      <!-- warehouse details table -->
-      <div class="table-responsive mt-3">
-        <table class="table">
-          <thead>
-            <tr class="table-header">
-              <th scope="col">Name</th>
-              <th scope="col">Address</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider" id="warehouseTable">
-            <!-- table row will come here -->
-          </tbody>
-        </table>
+      <!-- Stats Section -->
+      <!-- <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="overview-card">
+            <div class="card-title">Total Warehouses</div>
+            <div class="card-value" id="totalWarehouses">0</div>
+            <div class="card-sub">All registered locations</div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="overview-card">
+            <div class="card-title">Available Capacity</div>
+            <div class="card-value text-success" id="availableCapacity">-</div>
+            <div class="card-sub">Across all warehouses</div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="overview-card">
+            <div class="card-title">Total Managers</div>
+            <div class="card-value" id="totalManagers">0</div>
+            <div class="card-sub">Assigned managers</div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Warehouse Cards -->
+      <div class="row g-4" id="warehouseCards">
+        <!-- dynamic cards from js -->
       </div>
     </main>
 
@@ -84,7 +91,7 @@
       aria-labelledby="viewWarehouseName"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="viewWarehouseName"></h1>
@@ -129,7 +136,7 @@
             <a
               id="viewProducts"
               href="/pages/products.html"
-              class="btn btn-primary"
+              class="btn btn-primary w-100"
               >View Products</a
             >
           </div>
@@ -145,7 +152,7 @@
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">
@@ -313,6 +320,18 @@
                   id="description"
                   class="form-control"
                   placeholder="Enter description"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="capacity" class="form-label">Capacity</label>
+                <input
+                  type="number"
+                  name="capacity"
+                  id="capacity"
+                  class="form-control"
+                  placeholder="Enter capacity"
                   required
                 />
               </div>

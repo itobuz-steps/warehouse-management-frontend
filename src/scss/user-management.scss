@@ -60,7 +60,7 @@
       }
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 840px) {
       .user-info {
         @include flex(flex-start, center, column, 20px);
       }

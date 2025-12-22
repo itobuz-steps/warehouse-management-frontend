@@ -1,0 +1,20 @@
+@import './dashboard-mixins';
+.theme-button {
+  @include dashboard-button($color-primary, $color-primary-dark);
+  font-size: 0.85rem;
+  padding: 8px 14px;
+}
+
+.btn-outline-soft {
+  color: $color-primary;
+  border: 1px solid rgba($color-primary, 0.5);
+  background: transparent;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba($color-primary, 0.1);
+    color: $color-primary;
+    border-color: $color-primary;
+  }
+}
