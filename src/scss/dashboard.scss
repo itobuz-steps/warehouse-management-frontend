@@ -236,6 +236,32 @@
   }
 }
 
+/* CAROUSEL STYLES */
+
+.carousel-container {
+  margin: 20px 0;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-item img {
+  height: 300px;
+  object-fit: cover;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  filter: invert(1); /* Make controls more visible if you want */
+}
+
 /* CHARTS */
 .charts-grid {
   display: grid;

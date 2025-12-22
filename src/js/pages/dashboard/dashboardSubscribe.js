@@ -455,6 +455,48 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
   }
 };
 
+async function showTopSellingProductsSubscribe(warehouseId) {
+  try {
+    if (!warehouseId) {
+      dashboardSelection.chartCard.style.display = 'none';
+      return;
+    }
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-top-selling-products/${warehouseId}`
+    );
+
+    const products = res.data.data;
+
+    const carouselItemsContainer = document.getElementById('carouselItems');
+    
+    carouselItemsContainer.innerHTML = '';
+
+    products.forEach((product, index) => {
+      const isActive = index === 0 ? 'active' : ''; 
+
+      const itemHTML = `
+        <div class="carousel-item ${isActive}">
+          <img src="${product.productImage}" class="d-block w-100" alt="${product.productName}">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>${product.productName}</h5>
+            <p>Sold: ${product.totalSoldQuantity} units</p>
+            <p>₹${product.totalSalesAmount.toLocaleString('hi-IN')}</p>
+          </div>
+        </div>
+      `;
+
+      carouselItemsContainer.innerHTML += itemHTML; 
+    });
+  } catch (err) {
+    toastSection.innerHTML = displayToast.errorToast(err.message);
+
+    setTimeout(() => {
+      toastSection.innerHTML = '';
+    }, 3000);
+  }
+}
+
+
 export {
   showTopProductsSubscribe,
   showInventoryCategorySubscribe,
@@ -463,4 +505,5 @@ export {
   showTransactionStatsSubscribe,
   showLowStockProducts,
   showRecentTransactions,
+  showTopSellingProductsSubscribe,
 };
