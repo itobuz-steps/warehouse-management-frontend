@@ -17,7 +17,7 @@ export default class WarehouseTemplate {
     }
 
     return `
-      <div class="col-md-6 col-xl-4">
+      <div class="col-sm-6 col-xl-4">
         <div class="warehouse-card">
 
           <div class="warehouse-card-header d-flex justify-content-between align-items-start">
@@ -64,7 +64,7 @@ export default class WarehouseTemplate {
             </div>
           </div>
 
-            <p class="text-small text-info-soft mb-3">
+            <p class="text-small text-info-soft mb-3 mt-1">
               <i class="fa-solid fa-circle-info me-1"></i>
               ${data.description || 'No description available'}
             </p>
@@ -83,7 +83,7 @@ export default class WarehouseTemplate {
 
           <a 
             href="/pages/products.html?warehouseId=${data._id}&filter=warehouses"
-            class="btn btn-sm btn-primary w-100 mt-auto"
+            class="btn theme-button btn-sm w-100 mt-auto"
           >
             View Products
           </a>

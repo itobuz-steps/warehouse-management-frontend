@@ -35,6 +35,7 @@ export const handleAddProduct = async (e) => {
     productSelection.addProductForm.productDescription.value
   );
   formData.append('price', productSelection.addProductForm.productPrice.value);
+  formData.append('markup', productSelection.addProductForm.markup.value)
   formData.append('createdBy', user._id);
 
   [...productSelection.addProductForm.productImage.files].forEach((file) =>
