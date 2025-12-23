@@ -60,7 +60,7 @@ export const handleAddProduct = async (e) => {
     loadProducts({ warehouseId, page: 1 });
   } catch (err) {
     console.error(err);
-    showToast('error', 'Error adding product');
+    showToast('error', err.response.data.message);
   }
 };
 
@@ -118,7 +118,7 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
     showToast('success', res.data.message);
   } catch (err) {
     console.error(err);
-    showToast('error', 'Failed to update product');
+    showToast('error', err.response.data.message);
   }
 };
 
@@ -140,6 +140,6 @@ export async function handleDelete(selectedProductId) {
     showToast('success', res.data.message);
   } catch (err) {
     console.error(err);
-    showToast('error', 'Failed to delete product');
+    showToast('error', err.response.data.message);
   }
 }

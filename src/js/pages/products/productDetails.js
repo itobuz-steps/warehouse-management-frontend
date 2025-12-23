@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import {
   fetchProductQuantityWarehouse,
   fetchProductSpecificWarehouses,
@@ -12,6 +13,9 @@ import {
 } from './productEvents';
 import { productSelection } from './productSelector';
 import { getCurrentUser } from '../../common/api/HelperApi';
+import config from '../../config/config';
+import api from '../../api/interceptor';
+import { showToast } from '../../common/template/productTemplate';
 
 let currentImageIndex = 0;
 let currentImages = [];
@@ -109,8 +113,24 @@ async function loadQuantityInfo(productId) {
 
       const qty = res.data.data[0].quantity;
       productSelection.quantitySection.innerHTML = `
-        <p><strong>Quantity in this Warehouse:</strong> ${qty}</p>
-        ${qty <= res.data.data[0].limit ? `<button class="btn btn-danger low-stock"> ⚠ LOW STOCK</button>` : ''}
+        <div class="d-flex gap-2 align-items-center">
+          <p class="mb-0"><strong>Quantity:</strong> ${qty}</p>
+
+          ${
+            qty <= res.data.data[0].limit
+              ? `<button class="btn btn-danger btn-sm low-stock">
+                <i class="fa-solid fa-arrow-trend-down"></i>
+              </button>`
+              : ''
+          }
+
+          <button 
+            class="btn btn-outline-soft btn-sm edit-limit-btn"
+            data-id="${res.data.data[0]._id}"
+            data-limit="${res.data.data[0].limit}">
+            <i class="fa-regular fa-pen-to-square"></i> Limit
+          </button>
+        </div>
       `;
     } else {
       const totalRes = await fetchTotalProductQuantity(productId);
@@ -121,9 +141,15 @@ async function loadQuantityInfo(productId) {
 
       const warehouseList = listRes.data.data
         .map(
-          (warehouse) =>
-            `<li>${warehouse.warehouseId?.name}: <strong>${warehouse.quantity}</strong>
-            ${totalQty <= totalRes.data.data[0].limit ? `<button class="btn btn-danger btn-sm low-stock"> ⚠ LOW STOCK</button>` : ''}</li>`
+          (quantity) =>
+            `<li>${quantity.warehouseId?.name}: <strong>${quantity.quantity}</strong>
+            ${quantity.quantity <= quantity.limit ? `<button class="btn btn-danger btn-sm low-stock my-1"><i class="fa-solid fa-arrow-trend-down"></i></button>` : ''}
+            <button 
+              class="btn btn-outline-soft btn-sm edit-limit-btn"
+              data-id="${quantity._id}"
+              data-limit="${quantity.limit}">
+              <i class="fa-regular fa-pen-to-square"></i> Limit
+            </button></li>`
         )
         .join('');
 
@@ -138,6 +164,46 @@ async function loadQuantityInfo(productId) {
     productSelection.quantitySection.innerHTML = 'Error loading quantity.';
   }
 }
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.edit-limit-btn');
+
+  if (!btn) {
+    return;
+  }
+
+  const quantityId = btn.dataset.id;
+  const limit = btn.dataset.limit;
+
+  openLimitModal(quantityId, limit);
+});
+
+function openLimitModal(quantityId, currentLimit) {
+  document.getElementById('limitQuantityId').value = quantityId;
+  document.getElementById('limitInput').value = currentLimit;
+
+  const modal = new bootstrap.Modal(document.getElementById('limitModal'));
+  modal.show();
+}
+
+document.getElementById('saveLimitBtn').addEventListener('click', async () => {
+  try {
+    const quantityId = document.getElementById('limitQuantityId').value;
+    const limit = document.getElementById('limitInput').value;
+
+    const res = await api.put(
+      `${config.QUANTITY_BASE_URL}/${quantityId}/limit`,
+      {
+        limit,
+      }
+    );
+
+    bootstrap.Modal.getInstance(document.getElementById('limitModal')).hide();
+    showToast('success', res.data.message);
+  } catch (err) {
+    showToast('error', err.response.data.message);
+  }
+});
 
 productSelection.editProductBtn.addEventListener('click', editProductHandler);
 

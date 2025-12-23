@@ -77,7 +77,7 @@ $color-border: $color-gray-300;
   }
 }
 
-#productGrid {
+.product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
@@ -206,7 +206,7 @@ $color-border: $color-gray-300;
   }
 }
 
-#addProductModal.modal-overlay {
+.addProductModal.modal-overlay {
   display: none; // controlled via JS
   position: fixed;
   inset: 0;
@@ -329,6 +329,14 @@ $color-border: $color-gray-300;
   }
 }
 
+.limitModal {
+  z-index: 1200 !important;
+}
+
+.modal-backdrop.show {
+  z-index: 1100 !important;
+}
+
 .product-modal {
   position: fixed;
   inset: 0;
@@ -431,10 +439,6 @@ $color-border: $color-gray-300;
 }
 
 @media (max-width: 768px) {
-  .modal-content {
-    width: 95%;
-  }
-
   .carousel-container {
     max-width: 300px;
   }
@@ -455,7 +459,14 @@ $color-border: $color-gray-300;
   }
 }
 
-#confirmDeleteModal {
+.editProductModal {
+  .modal-content {
+    padding: 25px;
+    max-width: 500px;
+  }
+}
+
+.confirmDeleteModal {
   .modal-content {
     padding: 25px;
     max-width: 400px;

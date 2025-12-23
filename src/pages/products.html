@@ -83,7 +83,7 @@
       </div>
 
       <!-- Add Product Modal -->
-      <div id="addProductModal" class="modal-overlay">
+      <div id="addProductModal" class="addProductModal modal-overlay">
         <div class="modal-box">
           <h2 class="modal-title">Add New Product</h2>
 
@@ -126,7 +126,7 @@
 
             <div class="form-group">
               <label for="markup">Markup</label>
-              <input type="number" id="markup" name="markup"/>
+              <input type="number" id="markup" name="markup" />
             </div>
 
             <div class="form-group">
@@ -175,8 +175,12 @@
                 <span id="modalCategory" class="product-category"></span>
               </p>
               <p><strong>Price:</strong> ₹<span id="modalPrice"></span></p>
-              <p><strong>Markup:</strong><span id="modalMarkup"></span>%</p>
-              <p><strong>Selling Price:</strong> ₹<span id="modalMarkupPrice"></span></p>
+              <p><strong>Markup: </strong><span id="modalMarkup"></span>%</p>
+              <p>
+                <strong>Selling Price:</strong> ₹<span
+                  id="modalMarkupPrice"
+                ></span>
+              </p>
               <hr />
 
               <div id="quantitySection"></div>
@@ -201,7 +205,7 @@
       </div>
 
       <!-- Edit Product Modal -->
-      <div id="editProductModal" class="product-modal hidden">
+      <div id="editProductModal" class="product-modal hidden editProductModal">
         <div class="modal-content">
           <span class="close-edit-modal">&times;</span>
           <h2>Edit Product</h2>
@@ -279,8 +283,35 @@
         </div>
       </div>
 
+      <!-- Edit Product Modal -->
+      <div class="modal fade limitModal" id="limitModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <h5 class="modal-title">Edit Product Limit</h5>
+
+            <div class="form-group">
+              <input type="hidden" id="limitQuantityId" />
+
+              <label class="form-label fw-bold">Limit</label>
+              <input
+                type="number"
+                id="limitInput"
+                class="form-control"
+                min="0"
+              />
+            </div>
+
+            <div class="d-flex justify-content-center pt-3">
+              <button class="btn theme-button w-100" id="saveLimitBtn">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Confirm Modal -->
-      <div id="confirmDeleteModal" class="product-modal hidden">
+      <div id="confirmDeleteModal" class="product-modal hidden confirmDeleteModal">
         <div class="modal-content">
           <h3>Confirm Delete</h3>
           <p>Are you sure you want to archive this product?</p>
