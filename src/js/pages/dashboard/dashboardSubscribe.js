@@ -37,7 +37,6 @@ Chart.register(
 );
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
 
 let barGraph = null;
 let doughnut = null;
@@ -121,10 +120,12 @@ async function showTopProductsSubscribe(warehouseId) {
       },
     });
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 }
@@ -244,10 +245,12 @@ const showProductTransactionSubscribe = async (warehouseId) => {
       },
     });
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -289,10 +292,12 @@ const showTransactionStatsSubscribe = async (warehouseId) => {
     dashboardSelection.inventoryInput.innerText = `${totalInventory.toLocaleString('hi-IN')} items left`;
     dashboardSelection.shipmentInput.innerText = `${todayShipment.toLocaleString('hi-IN')}`;
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -311,23 +316,17 @@ const showLowStockProducts = async (warehouseId) => {
       dashboardSelection.tableCard.style.display = 'block';
 
       items.forEach((item) => {
-        const row = `
-      <tr>
-        <td>${item.productName}</td>
-        <td>${item.quantity} units</td>
-        <td>
-          <span class="badge">Low</span>
-        </td>
-      </tr>`;
-
-        dashboardSelection.lowStockTable.innerHTML += row;
+        dashboardSelection.lowStockTable.innerHTML +=
+          displayToast.lowStockRow(item);
       });
     }
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -338,7 +337,7 @@ const noWarehouseDisplay = () => {
   dashboardSelection.tableCard.style.display = 'none';
   dashboardSelection.noDashboardBox.style.display = 'flex';
   dashboardSelection.noDashboardBox.innerHTML =
-    '<p>No warehouse assigned yet! wait for the admin to assign warehouse or contact admin.</p>';
+    displayToast.noWarehouseMessage();
 
   dashboardSelection.chartCard.forEach((chart) => {
     chart.style.display = 'none';
@@ -363,7 +362,7 @@ const showRecentTransactions = async (warehouseId) => {
 
     if (!transactions.length) {
       dashboardSelection.recentActivityList.innerHTML =
-        '<p class="text-muted">No recent activity</p>';
+        displayToast.noRecentActivity();
       return;
     }
 
@@ -392,28 +391,26 @@ const showRecentTransactions = async (warehouseId) => {
             ? `Stock Out of <strong>${productName}</strong> (${qty} units)`
             : type === 'TRANSFER'
               ? `Transfer <strong>${productName}</strong> (${qty} units) to ${targetWarehouse}`
-              : type === 'ADJUSTMENT' 
-                  ? `Adjustment made on <strong>${productName}</strong> (${qty} units)`
+              : type === 'ADJUSTMENT'
+                ? `Adjustment made on <strong>${productName}</strong> (${qty} units)`
                 : `<strong>${productName}</strong> (${qty} units)`;
 
-      const item = `
-      <div class="activity-item">
-        <span class="dot ${dotClass}"></span>
-        <div>
-          <p><strong>${performedBy}</strong> · ${actionText}</p>
-          <small>${time}</small>
-        </div>
-      </div>
-      `;
-
-      dashboardSelection.recentActivityList.innerHTML += item;
+      dashboardSelection.recentActivityList.innerHTML +=
+        displayToast.recentActivityItem({
+          performedBy,
+          actionText,
+          time,
+          dotClass,
+        });
     });
   } catch (err) {
     dashboardSelection.recentActivityList.innerHTML =
       '<p class="text-danger">Unable to load recent activity</p>';
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -435,22 +432,24 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
 
     warehouseDisplay();
     warehouseSelect.innerHTML = '';
-    warehouseSelect.innerHTML = `<option value="${warehouses[0]._id}" selected>${warehouses[0].name}</option>`;
+    warehouseSelect.innerHTML = displayToast.warehouseOption(
+      warehouses[0],
+      true
+    );
 
     warehouses.slice(1).forEach((warehouse) => {
-      const option = document.createElement('option');
-      option.value = warehouse._id;
-      option.textContent = warehouse.name;
-
-      warehouseSelect.appendChild(option);
+      warehouseSelect.insertAdjacentHTML(
+        'beforeend',
+        displayToast.warehouseOption(warehouse)
+      );
     });
 
     return true;
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(err.message);
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -468,34 +467,47 @@ async function showTopSellingProductsSubscribe(warehouseId) {
     const products = res.data.data;
 
     const carouselItemsContainer = document.getElementById('carouselItems');
-    
+
     carouselItemsContainer.innerHTML = '';
 
     products.forEach((product, index) => {
-      const isActive = index === 0 ? 'active' : ''; 
+      const isActive = index === 0 ? 'active' : '';
 
       const itemHTML = `
-        <div class="carousel-item ${isActive}">
-          <img src="${product.productImage}" class="d-block w-100" alt="${product.productName}">
-          <div class="carousel-caption d-none d-md-block">
-            <h5>${product.productName}</h5>
-            <p>Sold: ${product.totalSoldQuantity} units</p>
-            <p>₹${product.totalSalesAmount.toLocaleString('hi-IN')}</p>
+  <div class="carousel-item ${isActive}">
+    <div class="product-card">
+      <div class="product-image-wrapper">
+        <img src="${product.productImage}" alt="${product.productName}">
+      </div>
+      <div class="product-info">
+        <div class="product-header">
+          <h6>${product.productName}</h6>
+          <span class="product-category">${product.category}</span>
+        </div>
+        <div class="product-stats mb-2">
+          <div class="stat-item">
+            <div class="stat-label">Price</div>
+            <div class="stat-value price">₹${product.price.toLocaleString('hi-IN')}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Total Sales</div>
+            <div class="stat-value sales">₹${product.totalSalesAmount.toLocaleString('hi-IN')}</div>
           </div>
         </div>
-      `;
+    </div>
+  </div>
+`;
 
-      carouselItemsContainer.innerHTML += itemHTML; 
+      carouselItemsContainer.innerHTML += itemHTML;
     });
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(err.message);
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 }
-
 
 export {
   showTopProductsSubscribe,

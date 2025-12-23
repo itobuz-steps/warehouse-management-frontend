@@ -184,35 +184,72 @@
 
       <div class="no-dashboard-box"></div>
 
-      <!-- Top Selling Products Carousel -->
-      <div class="carousel-container">
-        <div
-          id="topProductsCarousel"
-          class="carousel slide"
-          data-bs-ride="carousel"
-        >
-          <div class="carousel-inner" id="carouselItems">
+      <section class="stock-activity-grid">
+        <!-- Top Selling Products Carousel -->
+        <div class="carousel-container">
+          <h5>BEST SELLING PRODUCTS</h5>
+          <div
+            id="topProductsCarousel"
+            class="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-inner" id="carouselItems"></div>
+
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="3"
+                aria-label="Slide 4"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="4"
+                aria-label="Slide 5"
+              ></button>
+            </div>
           </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#topProductsCarousel"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#topProductsCarousel"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity-card">
+          <h5>RECENT ACTIVITY</h5>
+
+          <div class="activity-list" id="recentActivityList">
+            <!-- Dynamic activity items -->
+            <!--
+      <div class="activity-item">
+        <span class="dot success"></span>
+        <div>
+          <p><strong>Order #876</strong> received at Warehouse A</p>
+          <small>10:22 AM · Today</small>
         </div>
       </div>
+      -->
+          </div>
+        </div>
+      </section>
 
       <!-- Static Charts -->
       <section class="charts-grid">
@@ -250,11 +287,6 @@
             <i class="fa-solid fa-file-excel"></i> Export
           </button>
         </div>
-      </section>
-
-      <!-- STOCK & ACTIVITY SECTION -->
-      <section class="stock-activity-grid">
-        <!-- Low Quantity Stock -->
         <div class="table-card low-stock-card">
           <h5>LOW QUANTITY STOCK</h5>
 
@@ -278,24 +310,6 @@
           -->
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="recent-activity-card">
-          <h5>RECENT ACTIVITY</h5>
-
-          <div class="activity-list" id="recentActivityList">
-            <!-- Dynamic activity items -->
-            <!--
-      <div class="activity-item">
-        <span class="dot success"></span>
-        <div>
-          <p><strong>Order #876</strong> received at Warehouse A</p>
-          <small>10:22 AM · Today</small>
-        </div>
-      </div>
-      -->
           </div>
         </div>
       </section>

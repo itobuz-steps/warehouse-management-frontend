@@ -10,6 +10,9 @@ const dashboardSelection = {
   lineChart: document.querySelector('#lineChart'),
   warehouseSelect: document.querySelector('#warehouseSelect'),
 
+  toastSection: document.getElementById('toastSection'),
+  carouselItems: document.getElementById('carouselItems'),
+
   salesInput: document.querySelector('#salesInput'),
   purchaseInput: document.querySelector('#purchaseInput'),
   inventoryInput: document.querySelector('#inventoryInput'),
