@@ -47,4 +47,9 @@ export const productSelection = {
   confirmDeleteModal: document.getElementById('confirmDeleteModal'),
   cancelDeleteBtn: document.getElementById('cancelDeleteBtn'),
   confirmDeleteBtn: document.getElementById('confirmDeleteBtn'),
+
+  limitQuantityId: document.getElementById('limitQuantityId'),
+  limitInput: document.getElementById('limitInput'),
+  limitModal: document.getElementById('limitModal'),
+  saveLimitBtn: document.getElementById('saveLimitBtn'),
 };

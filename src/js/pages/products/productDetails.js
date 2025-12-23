@@ -10,12 +10,11 @@ import {
   editProductHandler,
   handleDelete,
   handleEditProductSubmit,
+  handleSaveLimit,
 } from './productEvents';
 import { productSelection } from './productSelector';
 import { getCurrentUser } from '../../common/api/HelperApi';
-import config from '../../config/config';
-import api from '../../api/interceptor';
-import { showToast } from '../../common/template/productTemplate';
+import { managerProductQuantity, warehouseProductList } from '../../common/template/productTemplate';
 
 let currentImageIndex = 0;
 let currentImages = [];
@@ -111,27 +110,9 @@ async function loadQuantityInfo(productId) {
     if (user.role === 'manager') {
       const res = await fetchProductQuantityWarehouse(productId, warehouseId);
 
-      const qty = res.data.data[0].quantity;
-      productSelection.quantitySection.innerHTML = `
-        <div class="d-flex gap-2 align-items-center">
-          <p class="mb-0"><strong>Quantity:</strong> ${qty}</p>
-
-          ${
-            qty <= res.data.data[0].limit
-              ? `<button class="btn btn-danger btn-sm low-stock">
-                <i class="fa-solid fa-arrow-trend-down"></i>
-              </button>`
-              : ''
-          }
-
-          <button 
-            class="btn btn-outline-soft btn-sm edit-limit-btn"
-            data-id="${res.data.data[0]._id}"
-            data-limit="${res.data.data[0].limit}">
-            <i class="fa-regular fa-pen-to-square"></i> Limit
-          </button>
-        </div>
-      `;
+      productSelection.quantitySection.innerHTML = managerProductQuantity(
+        res.data.data[0]
+      );
     } else {
       const totalRes = await fetchTotalProductQuantity(productId);
 
@@ -139,25 +120,13 @@ async function loadQuantityInfo(productId) {
 
       const listRes = await fetchProductSpecificWarehouses(productId);
 
-      const warehouseList = listRes.data.data
-        .map(
-          (quantity) =>
-            `<li>${quantity.warehouseId?.name}: <strong>${quantity.quantity}</strong>
-            ${quantity.quantity <= quantity.limit ? `<button class="btn btn-danger btn-sm low-stock my-1"><i class="fa-solid fa-arrow-trend-down"></i></button>` : ''}
-            <button 
-              class="btn btn-outline-soft btn-sm edit-limit-btn"
-              data-id="${quantity._id}"
-              data-limit="${quantity.limit}">
-              <i class="fa-regular fa-pen-to-square"></i> Limit
-            </button></li>`
-        )
-        .join('');
+       const quantityList = warehouseProductList(listRes.data.data);
 
       productSelection.quantitySection.innerHTML = `
         <p><strong>Total Quantity Across Warehouses:</strong> ${totalQty}</p>
         <hr/>
         <p><strong>Warehouses:</strong></p>
-        <ul>${warehouseList}</ul>
+        <ul>${quantityList}</ul>
       `;
     }
   } catch {
@@ -172,38 +141,14 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  const quantityId = btn.dataset.id;
-  const limit = btn.dataset.limit;
+  productSelection.limitQuantityId.value = btn.dataset.id;
+  productSelection.limitInput.value = btn.dataset.limit;
 
-  openLimitModal(quantityId, limit);
-});
-
-function openLimitModal(quantityId, currentLimit) {
-  document.getElementById('limitQuantityId').value = quantityId;
-  document.getElementById('limitInput').value = currentLimit;
-
-  const modal = new bootstrap.Modal(document.getElementById('limitModal'));
+  const modal = new bootstrap.Modal(productSelection.limitModal);
   modal.show();
-}
-
-document.getElementById('saveLimitBtn').addEventListener('click', async () => {
-  try {
-    const quantityId = document.getElementById('limitQuantityId').value;
-    const limit = document.getElementById('limitInput').value;
-
-    const res = await api.put(
-      `${config.QUANTITY_BASE_URL}/${quantityId}/limit`,
-      {
-        limit,
-      }
-    );
-
-    bootstrap.Modal.getInstance(document.getElementById('limitModal')).hide();
-    showToast('success', res.data.message);
-  } catch (err) {
-    showToast('error', err.response.data.message);
-  }
 });
+
+productSelection.saveLimitBtn.addEventListener('click', handleSaveLimit);
 
 productSelection.editProductBtn.addEventListener('click', editProductHandler);
 

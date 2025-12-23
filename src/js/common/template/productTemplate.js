@@ -53,7 +53,6 @@ export const populateWarehouseSelect = (
   element,
   defaultOption = false
 ) => {
-  
   if (!defaultOption) {
     element.innerHTML = '';
   }
@@ -91,4 +90,52 @@ export function createProductCard(product) {
       </div>
     </div>
   `;
+}
+
+export function managerProductQuantity(product) {
+  return `
+        <div class="d-flex gap-2 align-items-center mb-2">
+          <p class="mb-0"><strong>Quantity:</strong> ${product.quantity}</p>
+
+          ${
+            product.quantity <= product.limit
+              ? `<button class="btn btn-danger btn-sm low-stock">
+                <i class="fa-solid fa-arrow-trend-down"></i>
+              </button>`
+              : ''
+          }
+
+          <button 
+            class="btn btn-outline-soft btn-sm edit-limit-btn"
+            data-id="${product._id}"
+            data-limit="${product.limit}">
+            <i class="fa-regular fa-pen-to-square"></i> Limit
+          </button>
+        </div>
+      `;
+}
+
+export function warehouseProductList(products) {
+  return products
+    .map(
+      (product) => `
+        <li>
+          ${product.warehouseId?.name}: <strong>${product.quantity}</strong>
+          ${
+            product.quantity <= product.limit
+              ? `<button class="btn btn-danger btn-sm low-stock my-1">
+                   <i class="fa-solid fa-arrow-trend-down"></i>
+                 </button>`
+              : ''
+          }
+          <button 
+            class="btn btn-outline-soft btn-sm edit-limit-btn"
+            data-id="${product._id}"
+            data-limit="${product.limit}">
+            <i class="fa-regular fa-pen-to-square"></i> Limit
+          </button>
+        </li>
+      `
+    )
+    .join('');
 }

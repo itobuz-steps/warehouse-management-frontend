@@ -1,14 +1,15 @@
+import * as bootstrap from 'bootstrap';
 import { productSelection } from './productSelector.js';
 import {
   openModal,
   closeModal,
   showToast,
-  // resetSearchFilters,
 } from '../../common/template/productTemplate.js';
 import {
   addProduct,
   deleteProduct,
   editProduct,
+  updateLimit,
 } from '../../common/api/productApiHelper.js';
 import { loadProducts } from './productSubscribe.js';
 import { getCurrentUser } from '../../common/api/HelperApi.js';
@@ -140,6 +141,20 @@ export async function handleDelete(selectedProductId) {
     showToast('success', res.data.message);
   } catch (err) {
     console.error(err);
+    showToast('error', err.response.data.message);
+  }
+}
+
+export async function handleSaveLimit() {
+  try {
+    const res = await updateLimit(
+      productSelection.limitQuantityId.value,
+      productSelection.limitInput.value
+    );
+
+    bootstrap.Modal.getInstance(productSelection.limitModal).hide();
+    showToast('success', res.data.message);
+  } catch (err) {
     showToast('error', err.response.data.message);
   }
 }
