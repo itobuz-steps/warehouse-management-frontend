@@ -69,23 +69,27 @@ export function createProductCard(product) {
   const imgSrc = product.productImage?.[0] ?? '/images/placeholder.png';
 
   return `
-    <img src="${imgSrc}" alt="${product.name}" />
+    <div class="card-image-wrapper">
+      <img src="${imgSrc}" alt="${product.name}" />
+      <span class="category-badge">${product.category ?? 'Uncategorized'}</span>
+    </div>
     <hr>
     <div class="card-body">
-      <h5>${product.name}</h5>
+      <h5 class="mb-0">${product.name}</h5>
 
       <div class="info-row">
         <span class="price">₹${product.price ?? 'N/A'}</span>
-        <span class="category">${product.category ?? 'Not Categorized'}</span>
+        <!--<span class="category">${product.category ?? 'Not Categorized'}</span>-->
+        <span class="markup">Markup: ${product.markup ?? 'Not Categorized'}% <i class="fa-solid fa-arrow-trend-up"></i></span>
       </div>
       <div class="d-flex justify-content-center justify-content-lg-start">
         <button 
-        class="btn theme-button" 
+        class="btn theme-button w-100" 
         id="viewDetails"
         type="button"
         data-product='${JSON.stringify(product)}'
       >
-        View Details
+        View Details <i class="fa-solid fa-arrow-right-to-bracket"></i>
       </button>
       </div>
     </div>
