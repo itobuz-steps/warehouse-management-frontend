@@ -30,6 +30,15 @@ $color-border: $color-gray-300;
     font-weight: $font-weight-bold;
     color: $color-primary;
   }
+  .d-flex {
+    width: 100%;
+  }
+
+  @media (min-width: 500px) {
+    .d-flex {
+      width: auto;
+    }
+  }
 
   .filter-bar {
     display: flex;

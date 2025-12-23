@@ -17,7 +17,7 @@ export default class WarehouseTemplate {
     }
 
     return `
-      <div class="col-sm-6 col-xl-4">
+      <div class="col-md-6 col-xl-4">
         <div class="warehouse-card">
 
           <div class="warehouse-card-header d-flex justify-content-between align-items-start">
