@@ -367,33 +367,82 @@ const showRecentTransactions = async (warehouseId) => {
     }
 
     transactions.forEach((tx) => {
-      const productName = tx.product?.productName || tx.product?.name || 'Item';
-      const qty = tx.quantity ?? tx.qty ?? 0;
-      const performedBy =
-        tx.performedBy?.name || tx.performedBy?.fullName || 'System';
-      const type = tx.type || tx._doc?.type || 'UNKNOWN';
-      const updatedAt = tx.updatedAt || tx.createdAt;
-      const time = updatedAt ? new Date(updatedAt).toLocaleString() : '';
+      let productName = 'Item';
+      if (tx.product?.productName) {
+        productName = tx.product.productName;
+      } else if (tx.product?.name) {
+        productName = tx.product.name;
+      }
+
+      let qty = 0;
+      if (tx.quantity !== null && tx.quantity !== undefined) {
+        qty = tx.quantity;
+      } else if (tx.qty !== null && tx.qty !== undefined) {
+        qty = tx.qty;
+      }
+
+      let performedBy = 'System';
+      if (tx.performedBy?.name) {
+        performedBy = tx.performedBy.name;
+      } else if (tx.performedBy?.fullName) {
+        performedBy = tx.performedBy.fullName;
+      }
+
+      let type = 'UNKNOWN';
+      if (tx.type) {
+        type = tx.type;
+      } else if (tx._doc?.type) {
+        type = tx._doc.type;
+      }
+
+      let updatedAt;
+      if (tx.updatedAt) {
+        updatedAt = tx.updatedAt;
+      } else {
+        updatedAt = tx.createdAt;
+      }
+
+      let time = '';
+      if (updatedAt) {
+        time = new Date(updatedAt).toLocaleString();
+      }
 
       let dotClass = 'info';
-      if (type === 'IN') dotClass = 'success';
-      else if (type === 'OUT') dotClass = 'info';
-      else if (type === 'TRANSFER') dotClass = 'warning';
-      else if (type === 'ADJUSTMENT' || type === 'ADJ') dotClass = 'danger';
+      let actionText = `<strong>${productName}</strong> (${qty} units)`;
 
-      const targetWarehouse =
-        tx.destinationWarehouse?.name || tx.sourceWarehouse?.name || '';
-
-      const actionText =
-        type === 'IN'
-          ? `Stock In of <strong>${productName}</strong> (${qty} units)`
-          : type === 'OUT'
-            ? `Stock Out of <strong>${productName}</strong> (${qty} units)`
-            : type === 'TRANSFER'
-              ? `Transfer <strong>${productName}</strong> (${qty} units) to ${targetWarehouse}`
-              : type === 'ADJUSTMENT'
-                ? `Adjustment made on <strong>${productName}</strong> (${qty} units)`
-                : `<strong>${productName}</strong> (${qty} units)`;
+      if (type === 'IN') {
+        const transactionDetails = displayToast.transactionIN(productName, qty);
+        dotClass = transactionDetails.dotClass;
+        actionText = transactionDetails.actionText;
+      } else if (type === 'OUT') {
+        const transactionDetails = displayToast.transactionOUT(
+          productName,
+          qty
+        );
+        dotClass = transactionDetails.dotClass;
+        actionText = transactionDetails.actionText;
+      } else if (type === 'TRANSFER') {
+        let targetWarehouse = '';
+        if (tx.destinationWarehouse?.name) {
+          targetWarehouse = tx.destinationWarehouse.name;
+        } else if (tx.sourceWarehouse?.name) {
+          targetWarehouse = tx.sourceWarehouse.name;
+        }
+        const transactionDetails = displayToast.transactionTRANSFER(
+          productName,
+          qty,
+          targetWarehouse
+        );
+        dotClass = transactionDetails.dotClass;
+        actionText = transactionDetails.actionText;
+      } else if (type === 'ADJUSTMENT' || type === 'ADJ') {
+        const transactionDetails = displayToast.transactionADJUSTMENT(
+          productName,
+          qty
+        );
+        dotClass = transactionDetails.dotClass;
+        actionText = transactionDetails.actionText;
+      }
 
       dashboardSelection.recentActivityList.innerHTML +=
         displayToast.recentActivityItem({
@@ -405,7 +454,7 @@ const showRecentTransactions = async (warehouseId) => {
     });
   } catch (err) {
     dashboardSelection.recentActivityList.innerHTML =
-      '<p class="text-danger">Unable to load recent activity</p>';
+      displayToast.noRecentActivity();
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
@@ -446,7 +495,9 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
 
     return true;
   } catch (err) {
-    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
       dashboardSelection.toastSection.innerHTML = '';
@@ -466,42 +517,22 @@ async function showTopSellingProductsSubscribe(warehouseId) {
 
     const products = res.data.data;
 
-    const carouselItemsContainer = document.getElementById('carouselItems');
-
-    carouselItemsContainer.innerHTML = '';
+    dashboardSelection.carouselItems.innerHTML = '';
 
     products.forEach((product, index) => {
-      const isActive = index === 0 ? 'active' : '';
+      let isActive = '';
+      if (index === 0) {
+        isActive = 'active';
+      }
 
-      const itemHTML = `
-  <div class="carousel-item ${isActive}">
-    <div class="product-card">
-      <div class="product-image-wrapper">
-        <img src="${product.productImage}" alt="${product.productName}">
-      </div>
-      <div class="product-info">
-        <div class="product-header">
-          <h6>${product.productName}</h6>
-          <span class="product-category">${product.category}</span>
-        </div>
-        <div class="product-stats mb-2">
-          <div class="stat-item">
-            <div class="stat-label">Price</div>
-            <div class="stat-value price">₹${product.price.toLocaleString('hi-IN')}</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">Total Sales</div>
-            <div class="stat-value sales">₹${product.totalSalesAmount.toLocaleString('hi-IN')}</div>
-          </div>
-        </div>
-    </div>
-  </div>
-`;
+      const itemHTML = displayToast.carouselItem(product, isActive);
 
-      carouselItemsContainer.innerHTML += itemHTML;
+      dashboardSelection.carouselItems.innerHTML += itemHTML;
     });
   } catch (err) {
-    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
       dashboardSelection.toastSection.innerHTML = '';

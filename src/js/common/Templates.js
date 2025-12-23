@@ -74,4 +74,39 @@ export default class Templates {
   </div>
 `;
   };
+
+  transactionIN = (productName, qty) => {
+    return {
+      dotClass: 'success',
+      actionText: `Stock In of <strong>${productName}</strong> (${qty} units)`,
+    };
+  };
+
+  transactionOUT = (productName, qty) => {
+    return {
+      dotClass: 'info',
+      actionText: `Stock Out of <strong>${productName}</strong> (${qty} units)`,
+    };
+  };
+
+  transactionTRANSFER = (productName, qty, targetWarehouse) => {
+    return {
+      dotClass: 'warning',
+      actionText: `Transfer <strong>${productName}</strong> (${qty} units) to ${targetWarehouse}`,
+    };
+  };
+
+  transactionADJUSTMENT = (productName, qty) => {
+    return {
+      dotClass: 'danger',
+      actionText: `Adjustment made on <strong>${productName}</strong> (${qty} units)`,
+    };
+  };
+
+  transactionDEFAULT = (productName, qty) => {
+    return {
+      dotClass: 'info',
+      actionText: `<strong>${productName}</strong> (${qty} units)`,
+    };
+  };
 }
