@@ -37,7 +37,6 @@ Chart.register(
 );
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
 
 let barGraph = null;
 let doughnut = null;
@@ -121,10 +120,12 @@ async function showTopProductsSubscribe(warehouseId) {
       },
     });
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 }
@@ -244,10 +245,12 @@ const showProductTransactionSubscribe = async (warehouseId) => {
       },
     });
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -289,10 +292,12 @@ const showTransactionStatsSubscribe = async (warehouseId) => {
     dashboardSelection.inventoryInput.innerText = `${totalInventory.toLocaleString('hi-IN')} items left`;
     dashboardSelection.shipmentInput.innerText = `${todayShipment.toLocaleString('hi-IN')}`;
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -311,23 +316,17 @@ const showLowStockProducts = async (warehouseId) => {
       dashboardSelection.tableCard.style.display = 'block';
 
       items.forEach((item) => {
-        const row = `
-      <tr>
-        <td>${item.productName}</td>
-        <td>${item.quantity} units</td>
-        <td>
-          <span class="badge">Low</span>
-        </td>
-      </tr>`;
-
-        dashboardSelection.lowStockTable.innerHTML += row;
+        dashboardSelection.lowStockTable.innerHTML +=
+          displayToast.lowStockRow(item);
       });
     }
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -338,7 +337,7 @@ const noWarehouseDisplay = () => {
   dashboardSelection.tableCard.style.display = 'none';
   dashboardSelection.noDashboardBox.style.display = 'flex';
   dashboardSelection.noDashboardBox.innerHTML =
-    '<p>No warehouse assigned yet! wait for the admin to assign warehouse or contact admin.</p>';
+    displayToast.noWarehouseMessage();
 
   dashboardSelection.chartCard.forEach((chart) => {
     chart.style.display = 'none';
@@ -363,57 +362,104 @@ const showRecentTransactions = async (warehouseId) => {
 
     if (!transactions.length) {
       dashboardSelection.recentActivityList.innerHTML =
-        '<p class="text-muted">No recent activity</p>';
+        displayToast.noRecentActivity();
       return;
     }
 
     transactions.forEach((tx) => {
-      const productName = tx.product?.productName || tx.product?.name || 'Item';
-      const qty = tx.quantity ?? tx.qty ?? 0;
-      const performedBy =
-        tx.performedBy?.name || tx.performedBy?.fullName || 'System';
-      const type = tx.type || tx._doc?.type || 'UNKNOWN';
-      const updatedAt = tx.updatedAt || tx.createdAt;
-      const time = updatedAt ? new Date(updatedAt).toLocaleString() : '';
+      let productName = 'Item';
+      if (tx.product?.productName) {
+        productName = tx.product.productName;
+      } else if (tx.product?.name) {
+        productName = tx.product.name;
+      }
+
+      let qty = 0;
+      if (tx.quantity !== null && tx.quantity !== undefined) {
+        qty = tx.quantity;
+      } else if (tx.qty !== null && tx.qty !== undefined) {
+        qty = tx.qty;
+      }
+
+      let performedBy = 'System';
+      if (tx.performedBy?.name) {
+        performedBy = tx.performedBy.name;
+      } else if (tx.performedBy?.fullName) {
+        performedBy = tx.performedBy.fullName;
+      }
+
+      let type = 'UNKNOWN';
+      if (tx.type) {
+        type = tx.type;
+      } else if (tx._doc?.type) {
+        type = tx._doc.type;
+      }
+
+      let updatedAt;
+      if (tx.updatedAt) {
+        updatedAt = tx.updatedAt;
+      } else {
+        updatedAt = tx.createdAt;
+      }
+
+      let time = '';
+      if (updatedAt) {
+        time = new Date(updatedAt).toLocaleString();
+      }
 
       let dotClass = 'info';
-      if (type === 'IN') dotClass = 'success';
-      else if (type === 'OUT') dotClass = 'info';
-      else if (type === 'TRANSFER') dotClass = 'warning';
-      else if (type === 'ADJUSTMENT' || type === 'ADJ') dotClass = 'danger';
+      let actionText = `<strong>${productName}</strong> (${qty} units)`;
 
-      const targetWarehouse =
-        tx.destinationWarehouse?.name || tx.sourceWarehouse?.name || '';
+      if (type === 'IN') {
+        const transactionDetails = displayToast.transactionIN(productName, qty);
+        dotClass = transactionDetails.dotClass;
+        actionText = transactionDetails.actionText;
+      } else if (type === 'OUT') {
+        const transactionDetails = displayToast.transactionOUT(
+          productName,
+          qty
+        );
+        dotClass = transactionDetails.dotClass;
+        actionText = transactionDetails.actionText;
+      } else if (type === 'TRANSFER') {
+        let targetWarehouse = '';
+        if (tx.destinationWarehouse?.name) {
+          targetWarehouse = tx.destinationWarehouse.name;
+        } else if (tx.sourceWarehouse?.name) {
+          targetWarehouse = tx.sourceWarehouse.name;
+        }
+        const transactionDetails = displayToast.transactionTRANSFER(
+          productName,
+          qty,
+          targetWarehouse
+        );
+        dotClass = transactionDetails.dotClass;
+        actionText = transactionDetails.actionText;
+      } else if (type === 'ADJUSTMENT' || type === 'ADJ') {
+        const transactionDetails = displayToast.transactionADJUSTMENT(
+          productName,
+          qty
+        );
+        dotClass = transactionDetails.dotClass;
+        actionText = transactionDetails.actionText;
+      }
 
-      const actionText =
-        type === 'IN'
-          ? `Stock In of <strong>${productName}</strong> (${qty} units)`
-          : type === 'OUT'
-            ? `Stock Out of <strong>${productName}</strong> (${qty} units)`
-            : type === 'TRANSFER'
-              ? `Transfer <strong>${productName}</strong> (${qty} units) to ${targetWarehouse}`
-              : type === 'ADJUSTMENT' 
-                  ? `Adjustment made on <strong>${productName}</strong> (${qty} units)`
-                : `<strong>${productName}</strong> (${qty} units)`;
-
-      const item = `
-      <div class="activity-item">
-        <span class="dot ${dotClass}"></span>
-        <div>
-          <p><strong>${performedBy}</strong> · ${actionText}</p>
-          <small>${time}</small>
-        </div>
-      </div>
-      `;
-
-      dashboardSelection.recentActivityList.innerHTML += item;
+      dashboardSelection.recentActivityList.innerHTML +=
+        displayToast.recentActivityItem({
+          performedBy,
+          actionText,
+          time,
+          dotClass,
+        });
     });
   } catch (err) {
     dashboardSelection.recentActivityList.innerHTML =
-      '<p class="text-danger">Unable to load recent activity</p>';
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+      displayToast.noRecentActivity();
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
@@ -435,25 +481,64 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
 
     warehouseDisplay();
     warehouseSelect.innerHTML = '';
-    warehouseSelect.innerHTML = `<option value="${warehouses[0]._id}" selected>${warehouses[0].name}</option>`;
+    warehouseSelect.innerHTML = displayToast.warehouseOption(
+      warehouses[0],
+      true
+    );
 
     warehouses.slice(1).forEach((warehouse) => {
-      const option = document.createElement('option');
-      option.value = warehouse._id;
-      option.textContent = warehouse.name;
-
-      warehouseSelect.appendChild(option);
+      warehouseSelect.insertAdjacentHTML(
+        'beforeend',
+        displayToast.warehouseOption(warehouse)
+      );
     });
 
     return true;
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
 
     setTimeout(() => {
-      toastSection.innerHTML = '';
+      dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
 };
+
+async function showTopSellingProductsSubscribe(warehouseId) {
+  try {
+    if (!warehouseId) {
+      dashboardSelection.chartCard.style.display = 'none';
+      return;
+    }
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-top-selling-products/${warehouseId}`
+    );
+
+    const products = res.data.data;
+
+    dashboardSelection.carouselItems.innerHTML = '';
+
+    products.forEach((product, index) => {
+      let isActive = '';
+      if (index === 0) {
+        isActive = 'active';
+      }
+
+      const itemHTML = displayToast.carouselItem(product, isActive);
+
+      dashboardSelection.carouselItems.innerHTML += itemHTML;
+    });
+  } catch (err) {
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
+
+    setTimeout(() => {
+      dashboardSelection.toastSection.innerHTML = '';
+    }, 3000);
+  }
+}
 
 export {
   showTopProductsSubscribe,
@@ -463,4 +548,5 @@ export {
   showTransactionStatsSubscribe,
   showLowStockProducts,
   showRecentTransactions,
+  showTopSellingProductsSubscribe,
 };

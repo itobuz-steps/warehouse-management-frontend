@@ -12,6 +12,7 @@ import {
   showTransactionStatsSubscribe,
   showRecentTransactions,
   showLowStockProducts,
+  showTopSellingProductsSubscribe,
 } from './dashboardSubscribe.js';
 import api from '../../api/interceptor.js';
 import config from '../../config/config.js';
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await showTransactionStatsSubscribe(firstWarehouse);
     await showLowStockProducts(firstWarehouse);
     await showRecentTransactions(firstWarehouse);
+    await showTopSellingProductsSubscribe(firstWarehouse);
   }
 });
 
@@ -47,6 +49,7 @@ dashboardSelection.warehouseSelect.addEventListener('change', async () => {
   await showTransactionStatsSubscribe(selectedWarehouseId);
   await showLowStockProducts(selectedWarehouseId);
   await showRecentTransactions(selectedWarehouseId);
+  await showTopSellingProductsSubscribe(selectedWarehouseId);
 });
 
 dashboardSelection.topFiveExport.addEventListener('click', async () => {
