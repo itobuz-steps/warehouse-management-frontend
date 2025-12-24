@@ -126,10 +126,13 @@ async function loadQuantityInfo(productId) {
       const quantityList = warehouseProductList(listRes.data.data);
 
       productSelection.quantitySection.innerHTML = `
-        <p class="my-2"><strong>Total Quantity Across Warehouses:</strong> ${totalQty}</p>
+        <div class="overview-card mb-2">
+          <p class="m-0 p-0"><strong>Total Quantity:</strong> ${totalQty}</p>
+        </div>
         <hr/>
-        <p class="my-2"><strong>Warehouses:</strong></p>
-        <div class="warehouse-list-container">${quantityList}</div>
+        <div class="warehouse-list-container row justify-content-evenly px-2">
+          ${quantityList}
+        </div>
       `;
     }
   } catch {

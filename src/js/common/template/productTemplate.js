@@ -130,20 +130,28 @@ export function warehouseProductList(products) {
   return products
     .map(
       (product) => `
-        <li>
-          ${product.warehouseId?.name}: <strong>${product.quantity}</strong>
-          ${
-            product.quantity <= product.limit
-              ? `<i class="fa-solid fa-arrow-trend-down text-danger bg-hollow"></i>`
-              : ''
-          }
+        <div class="manager-qty-card col-12 col-sm-5 ${product.quantity <= product.limit ? 'low' : ''}">
+          <div class="qty-row">
+            <span class="qty-text">
+              <strong>${product.warehouseId?.name}: </strong>${product.quantity}
+            </span>
+            <div class="qty-limit-row">
+              ${
+                product.quantity <= product.limit
+                  ? `<i class="fa-solid fa-arrow-trend-down low-stock-icon"></i>`
+                  : ''
+              }
+            </div>
+          </div>
+
+          <!-- Edit Limit Button -->
           <button 
-            class="btn btn-outline-soft btn-sm edit-limit-btn"
+            class="btn btn-outline-soft btn-sm edit-limit-btn w-100"
             data-id="${product._id}"
             data-limit="${product.limit}">
-            <i class="fa-regular fa-pen-to-square"></i> Limit
+            <i class="fa-regular fa-pen-to-square"></i> Edit Limit
           </button>
-        </li>
+        </div>
       `
     )
     .join('');

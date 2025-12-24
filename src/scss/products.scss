@@ -394,7 +394,7 @@ hr {
   background: $body-bg;
   border-radius: 10px;
   // width: min-content;
-  max-width: 900px;
+  max-width: 550px;
   padding: 20px;
   position: relative;
   display: flex;
@@ -727,11 +727,11 @@ hr {
 }
 
 .manager-qty-card {
-  background: $body-bg;
+  // background: $body-bg;
   border: 1px solid $color-border;
   border-radius: 12px;
   padding: 14px 16px;
-  margin: 10px 0;
+  margin: 5px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
