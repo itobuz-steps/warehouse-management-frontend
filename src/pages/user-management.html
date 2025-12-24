@@ -84,42 +84,6 @@
       </div>
     </div>
 
-    <!-- Show Profile Modal -->
-    <div
-      class="modal fade"
-      id="profileModal"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="profileModalpLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="profileModalLabel">Modal title</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Understood</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div id="sidebar-container"></div>
 
     <main class="main-content user-management pt-4">
@@ -136,7 +100,7 @@
             alt="User Profile"
             class="user-avatar-lg"
             data-bs-toggle="modal"
-            data-bs-target="#profileModal"
+            data-bs-target="#updateProfileModal"
           />
         </div>
       </div>
@@ -206,15 +170,6 @@
             </p>
           </div>
         </div>
-
-        <div class="user-actions">
-          <button
-            class="action btn-edit"
-            data-bs-toggle="modal"
-            data-bs-target="#updateProfileModal"
-          >
-            Edit Profile
-          </button>
         </div>
       </div>
 
