@@ -12,6 +12,20 @@ let currentPage = 1; // current page
 const pageSize = 10; // items per page
 let totalPages = 1; // total pages from backend
 
+// Make toggleDetails available globally for onclick handlers
+window.toggleDetails = function (btn) {
+  const card = btn.closest('.transaction-card');
+  const details = card.querySelector('.card-details');
+
+  details.classList.toggle('expanded');
+
+  if (details.classList.contains('expanded')) {
+    btn.innerHTML = 'Collapse Details <i class="fas fa-chevron-up"></i>';
+  } else {
+    btn.innerHTML = 'Expand Details <i class="fas fa-chevron-down"></i>';
+  }
+};
+
 async function transactionDetailsLoad() {
   try {
     const user = await getCurrentUser();
@@ -49,6 +63,23 @@ function attachEventListeners(user, warehouses, transactionTemplate) {
   attachDateFilter(user, warehouses, transactionTemplate);
   attachRadioFilter(user, warehouses, transactionTemplate);
   attachStatusFilter(user, warehouses, transactionTemplate);
+  attachCardClickListeners();
+}
+
+// Attach click listener to entire card for expanding
+function attachCardClickListeners() {
+  document.addEventListener('click', (e) => {
+    const card = e.target.closest('.transaction-card');
+    if (card) {
+      // Don't toggle if clicking on a button
+      if (!e.target.closest('button') && !e.target.closest('.invoice-btn')) {
+        const expandBtn = card.querySelector('.expand-btn');
+        if (expandBtn) {
+          window.toggleDetails(expandBtn);
+        }
+      }
+    }
+  });
 }
 
 // Attach event listener for warehouse filter
@@ -203,7 +234,6 @@ document.getElementById('loadMoreBtn').addEventListener('click', () => {
 });
 
 function renderTransactionsListAppend(transactions, transactionTemplate) {
-
   if (!transactions || transactions.length === 0) {
     return;
   }
@@ -372,7 +402,8 @@ function attachInvoiceListeners() {
   document.querySelectorAll('.invoice-btn').forEach((btn) => {
     btn.addEventListener('click', async (event) => {
       try {
-        const id = event.target.value;
+        const id =
+          event.target.value || event.target.closest('.invoice-btn').value;
         const result = await api.get(
           `${config.TRANSACTION_BASE_URL}/generate-invoice/${id}`,
           { responseType: 'blob' }
@@ -383,7 +414,7 @@ function attachInvoiceListeners() {
 
         const pdfLink = document.createElement('a');
         pdfLink.href = url;
-        pdfLink.download = 'invoice.pdf';
+        pdfLink.download = `invoice-${id}.pdf`;
         pdfLink.click();
 
         window.URL.revokeObjectURL(url);

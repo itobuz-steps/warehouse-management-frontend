@@ -132,8 +132,9 @@
 
 // Toggle button - always visible
 .sidebar-toggle {
+  width: 30px;
   position: fixed;
-  top: 30px;
+  top: 45px;
   z-index: 1040;
   border: 1px solid $color-gray-200;
   border-radius: 8px;

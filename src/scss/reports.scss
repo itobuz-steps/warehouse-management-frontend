@@ -3,18 +3,19 @@
 @import './common/variables';
 @import './common/mixins';
 @import './common/animations';
+@import './common/card';
 
 $color-in: $color-success;
-$color-in-light: #e9f8ef;
+$color-in-light: #dcfce7;
 
 $color-out: $color-primary-light;
-$color-out-light: #fde8db;
+$color-out-light: #fef3c7;
 
 $color-transfer: $color-info;
-$color-transfer-light: #d3e7f6;
+$color-transfer-light: #dbeafe;
 
 $color-adjust: $color-danger;
-$color-adjust-light: #f6d2d4;
+$color-adjust-light: #fee2e2;
 
 .toast {
   position: fixed;
@@ -32,7 +33,6 @@ $color-adjust-light: #f6d2d4;
     opacity: 0;
     transform: translateX(120%);
   }
-
   to {
     opacity: 1;
     transform: translateX(0);
@@ -61,9 +61,14 @@ body {
   padding: 30px 40px;
 }
 
-.transaction-header {
-  width: 100%;
-  height: auto;
+.page-title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: -0.02em;
 }
 
 button.warehouse-dropdown {
@@ -95,188 +100,289 @@ button.warehouse-dropdown {
 
 .transaction-details {
   @include grid();
+  margin-top: 20px;
 }
 
-.custom-accordion {
-  .accordion-button {
-    // background-color: $color-primary-light !important;
-    // color: $color-primary-dark !important;
-    font-weight: 500;
-    border: none;
-    box-shadow: $shadow-sm;
-    border-top-left-radius: 10px !important;
-    border-top-right-radius: 10px !important;
+// Card Styles
+.transaction-card {
+  background: $color-white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
 
-    // &:not(.collapsed) {
-    //   background-color: $color-primary-dark !important;
-    //   color: $color-white !important;
-    //   box-shadow: none;
-
-    //   .type {
-    //     background-color: $color-primary-light;
-    //     color: $color-primary-dark;
-    //   }
-    // }
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
   }
-  @media (max-width: 500px) {
-    .accordion-button {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: start;
+}
 
-      .type {
-        margin-left: 0px;
-        margin-top: 10px;
-      }
-    }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 15px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.transaction-id-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+
+  &.in {
+    background: $color-in-light;
+    color: $color-in;
   }
 
-  .accordion-item {
-    // border: 2px solid $color-primary;
-    border-radius: 8px;
-    margin-bottom: 10px;
+  &.out {
+    background: $color-out-light;
+    color: darken($color-out, 20%);
   }
 
-  .accordion-body {
-    background: $color-white;
-    color: $text-primary;
-    padding: 15px;
+  &.transfer {
+    background: $color-transfer-light;
+    color: $color-transfer;
+  }
+
+  &.adjust {
+    background: $color-adjust-light;
+    color: $color-adjust;
   }
 }
 
 .transaction-id {
-  .type {
-    margin-left: 10px;
-    margin-right: 5px;
-    font-size: 12px;
-    // background-color: $color-primary-dark;
-    padding: 4px;
-    color: $color-white;
-    border-radius: 5px;
-    font-weight: 500;
-  }
-  .in {
-    background-color: $color-in;
-  }
-  .out {
-    background-color: $color-out;
-  }
-  .adjust {
-    background-color: $color-adjust;
-  }
-  .transfer {
-    background-color: $color-transfer;
+  font-size: 16px;
+  font-weight: 600;
+  color: $text-primary;
+  word-break: break-all;
+}
+
+.transaction-amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: $text-primary;
+  text-align: right;
+
+  @media (max-width: 768px) {
+    text-align: left;
   }
 }
 
-.intype {
-  background-color: $color-in-light !important;
-  color: $color-in !important;
+.status-badge {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+  text-transform: uppercase;
 
-  &:not(.collapsed) {
-    background-color: $color-in !important;
-    color: $color-in-light !important;
-    box-shadow: none;
-
-    .type {
-      background-color: $color-in-light;
-      color: $color-in;
-    }
+  &.paid,
+  &.shipped {
+    background: $color-in-light;
+    color: $color-in;
   }
-}
-.outtype {
-  background-color: $color-out-light !important;
-  color: $color-out !important;
 
-  &:not(.collapsed) {
-    background-color: $color-out !important;
-    color: $color-out-light !important;
-    box-shadow: none;
-
-    .type {
-      background-color: $color-out-light;
-      color: $color-out;
-    }
+  &.unpaid,
+  &.cancelled {
+    background: $color-adjust-light;
+    color: $color-adjust;
   }
-}
-.transfertype {
-  background-color: $color-transfer-light !important;
-  color: $color-transfer !important;
 
-  &:not(.collapsed) {
-    background-color: $color-transfer !important;
-    color: $color-transfer-light !important;
-    box-shadow: none;
-
-    .type {
-      background-color: $color-transfer-light;
-      color: $color-transfer;
-    }
-  }
-}
-.adjusttype {
-  background-color: $color-adjust-light !important;
-  color: $color-adjust !important;
-
-  &:not(.collapsed) {
-    background-color: $color-adjust !important;
-    color: $color-adjust-light !important;
-    box-shadow: none;
-
-    .type {
-      background-color: $color-adjust-light;
-      color: $color-adjust;
-    }
+  &.pending {
+    background: $color-out-light;
+    color: darken($color-out, 20%);
   }
 }
 
-.heading {
-  color: $color-primary-dark;
-  font-size: 20px;
-}
-
-.product-item,
-.customer-item {
+.card-body {
   display: flex;
   justify-content: space-between;
-  font-weight: 600;
-  color: $text-primary;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-  span {
-    color: $color-primary-dark;
+.transaction-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 13px;
+  color: #6b7280;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 }
 
-.supplier {
-  font-weight: 600;
-  color: $text-primary;
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 
-  span {
-    font-weight: 400;
-    color: $color-primary-dark;
+  i {
+    font-size: 12px;
   }
 }
 
-.other {
-  font-weight: 600;
-  color: $text-primary;
+.expand-btn {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
 
-  span {
-    font-weight: 400;
-    color: $color-primary-dark;
+  &:hover {
+    color: $text-primary;
+  }
+
+  i {
+    margin-left: 5px;
+    transition: transform 0.2s;
+  }
+}
+
+.card-details {
+  display: none;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #f3f4f6;
+  animation: slideDown 0.3s ease;
+
+  &.expanded {
+    display: block;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.details-section {
+  margin-bottom: 20px;
+  border-bottom: 1px solid $color-in-light;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: $color-primary-dark;
+  margin-bottom: 12px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.detail-item {
+  font-size: 13px;
+}
+
+.detail-label {
+  color: #6b7280;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.detail-value {
+  color: $text-primary;
+  font-weight: 600;
+}
+
+.shipment-status {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: $color-primary-dark;
+  border: 2px solid $color-primary-dark;
+  background-color: $color-primary-light;
+}
+
+.invoice-btn {
+  padding: 10px 24px;
+  background: $color-primary-dark;
+  color: $color-white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 15px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: darken($color-primary-dark, 10%);
+    transform: translateY(-1px);
+  }
+
+  i {
+    margin-right: 6px;
   }
 }
 
 .no-data-message {
   text-align: center;
-  padding: 40px;
-  font-size: 1.2rem;
+  padding: 60px 40px;
   color: #777;
-}
+  background: $color-white;
+  border-radius: 12px;
+  margin-top: 20px;
 
-button.invoice-btn {
-  @include button();
+  h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: $text-primary;
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: #999;
+  }
 }
 
 .warehouse-dropdown:active,
@@ -285,17 +391,6 @@ button.invoice-btn {
 .warehouse-option:active,
 .warehouse-option.active {
   background: $color-primary !important;
-}
-.supplier-status {
-  margin-top: 10px;
-}
-.shipment {
-  padding: 3px;
-  border-radius: 4px;
-  font-weight: bold;
-  color: $color-primary-dark;
-  border: 2px solid $color-primary-dark;
-  background-color: $color-primary-light;
 }
 
 .date {
@@ -315,4 +410,26 @@ button.filter-btn {
   border-radius: 12px;
   background: $color-primary-light;
   color: $text-primary;
+}
+
+// Load more button
+.d-flex.justify-content-center {
+  margin-top: 30px;
+}
+
+#loadMoreBtn {
+  padding: 12px 40px;
+  background: $color-primary-dark;
+  color: $color-white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+
+  &:hover {
+    background: darken($color-primary-dark, 10%);
+    transform: translateY(-2px);
+  }
 }
