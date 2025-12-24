@@ -44,7 +44,6 @@ class AnalyticsSubscribe {
       );
 
       const warehouses = result.data.data;
-      console.log(warehouses);
 
       warehouses.forEach((warehouse) => {
         analyticsSelection.warehouseSelect.innerHTML +=
@@ -123,8 +122,6 @@ class AnalyticsSubscribe {
     try {
       event.preventDefault();
 
-      console.log('Form Submit');
-
       const formData = new FormData(event.target);
 
       const warehouseId = formData.get('warehouseSelect');
@@ -143,6 +140,8 @@ class AnalyticsSubscribe {
       const response2 = await api.get(
         `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
       );
+
+      console.log(response2.data.data);
 
       await this.createLineChart(response2.data.data);
     } catch (err) {
@@ -207,7 +206,7 @@ class AnalyticsSubscribe {
   };
 
   createLineChart = async (data) => {
-    const dates = data.productA.history.map((item) => item.date).slice(-7);
+    const dates = data.productA.history.map((item) => item.date);
 
     const productATransactions = data.productA.history.map(
       (item) => item.transactions
