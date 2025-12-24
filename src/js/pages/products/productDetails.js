@@ -14,7 +14,10 @@ import {
 } from './productEvents';
 import { productSelection } from './productSelector';
 import { getCurrentUser } from '../../common/api/HelperApi';
-import { managerProductQuantity, warehouseProductList } from '../../common/template/productTemplate';
+import {
+  managerProductQuantity,
+  warehouseProductList,
+} from '../../common/template/productTemplate';
 
 let currentImageIndex = 0;
 let currentImages = [];
@@ -120,12 +123,12 @@ async function loadQuantityInfo(productId) {
 
       const listRes = await fetchProductSpecificWarehouses(productId);
 
-       const quantityList = warehouseProductList(listRes.data.data);
+      const quantityList = warehouseProductList(listRes.data.data);
 
       productSelection.quantitySection.innerHTML = `
-        <p><strong>Total Quantity Across Warehouses:</strong> ${totalQty}</p>
+        <p class="my-2"><strong>Total Quantity Across Warehouses:</strong> ${totalQty}</p>
         <hr/>
-        <p><strong>Warehouses:</strong></p>
+        <p class="my-2"><strong>Warehouses:</strong></p>
         <ul>${quantityList}</ul>
       `;
     }

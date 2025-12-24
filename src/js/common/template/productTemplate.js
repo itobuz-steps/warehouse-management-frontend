@@ -80,7 +80,7 @@ export function createProductCard(product) {
       <div class="info-row">
         <span class="price">₹${product.price ?? 'N/A'}</span>
         <!--<span class="category">${product.category ?? 'Not Categorized'}</span>-->
-        <span class="markup">Markup: ${product.markup ?? 'Not Categorized'}% <i class="fa-solid fa-arrow-trend-up"></i></span>
+        <span class="markup">Markup: ${product.markup ?? '10'}% <i class="fa-solid fa-arrow-trend-up"></i></span>
       </div>
       <div class="d-flex justify-content-center justify-content-lg-start">
         <button 
@@ -103,9 +103,7 @@ export function managerProductQuantity(product) {
 
           ${
             product.quantity <= product.limit
-              ? `<button class="btn btn-danger btn-sm low-stock">
-                <i class="fa-solid fa-arrow-trend-down"></i>
-              </button>`
+              ? `<i class="fa-solid fa-arrow-trend-down text-danger bg-hollow"></i>`
               : ''
           }
 
@@ -127,9 +125,7 @@ export function warehouseProductList(products) {
           ${product.warehouseId?.name}: <strong>${product.quantity}</strong>
           ${
             product.quantity <= product.limit
-              ? `<button class="btn btn-danger btn-sm low-stock my-1">
-                   <i class="fa-solid fa-arrow-trend-down"></i>
-                 </button>`
+              ? `<i class="fa-solid fa-arrow-trend-down text-danger bg-hollow"></i>`
               : ''
           }
           <button 

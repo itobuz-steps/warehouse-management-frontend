@@ -111,6 +111,10 @@ $color-border: $color-gray-300;
   }
 }
 
+hr {
+  margin: 0;
+}
+
 .product-card {
   background: $body-bg;
   border: 1px solid $color-border;
@@ -134,12 +138,8 @@ $color-border: $color-gray-300;
     );
 
     img {
-      transform: scale(1.05);
+      transform: scale(1.01);
     }
-  }
-
-  hr {
-    margin: 0;
   }
 
   .card-image-wrapper {
@@ -383,6 +383,7 @@ $color-border: $color-gray-300;
   align-items: center;
   z-index: 1100;
   padding: 20px;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .product-modal.hidden {
@@ -392,14 +393,15 @@ $color-border: $color-gray-300;
 .modal-content {
   background: $body-bg;
   border-radius: 10px;
+  // width: min-content;
   max-width: 900px;
-  width: 100%;
   padding: 20px;
   position: relative;
   display: flex;
   flex-direction: column;
   max-height: 90vh;
   overflow-y: auto;
+  box-shadow: 0 6px 20px rgba($color-black, 0.1);
 }
 
 .close-modal,
@@ -410,11 +412,54 @@ $color-border: $color-gray-300;
   font-size: 30px;
   cursor: pointer;
   z-index: 1000;
+
+  &:hover {
+    color: $color-primary;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+}
+
+.modal-header-section {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  color: $text-primary;
+}
+
+.product-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  // justify-content: center;
+}
+
+.product-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $color-primary-dark;
+}
+
+.product-category {
+  color: $color-primary-dark;
+  background-color: $color-secondary;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.product-description {
+  font-size: 0.85rem;
+  color: #5a8fb0;
 }
 
 .modal-body {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -424,18 +469,13 @@ $color-border: $color-gray-300;
   width: 100%;
   max-width: 380px;
   margin-bottom: 20px;
+  align-content: center;
 
   img {
     width: 100%;
     height: 400px;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 10px;
-  }
-
-  @media (max-width: 768px) {
-    img {
-      height: 300px;
-    }
   }
 
   .carousel-btn {
@@ -462,27 +502,18 @@ $color-border: $color-gray-300;
     flex: 1;
     min-width: 250px;
     padding: 0px 10px;
+    max-width: 100%;
   }
 }
 
 .modal-footer {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 
   button {
     padding: 10px 20px;
     font-size: 16px;
-  }
-}
-
-@media (max-width: 768px) {
-  .carousel-container {
-    max-width: 300px;
-  }
-
-  .modal-footer {
-    flex-direction: column;
-    gap: 10px;
   }
 }
 
@@ -496,10 +527,125 @@ $color-border: $color-gray-300;
   }
 }
 
+.info-card {
+  background: $body-bg;
+  border-radius: 12px;
+  padding: 16px 18px;
+  border: 1px solid $color-border;
+  box-shadow: 0 2px 8px rgba($color-black, 0.06);
+  transition: 0.25s ease;
+  margin-bottom: 10px;
+
+  &:hover {
+    border-color: rgba($color-primary, 0.45);
+    box-shadow: 0 6px 18px rgba($color-black, 0.14);
+  }
+
+  .card-header {
+    padding-bottom: 8px;
+    border-bottom: 1px solid $color-gray-200;
+
+    .card-icon {
+      font-size: 1.4rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: $text-primary;
+    }
+  }
+
+  .card-content {
+    margin-top: 10px;
+  }
+}
+
+.pricing-card {
+  background: linear-gradient(
+    135deg,
+    rgba($color-primary, 0.04) 0%,
+    transparent 100%
+  );
+
+  .pricing-content-row {
+    align-items: stretch;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .pricing-fields {
+    min-width: 0;
+  }
+
+  .price-row {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba($color-border, 0.5);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      font-size: 0.9rem;
+      color: $text-secondary;
+      font-weight: 500;
+    }
+
+    .value {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: $text-primary;
+    }
+
+    &.highlight {
+      margin-top: 4px;
+      margin-bottom: 4px;
+      padding: 10px 10px;
+      border-radius: 8px;
+      background: rgba($color-primary, 0.08);
+      border: none;
+
+      .selling-price {
+        font-size: 1.2rem;
+        color: $color-primary;
+      }
+    }
+  }
+
+  .markup-value i {
+    font-size: 0.8rem;
+    color: #10b981;
+  }
+
+  .qr-wrapper {
+    display: flex;
+    padding-left: 10px;
+
+    @media (max-width: 500px) {
+      width: 100%;
+      padding-left: 0;
+      padding-top: 10px;
+      justify-content: center;
+    }
+
+    .qr-code {
+      max-width: 120px;
+      border-radius: 10px;
+      background: $body-bg;
+      box-shadow: 0 4px 12px rgba($color-black, 0.18);
+      object-fit: contain;
+      border-radius: 10px;
+    }
+  }
+}
+
 .editProductModal {
   .modal-content {
     padding: 25px;
-    max-width: 500px;
+    max-width: 485px;
   }
 }
 
@@ -525,18 +671,6 @@ $color-border: $color-gray-300;
   width: 100px;
   box-shadow: 0px 8px 25px rgba($color-black, 0.15);
   justify-content: center;
-}
-
-.product-name {
-  color: $color-primary-dark;
-}
-
-.product-category {
-  color: $color-primary-dark;
-  background-color: $color-secondary;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-weight: 500;
 }
 
 .custom-select-wrapper {
@@ -572,7 +706,7 @@ $color-border: $color-gray-300;
 // Responsive styles
 @media (max-width: 768px) {
   .d-flex.gap-1 {
-    flex-direction: column;
+    // flex-direction: column;
 
     .custom-select-wrapper {
       width: 100%;
@@ -585,4 +719,9 @@ $color-border: $color-gray-300;
   display: flex;
   align-items: center;
   font-weight: 500;
+}
+
+.bg-hollow {
+  background: #f9dfdf;
+  border-radius: 100%;
 }
