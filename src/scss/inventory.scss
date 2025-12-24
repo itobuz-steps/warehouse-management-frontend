@@ -341,3 +341,13 @@
     gap: $spacing-1;
   }
 }
+
+.addWarehouseBtn {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .addWarehouseBtn {
+    width: auto;
+  }
+}

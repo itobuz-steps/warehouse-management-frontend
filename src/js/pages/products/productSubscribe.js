@@ -130,6 +130,9 @@ const initializeEventListeners = () => {
 };
 
 export const loadProducts = async (overrides = {}) => {
+  productSelection.productGrid.classList.remove('empty', 'error');
+  productSelection.productGrid.classList.add('product-grid');
+
   try {
     Object.assign(state, overrides);
 

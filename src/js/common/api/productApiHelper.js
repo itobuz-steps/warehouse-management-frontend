@@ -17,13 +17,8 @@ export const deleteProduct = (productId) => {
   return api.delete(`${config.PRODUCT_BASE_URL}/${productId}`);
 };
 
-export const addProductQuantity = (productId, warehouseId, quantity, limit) => {
-  return api.post(`${config.QUANTITY_BASE_URL}/product-quantity`, {
-    productId,
-    warehouseId,
-    quantity,
-    limit,
-  });
+export const updateLimit = (quantityId, limit) => {
+  return api.put(`${config.QUANTITY_BASE_URL}/${quantityId}/limit`, { limit });
 };
 
 export const fetchAllProducts = (params = {}) =>
