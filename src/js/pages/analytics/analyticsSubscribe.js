@@ -152,7 +152,7 @@ class AnalyticsSubscribe {
             title: {
               display: true,
               text: 'Products',
-              color: '#2a030eff',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -162,7 +162,7 @@ class AnalyticsSubscribe {
             title: {
               display: true,
               text: 'Quantity',
-              color: '#2a030eff',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -207,8 +207,8 @@ class AnalyticsSubscribe {
             data: productBTransactions,
             borderWidth: 2,
             fill: false,
-            borderColor: '#ef58c9ff',
-            backgroundColor: '#ef58c9ff',
+            borderColor: '#FF6B6B',
+            backgroundColor: '#FF6B6B',
           },
         ],
       },
@@ -221,7 +221,7 @@ class AnalyticsSubscribe {
             title: {
               display: true,
               text: 'Last 7 Days',
-              color: '#864a5b',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -231,7 +231,7 @@ class AnalyticsSubscribe {
             title: {
               display: true,
               text: 'Transactions',
-              color: '#864a5b',
+              color: '#015453',
               font: {
                 size: 15,
               },

@@ -3,14 +3,29 @@
 @import './common/mixins';
 @import './common/animations';
 @import './common/root';
+@import './common/card';
 
 .sidebar-container {
   width: 250px;
 }
 
 .main-content {
-  // margin-left: 250px;
   padding: 30px 40px;
+}
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: -0.02em;
 }
 
 /* STATIC CHART STYLES */
@@ -25,7 +40,7 @@
 }
 
 .charts-grid > :nth-child(3) {
-  grid-column: 1 / -1; /* The third item spans across the entire second row (1fr) */
+  grid-column: 1 / -1;
 }
 
 .chart-card {
@@ -49,7 +64,11 @@
   justify-content: center;
   height: auto;
   max-height: 400px;
-  background: linear-gradient(to bottom, $color-secondary, $color-white);
+  background: linear-gradient(
+    to bottom,
+    $color-primary-extra-light,
+    $color-white
+  );
   border-radius: 10px;
   overflow: hidden;
 }
@@ -179,7 +198,6 @@ button.analytics-submit {
   background: $color-white;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px $color-black;
 }
 
 /* Allow chart to expand */
