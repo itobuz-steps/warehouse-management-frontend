@@ -99,7 +99,7 @@ async function showTopProductsSubscribe(warehouseId) {
             title: {
               display: true,
               text: 'Products',
-              color: '#2a030eff',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -109,7 +109,7 @@ async function showTopProductsSubscribe(warehouseId) {
             title: {
               display: true,
               text: 'Quantity',
-              color: '#2a030eff',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -220,7 +220,7 @@ const showProductTransactionSubscribe = async (warehouseId) => {
             title: {
               display: true,
               text: 'Last 7 Days',
-              color: '#864a5b',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -230,7 +230,7 @@ const showProductTransactionSubscribe = async (warehouseId) => {
             title: {
               display: true,
               text: 'Transactions',
-              color: '#864a5b',
+              color: '#015453',
               font: {
                 size: 15,
               },
