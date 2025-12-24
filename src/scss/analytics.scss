@@ -142,7 +142,7 @@ button.analytics-submit {
   }
 }
 .product-select {
-  display: none;
+  // display: none;
 }
 
 // Responsive
@@ -153,6 +153,7 @@ button.analytics-submit {
 }
 
 .no-data-found {
+  display: none;
   height: 100px;
   display: flex;
   align-items: end;
@@ -183,7 +184,7 @@ button.analytics-submit {
 /* Default for mobile/tablet */
 .charts-grid {
   grid-template-columns: 1fr;
-  display: none;
+  // display: none;
 }
 
 /* Desktop & large screens */
