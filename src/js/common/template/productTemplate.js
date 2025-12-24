@@ -130,7 +130,7 @@ export function warehouseProductList(products) {
   return products
     .map(
       (product) => `
-        <div class="manager-qty-card col-12 col-sm-5 ${product.quantity <= product.limit ? 'low' : ''}">
+        <div class="manager-qty-card ${product.quantity <= product.limit ? 'low' : ''}">
           <div class="qty-row">
             <span class="qty-text">
               <strong>${product.warehouseId?.name}: </strong>${product.quantity}
