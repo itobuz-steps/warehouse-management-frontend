@@ -10,7 +10,6 @@ const userManagementSelection = {
   createdAt: document.querySelector('.created-at'),
   updatedAt: document.querySelector('.updated-at'),
   managerView: document.querySelectorAll('.manager-list-section'),
-  confirmDelete: document.querySelector('#confirmDelete'),
   confirmUpdate: document.querySelector('#confirmUpdate'),
   profileImg: document.querySelector('#profileImg'),
   name: document.getElementById('name'),

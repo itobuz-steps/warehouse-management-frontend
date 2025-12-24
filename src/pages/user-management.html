@@ -19,38 +19,6 @@
   <body>
     <div id="toastSection"></div>
 
-    <!--Confirm Delete Modal-->
-    <div class="modal fade" tabindex="-1" id="delete-user">
-      <div class="modal-dialog modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title text-danger fs-4">Confirm Action</h5>
-          </div>
-
-          <div class="modal-body">
-            <p class="fs-5">Are you sure you want to delete your Profile?</p>
-          </div>
-
-          <div class="modal-footer my-0 py-2">
-            <button
-              type="button"
-              class="btn btn-secondary fs-5"
-              data-bs-dismiss="modal"
-            >
-              Discard
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger fs-5 confirm-delete"
-              id="confirmDelete"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!--Edit User Profile-->
     <div
       class="modal fade"
@@ -211,7 +179,7 @@
         >
       </div>
 
-      <div class="user-profile-card mb-0 mt-0 d-none">
+      <div class="user-profile-card mb-0 mt-0">
         <div class="user-info">
           <div class="user-details">
             <span>
@@ -246,14 +214,6 @@
             data-bs-target="#updateProfileModal"
           >
             Edit Profile
-          </button>
-
-          <button
-            class="action btn-delete"
-            data-bs-toggle="modal"
-            data-bs-target="#delete-user"
-          >
-            Delete Profile
           </button>
         </div>
       </div>
