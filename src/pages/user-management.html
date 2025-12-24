@@ -28,46 +28,100 @@
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title edit-title">Edit Details</h5>
-          </div>
-
           <div class="modal-body edit-form">
             <form id="updateProfile" class="update-profile-form">
-              <div class="mb-3">
+              <div class="profile-card-header d-flex flex-column">
+                <div class="profile-image-container">
+                  <label class="profile-image m-auto" for="profileImg"></label>
+
+                  <div class="edit-overlay">
+                    <label
+                      for="profileImg"
+                      class="edit-button"
+                      title="Edit profile picture"
+                    >
+                      <!-- You can use an SVG icon or Font Awesome -->
+                      <i class="fas fa-edit"></i>
+                    </label>
+                  </div>
+                  <input
+                    class="d-none"
+                    type="file"
+                    id="profileImg"
+                    name="profile-img"
+                    accept="image/*"
+                    required
+                  />
+                </div>
+
+                <div class="profile-info text-center mt-2">
+                  <span>
+                    <h3
+                      class="user-name m-0 d-inline-block text-center fs-4 fw-bolder"
+                    ></h3>
+                    <i class="fas fa-check-circle fs-5 verified"></i>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      class="form-control d-none"
+                      required
+                    />
+                  </span>
+
+                  <p class="user-email text-secondary mb-3"></p>
+                </div>
+
+                <div class="profile-card-body">
+                  <ul class="status p-0">
+                    <li>
+                      <span class="status-value">
+                        <i class="fa-regular fa-calendar-plus mx-1 verified">
+                        </i>
+                      </span>
+                      <span class="status-text created-at"></span>
+                    </li>
+
+                    <li>
+                      <span class="status-value"
+                        ><i
+                          class="fa-regular fa-calendar-check mx-1 verified"
+                        ></i
+                      ></span>
+                      <span class="status-text updated-at"></span>
+                    </li>
+
+                    <li>
+                      <span class="status-value"
+                        ><i class="fa-solid fa-user mx-1 verified"> </i
+                      ></span>
+                      <span class="status-text" id="lastLogin"></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- <div class="mb-3 d-none">
                 <label for="name" class="form-label">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  class="form-control"
-                  required
-                />
 
                 <label for="profile-image" class="form-label mt-4"
                   >Profile Image</label
                 >
-                <input
-                  type="file"
-                  class="form-control mb-4"
-                  id="profileImg"
-                  name="profile-img"
-                  required
-                />
-              </div>
+                
+              </div> -->
 
               <div class="modal-footer my-0 pb-0">
                 <button
                   type="button"
-                  class="btn btn-secondary fs-5"
+                  class="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
-                  Discard
+                  Close
                 </button>
 
                 <button
                   type="submit"
-                  class="btn btn-primary fs-5 action"
+                  class="btn btn-primary action"
                   id="confirmUpdate"
                 >
                   <div
@@ -75,7 +129,7 @@
                     role="status"
                     id="updateSpinner"
                   ></div>
-                  Update
+                  Save Changes
                 </button>
               </div>
             </form>
@@ -141,36 +195,6 @@
         <label class="btn btn-outline-primary" for="btnradio3"
           >Non-Verified</label
         >
-      </div>
-
-      <div class="user-profile-card mb-0 mt-0">
-        <div class="user-info">
-          <div class="user-details">
-            <span>
-              <h2 class="user-name d-inline-block"></h2>
-              <i class="fas fa-check-circle fs-5 verified"></i>
-            </span>
-
-            <p class="user-email mb-3"></p>
-
-            <p class="my-0">
-              <i class="fa-regular fa-calendar-plus mx-1 verified"> </i>
-              Created on:
-              <span class="created-at"></span>
-            </p>
-            <p class="my-0">
-              <i class="fa-regular fa-calendar-check mx-1 verified"></i>
-              Updated on:
-              <span class="updated-at"></span>
-            </p>
-            <p>
-              <i class="fa-solid fa-user mx-1 verified"> </i>
-              Last login :
-              <span id="lastLogin"></span>
-            </p>
-          </div>
-        </div>
-        </div>
       </div>
 
       <section class="manager-list-section mt-4">

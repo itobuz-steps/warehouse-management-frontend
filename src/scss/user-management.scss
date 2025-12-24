@@ -65,50 +65,114 @@
   cursor: pointer;
 }
 
-.user-management {
-  .user-profile-card {
-    @include card($radius-lg, 25px 30px, $shadow-md);
-    @include flex(space-between, center, row, 10px);
-    flex-wrap: wrap;
-    margin-bottom: 30px;
+.profile-image-container {
+  position: relative;
+  display: inline-block;
+  margin-top: -60px !important;
+  cursor: pointer;
 
-    .user-info {
-      @include flex(flex-start, center, row, 20px);
+  .profile-image {
+    border-radius: 50%;
+    width: 11rem;
+    height: 11rem;
+    background-position: center;
+    background-size: cover;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 0 auto;
+  }
 
-      .user-details {
-        .user-name {
-          font-weight: 700;
-          font-size: 1.5rem;
-          color: $text-primary;
-        }
-        .user-email {
-          color: $text-secondary;
-          font-size: 0.95rem;
-          margin-bottom: 5px;
+  // Edit button overlay
+  .edit-overlay {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 11rem;
+    height: 11rem;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
 
-          .mail {
-            color: $color-primary;
-          }
-        }
+    .edit-button {
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       }
-    }
 
-    @media (max-width: 840px) {
-      .user-info {
-        @include flex(flex-start, center, column, 20px);
-      }
-    }
-
-    .user-actions {
-      @include flex(flex-end, center, row, 10px);
-      flex-wrap: wrap;
-
-      .action {
-        @include button($color-primary, $color-primary-dark);
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: #333;
       }
     }
   }
 
+  // Hover effects
+  &:hover {
+    .profile-image {
+      filter: brightness(0.8);
+    }
+
+    .edit-overlay {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+
+  // Focus state for accessibility
+  &:focus-within {
+    .edit-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.status {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  line-height: 1rem;
+  margin-bottom: 1.3rem;
+}
+
+.status-value {
+  color: #212121;
+  font-weight: 700;
+}
+
+.status-text {
+  font-size: 0.8rem;
+  color: #7c7c7d;
+}
+
+.action {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-management {
   /* Manager Section */
   .manager-list-section {
     @include card($radius-md, 25px 30px);

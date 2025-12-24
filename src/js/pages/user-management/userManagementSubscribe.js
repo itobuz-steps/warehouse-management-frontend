@@ -17,6 +17,7 @@ export const getUserDetailsSubscribe = async () => {
   try {
     const res = await api.get(`${config.PROFILE_BASE_URL}/`);
     const user = res.data.data.user;
+    const profileImage = document.querySelector('.profile-image');
     const verifiedManagers = res.data.data.verifiedManagers;
     const unverifiedManagers = res.data.data.unverifiedManagers;
 
@@ -29,6 +30,7 @@ export const getUserDetailsSubscribe = async () => {
     userManagementSelection.userRole.style.textTransform = 'capitalize';
 
     userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`;
+    profileImage.style.backgroundImage = `url(${user.profileImage})`;
     userManagementSelection.userImg.src =
       user.profileImage || '../../../assets/images/profile_default.svg';
 
