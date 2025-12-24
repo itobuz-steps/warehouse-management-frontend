@@ -79,6 +79,7 @@ export const getUserDetailsSubscribe = async () => {
       });
 
       userManagementSelection.warehouseDetailsSelection.style.display = 'block';
+      document.getElementById('adminToggle').style.display = 'none';
 
       const warehouses = await getUserWarehouses();
 

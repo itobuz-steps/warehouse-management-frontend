@@ -116,27 +116,103 @@
       </div>
     </div>
 
+    <!-- Show Profile Modal -->
+    <div
+      class="modal fade"
+      id="profileModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="profileModalpLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="profileModalLabel">Modal title</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">...</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="sidebar-container"></div>
 
     <main class="main-content user-management pt-4">
+      <!-- topbar -->
       <div class="topbar">
-        <!-- Left -->
         <div class="topbar-left">
-          <h1 class="page-title">Dashboard</h1>
+          <h1 class="page-title">User Profile</h1>
         </div>
 
-        <!-- Right -->
-        <div class="topbar-right"></div>
-      </div>
-
-      <div class="user-profile-card mb-0 mt-0">
-        <div class="user-info">
+        <div class="topbar-right">
+          <p class="user-role-badge mb-0"></p>
           <img
             src="../assets/images/profile_default.svg"
             alt="User Profile"
             class="user-avatar-lg"
+            data-bs-toggle="modal"
+            data-bs-target="#profileModal"
           />
+        </div>
+      </div>
 
+      <!-- button group -->
+      <div
+        class="btn-group"
+        role="group"
+        id="adminToggle"
+        aria-label="Basic radio toggle button group"
+      >
+        <input
+          type="radio"
+          class="btn-check"
+          name="btnradio"
+          id="btnradio1"
+          autocomplete="off"
+          checked
+        />
+        <label class="btn btn-outline-primary" for="btnradio1">Active</label>
+
+        <input
+          type="radio"
+          class="btn-check"
+          name="btnradio"
+          id="btnradio2"
+          autocomplete="off"
+        />
+        <label class="btn btn-outline-primary" for="btnradio2">Blocked</label>
+
+        <input
+          type="radio"
+          class="btn-check"
+          name="btnradio"
+          id="btnradio3"
+          autocomplete="off"
+        />
+        <label class="btn btn-outline-primary" for="btnradio3"
+          >Non-Verified</label
+        >
+      </div>
+
+      <div class="user-profile-card mb-0 mt-0 d-none">
+        <div class="user-info">
           <div class="user-details">
             <span>
               <h2 class="user-name d-inline-block"></h2>
@@ -144,7 +220,7 @@
             </span>
 
             <p class="user-email mb-3"></p>
-            <p class="user-role-badge"></p>
+
             <p class="my-0">
               <i class="fa-regular fa-calendar-plus mx-1 verified"> </i>
               Created on:

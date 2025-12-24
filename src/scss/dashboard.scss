@@ -880,22 +880,6 @@
 }
 
 @media (min-width: 768px) {
-  .topbar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .topbar-hamburger {
-    top: 40px;
-  }
-
-  .topbar-right {
-    width: auto;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-  }
-
   .topbar .warehouse-select-wrapper {
     width: 200px;
   }

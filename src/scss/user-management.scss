@@ -15,6 +15,56 @@
   color: $color-primary-dark;
 }
 
+.btn-check:checked + label {
+  background-color: $color-primary !important;
+  border: 1px solid $color-primary !important;
+  font-weight: 500;
+}
+
+.btn-check:checked + label:hover {
+  background-color: $color-primary-dark !important;
+  border: 1px solid $color-primary !important;
+  font-weight: 500;
+}
+
+.btn-outline-primary {
+  border: 1px solid $color-primary !important;
+}
+
+.btn-outline-primary:hover {
+  border: 1px solid $color-primary-dark !important;
+}
+
+.btn-check:not(:checked) + label {
+  color: $color-primary;
+  font-weight: 500;
+}
+
+.btn-check:not(:checked) + label:hover {
+  color: $color-primary-dark;
+  font-weight: 500;
+}
+
+.user-role-badge {
+  display: inline-block;
+  background: $color-primary-dark;
+  color: $color-white;
+  padding: 5px 12px;
+  border-radius: $radius-sm;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.user-avatar-lg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: $shadow-sm;
+  border: 2px solid $color-primary-dark;
+  cursor: pointer;
+}
+
 .user-management {
   .user-profile-card {
     @include card($radius-lg, 25px 30px, $shadow-md);
@@ -24,15 +74,6 @@
 
     .user-info {
       @include flex(flex-start, center, row, 20px);
-
-      .user-avatar-lg {
-        width: 130px;
-        height: 130px;
-        border-radius: 50%;
-        object-fit: cover;
-        box-shadow: $shadow-sm;
-        border: 2px solid $color-primary-dark;
-      }
 
       .user-details {
         .user-name {
@@ -48,15 +89,6 @@
           .mail {
             color: $color-primary;
           }
-        }
-        .user-role-badge {
-          display: inline-block;
-          background: $color-primary-dark;
-          color: $color-white;
-          padding: 5px 12px;
-          border-radius: $radius-sm;
-          font-size: 0.85rem;
-          font-weight: 600;
         }
       }
     }
