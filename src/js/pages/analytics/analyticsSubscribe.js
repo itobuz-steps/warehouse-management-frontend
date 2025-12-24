@@ -51,15 +51,13 @@ class AnalyticsSubscribe {
           this.analyticsTemplate.warehouseOptions(warehouse);
       });
 
+      // For on page load charts
       const defaultWarehouseId = warehouses[0]._id;
-
-      console.log(defaultWarehouseId);
 
       const result2 = await api.get(
         `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${defaultWarehouseId}`
       );
       const products = result2.data.data;
-      console.log(products);
 
       if (products.length <= 1) {
         analyticsSelection.noDataSection.classList.remove('d-none');
@@ -71,39 +69,26 @@ class AnalyticsSubscribe {
         analyticsSelection.productSelect1.innerHTML += productOption;
         analyticsSelection.productSelect2.innerHTML += productOption;
       });
+
       const defaultProduct1Id = products[0].productId;
       const defaultProduct2Id = products[0].productId;
-
-      console.log(defaultProduct1Id, ' : ', defaultProduct2Id);
 
       const response1 = await api.get(
         `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${defaultWarehouseId}&productA=${defaultProduct1Id}&productB=${defaultProduct2Id}`
       );
-      console.log(response1);
 
       await this.createBarChart(response1.data.data);
 
       const response2 = await api.get(
         `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${defaultWarehouseId}&productA=${defaultProduct1Id}&productB=${defaultProduct2Id}`
       );
-      console.log(response2);
 
       await this.createLineChart(response2.data.data);
 
-      // analyticsSelection.warehouseSelect.innerHTML = `<option value="">Select Warehouse</option>`;
-
-      // warehouses.forEach((warehouse) => {
-      //   analyticsSelection.warehouseSelect.innerHTML +=
-      //     this.analyticsTemplate.warehouseOptions(warehouse);
-      // });
-
+      // On change option result flow
       analyticsSelection.warehouseSelect.addEventListener('change', (event) => {
         const selected = event.target.selectedOptions[0];
         const warehouseId = selected.id;
-
-        // analyticsSelection.productSelectSection.forEach((item) => {
-        //   item.style.display = 'block';
-        // });
 
         this.loadProductOptions(warehouseId);
       });
@@ -112,56 +97,58 @@ class AnalyticsSubscribe {
     }
   };
 
-  // loadProductOptions = async (warehouseId) => {
-  //   try {
-  //     const result = await api.get(
-  //       `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
-  //     );
+  loadProductOptions = async (warehouseId) => {
+    try {
+      const result = await api.get(
+        `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
+      );
 
-  //     const productDetails = result.data.data;
+      analyticsSelection.productSelect1.innerHTML = '';
+      analyticsSelection.productSelect2.innerHTML = '';
 
-  //     analyticsSelection.productSelect1.innerHTML = `<option value="">Select First Product</option>`;
-  //     analyticsSelection.productSelect2.innerHTML = `<option value="">Select Another Product</option>`;
+      const productDetails = result.data.data;
 
-  //     productDetails.forEach((product) => {
-  //       const productOption = this.analyticsTemplate.productOptions(product);
+      productDetails.forEach((product) => {
+        const productOption = this.analyticsTemplate.productOptions(product);
 
-  //       analyticsSelection.productSelect1.innerHTML += productOption;
-  //       analyticsSelection.productSelect2.innerHTML += productOption;
-  //     });
-  //   } catch (err) {
-  //     console.error('Error loading product options:', err);
-  //   }
-  // };
+        analyticsSelection.productSelect1.innerHTML += productOption;
+        analyticsSelection.productSelect2.innerHTML += productOption;
+      });
+    } catch (err) {
+      console.error('Error loading product options:', err);
+    }
+  };
 
-  // getComparisonData = async (event) => {
-  //   try {
-  //     event.preventDefault();
+  getComparisonData = async (event) => {
+    try {
+      event.preventDefault();
 
-  //     const formData = new FormData(event.target);
+      console.log('Form Submit');
 
-  //     const warehouseId = formData.get('warehouseSelect');
-  //     const product1 = formData.get('productSelect1');
-  //     const product2 = formData.get('productSelect2');
+      const formData = new FormData(event.target);
 
-  //     analyticsSelection.noDataSection.style.display = 'none';
-  //     analyticsSelection.chartGrid.style.display = 'grid';
+      const warehouseId = formData.get('warehouseSelect');
+      const product1 = formData.get('productSelect1');
+      const product2 = formData.get('productSelect2');
 
-  //     const response1 = await api.get(
-  //       `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
-  //     );
+      analyticsSelection.noDataSection.style.display = 'none';
+      analyticsSelection.chartGrid.style.display = 'grid';
 
-  //     await this.createBarChart(response1.data.data);
+      const response1 = await api.get(
+        `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
+      );
 
-  //     const response2 = await api.get(
-  //       `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
-  //     );
+      await this.createBarChart(response1.data.data);
 
-  //     await this.createLineChart(response2.data.data);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+      const response2 = await api.get(
+        `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
+      );
+
+      await this.createLineChart(response2.data.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   createBarChart = async (data) => {
     const barChart = analyticsSelection.barChart;
