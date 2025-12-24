@@ -154,6 +154,7 @@ export async function handleSaveLimit() {
 
     bootstrap.Modal.getInstance(productSelection.limitModal).hide();
     showToast('success', res.data.message);
+    productSelection.modal.classList.add('hidden');
   } catch (err) {
     showToast('error', err.response.data.message);
   }

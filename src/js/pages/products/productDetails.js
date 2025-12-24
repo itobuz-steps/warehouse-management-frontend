@@ -129,7 +129,7 @@ async function loadQuantityInfo(productId) {
         <p class="my-2"><strong>Total Quantity Across Warehouses:</strong> ${totalQty}</p>
         <hr/>
         <p class="my-2"><strong>Warehouses:</strong></p>
-        <ul>${quantityList}</ul>
+        <div class="warehouse-list-container">${quantityList}</div>
       `;
     }
   } catch {

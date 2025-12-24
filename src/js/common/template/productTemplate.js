@@ -97,24 +97,33 @@ export function createProductCard(product) {
 }
 
 export function managerProductQuantity(product) {
+  const isLow = product.quantity <= product.limit;
+
   return `
-        <div class="d-flex gap-2 align-items-center mb-2">
-          <p class="mb-0"><strong>Quantity:</strong> ${product.quantity}</p>
+    <div class="manager-qty-card ${isLow ? 'low' : ''}">
+      <div class="qty-row">
+        <span class="qty-text">
+          Quantity: <strong>${product.quantity}</strong>
+          <span class="qty-limit">(Limit: ${product.limit})</span>
+        </span>
 
-          ${
-            product.quantity <= product.limit
-              ? `<i class="fa-solid fa-arrow-trend-down text-danger bg-hollow"></i>`
-              : ''
-          }
+        ${
+          isLow
+            ? `<i class="fa-solid fa-arrow-trend-down low-stock-icon"></i>`
+            : ''
+        }
+      </div>
 
-          <button 
-            class="btn btn-outline-soft btn-sm edit-limit-btn"
-            data-id="${product._id}"
-            data-limit="${product.limit}">
-            <i class="fa-regular fa-pen-to-square"></i> Limit
-          </button>
-        </div>
-      `;
+      <button
+        class="btn btn-outline-soft btn-sm edit-limit-btn w-100"
+        data-id="${product._id}"
+        data-limit="${product.limit}"
+      >
+        <i class="fa-regular fa-pen-to-square"></i>
+        Edit Limit
+      </button>
+    </div>
+  `;
 }
 
 export function warehouseProductList(products) {

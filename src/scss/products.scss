@@ -421,7 +421,7 @@ hr {
 }
 
 .modal-header-section {
-  padding: 10px 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -724,4 +724,66 @@ hr {
 .bg-hollow {
   background: #f9dfdf;
   border-radius: 100%;
+}
+
+.manager-qty-card {
+  background: $body-bg;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  box-shadow: 0 2px 8px rgba($color-black, 0.06);
+  transition: $transition;
+
+  &:hover {
+    border-color: rgba($color-primary, 0.4);
+    box-shadow: 0 6px 16px rgba($color-black, 0.12);
+  }
+
+  &.low {
+    background: linear-gradient(
+      135deg,
+      rgba($color-danger, 0.06),
+      transparent 70%
+    );
+  }
+
+  .qty-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .qty-text {
+    font-size: 0.95rem;
+    color: $text-primary;
+    font-weight: 500;
+
+    strong {
+      font-weight: 700;
+      color: $color-primary-dark;
+    }
+  }
+
+  .qty-limit {
+    font-size: 0.85rem;
+    color: $text-secondary;
+    margin-left: 4px;
+  }
+
+  .low-stock-icon {
+    color: $color-danger;
+    background: rgba($color-danger, 0.12);
+    padding: 6px;
+    border-radius: 50%;
+    font-size: 0.9rem;
+  }
+
+  .edit-limit-btn {
+    align-self: flex-end;
+  }
 }
