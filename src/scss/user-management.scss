@@ -3,6 +3,7 @@
 @import './common/mixins';
 @import './common/animations';
 @import './common/root';
+@import './common/card';
 
 .verified {
   color: $color-info;
