@@ -1,4 +1,4 @@
-const browserNotificationsSelection = {
+const notificationSelection = {
   notificationBell: document.querySelector('.notif-bell'),
   notificationList: document.querySelector('#notif-list'),
   notificationCount: document.querySelector('#notif-count'),
@@ -8,4 +8,4 @@ const browserNotificationsSelection = {
   sentinel: document.querySelector('#sentinel'),
 };
 
-export default browserNotificationsSelection;
+export default notificationSelection;

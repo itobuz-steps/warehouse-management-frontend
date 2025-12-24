@@ -1,8 +1,8 @@
 import api from '../../api/interceptor.js';
 import config from '../../config/config.js';
 import Templates from '../Templates.js';
-import browserNotificationsSelection from './browserNotificationsSelector.js';
-import createNotificationTemplate from '../template/browserNotificationTemplate.js';
+import notificationSelection from './notificationSelector.js';
+import createNotificationTemplate from '../template/notificationTemplate.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');
@@ -42,7 +42,7 @@ async function registerAndSubscribe() {
     }
 
     await api.post(
-      `${config.BROWSER_NOTIFICATION_BASE_URL}/subscribe`,
+      `${config.NOTIFICATION_BASE_URL}/subscribe`,
       subscription.toJSON(),
       { headers: { 'Content-Type': 'application/json' } }
     );
@@ -57,11 +57,11 @@ async function registerAndSubscribe() {
 // Load Notifications with Loader
 export async function loadNotifications(offset) {
   // show loader while loading
-  browserNotificationsSelection.loaderContainer.style.display = 'block';
+  notificationSelection.loaderContainer.style.display = 'block';
 
   try {
     const res = await api.get(
-      `${config.BROWSER_NOTIFICATION_BASE_URL}/${offset}`
+      `${config.NOTIFICATION_BASE_URL}/${offset}`
     );
 
     if (!res.data.success) {
@@ -73,12 +73,11 @@ export async function loadNotifications(offset) {
 
     // badge count
     if (unseenCount > 0) {
-      browserNotificationsSelection.notificationCount.textContent = unseenCount;
-      browserNotificationsSelection.notificationCount.style.display =
-        'inline-block';
+      notificationSelection.notificationCount.textContent = unseenCount;
+      notificationSelection.notificationCount.style.display = 'inline-block';
     } else {
-      browserNotificationsSelection.notificationCount.textContent = 0;
-      browserNotificationsSelection.notificationCount.style.display = 'none';
+      notificationSelection.notificationCount.textContent = 0;
+      notificationSelection.notificationCount.style.display = 'none';
     }
 
     renderNotifications(notifications, offset);
@@ -87,20 +86,19 @@ export async function loadNotifications(offset) {
     setTimeout(() => (toastSection.innerHTML = ''), 3000);
   } finally {
     // hide loader after loading completes
-    browserNotificationsSelection.loaderContainer.style.display = 'none';
+    notificationSelection.loaderContainer.style.display = 'none';
   }
 }
 
 // Render notifications
 export async function renderNotifications(notifications, offset) {
   try {
-    
     if (offset === 0) {
-      browserNotificationsSelection.notificationList.innerHTML = '';
+      notificationSelection.notificationList.innerHTML = '';
     }
 
     notifications.forEach((notification) => {
-      browserNotificationsSelection.notificationList.innerHTML +=
+      notificationSelection.notificationList.innerHTML +=
         createNotificationTemplate(notification);
     });
 
@@ -117,7 +115,7 @@ export async function renderNotifications(notifications, offset) {
 
         try {
           await api.patch(
-            `${config.BROWSER_NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
+            `${config.NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
           );
 
           e.target.innerText = 'Shipped';
@@ -148,7 +146,7 @@ export async function renderNotifications(notifications, offset) {
 
         try {
           await api.patch(
-            `${config.BROWSER_NOTIFICATION_BASE_URL}/cancel-shipment/${transactionId}`
+            `${config.NOTIFICATION_BASE_URL}/cancel-shipment/${transactionId}`
           );
 
           e.target.innerText = 'Cancelled';
@@ -159,7 +157,6 @@ export async function renderNotifications(notifications, offset) {
           if (shipBtn) {
             shipBtn.disabled = true;
           }
-
         } catch (err) {
           toastSection.innerHTML = displayToast.errorToast(err.message);
           setTimeout(() => (toastSection.innerHTML = ''), 3000);
@@ -175,14 +172,13 @@ export async function renderNotifications(notifications, offset) {
 //  Mark all seen
 export async function markAllAsSeen() {
   try {
-
-    if (browserNotificationsSelection.notificationCount.innerHTML == 0) {
+    if (notificationSelection.notificationCount.innerHTML == 0) {
       return;
     }
 
-    await api.put(`${config.BROWSER_NOTIFICATION_BASE_URL}/mark-all-seen`);
+    await api.put(`${config.NOTIFICATION_BASE_URL}/mark-all-seen`);
 
-    browserNotificationsSelection.notificationCount.style.display = 'none';
+    notificationSelection.notificationCount.style.display = 'none';
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.message);
     setTimeout(() => (toastSection.innerHTML = ''), 3000);
@@ -194,18 +190,16 @@ let isLoading = false;
 
 const callback = async (entries) => {
   for (const entry of entries) {
-    
     if (entry.isIntersecting && !isLoading) {
       isLoading = true;
 
-      browserNotificationsSelection.loaderContainer.style.display = 'block';
+      notificationSelection.loaderContainer.style.display = 'block';
 
-      const offset =
-        browserNotificationsSelection.notificationList.children.length;
+      const offset = notificationSelection.notificationList.children.length;
 
       await loadNotifications(offset);
 
-      browserNotificationsSelection.loaderContainer.style.display = 'none';
+      notificationSelection.loaderContainer.style.display = 'none';
       isLoading = false;
     }
   }

@@ -11,8 +11,8 @@ const config = {
   WAREHOUSE_BASE_URL: `${BASE_URL}/warehouse`,
   // NOTIFICATION_BASE_URL: `${BASE_URL}/notifications`,
   TRANSACTION_BASE_URL: `${BASE_URL}/transaction`,
-  BROWSER_NOTIFICATION_BASE_URL: `${BASE_URL}/browser-notifications`,
-  BROWSER_NOTIFICATION_URL: `${BASE_URL}/browser-notifications`,
+  NOTIFICATION_BASE_URL: `${BASE_URL}/notifications`,
+  NOTIFICATION_URL: `${BASE_URL}/notifications`,
   PRODUCT_ANALYTICS_URL: `${BASE_URL}/analytics`,
 
   VAPID_PUBLIC_KEY: import.meta.env.VITE_VAPID_PUBLIC_KEY,
