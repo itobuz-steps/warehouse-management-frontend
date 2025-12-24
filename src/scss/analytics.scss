@@ -166,7 +166,13 @@ button.analytics-submit {
 
 .export {
   width: 110px;
-  font-weight: 500;
+  font-weight: 600;
+  @include dashboard-button($color-success, darken($color-success, 10%));
+  font-size: 0.85rem;
+
+  i {
+    margin-right: 5px;
+  }
 }
 
 .charts-grid {
