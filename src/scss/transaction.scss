@@ -4,6 +4,7 @@
 @import './common/animations';
 @import './common/root';
 @import './common/card';
+@import './common/button';
 
 $color-border: $color-gray-700;
 
@@ -163,6 +164,17 @@ $color-border: $color-gray-700;
     &:hover {
       color: darken($color-danger, 10%);
     }
+  }
+}
+
+button.add-product {
+  border: 1px solid $color-primary;
+  border-radius: $radius-sm;
+  color: $color-primary;
+
+  &:hover {
+    background-color: $color-primary;
+    color: $color-white;
   }
 }
 

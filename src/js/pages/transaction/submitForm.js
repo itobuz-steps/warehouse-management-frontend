@@ -39,7 +39,7 @@ export default async function submitForm(type) {
 
     case 'OUT': {
       url = `${config.TRANSACTION_BASE_URL}/stock-out`;
-      
+
       body = {
         products: await collectProducts('outProductsContainer'),
         customerName: document.getElementById('customerName').value,
@@ -145,7 +145,7 @@ async function collectProducts(containerId) {
       : 0;
 
     const limitInput = row.querySelector('.limitInput');
-    const limit = limitInput ? parseInt(limitInput.value || '0', 10) : 0;
+    const limit = limitInput ? parseInt(limitInput.value || '1', 10) : 1;
 
     // check warehouse capacity
     if (containerId === 'inProductsContainer') {
