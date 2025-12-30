@@ -39,6 +39,64 @@ $color-adjust-light: #fee2e2;
   }
 }
 
+// Filter section styles
+.reports-filter-details {
+  @media (min-width: 1200px) {
+    display: grid !important;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+
+    hr {
+      display: none;
+    }
+  }
+}
+
+.transaction-details {
+  @media (min-width: 1200px) {
+    grid-column: 2;
+    width: 100%;
+    padding-right: 0;
+  }
+}
+
+.transaction-reports {
+  width: 100%;
+}
+
+.filter-transactions::before,
+.status-filter::before,
+.date-filter::before {
+  content: attr(data-label);
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.filter-transactions {
+  &::before {
+    content: 'Transaction Type';
+  }
+}
+
+.status-filter {
+  &::before {
+    content: 'Status';
+  }
+}
+
+.date-filter {
+  &::before {
+    content: 'Date Range';
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -58,7 +116,7 @@ body {
 
 .main-content {
   margin-left: 250px;
-  padding: 30px 40px;
+  padding: 30px 24px;
 }
 
 .page-title {
@@ -75,25 +133,99 @@ button.warehouse-dropdown {
   @include button();
 }
 
+.reports-filter {
+ 
+  width: 280px;
+  position: sticky;
+  top: 30px;
+  height: fit-content;
+  background: $color-white;
+  border-radius: 12px;
+  padding: 24px 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  z-index: 10;
+
+  @media (max-width: 991px) {
+    width: 100%;
+    position: static;
+    top: auto;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    z-index: 15;
+  }
+}
+
+.filter-transactions,
+.status-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.status-filter {
+  gap: 12px;
+  margin-top: 15px;
+
+  @media (min-width: 1200px) {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 2px solid #f3f4f6;
+  }
+}
+
 .type-filter {
-  margin-top: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
   .btn-type {
     border: 1px solid $color-primary-dark;
     color: $color-primary-dark;
+    background: #f9fafb;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:hover {
+      background: #f3f4f6;
+      border-color: $color-primary-dark;
+    }
   }
+
   .btn-check:checked + .btn {
     background-color: $color-primary-dark;
     border: 1px solid $color-primary-dark;
     color: $color-white;
+    background: #1e40af;
+    border-color: #1e40af;
   }
-  .btn-check:hover + .btn {
-    background-color: $color-primary-dark;
-    color: $color-white;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .btn-type {
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+      margin: 4px 4px 0 0;
+      display: inline-flex;
+      align-items: center;
+    }
   }
+
   @media (max-width: 425px) {
     .btn-type {
-      font-size: 9px;
+      font-size: 11px;
+      padding: 6px 12px;
     }
   }
 }
@@ -112,6 +244,12 @@ button.warehouse-dropdown {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   cursor: pointer;
+  width: 100%;
+  max-width: none;
+
+  @media (max-width: 1199px) {
+    padding: 14px;
+  }
 
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -395,13 +533,121 @@ button.warehouse-dropdown {
 
 .date {
   border: 2px solid $color-primary-dark;
-  padding: 6px;
-  border-radius: 5px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  background: $color-white;
+  color: $text-primary;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: darken($color-primary-dark, 10%);
+    box-shadow: 0 0 0 3px rgba($color-primary-dark, 0.1);
+  }
+
+  &:hover {
+    border-color: darken($color-primary-dark, 5%);
+  }
+}
+
+.date-filter {
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  padding-bottom: 20px;
+  margin-top: 20px;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 12;
+
+  .date-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-primary;
+      white-space: nowrap;
+      margin-right: 0;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 0;
+    padding-top: 24px;
+    margin-top: 0;
+    border-top: 2px solid #f3f4f6;
+    justify-content: flex-start;
+
+    .date-input {
+      width: 100%;
+      flex-direction: row;
+      gap: 8px;
+
+      label {
+        font-size: 13px;
+        margin-right: 0;
+        min-width: fit-content;
+      }
+
+      input.date {
+        flex: 1;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    .date-input {
+      justify-content: center;
+      width: 100%;
+      margin: 6px 0;
+    }
+  }
+}
+
+.reports-filter .filter-transactions::before,
+.reports-filter .status-filter::before,
+.reports-filter .date-filter::before {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
 }
 
 button.filter-btn {
   @include button($color-primary, $color-primary);
-  padding: 9px 20px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: darken($color-primary-dark, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (min-width: 1200px) {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 12px;
+  }
 }
 
 .count {
@@ -410,6 +656,12 @@ button.filter-btn {
   border-radius: 12px;
   background: $color-primary-light;
   color: $text-primary;
+
+  @media (min-width: 1200px) {
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
 }
 
 // Load more button
