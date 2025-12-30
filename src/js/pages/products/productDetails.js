@@ -18,11 +18,9 @@ import {
   managerProductQuantity,
   warehouseProductList,
 } from '../../common/template/productTemplate';
+import { initializeCarousel } from '../../common/imageCarousel';
 
-let currentImageIndex = 0;
-let currentImages = [];
 let selectedProductId = null;
-let imageTimeout = null;
 
 productSelection.closeModalBtn.addEventListener('click', () =>
   productSelection.modal.classList.add('hidden')
@@ -44,55 +42,6 @@ window.addEventListener('click', (e) => {
   }
 });
 
-function initializeCarousel(images) {
-  currentImages = images;
-  currentImageIndex = 0;
-
-  const carouselImage = document.getElementById('carouselImage');
-  const carouselDots = document.querySelector('.carousel-dots');
-
-  carouselImage.src = currentImages[currentImageIndex];
-
-  // create the dots dynamically 
-  carouselDots.innerHTML = '';
-  currentImages.forEach((image, index) => {
-    const dot = document.createElement('span');
-    dot.dataset.index = index;
-    carouselDots.appendChild(dot);
-
-    dot.addEventListener('click', () => {
-      clearInterval(imageTimeout);
-      currentImageIndex = index;
-      updateCarousel();
-      startAutoSlide();
-    });
-  });
-
-  updateCarousel();
-
-  // start the auto-slide
-  startAutoSlide();
-}
-
-// function to update carousel
-function updateCarousel() {
-  const carouselImage = document.getElementById('carouselImage');
-  const dots = document.querySelectorAll('.carousel-dots span');
-
-  carouselImage.src = currentImages[currentImageIndex];
-
-  // update the active dot
-  dots.forEach((dot) => dot.classList.remove('active'));
-  dots[currentImageIndex].classList.add('active');
-}
-
-function startAutoSlide() {
-  imageTimeout = setInterval(() => {
-    currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-    updateCarousel();
-  }, 5000);
-}
-
 export const openProductModal = async (product) => {
   selectedProductId = product._id;
 
@@ -104,11 +53,7 @@ export const openProductModal = async (product) => {
     productSelection.deleteProductBtn.style.display = 'block';
   }
 
-  currentImages = product.productImage?.length
-    ? product.productImage
-    : ['/images/placeholder.png'];
-
-  initializeCarousel(currentImages);
+  initializeCarousel({ images: product.productImage });
 
   productSelection.modalProductName.textContent = product.name;
   productSelection.modalDescription.textContent =
