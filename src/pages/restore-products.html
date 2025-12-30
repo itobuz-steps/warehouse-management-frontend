@@ -106,7 +106,7 @@
                     <h3 class="mb-0">Product Details</h3>
                   </div>
                   <div class="modal-action-buttons d-flex align-content-center">
-                    <button id="deleteProductBtn" class="btn btn-warning">
+                    <button id="deleteProductBtn" class="btn theme-button" title="Restore Product">
                       <i class="fa-solid fa-recycle"></i>
                     </button>
                   </div>
@@ -160,14 +160,14 @@
                 </div>
               </div>
 
-              <div id="quantitySection"></div>
+              <!-- <div id="quantitySection"></div> -->
             </div>
           </div>
         </div>
       </div>
 
       <!-- Confirm Modal -->
-      <div id="confirmDeleteModal" class="product-modal hidden">
+      <div id="confirmDeleteModal" class="product-modal hidden confirmDeleteModal">
         <div class="modal-content">
           <h3>Confirm Restore</h3>
           <p>Are you sure you want to restore this product?</p>
@@ -176,7 +176,7 @@
             <button id="cancelDeleteBtn" class="btn btn-secondary">
               Cancel
             </button>
-            <button id="confirmDeleteBtn" class="btn btn-danger">
+            <button id="confirmDeleteBtn" class="btn theme-button rounded-2">
               Restore
             </button>
           </div>
