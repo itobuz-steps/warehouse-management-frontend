@@ -3,6 +3,7 @@
 @import './common/mixins';
 @import './common/animations';
 @import './common/root';
+@import './common/card';
 
 $color-border: $color-gray-700;
 
@@ -19,12 +20,31 @@ $color-border: $color-gray-700;
   }
 }
 
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-4;
+  margin-bottom: $spacing-5;
+
+  @media (min-width: 830px) {
+    flex-direction: row;
+  }
+
+  h2 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+  }
+}
+
 /* Transaction Card  */
 .transaction-card {
-  background: $body-bg;
+  background: $color-white;
   margin: 0 auto;
-  border: 1px solid $color-border;
-  border-radius: 10px;
+  // border: 1px solid $color-border;
+  border-radius: $radius-md;
   padding: 30px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 
@@ -81,15 +101,44 @@ $color-border: $color-gray-700;
   }
 }
 
+.transaction-structure {
+  display: flex;
+  width: 100%;
+
+  @media (max-width: 1024px) {
+    .img {
+      display: none;
+    }
+  }
+}
+
+.info {
+  flex: 1;
+}
+
+.img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+
+  img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
 /* Product Containers */
 #inProductsContainer,
 #outProductsContainer,
 #transferProductsContainer,
 #adjustProductsContainer {
-  border: 1px solid $color-border;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 15px;
-  background: #fff;
+  background: $color-white-dark;
   margin-bottom: 20px;
 }
 
@@ -115,34 +164,6 @@ $color-border: $color-gray-700;
       color: darken($color-danger, 10%);
     }
   }
-}
-
-/* Sidebar Toggle Button */
-.sidebar-toggle {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  background: $color-primary;
-  color: $color-white;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 12px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  z-index: 1100;
-  transition: $transition;
-
-  &:hover {
-    background: darken($color-primary, 8%);
-  }
-
-  @media (min-width: 992px) {
-    display: none;
-  }
-}
-
-.sidebar.active ~ .main-content {
-  margin-left: 220px;
 }
 
 /* Modal Overlay for Add Product */

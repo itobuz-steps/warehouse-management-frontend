@@ -21,183 +21,192 @@
 
     <!-- Main Content -->
     <main class="main-content">
-      <!-- header content -->
-      <div
-        class="list-warehouse-head d-flex justify-content-between flex-column gap-2 flex-sm-row"
-      >
-        <div class="icon-group d-flex">
-          <h2 class="ms-2 ps-4 m-auto mt-2 mt-md-0">Manage Transactions</h2>
-        </div>
+      <!-- TRANSACTIONS TOP BAR -->
+      <div class="page-header topbar">
+        <h2>Manage Transactions</h2>
       </div>
 
-      <div class="transaction-card mt-3">
-        <!-- Wrap all inputs in a <form> -->
-        <form id="transactionForm">
-          <!-- Transaction Type Dropdown-->
-          <div class="mb-3">
-            <label for="transactionType" class="form-label"
-              >Transaction Type</label
-            >
-            <select id="transactionType" class="form-select">
-              <option value="" selected disabled>Select Type</option>
-              <option value="IN">Stock In</option>
-              <option value="OUT">Stock Out</option>
-              <option id="transferOption" value="TRANSFER">Transfer</option>
-              <option value="ADJUSTMENT">Adjustment</option>
-            </select>
-          </div>
+      <div class="transaction-structure">
+        <div class="img">
+          <img
+            src="../assets/images/fetchpik.com-iconscout-JXxkFyKPhf.gif"
+            alt=""
+            srcset=""
+          />
+        </div>
 
-          <!-- Warehouse Selector Dropdown -->
-          <div class="mb-3 d-none" id="warehouseDropdown">
-            <!-- source warehouse -->
-            <label
-              id="sourceWarehouseDropdownLabel"
-              class="form-label d-none required"
-              >Source Warehouse</label
-            >
-            <select
-              id="sourceWarehouse"
-              class="form-select mb-2 d-none"
-            ></select>
-
-            <!-- Destination warehouse -->
-            <label
-              class="form-label d-none required"
-              id="destinationWarehouseDropdownLabel"
-              >Destination Warehouse</label
-            >
-            <select
-              id="destinationWarehouse"
-              class="form-select mb-2 d-none"
-            ></select>
-          </div>
-
-          <!-- Stock IN Fields -->
-          <div id="inFields" class="d-none">
-            <div id="inProductsContainer" class="d-flex flex-column">
-              <!-- products will displayed here -->
+        <div class="transaction-card mt-3 info">
+          <!-- Wrap all inputs in a <form> -->
+          <form id="transactionForm">
+            <!-- Transaction Type Dropdown-->
+            <div class="mb-3">
+              <label for="transactionType" class="form-label"
+                >Transaction Type</label
+              >
+              <select id="transactionType" class="form-select">
+                <option value="IN">Stock In</option>
+                <option value="OUT">Stock Out</option>
+                <option id="transferOption" value="TRANSFER">Transfer</option>
+                <option value="ADJUSTMENT">Adjustment</option>
+              </select>
             </div>
 
-            <div class="d-flex gap-2 mb-3">
+            <!-- Warehouse Selector Dropdown -->
+            <div class="mb-3" id="warehouseDropdown">
+              <!-- source warehouse -->
+              <label
+                id="sourceWarehouseDropdownLabel"
+                class="form-label d-none required"
+                >Source Warehouse</label
+              >
+              <select
+                id="sourceWarehouse"
+                class="form-select mb-2 d-none"
+              ></select>
+
+              <!-- Destination warehouse -->
+              <label
+                class="form-label d-none required"
+                id="destinationWarehouseDropdownLabel"
+                >Destination Warehouse</label
+              >
+              <select
+                id="destinationWarehouse"
+                class="form-select mb-2 d-none"
+              ></select>
+            </div>
+
+            <!-- IN Fields -->
+            <div id="inFields" class="d-none">
+              <div id="inProductsContainer" class="d-flex flex-column">
+                <!-- products will displayed here -->
+              </div>
+
+              <div class="d-flex gap-2 mb-3">
+                <button
+                  type="button"
+                  id="addInProduct"
+                  class="btn btn-outline-primary btn-sm"
+                >
+                  + Add Product
+                </button>
+                <button
+                  type="button"
+                  id="addNewProductBtn"
+                  class="btn btn-outline-success btn-sm"
+                >
+                  + Create New Product
+                </button>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label required">Supplier</label>
+                <input id="supplier" class="form-control" />
+              </div>
+
+              <input
+                id="inNotes"
+                class="form-control mb-2"
+                placeholder="Notes"
+              />
+            </div>
+
+            <!-- OUT Fields -->
+            <div id="outFields" class="d-none">
+              <!-- Uses Source Warehouse selector above -->
+              <div id="outProductsContainer"></div>
               <button
                 type="button"
-                id="addInProduct"
-                class="btn btn-outline-primary btn-sm"
+                id="addOutProduct"
+                class="btn btn-outline-primary btn-sm mb-3"
               >
                 + Add Product
               </button>
-              <button
-                type="button"
-                id="addNewProductBtn"
-                class="btn btn-outline-success btn-sm"
-              >
-                + Create New Product
-              </button>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label required">Supplier</label>
-              <input id="supplier" class="form-control" />
-            </div>
-
-            <input id="inNotes" class="form-control mb-2" placeholder="Notes" />
-          </div>
-
-          <!-- OUT Fields -->
-          <div id="outFields" class="d-none">
-            <!-- Uses Source Warehouse selector above -->
-            <div id="outProductsContainer"></div>
-            <button
-              type="button"
-              id="addOutProduct"
-              class="btn btn-outline-primary btn-sm mb-3"
-            >
-              + Add Product
-            </button>
-            <div class="mb-3">
-              <label class="form-label required">Customer Details</label>
-              <input
-                id="customerName"
-                class="form-control mb-2"
-                placeholder="Customer Name"
-              />
-              <input
-                id="customerEmail"
-                type="email"
-                class="form-control mb-2"
-                placeholder="Customer Email"
-              />
-              <input
-                id="customerPhone"
-                class="form-control mb-2"
-                placeholder="Customer Phone"
-              />
-              <input
-                id="customerAddress"
-                class="form-control mb-2"
-                placeholder="Customer Address"
-              />
-            </div>
-            <!-- <input
+              <div class="mb-3">
+                <label class="form-label required">Customer Details</label>
+                <input
+                  id="customerName"
+                  class="form-control mb-2"
+                  placeholder="Customer Name"
+                />
+                <input
+                  id="customerEmail"
+                  type="email"
+                  class="form-control mb-2"
+                  placeholder="Customer Email"
+                />
+                <input
+                  id="customerPhone"
+                  class="form-control mb-2"
+                  placeholder="Customer Phone"
+                />
+                <input
+                  id="customerAddress"
+                  class="form-control mb-2"
+                  placeholder="Customer Address"
+                />
+              </div>
+              <!-- <input
               id="orderNumber"
               class="form-control mb-2"
               placeholder="Order Number"
             /> -->
-            <input
-              id="outNotes"
-              class="form-control mb-2"
-              placeholder="Notes"
-            />
-          </div>
-
-          <!-- TRANSFER Fields -->
-          <div id="transferFields" class="d-none">
-            <!-- Uses Source + Destination Warehouse selectors above -->
-            <div id="transferProductsContainer"></div>
-            <button
-              type="button"
-              id="addTransferProduct"
-              class="btn btn-outline-primary btn-sm mb-3"
-            >
-              + Add Product
-            </button>
-            <input
-              id="transferNotes"
-              class="form-control mb-2"
-              placeholder="Notes"
-            />
-          </div>
-
-          <!-- ADJUSTMENT Fields -->
-          <div id="adjustmentFields" class="d-none">
-            <!-- Uses Source Warehouse selector above -->
-            <div id="adjustProductsContainer"></div>
-
-            <div class="mb-3">
-              <label class="form-label required">Reason for Adjustment</label>
               <input
-                id="adjustReason"
+                id="outNotes"
                 class="form-control mb-2"
-                placeholder="Reason"
+                placeholder="Notes"
               />
             </div>
-            <input
-              id="adjustNotes"
-              class="form-control mb-2"
-              placeholder="Notes"
-            />
-          </div>
 
-          <button type="submit" class="btn btn-primary mt-3 w-100">
-            <span
-              class="spinner-border spinner-border-sm d-none"
-              aria-hidden="true"
-              id="submitSpinner"
-            ></span>
+            <!-- TRANSFER Fields -->
+            <div id="transferFields" class="d-none">
+              <!-- Uses Source + Destination Warehouse selectors above -->
+              <div id="transferProductsContainer"></div>
+              <button
+                type="button"
+                id="addTransferProduct"
+                class="btn btn-outline-primary btn-sm mb-3"
+              >
+                + Add Product
+              </button>
+              <input
+                id="transferNotes"
+                class="form-control mb-2"
+                placeholder="Notes"
+              />
+            </div>
 
-            Submit Transaction
-          </button>
-        </form>
+            <!-- ADJUSTMENT Fields -->
+            <div id="adjustmentFields" class="d-none">
+              <!-- Uses Source Warehouse selector above -->
+              <div id="adjustProductsContainer"></div>
+
+              <div class="mb-3">
+                <label class="form-label required">Reason for Adjustment</label>
+                <input
+                  id="adjustReason"
+                  class="form-control mb-2"
+                  placeholder="Reason"
+                />
+              </div>
+              <input
+                id="adjustNotes"
+                class="form-control mb-2"
+                placeholder="Notes"
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3 w-100">
+              <span
+                class="spinner-border spinner-border-sm d-none"
+                aria-hidden="true"
+                id="submitSpinner"
+              ></span>
+
+              Submit Transaction
+            </button>
+          </form>
+        </div>
       </div>
 
       <!-- Transaction Confirmation Modal -->
