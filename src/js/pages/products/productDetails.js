@@ -109,7 +109,7 @@ async function loadQuantityInfo(productId) {
       const quantityList = warehouseProductList(listRes.data.data);
 
       productSelection.quantitySection.innerHTML = `
-        <div class="overview-card mb-2">
+        <div class="overview-card mb-2 border-success-subtle">
           <p class="m-0 p-0"><strong>Total Quantity:</strong> ${totalQty}</p>
         </div>
         <hr/>
