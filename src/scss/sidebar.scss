@@ -34,6 +34,7 @@ $sidebar-full-width: 280px;
       }
 
       .sidebar-brand img {
+        margin-top: 15px;
         transform: scale(2);
       }
 
@@ -47,6 +48,11 @@ $sidebar-full-width: 280px;
 
   @media (max-width: #{$desktop-breakpoint - 1px}) {
     transform: translateX(-100%);
+
+    .sidebar-brand img {
+      margin-top: 15px;
+      transform: scale(2);
+    }
 
     &.active {
       transform: translateX(0);
@@ -225,7 +231,7 @@ $sidebar-full-width: 280px;
     position: fixed;
     top: 20px;
     left: 20px;
-    z-index: 1040;
+    z-index: 1030;
     border: 1px solid $color-gray-200;
     border-radius: 8px;
     padding: 10px 12px;
@@ -279,10 +285,5 @@ $sidebar-full-width: 280px;
   font-size: 1.1rem;
   border-radius: 10px;
   background: rgba($color-primary, 1);
-}
-
-@media (min-width: 768px) {
-  .topbar-hamburger {
-    top: 40px;
-  }
+  top: 40px;
 }
