@@ -47,30 +47,35 @@ export default class Templates {
     return `<option value="${warehouse._id}" ${selected ? 'selected' : ''}>${warehouse.name}</option>`;
   };
 
-  carouselItem = (product, isActive = false) => {
+  carouselItem = (warehouseId, product, isActive = false) => {
     const active = isActive ? 'active' : '';
     return `
   <div class="carousel-item ${active}">
-    <div class="product-card">
-      <div class="product-image-wrapper">
-        <img src="${product.productImage}" alt="${product.productName}">
+    <a
+      href="/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${product.productId}"
+      class="text-decoration-none text-dark"
+    >
+      <div class="product-card">
+        <div class="product-image-wrapper">
+          <img src="${product.productImage}" alt="${product.productName}">
+        </div>
+        <div class="product-info">
+          <div class="product-header">
+            <h6>${product.productName}</h6>
+            <span class="product-category">${product.category}</span>
+          </div>
+          <div class="product-stats mb-2">
+            <div class="stat-item">
+              <div class="stat-label">Price</div>
+              <div class="stat-value price">₹${product.price.toLocaleString('hi-IN')}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Total Sales</div>
+              <div class="stat-value sales">₹${product.totalSalesAmount.toLocaleString('hi-IN')}</div>
+            </div>
+          </div>
       </div>
-      <div class="product-info">
-        <div class="product-header">
-          <h6>${product.productName}</h6>
-          <span class="product-category">${product.category}</span>
-        </div>
-        <div class="product-stats mb-2">
-          <div class="stat-item">
-            <div class="stat-label">Price</div>
-            <div class="stat-value price">₹${product.price.toLocaleString('hi-IN')}</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-label">Total Sales</div>
-            <div class="stat-value sales">₹${product.totalSalesAmount.toLocaleString('hi-IN')}</div>
-          </div>
-        </div>
-    </div>
+    </a>
   </div>
 `;
   };

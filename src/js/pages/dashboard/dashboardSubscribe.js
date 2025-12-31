@@ -525,7 +525,13 @@ async function showTopSellingProductsSubscribe(warehouseId) {
         isActive = 'active';
       }
 
-      const itemHTML = displayToast.carouselItem(product, isActive);
+      // console.log(warehouseId, product.productId);
+
+      const itemHTML = displayToast.carouselItem(
+        warehouseId,
+        product,
+        isActive
+      );
 
       dashboardSelection.carouselItems.innerHTML += itemHTML;
     });

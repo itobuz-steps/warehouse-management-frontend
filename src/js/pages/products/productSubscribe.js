@@ -174,6 +174,18 @@ export const loadProducts = async (overrides = {}) => {
 
     renderProducts(products);
     renderPagination(totalPages);
+
+    const url = new URL(window.location);
+    const productId = url.searchParams.get('productId');
+
+    if (productId) {
+      const product = products.find((p) => p._id === productId);
+
+      if (product) {
+        await openProductModal(product);
+      }
+    }
+    
   } catch (err) {
     console.error(err);
     showErrorState();

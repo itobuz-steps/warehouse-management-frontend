@@ -45,6 +45,10 @@ window.addEventListener('click', (e) => {
 export const openProductModal = async (product) => {
   selectedProductId = product._id;
 
+  const url = new URL(window.location);
+  url.searchParams.set('productId', selectedProductId);
+  window.history.replaceState({}, '', url);
+
   const user = await getCurrentUser();
 
   if (user.role !== 'admin') {
