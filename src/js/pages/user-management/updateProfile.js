@@ -24,16 +24,21 @@ export const updateUserSubscribe = async (event) => {
       }
     );
 
-    updateSpinner.classList.remove('d-none');
+    if (res.ok) {
+      updateSpinner.classList.remove('d-none');
 
-    updateModalObj.hide();
-    userManagementSelection.updateProfileForm.reset();
-    await getUserDetailsSubscribe();
+      updateModalObj.hide();
+      userManagementSelection.updateProfileForm.reset();
+      await getUserDetailsSubscribe();
 
-    updateSpinner.classList.add('d-none');
-    userManagementSelection.toastSection.innerHTML = displayToast.successToast(
-      res.data.message
-    );
+      updateSpinner.classList.add('d-none');
+      userManagementSelection.toastSection.innerHTML =
+        displayToast.successToast(res.data.message);
+    } else {
+      userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
+        res.data.message
+      );
+    }
   } catch (err) {
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
