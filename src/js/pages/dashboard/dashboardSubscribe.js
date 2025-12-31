@@ -117,6 +117,14 @@ async function showTopProductsSubscribe(warehouseId) {
             beginAtZero: true,
           },
         },
+        onClick: (evt, elements) => {
+          
+          if (!elements.length) {
+            return;
+          }
+
+          window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}`;
+        },
       },
     });
   } catch (err) {
@@ -168,7 +176,18 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
         },
       ],
     },
-    options: { responsive: true, maintainAspectRatio: false },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      onClick: (evt, elements) => {
+
+        if (!elements.length) {
+          return;
+        }
+
+        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}`;
+      },
+    },
   });
 };
 
