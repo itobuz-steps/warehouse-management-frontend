@@ -39,11 +39,11 @@ $color-adjust-light: #fee2e2;
   }
 }
 
-// Filter section styles
 .reports-filter-details {
-  @media (min-width: 1200px) {
+  @media (min-width: 991px) {
     display: grid !important;
     grid-template-columns: 280px minmax(0, 1fr);
+
     gap: 24px;
     align-items: start;
 
@@ -51,10 +51,323 @@ $color-adjust-light: #fee2e2;
       display: none;
     }
   }
+
+  @media (max-width: 760px) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.reports-filter {
+  width: 280px;
+  position: sticky;
+  margin-top: 25px;
+  height: fit-content;
+  background: $color-white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  z-index: 10;
+  transition:
+    box-shadow 160ms ease,
+    transform 160ms ease;
+
+  @media (max-width: 760px) {
+    width: 100%;
+    position: static;
+    top: auto;
+    padding: 14px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(16, 24, 40, 0.04);
+    z-index: 15;
+  }
+
+  @media (max-width: 576px) {
+    padding: 12px;
+  }
+}
+
+.filter-transactions,
+.status-filter,
+.date-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  @media (max-width: 760px) {
+    gap: 12px;
+  }
+}
+
+.status-filter {
+  gap: 12px;
+  margin-top: 15px;
+
+  @media (min-width: 991px) {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 2px solid #f3f4f6;
+  }
+}
+
+.type-filter {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  .btn-type {
+    border: 1px solid $color-primary-dark;
+    color: $color-primary-dark;
+    background: #f9fafb;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease,
+      background 120ms ease;
+    border-radius: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    flex: 0 0 auto;
+    min-width: 90px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.03);
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(16, 24, 40, 0.06);
+      background: #ffffff;
+    }
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 10px;
+      flex-shrink: 0;
+      background: rgba(15, 23, 42, 0.06);
+    }
+  }
+
+  .btn-check:checked + .btn {
+    background-color: $color-primary-dark;
+    border: 1px solid $color-primary-dark;
+    color: $color-white;
+    box-shadow: 0 8px 24px rgba(14, 32, 90, 0.12);
+  }
+
+  @media (min-width: 991px) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-x: visible;
+
+    .btn-type {
+      flex: none;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 768px) {
+    gap: 8px;
+
+    .btn-type {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    gap: 6px;
+
+    .btn-type {
+      font-size: 11px;
+      padding: 6px 10px;
+    }
+  }
+}
+
+.date-filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 12px;
+  padding-bottom: 0;
+  padding-top: 24px;
+  margin-top: 0;
+  gap: 12px;
+  position: relative;
+  z-index: 12;
+  border-top: 2px solid #f3f4f6;
+
+  .date-input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      white-space: nowrap;
+      margin-right: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input.date {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      box-shadow: 0 2px 8px rgba(16, 24, 40, 0.04);
+      background: $color-white;
+      transition:
+        box-shadow 140ms ease,
+        border-color 120ms ease,
+        transform 120ms ease;
+    }
+
+    input.date:focus {
+      outline: none;
+      border-color: $color-primary-dark;
+      box-shadow: 0 8px 24px rgba(14, 32, 90, 0.06);
+      transform: translateY(-1px);
+    }
+
+    input.date {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: none;
+
+    .date-input {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      label {
+        font-size: 14px;
+        color: $text-primary;
+        font-weight: 500;
+        text-transform: none;
+        letter-spacing: 0;
+      }
+
+      input.date {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    gap: 16px;
+    padding-top: 20px;
+
+    .date-input {
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 576px) {
+    gap: 12px;
+
+    .date-input {
+      label {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+button.filter-btn {
+  @include button($color-primary, $color-primary);
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: darken($color-primary-dark, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (min-width: 991px) {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+
+  @media (max-width: 576px) {
+    padding: 8px 20px;
+    font-size: 12px;
+  }
+}
+
+.count {
+  text-align: center;
+  padding: 2px 6px;
+  border-radius: 12px;
+  background: $color-primary-light;
+  color: $text-primary;
+
+  @media (min-width: 991px) {
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+// Adjust the load more button
+.d-flex.justify-content-center {
+  margin-top: 30px;
+}
+
+#loadMoreBtn {
+  padding: 12px 20px;
+  background: $color-primary-dark;
+  color: $color-white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+
+  &:hover {
+    background: darken($color-primary-dark, 10%);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 576px) {
+    padding: 10px 24px;
+    font-size: 12px;
+  }
 }
 
 .transaction-details {
-  @media (min-width: 1200px) {
+  @media (min-width: 991px) {
     grid-column: 2;
     width: 100%;
     padding-right: 0;
@@ -134,7 +447,6 @@ button.warehouse-dropdown {
 }
 
 .reports-filter {
- 
   width: 280px;
   position: sticky;
   top: 30px;
@@ -168,7 +480,7 @@ button.warehouse-dropdown {
   gap: 12px;
   margin-top: 15px;
 
-  @media (min-width: 1200px) {
+  @media (min-width: 991px) {
     margin-top: 24px;
     padding-top: 24px;
     border-top: 2px solid #f3f4f6;
@@ -178,7 +490,6 @@ button.warehouse-dropdown {
 .type-filter {
   margin: 0;
   display: flex;
-  flex-direction: column;
   gap: 8px;
 
   .btn-type {
@@ -204,8 +515,8 @@ button.warehouse-dropdown {
     background-color: $color-primary-dark;
     border: 1px solid $color-primary-dark;
     color: $color-white;
-    background: #1e40af;
-    border-color: #1e40af;
+    background: $color-primary;
+    border-color: $color-primary-dark;
   }
 
   @media (max-width: 768px) {
@@ -576,7 +887,7 @@ button.warehouse-dropdown {
     }
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 991px) {
     flex-direction: column;
     gap: 12px;
     padding-bottom: 0;
@@ -642,7 +953,7 @@ button.filter-btn {
     transform: translateY(0);
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 991px) {
     width: 100%;
     padding: 10px 14px;
     font-size: 13px;
@@ -657,16 +968,11 @@ button.filter-btn {
   background: $color-primary-light;
   color: $text-primary;
 
-  @media (min-width: 1200px) {
+  @media (min-width: 991px) {
     padding: 2px 8px;
     font-size: 12px;
     font-weight: 600;
   }
-}
-
-// Load more button
-.d-flex.justify-content-center {
-  margin-top: 30px;
 }
 
 #loadMoreBtn {
