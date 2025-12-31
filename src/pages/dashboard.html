@@ -30,48 +30,6 @@
       <!-- custom toast message -->
     </div>
 
-    <!-- Add Manager Modal -->
-    <div
-      class="modal fade"
-      id="addManagerModal"
-      tabindex="-1"
-      aria-labelledby="addManagerModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addManagerModalLabel">
-              Add New Manager
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form id="addManagerForm" class="add-manager-form add-form">
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  class="form-control"
-                  placeholder="Enter manager email"
-                  required
-                />
-              </div>
-
-              <button type="submit" class="btn-primary">Add Manager</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Sidebar -->
     <div id="sidebar-container"></div>
 
@@ -93,15 +51,6 @@
             </select>
             <i class="select-arrow fa-solid fa-angle-down"></i>
           </div>
-
-          <!-- Add Manager -->
-          <button
-            class="add-manager-btn"
-            data-bs-toggle="modal"
-            data-bs-target="#addManagerModal"
-          >
-            + Manager
-          </button>
 
           <!-- Notifications -->
           <div

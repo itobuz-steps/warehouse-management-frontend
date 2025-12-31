@@ -19,6 +19,48 @@
   <body>
     <div id="toastSection"></div>
 
+    <!-- Add Manager Modal -->
+    <div
+      class="modal fade"
+      id="addManagerModal"
+      tabindex="-1"
+      aria-labelledby="addManagerModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addManagerModalLabel">
+              Add New Manager
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addManagerForm" class="add-manager-form add-form">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Enter manager email"
+                  required
+                />
+              </div>
+
+              <button type="submit" class="btn-primary">Add Manager</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!--Edit User Profile-->
     <div
       class="modal fade"
@@ -32,7 +74,11 @@
             <form id="updateProfile" class="update-profile-form">
               <div class="profile-card-header d-flex flex-column">
                 <div class="profile-image-container">
-                  <label class="profile-image m-auto" for="profileImg"></label>
+                  <label
+                    class="profile-image m-auto"
+                    for="profileImg"
+                    id="profileLabel"
+                  ></label>
 
                   <div class="edit-overlay">
                     <label
@@ -58,7 +104,8 @@
                     <h3
                       class="user-name m-0 d-inline-block text-center fs-4 fw-bolder"
                     ></h3>
-                    <i class="fas fa-check-circle fs-5 verified"></i>
+                    <p class="user-role-badge mb-0"></p>
+                    <!-- <i class="fas fa-check-circle fs-5 verified"></i> -->
                     <input
                       type="text"
                       name="name"
@@ -68,7 +115,9 @@
                     />
                   </span>
 
-                  <p class="user-email text-secondary mb-3"></p>
+                  <p
+                    class="user-email text-secondary mb-3 justify-content-center mt-3"
+                  ></p>
                 </div>
 
                 <div class="profile-card-body">
@@ -100,15 +149,6 @@
                 </div>
               </div>
 
-              <!-- <div class="mb-3 d-none">
-                <label for="name" class="form-label">Name</label>
-
-                <label for="profile-image" class="form-label mt-4"
-                  >Profile Image</label
-                >
-                
-              </div> -->
-
               <div class="modal-footer my-0 pb-0">
                 <button
                   type="button"
@@ -139,7 +179,7 @@
 
     <div id="sidebar-container"></div>
 
-    <main class="main-content user-management pt-4">
+    <main class="main-content pt-4">
       <!-- topbar -->
       <div class="topbar">
         <div class="topbar-left">
@@ -147,7 +187,14 @@
         </div>
 
         <div class="topbar-right">
-          <p class="user-role-badge mb-0"></p>
+          <!-- Add Manager -->
+          <button
+            class="add-manager-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#addManagerModal"
+          >
+            + Manager
+          </button>
           <img
             src="../assets/images/profile_default.svg"
             alt="User Profile"
@@ -158,7 +205,7 @@
         </div>
       </div>
 
-      <!-- button group -->
+      <!-- toggle button -->
       <div
         class="btn-group"
         role="group"
@@ -169,48 +216,54 @@
           type="radio"
           class="btn-check"
           name="btnradio"
-          id="btnradio1"
+          id="activeBtn"
           autocomplete="off"
           checked
         />
-        <label class="btn btn-outline-primary" for="btnradio1">Active</label>
+        <label class="btn btn-outline-primary" for="activeBtn">Active</label>
 
         <input
           type="radio"
           class="btn-check"
           name="btnradio"
-          id="btnradio2"
+          id="blockedBtn"
           autocomplete="off"
         />
-        <label class="btn btn-outline-primary" for="btnradio2">Blocked</label>
+        <label class="btn btn-outline-primary" for="blockedBtn">Blocked</label>
 
         <input
           type="radio"
           class="btn-check"
           name="btnradio"
-          id="btnradio3"
+          id="pendingBtn"
           autocomplete="off"
         />
-        <label class="btn btn-outline-primary" for="btnradio3"
-          >Non-Verified</label
-        >
+        <label class="btn btn-outline-primary" for="pendingBtn">Pending</label>
       </div>
 
-      <section class="manager-list-section mt-4">
-        <h3>Verified Managers</h3>
-        <div class="manager-grid" id="verified-manager-grid">
-          <!-- All verified managers -->
-        </div>
-      </section>
+      <!-- Divider -->
+      <div class="divider w-100 border-top my-4 border-secondary-subtle"></div>
 
-      <section class="manager-list-section mt-4">
-        <h3>Pending Verifications</h3>
-        <div class="manager-grid" id="not-verified-manager-grid">
-          <!-- All not verified managers -->
-        </div>
-      </section>
+      <!-- User Grid -->
+      <div class="user-grid gap-3 d-none" id="showActiveUser">
+        <!-- all active user card for admin -->
+      </div>
 
-      <section class="warehouse-list-section mt-4">
+      <div class="user-grid gap-3 d-none" id="showBlockedUser">
+        <!-- all blocked user card for admin -->
+      </div>
+
+      <div class="user-grid gap-3 d-none" id="emptyBlocked">
+        <p class="text-center"></p>
+        <p class="text-center">No Blocked User Found</p>
+        <p class="text-center"></p>
+      </div>
+
+      <div class="user-grid gap-3 d-none" id="showPendingUser">
+        <!-- all blocked user card for admin -->
+      </div>
+
+      <section class="warehouse-list-section mt-4 d-none">
         <h3 class="mb-1">Your Warehouses</h3>
         <p class="my-5"></p>
         <div class="warehouse-grid row" id="not-verified-manager-grid">

@@ -15,6 +15,8 @@
   color: $color-primary-dark;
 }
 
+// button group
+
 .btn-check:checked + label {
   background-color: $color-primary !important;
   border: 1px solid $color-primary !important;
@@ -43,6 +45,14 @@
 .btn-check:not(:checked) + label:hover {
   color: $color-primary-dark;
   font-weight: 500;
+}
+
+// add manager
+.add-manager-btn {
+  @include dashboard-button($color-primary, $color-primary-dark);
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  margin: 0px;
 }
 
 .user-role-badge {
@@ -172,194 +182,165 @@
   justify-content: space-between;
 }
 
-.user-management {
-  /* Manager Section */
-  .manager-list-section {
-    @include card($radius-md, 25px 30px);
-    h3 {
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: $text-primary;
-    }
+.user-avatar {
+  width: 48px;
+  height: 48px;
+}
 
-    .manager-grid {
-      @include grid(auto-fit, 220px);
+.add-form {
+  .btn-primary {
+    @include dashboard-button($color-primary, $color-primary-dark);
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+}
 
-      .manager-card {
-        @include card($radius-md, 15px);
-        text-align: center;
-        transition: $transition;
-        &:hover {
-          transform: translateY(-5px);
-        }
+/* User Grid */
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+}
 
-        .manager-avatar {
-          width: 70px;
-          height: 70px;
-          border-radius: 50%;
-          margin-bottom: 10px;
-        }
+.user-card {
+  background: #ffffff;
+  border-radius: $radius-lg;
+  border: 1px solid #e8dfd8;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
 
-        .manager-name {
-          font-weight: 600;
-          color: $text-primary;
-        }
+.user-card:hover {
+  box-shadow: 0 8px 24px rgba(30, 196, 196, 0.15);
+  transform: translateY(-2px);
+  border-color: $color-primary-light;
+}
 
-        .manager-email {
-          color: $text-secondary;
-          font-size: 0.9rem;
-        }
-        .manager-info {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
+.user-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
 
-        .manager-header {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          margin-bottom: 5px;
+.user-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #211b16;
+  margin-bottom: 0.25rem;
+}
 
-          .manager-name {
-            margin: 0;
-            font-size: 1.1rem;
-            line-height: 1.2;
-          }
-        }
+.user-creation {
+  color: $color-gray-600;
+  font-size: 0.9rem;
+}
 
-        .manager-last-login {
-          color: $text-light;
-          font-size: 0.85rem;
-          margin: 5px 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
+.user-email {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $color-primary;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
 
-          i {
-            color: $text-light;
-            font-size: 0.9rem;
-          }
-        }
+.btn-view {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid $color-primary;
+  border-radius: $radius-sm;
+  color: $color-primary;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-        .block-user-btn,
-        .unblock-user-btn {
-          background-color: $color-danger;
-          color: $color-white;
-          border: none;
-          padding: 8px 16px;
-          border-radius: 6px;
-          font-size: 0.85rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          margin-top: 5px;
+.btn-view:hover {
+  background: $color-primary;
+  color: $color-white;
+}
 
-          i {
-            font-size: 0.9rem;
-          }
+//warehouse section for manager
+.warehouse-list-section {
+  @include card($radius-md, 20px 25px);
 
-          &:hover {
-            background-color: $color-primary-dark;
-          }
-        }
-
-        .unblock-user-btn {
-          background-color: $color-success;
-          &:hover {
-            background-color: darken($color: $color-success, $amount: 30%);
-          }
-        }
-      }
-    }
+  h3 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: $text-primary;
   }
 
-  .warehouse-list-section {
-    @include card($radius-md, 20px 25px);
-    display: none;
+  .warehouse-grid {
+    .warehouse-card {
+      @include card($radius-md, 15px);
+      height: auto;
+      width: 48%;
+      transition: $transition;
+      margin-left: 10px;
+      border: none;
+      border-left: 5px solid $color-primary;
+      box-shadow: $shadow-md;
 
-    h3 {
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: $text-primary;
-    }
+      &:hover {
+        transform: translateY(-5px);
+      }
 
-    .warehouse-grid {
-      .warehouse-card {
-        @include card($radius-md, 15px);
-        height: auto;
-        width: 48%;
-        transition: $transition;
-        margin-left: 10px;
-        border: none;
-        border-left: 5px solid $color-primary;
-        box-shadow: $shadow-md;
+      @media (max-width: 900px) {
+        width: 100%;
+        margin-left: 0px;
+      }
 
-        &:hover {
-          transform: translateY(-5px);
-        }
+      .warehouse-name {
+        font-weight: 600;
+        color: $color-primary-dark;
+      }
 
-        @media (max-width: 900px) {
-          width: 100%;
-          margin-left: 0px;
-        }
+      .warehouse-detail {
+        color: $text-secondary;
+        font-size: 1rem;
+        margin-top: 10px;
 
-        .warehouse-name {
-          font-weight: 600;
-          color: $color-primary-dark;
-        }
-
-        .warehouse-detail {
-          color: $text-secondary;
-          font-size: 1rem;
-          margin-top: 10px;
-
-          .storage {
-            color: $color-white;
-            font-size: 12px;
-            font-weight: 500;
-          }
-          .low {
-            background-color: $color-success;
-          }
-          .moderate {
-            background-color: $color-warning;
-          }
-          .high {
-            background-color: $color-danger;
-          }
-        }
-
-        .warehouse-button {
-          background-color: $color-primary;
-          border: 2px solid $color-primary;
+        .storage {
           color: $color-white;
+          font-size: 12px;
           font-weight: 500;
+        }
+        .low {
+          background-color: $color-success;
+        }
+        .moderate {
+          background-color: $color-warning;
+        }
+        .high {
+          background-color: $color-danger;
+        }
+      }
 
-          &:hover {
-            background-color: $color-primary-dark;
-            border: 2px solid $color-primary-dark;
-          }
+      .warehouse-button {
+        background-color: $color-primary;
+        border: 2px solid $color-primary;
+        color: $color-white;
+        font-weight: 500;
+
+        &:hover {
+          background-color: $color-primary-dark;
+          border: 2px solid $color-primary-dark;
         }
       }
     }
   }
+}
 
-  @include responsive {
-    .user-profile-card {
-      flex-direction: column;
-      text-align: center;
-      align-items: center;
+@include responsive {
+  .user-profile-card {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
 
-      .user-actions {
-        justify-content: center;
-      }
+    .user-actions {
+      justify-content: center;
     }
   }
 }

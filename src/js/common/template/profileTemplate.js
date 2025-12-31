@@ -1,42 +1,44 @@
-const verifiedManagerCard = (
+const managerCard = (
   id,
   name,
   email,
   lastLogin,
+  createdOn,
   isActive,
   profileImage = '../../assets/images/profile_default.svg'
 ) => {
-  return `<div class="manager-card">
-  <img src="${profileImage}" alt="Manager" class="manager-avatar" />
+  return `<div class="user-card p-3 p-sm-4">
+          <div class="user-header">
+            <div class="user-avatar me-2">
+              <img
+                src="${profileImage}"
+                alt=""
+                class="w-100 rounded-circle border border-light-subtle"
+              />
+            </div>
+            <div class="user-info flex-fill">
+              <div class="user-name">${name}</div>
+              <div class="user-creation">Created on ${createdOn}</div>
+            </div>
+          </div>
 
-  <div class="manager-info">
-    <div class="manager-header">
-      <h5 class="manager-name">${name}</h5>
-      <i class="fas fa-check-circle verified"></i>
-    </div>
+          <div class="user-details">
+            <p class="user-email mb-1">
+              <i class="fas fa-envelope"></i>
+              ${email}
+            </p>
+            <p class="user-email">
+              <i class="fas fa-user"></i>
+              Last Login on ${lastLogin}
+            </p>
+          </div>
 
-    <p class="manager-email">${email}</p>
-
-    <p class="manager-last-login">
-      <i class="far fa-clock"></i> Last Login: ${lastLogin}
-    </p>
-
-
-    ${
-      isActive
-        ? `
-      <button class="block-user-btn" onclick="changeStatus('${id}')">
-        <i class="fas fa-ban"></i> Block User
-      </button>
-    `
-        : `
-      <button class="unblock-user-btn" onclick="changeStatus('${id}')">
-        <i class="fas fa-unlock"></i> Unblock User
-      </button>
-    `
-    }
-  </div>
-</div>
+          ${
+            isActive
+              ? `<button class="btn-view w-100" onclick="changeStatus('${id}')">Block User</button>`
+              : `<button class="btn-view w-100" onclick="changeStatus('${id}')">Unblock User</button>`
+          }
+        </div>
 `;
 };
 
@@ -64,4 +66,4 @@ const emptyCard = () => {
           </div>`;
 };
 
-export { verifiedManagerCard, unverifiedManagerCard, emptyCard };
+export { managerCard, unverifiedManagerCard, emptyCard };

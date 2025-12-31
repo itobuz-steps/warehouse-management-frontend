@@ -8,8 +8,9 @@ export default function clearProfileData() {
   userManagementSelection.userRole.innerHTML = '';
   userManagementSelection.createdAt.innerHTML = '';
   userManagementSelection.updatedAt.innerHTML = '';
-  userManagementSelection.verifiedManagerGrid.innerHTML = '';
-  userManagementSelection.notVerifiedManagerGrid.innerHTML = '';
+  userManagementSelection.activeManagerGrid.innerHTML = '';
+  userManagementSelection.blockedManagerGrid.innerHTML = '';
+  userManagementSelection.pendingManagerGrid.innerHTML = '';
   userManagementSelection.warehouseGrid.innerHTML = '';
   userManagementSelection.name.value = '';
 }
