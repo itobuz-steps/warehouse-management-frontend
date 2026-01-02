@@ -24,8 +24,19 @@ export default class Templates {
     </tr>`;
   };
 
+  cancelledShipmentRow = (item) => {
+    return `
+    <tr>
+      <td>${item.productName}</td>
+      <td>${item.category}</td>
+      <td>
+        <span class="badge bg-danger-subtle text-black">${item.totalCancelledQuantity}</span>
+      </td>
+    </tr>`;
+  };
+
   noWarehouseMessage = () => {
-    return '<p>No warehouse assigned yet! wait for the admin to assign warehouse or contact admin.</p>';
+    return '<p><i class="fas fa-warehouse"></i> No warehouse assigned yet! wait for the admin to assign warehouse or contact admin.</p>';
   };
 
   recentActivityItem = ({ performedBy, actionText, time, dotClass }) => {

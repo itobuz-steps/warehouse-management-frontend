@@ -329,11 +329,11 @@ const showLowStockProducts = async (warehouseId) => {
     dashboardSelection.lowStockTable.innerHTML = '';
 
     if (!items.length) {
-      dashboardSelection.tableCard.style.display = 'none';
+      dashboardSelection.lowStockTableCard.style.display = 'none';
       return;
     }
 
-    dashboardSelection.tableCard.style.display = 'block';
+    dashboardSelection.lowStockTableCard.style.display = 'block';
 
     items.forEach((item) => {
       const rowHTML = displayToast.lowStockRow(item);
@@ -360,10 +360,56 @@ const showLowStockProducts = async (warehouseId) => {
   }
 };
 
+// Cancelled Products
+const loadMostCancelledProducts = async (warehouseId, limit = 5) => {
+  try {
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-cancelled-orders/${warehouseId}?limit=${limit}`
+    );
+
+    console.log(res);
+
+    const items = res.data.data;
+    dashboardSelection.cancelledTable.innerHTML = '';
+
+    if (!items.length) {
+      dashboardSelection.cancelledTableCard.style.display = 'none';
+      return;
+    }
+
+    dashboardSelection.cancelledTableCard.style.display = 'block';
+
+    items.forEach((item) => {
+      const rowHTML = displayToast.cancelledShipmentRow(item);
+
+      const temp = document.createElement('tbody');
+      temp.innerHTML = rowHTML;
+      const row = temp.firstElementChild;
+
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => {
+        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
+      });
+
+      dashboardSelection.cancelledTable.appendChild(row);
+    });
+  } catch (err) {
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
+
+    setTimeout(() => {
+      dashboardSelection.toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
 const noWarehouseDisplay = () => {
   //no warehouse so remove the statistics charts.
   // dashboardSelection.warehouseSelect.style.display = 'none';
-  dashboardSelection.tableCard.style.display = 'none';
+  dashboardSelection.lowStockTableCard.style.display = 'none';
+  dashboardSelection.adjustmentTableCard.style.display = 'none';
+  dashboardSelection.cancelledTableCard.style.display = 'none';
   dashboardSelection.noDashboardBox.style.display = 'flex';
   dashboardSelection.noDashboardBox.innerHTML =
     displayToast.noWarehouseMessage();
@@ -582,6 +628,7 @@ export {
   fetchUserAndWarehouses,
   showTransactionStatsSubscribe,
   showLowStockProducts,
+  loadMostCancelledProducts,
   showRecentTransactions,
   showTopSellingProductsSubscribe,
 };

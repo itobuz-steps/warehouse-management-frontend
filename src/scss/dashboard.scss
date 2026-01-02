@@ -3,6 +3,7 @@
 @import './common/variables';
 @import './common/animations';
 @import './common/root';
+@import './common/button';
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -157,7 +158,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: 5px;
   justify-content: space-between;
 }
 
@@ -167,7 +168,8 @@
 }
 
 /* Buttons */
-.dashboard-topbar .add-manager-btn {
+// .dashboard-topbar .add-manager-btn,
+.dashboard-topbar .stocks-block {
   @include dashboard-button($color-primary, $color-primary-dark);
   font-size: 0.85rem;
   padding: 8px 14px;
@@ -607,6 +609,7 @@
   grid-template-columns: 1fr;
   gap: 16px;
   margin-bottom: 24px;
+  margin-top: 12px;
 }
 
 .low-stock-card {
@@ -933,7 +936,8 @@
     width: 200px;
   }
 
-  .dashboard-topbar .add-manager-btn {
+  // .dashboard-topbar .add-manager-btn,
+  .dashboard-topbar .stocks-block {
     flex: none;
   }
 
@@ -1060,7 +1064,9 @@
 }
 
 @media (max-width: 400px) {
-  .table-card {
+  .low-stock-table-card,
+  .cancelled-table-card,
+  .adjustment-table-card {
     padding: 12px;
 
     table {
