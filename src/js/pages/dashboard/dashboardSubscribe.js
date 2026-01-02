@@ -404,6 +404,48 @@ const loadMostCancelledProducts = async (warehouseId, limit = 5) => {
   }
 };
 
+// Adjusted Products
+const loadMostAdjustedProducts = async (warehouseId, limit = 5) => {
+  try {
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-most-adjusted-products/${warehouseId}?limit=${limit}`
+    );
+
+    const items = res.data.data;
+    dashboardSelection.adjustmentTable.innerHTML = '';
+
+    if (!items.length) {
+      dashboardSelection.adjustmentTableCard.style.display = 'none';
+      return;
+    }
+
+    dashboardSelection.adjustmentTableCard.style.display = 'block';
+
+    items.forEach((item) => {
+      const rowHTML = displayToast.adjustmentProductsRow(item);
+
+      const temp = document.createElement('tbody');
+      temp.innerHTML = rowHTML;
+      const row = temp.firstElementChild;
+
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => {
+        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
+      });
+
+      dashboardSelection.adjustmentTable.appendChild(row);
+    });
+  } catch (err) {
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
+
+    setTimeout(() => {
+      dashboardSelection.toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
 const noWarehouseDisplay = () => {
   //no warehouse so remove the statistics charts.
   // dashboardSelection.warehouseSelect.style.display = 'none';
@@ -629,6 +671,7 @@ export {
   showTransactionStatsSubscribe,
   showLowStockProducts,
   loadMostCancelledProducts,
+  loadMostAdjustedProducts,
   showRecentTransactions,
   showTopSellingProductsSubscribe,
 };

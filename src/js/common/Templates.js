@@ -35,6 +35,18 @@ export default class Templates {
     </tr>`;
   };
 
+  adjustmentProductsRow = (item) => {
+    return `
+    <tr>
+      <td>${item.productName}</td>
+      <td>${item.category}</td>
+      <td>
+        <span class="badge bg-warning-subtle text-black">${item.totalAdjustedQuantity}</span>
+      </td>
+      <td>${item.reason}</td>
+    </tr>`;
+  };
+
   noWarehouseMessage = () => {
     return '<p><i class="fas fa-warehouse"></i> No warehouse assigned yet! wait for the admin to assign warehouse or contact admin.</p>';
   };
