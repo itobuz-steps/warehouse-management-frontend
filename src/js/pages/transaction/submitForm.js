@@ -15,6 +15,7 @@ export default async function submitForm(type) {
   if (!confirmed) {
     return;
   }
+  transactionSelectors.submitTransactionBtn.disabled = true;
 
   let url = '';
   let body = {};
@@ -104,6 +105,8 @@ export default async function submitForm(type) {
   } catch (err) {
     submitSpinner.classList.add('d-none');
     showToast('error', err.response.data.message);
+  } finally {
+    transactionSelectors.submitTransactionBtn.disabled = false;
   }
 }
 

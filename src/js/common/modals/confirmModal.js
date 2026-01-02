@@ -95,9 +95,6 @@ export async function confirmTransaction(type) {
         address: document.getElementById('customerAddress')
           ? document.getElementById('customerAddress').value
           : '',
-        // orderNumber: document.getElementById('orderNumber')
-        //   ? document.getElementById('orderNumber').value
-        //   : '',
       };
       const notes = document.getElementById('outNotes')
         ? document.getElementById('outNotes').value

@@ -89,6 +89,10 @@ $color-border: $color-gray-700;
     &:hover {
       background: darken($color-primary, 8%);
     }
+
+    &:disabled {
+      background: darken($color-secondary-dark, $amount: 0);
+    }
   }
 
   &.btn-outline-primary {
