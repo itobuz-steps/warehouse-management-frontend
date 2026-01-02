@@ -1,8 +1,5 @@
 // js/pages/transaction/displaySelectors.js
-import {
-  loadWarehouses,
-  loadDestinationWarehouse,
-} from './loadWarehouses.js';
+import { loadWarehouses, loadDestinationWarehouse } from './loadWarehouses.js';
 import { displayProducts } from './displayProducts.js';
 import { transactionSelectors } from './transactionSelector';
 import { getUserWarehouses } from '../../common/api/HelperApi.js';
@@ -50,7 +47,6 @@ export async function displayTransactionType() {
     } else {
       transferOption.removeAttribute('disabled');
     }
-
   } catch (err) {
     console.log(err.message);
   }
@@ -71,21 +67,30 @@ export function displayWarehouseDropdown() {
     destinationWarehouseDropdownLabel.classList.remove('d-none');
     destinationWarehouseSelector.classList.remove('d-none');
 
-    destinationWarehouseSelector.onchange = () => displayProducts('IN');
+    destinationWarehouseSelector.onchange = () => {
+      transactionSelectors.buttons.addInProduct.removeAttribute('disabled');
+      transactionSelectors.addNewProduct.removeAttribute('disabled');
+      displayProducts('IN');
+    };
     sections.IN.classList.remove('d-none');
   } else if (type === 'OUT') {
     // Only source warehouse
     sourceWarehouseDropdownLabel.classList.remove('d-none');
     sourceWarehouseSelector.classList.remove('d-none');
 
-    sourceWarehouseSelector.onchange = () => displayProducts('OUT');
+    sourceWarehouseSelector.onchange = () => {
+      transactionSelectors.buttons.addOutProduct.removeAttribute('disabled');
+      displayProducts('OUT');
+    };
     sections.OUT.classList.remove('d-none');
   } else if (type === 'ADJUSTMENT') {
     // Only source warehouse
     sourceWarehouseDropdownLabel.classList.remove('d-none');
     sourceWarehouseSelector.classList.remove('d-none');
 
-    sourceWarehouseSelector.onchange = () => displayProducts('ADJUSTMENT');
+    sourceWarehouseSelector.onchange = () => {
+      displayProducts('ADJUSTMENT');
+    };
     sections.ADJUSTMENT.classList.remove('d-none');
   } else if (type === 'TRANSFER') {
     // source + destination
@@ -95,6 +100,12 @@ export function displayWarehouseDropdown() {
     sourceWarehouseSelector.onchange = async () => {
       await loadDestinationWarehouse();
       await displayProducts('TRANSFER');
+    };
+
+    destinationWarehouseSelector.onchange = async () => {
+      transactionSelectors.buttons.addTransferProduct.removeAttribute(
+        'disabled'
+      );
     };
 
     destinationWarehouseDropdownLabel.classList.remove('d-none');

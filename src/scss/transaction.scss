@@ -3,6 +3,8 @@
 @import './common/mixins';
 @import './common/animations';
 @import './common/root';
+@import './common/card';
+@import './common/button';
 
 $color-border: $color-gray-700;
 
@@ -19,12 +21,29 @@ $color-border: $color-gray-700;
   }
 }
 
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-4;
+  margin-bottom: $spacing-5;
+
+  @media (min-width: 830px) {
+    flex-direction: row;
+  }
+
+  h2 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+  }
+}
+
 /* Transaction Card  */
 .transaction-card {
-  background: $body-bg;
+  background: $color-white;
   margin: 0 auto;
-  border: 1px solid $color-border;
-  border-radius: 10px;
+  border-radius: $radius-md;
   padding: 30px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 
@@ -68,6 +87,10 @@ $color-border: $color-gray-700;
     &:hover {
       background: darken($color-primary, 8%);
     }
+
+    &:disabled {
+      background: darken($color-secondary-dark, $amount: 0);
+    }
   }
 
   &.btn-outline-primary {
@@ -81,15 +104,44 @@ $color-border: $color-gray-700;
   }
 }
 
+.transaction-structure {
+  display: flex;
+  width: 100%;
+
+  @media (max-width: 1024px) {
+    .img {
+      display: none;
+    }
+  }
+}
+
+.info {
+  flex: 1;
+}
+
+.img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+
+  img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
 /* Product Containers */
 #inProductsContainer,
 #outProductsContainer,
 #transferProductsContainer,
 #adjustProductsContainer {
-  border: 1px solid $color-border;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 15px;
-  background: #fff;
+  background: $color-white-dark;
   margin-bottom: 20px;
 }
 
@@ -117,37 +169,20 @@ $color-border: $color-gray-700;
   }
 }
 
-/* Sidebar Toggle Button */
-.sidebar-toggle {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  background: $color-primary;
-  color: $color-white;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 12px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  z-index: 1100;
-  transition: $transition;
+button.add-product {
+  border: 1px solid $color-primary;
+  border-radius: $radius-sm;
+  color: $color-primary;
 
   &:hover {
-    background: darken($color-primary, 8%);
+    background-color: $color-primary;
+    color: $color-white;
   }
-
-  @media (min-width: 992px) {
-    display: none;
-  }
-}
-
-.sidebar.active ~ .main-content {
-  margin-left: 220px;
 }
 
 /* Modal Overlay for Add Product */
 #addProductModalTransaction.modal-overlay {
-  display: none; // controlled via JS
+  display: none;
   position: fixed;
   inset: 0;
   background: rgba($text-primary, 0.45);
@@ -235,7 +270,6 @@ $color-border: $color-gray-700;
     transition: $transition;
 
     &.cancel-btn {
-      background: $color-secondary;
       color: $color-white;
       border: none;
 
@@ -343,9 +377,46 @@ $color-border: $color-gray-700;
 .h-46 {
   height: 46px;
 }
+.theme-color {
+  color: $color-primary;
+  font-weight: 600;
+
+  span {
+    color: $color-border;
+    font-weight: 400;
+  }
+}
 
 .required::after {
   content: '*';
   color: $color-danger;
   margin-left: 4px;
+}
+
+th {
+  font-weight: 600;
+}
+
+.badge {
+  font-weight: 500;
+}
+.badge.badge-in {
+  color: $color-success;
+  border: 1px solid $color-success;
+  background-color: $color-success-light;
+}
+.badge.badge-out {
+  color: $color-warning;
+  border: 1px solid $color-warning;
+  background-color: $color-warning-light;
+}
+.badge.badge-transfer {
+  color: $color-info;
+  border: 1px solid $color-info;
+  background-color: $color-info-light;
+}
+.badge.badge-adjust {
+  color: $color-danger;
+  border: 1px solid $color-danger;
+  background-color: $color-danger-light;
 }
