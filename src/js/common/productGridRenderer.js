@@ -21,7 +21,7 @@ export const renderProductGrid = ({
 
   container.querySelectorAll('#viewDetails').forEach((btn) => {
     btn.addEventListener('click', (e) => {
-      onViewDetails(JSON.parse(e.target.dataset.product));
+      onViewDetails(JSON.parse(e.currentTarget.dataset.product));
     });
   });
 };

@@ -11,6 +11,8 @@ const archivedSelection = {
   modalDescription: document.getElementById('modalDescription'),
   modalPrice: document.getElementById('modalPrice'),
   modalCategory: document.getElementById('modalCategory'),
+  modalMarkup: document.getElementById('modalMarkup'),
+  modalMarkupPrice: document.getElementById('modalMarkupPrice'),
 
   restoreBtn: document.getElementById('deleteProductBtn'),
   closeModalBtn: document.querySelector('.close-modal'),
