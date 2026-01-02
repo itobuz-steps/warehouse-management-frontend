@@ -48,6 +48,12 @@ export const closeModal = () => {
   productSelection.addProductModal.style.display = 'none';
 };
 
+export const removeProductIdFromUrl = () => {
+  const url = new URL(window.location);
+  url.searchParams.delete('productId');
+  window.history.replaceState({}, '', url);
+};
+
 export const populateWarehouseSelect = (
   warehouses,
   element,
@@ -82,7 +88,7 @@ export function createProductCard(product) {
         <!--<span class="category">${product.category ?? 'Not Categorized'}</span>-->
         <span class="markup">Markup: ${product.markup ?? '10'}% <i class="fa-solid fa-arrow-trend-up"></i></span>
       </div>
-      <div class="d-flex justify-content-center justify-content-lg-start">
+      <div class="d-flex justify-content-center mt-auto">
         <button 
         class="btn theme-button w-100" 
         id="viewDetails"

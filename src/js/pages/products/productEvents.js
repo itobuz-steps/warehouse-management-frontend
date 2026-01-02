@@ -12,7 +12,7 @@ import {
   updateLimit,
 } from '../../common/api/productApiHelper.js';
 import { loadProducts } from './productSubscribe.js';
-import { getCurrentUser } from '../../common/api/HelperApi.js';
+import { getCurrentUser } from '../../common/api/helperApi.js';
 
 export const initEvents = () => {
   productSelection.addProductsButton.addEventListener('click', openModal);

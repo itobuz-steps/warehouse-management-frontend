@@ -21,14 +21,14 @@ $color-border: $color-gray-300;
   gap: $spacing-4;
   margin-bottom: $spacing-5;
 
-  @media (min-width: 830px) {
+  @media (min-width: 855px) {
     flex-direction: row;
   }
 
   h2 {
     font-size: $font-size-2xl;
     font-weight: $font-weight-bold;
-    color: $color-primary;
+    // color: $color-primary;
   }
   .d-flex {
     width: 100%;
@@ -219,6 +219,10 @@ hr {
   padding: 0.75rem 0;
   z-index: 10;
   box-shadow: 0 -2px 5px $color-border;
+
+  @media (min-width: 1000px) {
+    margin-left: 2%;
+  }
 }
 
 .page-btn {

@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   productSelection.modalProductName.textContent = product.data.name;
   productSelection.modalDescription.textContent =
     product.data.description || 'No description available.';
-  productSelection.modalPrice.textContent = product.data.price ?? 'N/A';
+  // productSelection.modalPrice.textContent = product.data.price ?? 'N/A';
   productSelection.modalCategory.textContent =
     product.data.category ?? 'Not Categorized';
-  productSelection.modalMarkup.textContent = product.data.markup ?? '10';
+  // productSelection.modalMarkup.textContent = product.data.markup ?? '10';
   productSelection.modalMarkupPrice.textContent = (
     product.data.price +
     (product.data.price * (product.data.markup || 10)) / 100

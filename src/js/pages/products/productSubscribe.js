@@ -1,7 +1,7 @@
 import { productSelection } from './productSelector.js';
 import { loadWarehouses } from './productWarehouse.js';
 import { openProductModal } from './productDetails.js';
-import { getCurrentUser } from '../../common/api/HelperApi.js';
+import { getCurrentUser } from '../../common/api/helperApi.js';
 import {
   createProductCard,
   showEmptyState,
@@ -174,6 +174,17 @@ export const loadProducts = async (overrides = {}) => {
 
     renderProducts(products);
     renderPagination(totalPages);
+
+    const url = new URL(window.location);
+    const productId = url.searchParams.get('productId');
+
+    if (productId) {
+      const product = products.find((product) => product._id === productId);
+
+      if (product) {
+        await openProductModal(product);
+      }
+    }
   } catch (err) {
     console.error(err);
     showErrorState();
