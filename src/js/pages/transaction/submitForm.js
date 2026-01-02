@@ -1,4 +1,3 @@
-// js/pages/transaction/submitForm.js
 import api from '../../api/interceptor';
 import Templates from '../../common/Templates';
 import { transactionSelectors } from './transactionSelector.js';
@@ -87,17 +86,17 @@ export default async function submitForm(type) {
     const res = await api.post(url, body);
 
     // Reset form & UI
-    transactionSelectors.form.reset();
-    Object.values(transactionSelectors.sections).forEach((s) =>
-      s.classList.add('d-none')
-    );
-    Object.values(containers).forEach((c) => (c.innerHTML = ''));
+    // transactionSelectors.form.reset();
+    // Object.values(transactionSelectors.sections).forEach((s) =>
+    //   s.classList.add('d-none')
+    // );
+    // Object.values(containers).forEach((c) => (c.innerHTML = ''));
 
-    const warehouseDropdown = document.getElementById('warehouseDropdown');
+    // const warehouseDropdown = document.getElementById('warehouseDropdown');
 
-    if (warehouseDropdown) {
-      warehouseDropdown.classList.add('d-none');
-    }
+    // if (warehouseDropdown) {
+    //   warehouseDropdown.classList.add('d-none');
+    // }
 
     submitSpinner.classList.add('d-none');
 
@@ -107,6 +106,20 @@ export default async function submitForm(type) {
     showToast('error', err.response.data.message);
   } finally {
     transactionSelectors.submitTransactionBtn.disabled = false;
+    transactionSelectors.typeSelect.onchange = () => {
+      document
+        .querySelectorAll(
+          `#transactionForm input[type="text"],
+       #transactionForm input[type="email"]`
+        )
+        .forEach((input) => {
+          input.value = '';
+        });
+      transactionSelectors.buttons.addInProduct.disabled = true;
+      transactionSelectors.buttons.addOutProduct.disabled = true;
+      transactionSelectors.buttons.addTransferProduct.disabled = true;
+      transactionSelectors.addNewProduct.disabled = true;
+    };
   }
 }
 

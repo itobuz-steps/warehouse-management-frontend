@@ -78,7 +78,7 @@
 
             <!-- IN Fields -->
             <div id="inFields" class="d-none">
-              <div id="inProductsContainer" class="d-flex flex-column">
+              <div id="inProductsContainer" class="d-flex flex-column products">
                 <!-- products will displayed here -->
               </div>
 
@@ -103,10 +103,11 @@
 
               <div class="mb-3">
                 <label class="form-label required">Supplier</label>
-                <input id="supplier" class="form-control" />
+                <input type="text" id="supplier" class="form-control" />
               </div>
 
               <input
+                type="text"
                 id="inNotes"
                 class="form-control mb-2"
                 placeholder="Notes"
@@ -129,6 +130,7 @@
                 <label class="form-label required">Customer Details</label>
                 <input
                   id="customerName"
+                  type="text"
                   class="form-control mb-2"
                   placeholder="Customer Name"
                 />
@@ -139,17 +141,20 @@
                   placeholder="Customer Email"
                 />
                 <input
+                  type="text"
                   id="customerPhone"
                   class="form-control mb-2"
                   placeholder="Customer Phone"
                 />
                 <input
+                  type="text"
                   id="customerAddress"
                   class="form-control mb-2"
                   placeholder="Customer Address"
                 />
               </div>
               <input
+                type="text"
                 id="outNotes"
                 class="form-control mb-2"
                 placeholder="Notes"
@@ -169,6 +174,7 @@
                 + Add Product
               </button>
               <input
+                type="text"
                 id="transferNotes"
                 class="form-control mb-2"
                 placeholder="Notes"
@@ -183,6 +189,7 @@
               <div class="mb-3">
                 <label class="form-label required">Reason for Adjustment</label>
                 <input
+                  type="text"
                   id="adjustReason"
                   class="form-control mb-2"
                   placeholder="Reason"
@@ -190,6 +197,7 @@
               </div>
               <input
                 id="adjustNotes"
+                type="text"
                 class="form-control mb-2"
                 placeholder="Notes"
               />
