@@ -87,6 +87,7 @@
                   type="button"
                   id="addInProduct"
                   class="btn btn-sm add-product"
+                  disabled
                 >
                   + Add Product
                 </button>
@@ -94,6 +95,7 @@
                   type="button"
                   id="addNewProductBtn"
                   class="btn btn-sm add-product"
+                  disabled
                 >
                   + Create New Product
                 </button>
@@ -118,7 +120,8 @@
               <button
                 type="button"
                 id="addOutProduct"
-                class="btn btn-outline-primary btn-sm mb-3"
+                class="btn btn-sm mb-3 add-product"
+                disabled
               >
                 + Add Product
               </button>
@@ -146,11 +149,6 @@
                   placeholder="Customer Address"
                 />
               </div>
-              <!-- <input
-              id="orderNumber"
-              class="form-control mb-2"
-              placeholder="Order Number"
-            /> -->
               <input
                 id="outNotes"
                 class="form-control mb-2"
@@ -165,7 +163,8 @@
               <button
                 type="button"
                 id="addTransferProduct"
-                class="btn btn-outline-primary btn-sm mb-3"
+                class="btn btn-sm mb-3 add-product"
+                disabled
               >
                 + Add Product
               </button>
@@ -313,6 +312,18 @@
             </div>
 
             <div class="form-group">
+              <label class="required" for="transactionProductName"
+                >Markup</label
+              >
+              <input
+                type="text"
+                id="transactionProductMarkup"
+                name="markup"
+                required
+              />
+            </div>
+
+            <div class="form-group">
               <label class="required" for="transactionProductImage"
                 >Product Images</label
               >
@@ -328,7 +339,7 @@
               <button
                 type="button"
                 id="closeProductModalTransaction"
-                class="btn btn-secondary cancel-btn"
+                class="btn cancel-btn btn-secondary"
               >
                 Cancel
               </button>

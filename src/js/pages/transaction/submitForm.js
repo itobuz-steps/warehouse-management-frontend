@@ -46,7 +46,6 @@ export default async function submitForm(type) {
         customerEmail: document.getElementById('customerEmail').value,
         customerPhone: document.getElementById('customerPhone').value,
         customerAddress: document.getElementById('customerAddress').value,
-        // orderNumber: document.getElementById('orderNumber').value,
         sourceWarehouse: warehouses.sourceWarehouse.value,
         notes: document.getElementById('outNotes').value,
       };
@@ -126,7 +125,6 @@ async function collectProducts(containerId) {
 
       presentWarehouseCapacity = res?.data?.data?.totalQuantity ?? 0;
       warehouseCapacity = res.data.data.warehouse.capacity;
-      // console.log('Total Warehouse capacity:', warehouseCapacity);
     } catch (err) {
       console.error('Failed to fetch warehouse capacity:', err);
       presentWarehouseCapacity = 0;
@@ -149,10 +147,6 @@ async function collectProducts(containerId) {
 
     // check warehouse capacity
     if (containerId === 'inProductsContainer') {
-      // console.log(
-      //   `Checking product ${productId}: qty = ${quantity}, capacity = ${presentWarehouseCapacity}`
-      // );
-
       if (quantity + presentWarehouseCapacity > warehouseCapacity) {
         showToast(
           'error',

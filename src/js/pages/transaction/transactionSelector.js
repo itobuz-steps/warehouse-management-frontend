@@ -36,4 +36,5 @@ export const transactionSelectors = {
     addOutProduct: document.getElementById('addOutProduct'),
     addTransferProduct: document.getElementById('addTransferProduct'),
   },
+  addNewProduct: document.getElementById('addNewProductBtn'),
 };
