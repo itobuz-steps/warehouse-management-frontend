@@ -1,7 +1,6 @@
 import notificationSelection from './notificationSelector';
 import { loadNotifications, markAllAsSeen } from './notificationSubscribe';
 
-// await loadNotifications();
 let notificationOffset = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -10,6 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 notificationSelection.notificationBell.addEventListener('click', async () => {
+  console.log("mark all seen called")
   await markAllAsSeen();
 });
 
@@ -20,3 +20,4 @@ notificationSelection.canvasClose.addEventListener('click', () => {
     item.classList.remove('bg-light');
   });
 });
+

@@ -60,19 +60,13 @@ export async function loadNotifications(offset) {
   notificationSelection.loaderContainer.style.display = 'block';
 
   try {
-    const res = await api.get(
-      `${config.NOTIFICATION_BASE_URL}/${offset}`
-    );
-    console.log(res);
-    
+    const res = await api.get(`${config.NOTIFICATION_BASE_URL}/${offset}`);
+
     if (!res.data.success) {
       throw new Error('Error loading notifications');
     }
 
     const notifications = res.data.data || [];
-
-    console.log(notifications);
-
     const unseenCount = res.data.unseenCount;
 
     // badge count
@@ -103,7 +97,7 @@ export async function renderNotifications(notifications, offset) {
 
     notifications.forEach((notification) => {
       notificationSelection.notificationList.innerHTML +=
-        createNotificationTemplate(notification.notification);
+        createNotificationTemplate(notification);
     });
 
     // ship buttons
