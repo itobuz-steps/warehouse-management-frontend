@@ -1,6 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import { transactionSelectors } from '../../pages/transaction/transactionSelector.js';
-import TransactionModalTemplate from '../template/transactionModalTemplate.js';
+import TransactionModalTemplate from '../template/TransactionModalTemplate.js';
 
 const template = new TransactionModalTemplate();
 

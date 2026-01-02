@@ -43,7 +43,6 @@ $color-border: $color-gray-700;
 .transaction-card {
   background: $color-white;
   margin: 0 auto;
-  // border: 1px solid $color-border;
   border-radius: $radius-md;
   padding: 30px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
@@ -183,7 +182,7 @@ button.add-product {
 
 /* Modal Overlay for Add Product */
 #addProductModalTransaction.modal-overlay {
-  display: none; // controlled via JS
+  display: none;
   position: fixed;
   inset: 0;
   background: rgba($text-primary, 0.45);
@@ -378,9 +377,46 @@ button.add-product {
 .h-46 {
   height: 46px;
 }
+.theme-color {
+  color: $color-primary;
+  font-weight: 600;
+
+  span {
+    color: $color-border;
+    font-weight: 400;
+  }
+}
 
 .required::after {
   content: '*';
   color: $color-danger;
   margin-left: 4px;
+}
+
+th {
+  font-weight: 600;
+}
+
+.badge {
+  font-weight: 500;
+}
+.badge.badge-in {
+  color: $color-success;
+  border: 1px solid $color-success;
+  background-color: $color-success-light;
+}
+.badge.badge-out {
+  color: $color-warning;
+  border: 1px solid $color-warning;
+  background-color: $color-warning-light;
+}
+.badge.badge-transfer {
+  color: $color-info;
+  border: 1px solid $color-info;
+  background-color: $color-info-light;
+}
+.badge.badge-adjust {
+  color: $color-danger;
+  border: 1px solid $color-danger;
+  background-color: $color-danger-light;
 }
