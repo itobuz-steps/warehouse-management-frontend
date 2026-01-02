@@ -13,22 +13,27 @@ import {
   handleSaveLimit,
 } from './productEvents';
 import { productSelection } from './productSelector';
-import { getCurrentUser } from '../../common/api/HelperApi';
+import { getCurrentUser } from '../../common/api/helperApi';
 import {
   managerProductQuantity,
+  removeProductIdFromUrl,
   warehouseProductList,
 } from '../../common/template/productTemplate';
 import { initializeCarousel } from '../../common/imageCarousel';
 
 let selectedProductId = null;
 
-productSelection.closeModalBtn.addEventListener('click', () =>
-  productSelection.modal.classList.add('hidden')
-);
+export const closeProductModal = () => {
+  productSelection.modal.classList.add('hidden');
+  removeProductIdFromUrl();
+  selectedProductId = null;
+};
+
+productSelection.closeModalBtn.addEventListener('click', closeProductModal);
 
 window.addEventListener('click', (e) => {
   if (e.target === productSelection.modal) {
-    productSelection.modal.classList.add('hidden');
+    closeProductModal();
   }
 });
 

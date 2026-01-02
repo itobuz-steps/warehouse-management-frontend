@@ -118,7 +118,6 @@ async function showTopProductsSubscribe(warehouseId) {
           },
         },
         onClick: (evt, elements) => {
-          
           if (!elements.length) {
             return;
           }
@@ -180,7 +179,6 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
       responsive: true,
       maintainAspectRatio: false,
       onClick: (evt, elements) => {
-
         if (!elements.length) {
           return;
         }
@@ -326,19 +324,31 @@ const showLowStockProducts = async (warehouseId) => {
     const res = await api.get(
       `${config.DASHBOARD_BASE_URL}/get-low-stock-products/${warehouseId}`
     );
+
     const items = res.data.data.lowStockProducts;
     dashboardSelection.lowStockTable.innerHTML = '';
 
     if (!items.length) {
       dashboardSelection.tableCard.style.display = 'none';
-    } else {
-      dashboardSelection.tableCard.style.display = 'block';
-
-      items.forEach((item) => {
-        dashboardSelection.lowStockTable.innerHTML +=
-          displayToast.lowStockRow(item);
-      });
+      return;
     }
+
+    dashboardSelection.tableCard.style.display = 'block';
+
+    items.forEach((item) => {
+      const rowHTML = displayToast.lowStockRow(item);
+
+      const temp = document.createElement('tbody');
+      temp.innerHTML = rowHTML;
+      const row = temp.firstElementChild;
+
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => {
+        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
+      });
+
+      dashboardSelection.lowStockTable.appendChild(row);
+    });
   } catch (err) {
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
@@ -352,7 +362,7 @@ const showLowStockProducts = async (warehouseId) => {
 
 const noWarehouseDisplay = () => {
   //no warehouse so remove the statistics charts.
-  dashboardSelection.warehouseSelect.style.display = 'none';
+  // dashboardSelection.warehouseSelect.style.display = 'none';
   dashboardSelection.tableCard.style.display = 'none';
   dashboardSelection.noDashboardBox.style.display = 'flex';
   dashboardSelection.noDashboardBox.innerHTML =
