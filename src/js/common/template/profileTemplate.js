@@ -43,25 +43,42 @@ const managerCard = (
 };
 
 const unverifiedManagerCard = (
+  id,
+  name = 'Unverified Manager',
   email,
+  createdOn,
   profileImage = '../../assets/images/profile_default.svg'
 ) => {
-  return `<div class="manager-card">
-            <img
-              src=${profileImage}
-              alt="Manager"
-              class="manager-avatar"
-            />
-            <div class="manager-info">
-                <p class="manager-email">${email}</p>
+  return `<div class="user-card p-3 p-sm-4">
+          <div class="user-header">
+            <div class="user-avatar me-2">
+              <img
+                src="${profileImage}"
+                alt=""
+                class="w-100 rounded-circle border border-light-subtle"
+              />
             </div>
-          </div>`;
+            <div class="user-info flex-fill">
+              <div class="user-name">${name}</div>
+              <div class="user-creation">Created on ${createdOn}</div>
+            </div>
+          </div>
+
+          <div class="user-details">
+            <p class="user-email">
+              <i class="fas fa-envelope"></i>
+              ${email}
+            </p>
+          </div>
+
+          <button class="btn-view w-100">Invite Again</button>
+        </div>`;
 };
 
 const emptyCard = () => {
   return `<div class="manager-card">
             <div class="manager-info">
-                <p class="manager-email">No Managers Found</p>
+                <p class="fw-semibold">No Managers Found</p>
             </div>
           </div>`;
 };

@@ -3,9 +3,9 @@ import config from '../../config/config.js';
 import Templates from '../../common/Templates.js';
 import userManagementSelection from './userManagementSelector.js';
 import clearProfileData from './clearProfileDetails.js';
-import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';
-import { getUserWarehouses } from '../../common/api/HelperApi.js';
-import toggleDisplay from './toggleDisplay.js';
+// import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';
+// import { getUserWarehouses } from '../../common/api/HelperApi.js';
+
 import {
   managerCard,
   unverifiedManagerCard,
@@ -16,9 +16,9 @@ const displayToast = new Templates();
 
 export const getUserDetailsSubscribe = async () => {
   try {
-    toggleDisplay();
-
     let blockedManagerCount = 0;
+    let activeManagerCount = 0;
+
     const res = await api.get(`${config.PROFILE_BASE_URL}/`);
     const user = res.data.data.user;
 
@@ -31,7 +31,6 @@ export const getUserDetailsSubscribe = async () => {
     userManagementSelection.userName.innerHTML = user.name; //set name to profile card
     userManagementSelection.userRole.innerHTML = user.role; //set role to profile card
     userManagementSelection.userRole.style.textTransform = 'capitalize'; // make role capitalize
-    userManagementSelection.name.value = user.name; // set input name for update
 
     userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`; // set email to profile card
     userManagementSelection.profileAvatar.style.backgroundImage = `url(${user.profileImage})`; // profile card image label
@@ -54,6 +53,8 @@ export const getUserDetailsSubscribe = async () => {
         const createdOn = new Date(manager.createdAt).toLocaleDateString();
 
         if (manager.isActive) {
+          activeManagerCount += 1;
+
           const card = managerCard(
             manager._id,
             manager.name,
@@ -67,6 +68,7 @@ export const getUserDetailsSubscribe = async () => {
           userManagementSelection.activeManagerGrid.innerHTML += card;
         } else {
           blockedManagerCount += 1;
+
           const card = managerCard(
             manager._id,
             manager.name,
@@ -80,17 +82,28 @@ export const getUserDetailsSubscribe = async () => {
           userManagementSelection.blockedManagerGrid.innerHTML += card;
         }
       });
-    } else {
-      userManagementSelection.managerGrid.innerHTML = emptyCard();
     }
 
-    if (blockedManagerCount == 0) {
-      userManagementSelection.emptyBlockedSection.classList.remove('d-none');
+    if (!blockedManagerCount) {
+      userManagementSelection.blockedManagerGrid.innerHTML = emptyCard();
     }
+
+    if (!activeManagerCount) {
+      userManagementSelection.activeManagerGrid.innerHTML = emptyCard();
+    }
+
     // manage pending managers
     if (unverifiedManagers.length) {
       unverifiedManagers.forEach((manager) => {
-        const card = unverifiedManagerCard(manager.email);
+        const createdOn = new Date(manager.createdAt).toLocaleDateString();
+
+        const card = unverifiedManagerCard(
+          manager._id,
+          manager.name,
+          manager.email,
+          createdOn,
+          manager.profileImage
+        );
 
         userManagementSelection.pendingManagerGrid.innerHTML += card;
       });

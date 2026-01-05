@@ -3,8 +3,9 @@ import '../../../scss/user-management.scss';
 import * as bootstrap from 'bootstrap';
 
 import { getUserDetailsSubscribe } from './userManagementSubscribe.js';
-import { updateUserSubscribe } from './updateProfile.js';
+import { updateUserSubscribe, profileImagePreview } from './updateProfile.js';
 import userManagementSelection from './userManagementSelector.js';
+import toggleDisplay from './toggleDisplay.js';
 
 document.addEventListener('DOMContentLoaded', getUserDetailsSubscribe);
 
@@ -13,3 +14,9 @@ userManagementSelection.updateProfileForm.addEventListener(
   'submit',
   updateUserSubscribe
 );
+
+userManagementSelection.profileImg.addEventListener(
+  'change',
+  profileImagePreview
+);
+toggleDisplay();

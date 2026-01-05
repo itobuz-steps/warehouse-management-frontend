@@ -357,6 +357,10 @@ button.action {
   }
 }
 
+button.action:disabled {
+  background-color: $color-primary;
+  border: 1px solid $color-primary-dark;
+}
 .edit-title {
   color: $color-primary-dark;
 }

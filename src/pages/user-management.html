@@ -86,7 +86,6 @@
                       class="edit-button"
                       title="Edit profile picture"
                     >
-                      <!-- You can use an SVG icon or Font Awesome -->
                       <i class="fas fa-edit"></i>
                     </label>
                   </div>
@@ -105,14 +104,6 @@
                       class="user-name m-0 d-inline-block text-center fs-4 fw-bolder"
                     ></h3>
                     <p class="user-role-badge mb-0"></p>
-                    <!-- <i class="fas fa-check-circle fs-5 verified"></i> -->
-                    <input
-                      type="text"
-                      name="name"
-                      id="name"
-                      class="form-control d-none"
-                      required
-                    />
                   </span>
 
                   <p
@@ -162,6 +153,7 @@
                   type="submit"
                   class="btn btn-primary action"
                   id="confirmUpdate"
+                  disabled
                 >
                   <div
                     class="spinner-border d-none"
@@ -251,12 +243,6 @@
 
       <div class="user-grid gap-3 d-none" id="showBlockedUser">
         <!-- all blocked user card for admin -->
-      </div>
-
-      <div class="user-grid gap-3 d-none" id="emptyBlocked">
-        <p class="text-center"></p>
-        <p class="text-center">No Blocked User Found</p>
-        <p class="text-center"></p>
       </div>
 
       <div class="user-grid gap-3 d-none" id="showPendingUser">

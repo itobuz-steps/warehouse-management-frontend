@@ -12,5 +12,4 @@ export default function clearProfileData() {
   userManagementSelection.blockedManagerGrid.innerHTML = '';
   userManagementSelection.pendingManagerGrid.innerHTML = '';
   userManagementSelection.warehouseGrid.innerHTML = '';
-  userManagementSelection.name.value = '';
 }

@@ -13,6 +13,7 @@ const updateSpinner = document.getElementById('updateSpinner');
 export const updateUserSubscribe = async (event) => {
   event.preventDefault();
   const formData = new FormData(userManagementSelection.updateProfileForm);
+
   try {
     const res = await api.patch(
       `${config.PROFILE_BASE_URL}/update-profile`,
@@ -24,29 +25,34 @@ export const updateUserSubscribe = async (event) => {
       }
     );
 
-    if (res.ok) {
-      updateSpinner.classList.remove('d-none');
+    updateSpinner.classList.remove('d-none');
 
-      updateModalObj.hide();
-      userManagementSelection.updateProfileForm.reset();
-      await getUserDetailsSubscribe();
+    updateModalObj.hide();
+    userManagementSelection.updateProfileForm.reset();
+    await getUserDetailsSubscribe();
 
-      updateSpinner.classList.add('d-none');
-      userManagementSelection.toastSection.innerHTML =
-        displayToast.successToast(res.data.message);
-    } else {
-      userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
-        res.data.message
-      );
-    }
+    updateSpinner.classList.add('d-none');
+    userManagementSelection.toastSection.innerHTML = displayToast.successToast(
+      res.data.message
+    );
   } catch (err) {
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
-      err.message
+      err.response.data.message
     );
   } finally {
     setTimeout(() => {
       userManagementSelection.toastSection.innerHTML = '';
     }, 3000);
+  }
+};
+
+export const profileImagePreview = () => {
+  const file = userManagementSelection.profileImg.files[0];
+
+  userManagementSelection.confirmUpdate.disabled = false;
+
+  if (file) {
+    userManagementSelection.profileAvatar.style.backgroundImage = `url("${URL.createObjectURL(file)}")`;
   }
 };
 
