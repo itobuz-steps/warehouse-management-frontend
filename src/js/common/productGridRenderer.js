@@ -15,13 +15,19 @@ export const renderProductGrid = ({
   products.forEach((product) => {
     const card = document.createElement('div');
     card.className = 'product-card';
+    card.dataset.product = JSON.stringify(product);
     card.innerHTML = createCardHTML(product);
+
+    card.addEventListener('click', () => {
+      onViewDetails(product);
+    });
+
     container.appendChild(card);
   });
 
   container.querySelectorAll('#viewDetails').forEach((btn) => {
     btn.addEventListener('click', (e) => {
-      onViewDetails(JSON.parse(e.target.dataset.product));
+      onViewDetails(JSON.parse(e.currentTarget.dataset.product));
     });
   });
 };

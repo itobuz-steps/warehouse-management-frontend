@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import {
   fetchProductQuantityWarehouse,
   fetchProductSpecificWarehouses,
@@ -9,21 +10,30 @@ import {
   editProductHandler,
   handleDelete,
   handleEditProductSubmit,
+  handleSaveLimit,
 } from './productEvents';
 import { productSelection } from './productSelector';
-import { getCurrentUser } from '../../common/api/HelperApi';
+import { getCurrentUser } from '../../common/api/helperApi';
+import {
+  managerProductQuantity,
+  removeProductIdFromUrl,
+  warehouseProductList,
+} from '../../common/template/productTemplate';
+import { initializeCarousel } from '../../common/imageCarousel';
 
-let currentImageIndex = 0;
-let currentImages = [];
 let selectedProductId = null;
 
-productSelection.closeModalBtn.addEventListener('click', () =>
-  productSelection.modal.classList.add('hidden')
-);
+export const closeProductModal = () => {
+  productSelection.modal.classList.add('hidden');
+  removeProductIdFromUrl();
+  selectedProductId = null;
+};
+
+productSelection.closeModalBtn.addEventListener('click', closeProductModal);
 
 window.addEventListener('click', (e) => {
   if (e.target === productSelection.modal) {
-    productSelection.modal.classList.add('hidden');
+    closeProductModal();
   }
 });
 
@@ -40,6 +50,10 @@ window.addEventListener('click', (e) => {
 export const openProductModal = async (product) => {
   selectedProductId = product._id;
 
+  const url = new URL(window.location);
+  url.searchParams.set('productId', selectedProductId);
+  window.history.replaceState({}, '', url);
+
   const user = await getCurrentUser();
 
   if (user.role !== 'admin') {
@@ -48,12 +62,7 @@ export const openProductModal = async (product) => {
     productSelection.deleteProductBtn.style.display = 'block';
   }
 
-  currentImages = product.productImage?.length
-    ? product.productImage
-    : ['/images/placeholder.png'];
-
-  currentImageIndex = 0;
-  productSelection.carouselImg.src = currentImages[0];
+  initializeCarousel({ images: product.productImage });
 
   productSelection.modalProductName.textContent = product.name;
   productSelection.modalDescription.textContent =
@@ -61,6 +70,11 @@ export const openProductModal = async (product) => {
   productSelection.modalPrice.textContent = product.price ?? 'N/A';
   productSelection.modalCategory.textContent =
     product.category ?? 'Not Categorized';
+  productSelection.modalMarkup.textContent = product.markup ?? '10';
+  productSelection.modalMarkupPrice.textContent = (
+    product.price +
+    (product.price * (product.markup || 10)) / 100
+  ).toFixed(2);
 
   await loadQuantityInfo(selectedProductId);
 
@@ -71,17 +85,6 @@ export const openProductModal = async (product) => {
 
   productSelection.modal.classList.remove('hidden');
 };
-
-productSelection.prev.addEventListener('click', () => {
-  currentImageIndex =
-    (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-  productSelection.carouselImg.src = currentImages[currentImageIndex];
-});
-
-productSelection.next.addEventListener('click', () => {
-  currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-  productSelection.carouselImg.src = currentImages[currentImageIndex];
-});
 
 async function loadQuantityInfo(productId) {
   try {
@@ -102,11 +105,9 @@ async function loadQuantityInfo(productId) {
     if (user.role === 'manager') {
       const res = await fetchProductQuantityWarehouse(productId, warehouseId);
 
-      const qty = res.data.data[0].quantity;
-      productSelection.quantitySection.innerHTML = `
-        <p><strong>Quantity in this Warehouse:</strong> ${qty}</p>
-        ${qty <= res.data.data[0].limit ? `<button class="btn btn-danger low-stock"> ⚠ LOW STOCK</button>` : ''}
-      `;
+      productSelection.quantitySection.innerHTML = managerProductQuantity(
+        res.data.data[0]
+      );
     } else {
       const totalRes = await fetchTotalProductQuantity(productId);
 
@@ -114,25 +115,38 @@ async function loadQuantityInfo(productId) {
 
       const listRes = await fetchProductSpecificWarehouses(productId);
 
-      const warehouseList = listRes.data.data
-        .map(
-          (warehouse) =>
-            `<li>${warehouse.warehouseId?.name}: <strong>${warehouse.quantity}</strong>
-            ${totalQty <= totalRes.data.data[0].limit ? `<button class="btn btn-danger btn-sm low-stock"> ⚠ LOW STOCK</button>` : ''}</li>`
-        )
-        .join('');
+      const quantityList = warehouseProductList(listRes.data.data);
 
       productSelection.quantitySection.innerHTML = `
-        <p><strong>Total Quantity Across Warehouses:</strong> ${totalQty}</p>
+        <div class="overview-card mb-2 border-success-subtle">
+          <p class="m-0 p-0"><strong>Total Quantity:</strong> ${totalQty}</p>
+        </div>
         <hr/>
-        <p><strong>Warehouses:</strong></p>
-        <ul>${warehouseList}</ul>
+        <div class="warehouse-list-container justify-content-evenly px-2">
+          ${quantityList}
+        </div>
       `;
     }
   } catch {
     productSelection.quantitySection.innerHTML = 'Error loading quantity.';
   }
 }
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.edit-limit-btn');
+
+  if (!btn) {
+    return;
+  }
+
+  productSelection.limitQuantityId.value = btn.dataset.id;
+  productSelection.limitInput.value = btn.dataset.limit;
+
+  const modal = new bootstrap.Modal(productSelection.limitModal);
+  modal.show();
+});
+
+productSelection.saveLimitBtn.addEventListener('click', handleSaveLimit);
 
 productSelection.editProductBtn.addEventListener('click', editProductHandler);
 

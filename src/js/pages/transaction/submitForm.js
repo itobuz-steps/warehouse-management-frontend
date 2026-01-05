@@ -1,4 +1,3 @@
-// js/pages/transaction/submitForm.js
 import api from '../../api/interceptor';
 import Templates from '../../common/Templates';
 import { transactionSelectors } from './transactionSelector.js';
@@ -15,6 +14,7 @@ export default async function submitForm(type) {
   if (!confirmed) {
     return;
   }
+  transactionSelectors.submitTransactionBtn.disabled = true;
 
   let url = '';
   let body = {};
@@ -39,14 +39,13 @@ export default async function submitForm(type) {
 
     case 'OUT': {
       url = `${config.TRANSACTION_BASE_URL}/stock-out`;
-      
+
       body = {
         products: await collectProducts('outProductsContainer'),
         customerName: document.getElementById('customerName').value,
         customerEmail: document.getElementById('customerEmail').value,
         customerPhone: document.getElementById('customerPhone').value,
         customerAddress: document.getElementById('customerAddress').value,
-        // orderNumber: document.getElementById('orderNumber').value,
         sourceWarehouse: warehouses.sourceWarehouse.value,
         notes: document.getElementById('outNotes').value,
       };
@@ -87,17 +86,17 @@ export default async function submitForm(type) {
     const res = await api.post(url, body);
 
     // Reset form & UI
-    transactionSelectors.form.reset();
-    Object.values(transactionSelectors.sections).forEach((s) =>
-      s.classList.add('d-none')
-    );
-    Object.values(containers).forEach((c) => (c.innerHTML = ''));
+    // transactionSelectors.form.reset();
+    // Object.values(transactionSelectors.sections).forEach((s) =>
+    //   s.classList.add('d-none')
+    // );
+    // Object.values(containers).forEach((c) => (c.innerHTML = ''));
 
-    const warehouseDropdown = document.getElementById('warehouseDropdown');
+    // const warehouseDropdown = document.getElementById('warehouseDropdown');
 
-    if (warehouseDropdown) {
-      warehouseDropdown.classList.add('d-none');
-    }
+    // if (warehouseDropdown) {
+    //   warehouseDropdown.classList.add('d-none');
+    // }
 
     submitSpinner.classList.add('d-none');
 
@@ -105,6 +104,22 @@ export default async function submitForm(type) {
   } catch (err) {
     submitSpinner.classList.add('d-none');
     showToast('error', err.response.data.message);
+  } finally {
+    transactionSelectors.submitTransactionBtn.disabled = false;
+    transactionSelectors.typeSelect.onchange = () => {
+      document
+        .querySelectorAll(
+          `#transactionForm input[type="text"],
+       #transactionForm input[type="email"]`
+        )
+        .forEach((input) => {
+          input.value = '';
+        });
+      transactionSelectors.buttons.addInProduct.disabled = true;
+      transactionSelectors.buttons.addOutProduct.disabled = true;
+      transactionSelectors.buttons.addTransferProduct.disabled = true;
+      transactionSelectors.addNewProduct.disabled = true;
+    };
   }
 }
 
@@ -126,7 +141,6 @@ async function collectProducts(containerId) {
 
       presentWarehouseCapacity = res?.data?.data?.totalQuantity ?? 0;
       warehouseCapacity = res.data.data.warehouse.capacity;
-      // console.log('Total Warehouse capacity:', warehouseCapacity);
     } catch (err) {
       console.error('Failed to fetch warehouse capacity:', err);
       presentWarehouseCapacity = 0;
@@ -145,14 +159,10 @@ async function collectProducts(containerId) {
       : 0;
 
     const limitInput = row.querySelector('.limitInput');
-    const limit = limitInput ? parseInt(limitInput.value || '0', 10) : 0;
+    const limit = limitInput ? parseInt(limitInput.value || '1', 10) : 1;
 
     // check warehouse capacity
     if (containerId === 'inProductsContainer') {
-      // console.log(
-      //   `Checking product ${productId}: qty = ${quantity}, capacity = ${presentWarehouseCapacity}`
-      // );
-
       if (quantity + presentWarehouseCapacity > warehouseCapacity) {
         showToast(
           'error',

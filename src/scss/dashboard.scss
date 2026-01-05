@@ -3,6 +3,7 @@
 @import './common/variables';
 @import './common/animations';
 @import './common/root';
+@import './common/button';
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -188,18 +189,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: 5px;
   justify-content: space-between;
-}
-
-.topbar-hamburger {
-  width: 30px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  border-radius: 10px;
 }
 
 /* Warehouse Select */
@@ -208,7 +199,8 @@
 }
 
 /* Buttons */
-.dashboard-topbar .add-manager-btn {
+// .dashboard-topbar .add-manager-btn,
+.dashboard-topbar .stocks-block {
   @include dashboard-button($color-primary, $color-primary-dark);
   font-size: 0.85rem;
   padding: 8px 14px;
@@ -648,6 +640,7 @@
   grid-template-columns: 1fr;
   gap: 16px;
   margin-bottom: 24px;
+  margin-top: 12px;
 }
 
 .low-stock-card {
@@ -964,10 +957,6 @@
     justify-content: space-between;
   }
 
-  .topbar-hamburger {
-    top: 40px;
-  }
-
   .topbar-right {
     width: auto;
     flex-wrap: nowrap;
@@ -978,7 +967,8 @@
     width: 200px;
   }
 
-  .dashboard-topbar .add-manager-btn {
+  // .dashboard-topbar .add-manager-btn,
+  .dashboard-topbar .stocks-block {
     flex: none;
   }
 
@@ -1105,7 +1095,9 @@
 }
 
 @media (max-width: 400px) {
-  .table-card {
+  .low-stock-table-card,
+  .cancelled-table-card,
+  .adjustment-table-card {
     padding: 12px;
 
     table {

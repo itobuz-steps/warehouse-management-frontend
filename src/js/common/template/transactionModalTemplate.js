@@ -13,22 +13,21 @@ class TransactionModalTemplate {
         (p) => `
         <tr>
           <td><i class=" me-1 text-secondary"></i>${p.name}</td>
-          <td class="text-center fw-bold">${p.qty}</td>
+          <td class="text-center">${p.qty}</td>
         </tr>
       `
       )
       .join('');
 
     return `
-      <div class="summary-section p-3 rounded border mb-4 bg-light">
-        <h5 class="fw-bold mb-3 text-secondary">
-          <i class="fa-solid"></i>Products Summary
-        </h5>
-
-        <table class="table table-sm table-bordered">
-          <thead class="table-secondary">
+      <h5 class="mb-3 text-secondary">
+        <i class="fa-solid"></i>Products Summary
+      </h5>
+      <div class="summary-section border rounded mb-4">
+        <table class="table table-borderless table-sm rounded">
+          <thead class="table-success">
             <tr>
-              <th style="width:70%">Product</th>
+              <th class="pl-2" style="width:70%">Products</th>
               <th class="text-center" style="width:30%">Quantity</th>
             </tr>
           </thead>
@@ -41,14 +40,14 @@ class TransactionModalTemplate {
   stockInDetails = (warehouseName, supplier, notes) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
-        <h6 class="fw-bold mb-2 text-secondary">
+        <h6 class=" mb-2 text-secondary">
           <i class="fa-solid fa-circle-info me-2"></i>Stock In Details
         </h6>
-        <p><strong>Destination Warehouse:</strong> 
-          <span class="badge bg-success">${warehouseName}</span>
+        <p class="theme-color">Destination Warehouse: 
+          <span class="badge badge-in">${warehouseName}</span>
         </p>
-        <p><strong>Supplier:</strong> ${supplier || '-'}</p>
-        <p><strong>Notes:</strong> ${notes || '-'}</p>
+        <p class="theme-color">Supplier: <span>${supplier || '-'}</span></p>
+        <p class="theme-color">Notes: <span>${notes || '-'}</span></p>
       </div>
     `;
   };
@@ -56,18 +55,17 @@ class TransactionModalTemplate {
   stockOutDetails = (warehouseName, customer, notes) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
-        <h6 class="fw-bold mb-2 text-secondary">
+        <h6 class=" mb-2 text-secondary">
           <i class="fa-solid fa-circle-info me-2"></i>Stock Out Details
         </h6>
-        <p><strong>Source Warehouse:</strong> 
-          <span class="badge bg-danger">${warehouseName}</span>
+        <p class="theme-color">Source Warehouse: 
+          <span class="badge badge-out">${warehouseName}</span>
         </p>
-        <p><strong>Customer:</strong> ${customer.name || '-'}</p>
-        <p><strong>Email:</strong> ${customer.email || '-'}</p>
-        <p><strong>Phone:</strong> ${customer.phone || '-'}</p>
-        <p><strong>Address:</strong> ${customer.address || '-'}</p>
-        <!--<p><strong>Order Number:</strong> ${customer.orderNumber || '-'}</p>-->
-        <p><strong>Notes:</strong> ${notes || '-'}</p>
+        <p class="theme-color">Customer: <span>${customer.name || '-'}</span></p>
+        <p class="theme-color">Email: <span>${customer.email || '-'}</span></p>
+        <p class="theme-color">Phone: <span>${customer.phone || '-'}</span></p>
+        <p class="theme-color">Address: <span>${customer.address || '-'}</span></p>
+        <p class="theme-color">Notes: <span>${notes || '-'}</span></p>
       </div>
     `;
   };
@@ -75,16 +73,16 @@ class TransactionModalTemplate {
   transferDetails = (source, dest, notes) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
-        <h6 class="fw-bold mb-2 text-secondary">
+        <h6 class=" mb-2 text-secondary">
           <i class="fa-solid fa-circle-info me-2"></i>Transfer Details
         </h6>
-        <p><strong>Source Warehouse:</strong> 
-          <span class="badge bg-danger">${source}</span>
+        <p class="theme-color">Source Warehouse: 
+          <span class="badge badge-transfer">${source}</span>
         </p>
-        <p><strong>Destination Warehouse:</strong> 
-          <span class="badge bg-success">${dest}</span>
+        <p class="theme-color">Destination Warehouse: 
+          <span class="badge badge-transfer">${dest}</span>
         </p>
-        <p><strong>Notes:</strong> ${notes || '-'}</p>
+        <p class="theme-color">Notes: <span>${notes || '-'}</span></p>
       </div>
     `;
   };
@@ -92,14 +90,14 @@ class TransactionModalTemplate {
   adjustmentDetails = (warehouseName, reason, notes) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
-        <h6 class="fw-bold mb-2 text-secondary">
+        <h6 class=" mb-2 text-secondary">
           <i class="fa-solid fa-circle-info me-2"></i>Adjustment Details
         </h6>
-        <p><strong>Warehouse:</strong> 
-          <span class="badge bg-warning text-dark">${warehouseName}</span>
+        <p class="theme-color">Warehouse: 
+          <span class="badge badge-adjust">${warehouseName}</span>
         </p>
-        <p><strong>Reason:</strong> ${reason || '-'}</p>
-        <p><strong>Notes:</strong> ${notes || '-'}</p>
+        <p class="theme-color">Reason: <span>${reason || '-'}</span></p>
+        <p class="theme-color">Notes: <span>${notes || '-'}</span></p>
       </div>
     `;
   };

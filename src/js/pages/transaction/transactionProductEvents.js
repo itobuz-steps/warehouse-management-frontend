@@ -101,6 +101,10 @@ export const handleAddProductTransaction = async (e) => {
     'price',
     document.getElementById('transactionProductPrice').value
   );
+  formData.append(
+    'markup',
+    document.getElementById('transactionProductMarkup').value
+  );
   formData.append('createdBy', user._id);
 
   const productImageInput = document.getElementById('transactionProductImage');

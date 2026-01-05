@@ -45,20 +45,49 @@ class AnalyticsSubscribe {
 
       const warehouses = result.data.data;
 
-      analyticsSelection.warehouseSelect.innerHTML = `<option value="">Select Warehouse</option>`;
-
       warehouses.forEach((warehouse) => {
         analyticsSelection.warehouseSelect.innerHTML +=
           this.analyticsTemplate.warehouseOptions(warehouse);
       });
 
+      // For on page load charts
+      const defaultWarehouseId = warehouses[0]._id;
+
+      const result2 = await api.get(
+        `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${defaultWarehouseId}`
+      );
+      const products = result2.data.data;
+
+      if (products.length <= 1) {
+        analyticsSelection.noDataSection.classList.remove('d-none');
+      }
+
+      products.forEach((product) => {
+        const productOption = this.analyticsTemplate.productOptions(product);
+
+        analyticsSelection.productSelect1.innerHTML += productOption;
+        analyticsSelection.productSelect2.innerHTML += productOption;
+      });
+
+      const defaultProduct1Id = products[0].productId;
+      const defaultProduct2Id = products[0].productId;
+
+      const response1 = await api.get(
+        `${config.PRODUCT_ANALYTICS_URL}/product-quantities?warehouseId=${defaultWarehouseId}&productA=${defaultProduct1Id}&productB=${defaultProduct2Id}`
+      );
+
+      await this.createBarChart(response1.data.data);
+
+      const response2 = await api.get(
+        `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${defaultWarehouseId}&productA=${defaultProduct1Id}&productB=${defaultProduct2Id}`
+      );
+
+      await this.createLineChart(response2.data.data);
+
+      // On change option result flow
       analyticsSelection.warehouseSelect.addEventListener('change', (event) => {
         const selected = event.target.selectedOptions[0];
         const warehouseId = selected.id;
-
-        analyticsSelection.productSelectSection.forEach((item) => {
-          item.style.display = 'block';
-        });
 
         this.loadProductOptions(warehouseId);
       });
@@ -73,10 +102,10 @@ class AnalyticsSubscribe {
         `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
       );
 
-      const productDetails = result.data.data;
+      analyticsSelection.productSelect1.innerHTML = '';
+      analyticsSelection.productSelect2.innerHTML = '';
 
-      analyticsSelection.productSelect1.innerHTML = `<option value="">Select First Product</option>`;
-      analyticsSelection.productSelect2.innerHTML = `<option value="">Select Another Product</option>`;
+      const productDetails = result.data.data;
 
       productDetails.forEach((product) => {
         const productOption = this.analyticsTemplate.productOptions(product);
@@ -111,6 +140,8 @@ class AnalyticsSubscribe {
       const response2 = await api.get(
         `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
       );
+
+      console.log(response2.data.data);
 
       await this.createLineChart(response2.data.data);
     } catch (err) {
@@ -152,7 +183,7 @@ class AnalyticsSubscribe {
             title: {
               display: true,
               text: 'Products',
-              color: '#2a030eff',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -162,7 +193,7 @@ class AnalyticsSubscribe {
             title: {
               display: true,
               text: 'Quantity',
-              color: '#2a030eff',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -175,7 +206,7 @@ class AnalyticsSubscribe {
   };
 
   createLineChart = async (data) => {
-    const dates = data.productA.history.map((item) => item.date).slice(-7);
+    const dates = data.productA.history.map((item) => item.date);
 
     const productATransactions = data.productA.history.map(
       (item) => item.transactions
@@ -207,8 +238,8 @@ class AnalyticsSubscribe {
             data: productBTransactions,
             borderWidth: 2,
             fill: false,
-            borderColor: '#ef58c9ff',
-            backgroundColor: '#ef58c9ff',
+            borderColor: '#FF6B6B',
+            backgroundColor: '#FF6B6B',
           },
         ],
       },
@@ -221,7 +252,7 @@ class AnalyticsSubscribe {
             title: {
               display: true,
               text: 'Last 7 Days',
-              color: '#864a5b',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -231,7 +262,7 @@ class AnalyticsSubscribe {
             title: {
               display: true,
               text: 'Transactions',
-              color: '#864a5b',
+              color: '#015453',
               font: {
                 size: 15,
               },

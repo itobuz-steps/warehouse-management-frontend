@@ -28,52 +28,6 @@
   box-shadow: 0 4px 8px rgba(185, 122, 135, 0.3);
 }
 
-// .text-heading {
-//   color: var(--primary-color);
-// }
-
-// .table-header th {
-//   background-color: var(--primary-color);
-//   color: #fff;
-//   font-weight: 600;
-//   padding: 12px 15px;
-//   border: none;
-// }
-
-// .table-header th:first-child {
-//   border-top-left-radius: $radius-sm;
-// }
-
-// .table-header th:last-child {
-//   border-top-right-radius: $radius-sm;
-// }
-
-// .table {
-//   border-collapse: separate;
-//   border-spacing: 0;
-
-//   width: 100%;
-//   box-shadow: var(--card-shadow);
-//   border-radius: $radius-sm;
-// }
-
-// .table tbody tr {
-//   background-color: $color-white;
-//   transition: all 0.2s ease;
-// }
-
-// .table tbody tr:hover {
-//   background-color: $color-white;
-//   transform: translateY(-1px);
-//   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-// }
-
-// .table tbody td {
-//   padding: 15px;
-//   border-bottom: 1px solid $text-light;
-//   vertical-align: middle;
-// }
-
 .active-warehouse {
   color: $color-danger !important;
   background-color: transparent !important;
@@ -164,9 +118,6 @@
   color: $text-secondary;
 }
 
-/* Button enhancements */
-
-/* Dropdown enhancements */
 .dropdown-menu {
   border: none;
   border-radius: $radius-sm;
@@ -234,7 +185,8 @@
 
 .page-title {
   font-weight: 700;
-  color: var(--primary-color);
+  // color: var(--primary-color);
+  font-size:x-large;
 }
 
 .page-subtitle {
@@ -339,5 +291,15 @@
     flex-direction: column;
     align-items: flex-start;
     gap: $spacing-1;
+  }
+}
+
+.addWarehouseBtn {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .addWarehouseBtn {
+    width: auto;
   }
 }

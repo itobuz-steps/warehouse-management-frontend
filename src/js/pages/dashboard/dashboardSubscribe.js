@@ -99,7 +99,7 @@ async function showTopProductsSubscribe(warehouseId) {
             title: {
               display: true,
               text: 'Products',
-              color: '#2a030eff',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -109,13 +109,20 @@ async function showTopProductsSubscribe(warehouseId) {
             title: {
               display: true,
               text: 'Quantity',
-              color: '#2a030eff',
+              color: '#015453',
               font: {
                 size: 15,
               },
             },
             beginAtZero: true,
           },
+        },
+        onClick: (evt, elements) => {
+          if (!elements.length) {
+            return;
+          }
+
+          window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}`;
         },
       },
     });
@@ -168,7 +175,17 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
         },
       ],
     },
-    options: { responsive: true, maintainAspectRatio: false },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      onClick: (evt, elements) => {
+        if (!elements.length) {
+          return;
+        }
+
+        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}`;
+      },
+    },
   });
 };
 
@@ -220,7 +237,7 @@ const showProductTransactionSubscribe = async (warehouseId) => {
             title: {
               display: true,
               text: 'Last 7 Days',
-              color: '#864a5b',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -230,7 +247,7 @@ const showProductTransactionSubscribe = async (warehouseId) => {
             title: {
               display: true,
               text: 'Transactions',
-              color: '#864a5b',
+              color: '#015453',
               font: {
                 size: 15,
               },
@@ -307,19 +324,117 @@ const showLowStockProducts = async (warehouseId) => {
     const res = await api.get(
       `${config.DASHBOARD_BASE_URL}/get-low-stock-products/${warehouseId}`
     );
+
     const items = res.data.data.lowStockProducts;
     dashboardSelection.lowStockTable.innerHTML = '';
 
     if (!items.length) {
-      dashboardSelection.tableCard.style.display = 'none';
-    } else {
-      dashboardSelection.tableCard.style.display = 'block';
-
-      items.forEach((item) => {
-        dashboardSelection.lowStockTable.innerHTML +=
-          displayToast.lowStockRow(item);
-      });
+      dashboardSelection.lowStockTableCard.style.display = 'none';
+      return;
     }
+
+    dashboardSelection.lowStockTableCard.style.display = 'block';
+
+    items.forEach((item) => {
+      const rowHTML = displayToast.lowStockRow(item);
+
+      const temp = document.createElement('tbody');
+      temp.innerHTML = rowHTML;
+      const row = temp.firstElementChild;
+
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => {
+        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
+      });
+
+      dashboardSelection.lowStockTable.appendChild(row);
+    });
+  } catch (err) {
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
+
+    setTimeout(() => {
+      dashboardSelection.toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
+// Cancelled Products
+const loadMostCancelledProducts = async (warehouseId, limit = 5) => {
+  try {
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-cancelled-orders/${warehouseId}?limit=${limit}`
+    );
+
+    console.log(res);
+
+    const items = res.data.data;
+    dashboardSelection.cancelledTable.innerHTML = '';
+
+    if (!items.length) {
+      dashboardSelection.cancelledTableCard.style.display = 'none';
+      return;
+    }
+
+    dashboardSelection.cancelledTableCard.style.display = 'block';
+
+    items.forEach((item) => {
+      const rowHTML = displayToast.cancelledShipmentRow(item);
+
+      const temp = document.createElement('tbody');
+      temp.innerHTML = rowHTML;
+      const row = temp.firstElementChild;
+
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => {
+        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
+      });
+
+      dashboardSelection.cancelledTable.appendChild(row);
+    });
+  } catch (err) {
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
+
+    setTimeout(() => {
+      dashboardSelection.toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
+// Adjusted Products
+const loadMostAdjustedProducts = async (warehouseId, limit = 5) => {
+  try {
+    const res = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-most-adjusted-products/${warehouseId}?limit=${limit}`
+    );
+
+    const items = res.data.data;
+    dashboardSelection.adjustmentTable.innerHTML = '';
+
+    if (!items.length) {
+      dashboardSelection.adjustmentTableCard.style.display = 'none';
+      return;
+    }
+
+    dashboardSelection.adjustmentTableCard.style.display = 'block';
+
+    items.forEach((item) => {
+      const rowHTML = displayToast.adjustmentProductsRow(item);
+
+      const temp = document.createElement('tbody');
+      temp.innerHTML = rowHTML;
+      const row = temp.firstElementChild;
+
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => {
+        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
+      });
+
+      dashboardSelection.adjustmentTable.appendChild(row);
+    });
   } catch (err) {
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
@@ -333,8 +448,10 @@ const showLowStockProducts = async (warehouseId) => {
 
 const noWarehouseDisplay = () => {
   //no warehouse so remove the statistics charts.
-  dashboardSelection.warehouseSelect.style.display = 'none';
-  dashboardSelection.tableCard.style.display = 'none';
+  // dashboardSelection.warehouseSelect.style.display = 'none';
+  dashboardSelection.lowStockTableCard.style.display = 'none';
+  dashboardSelection.adjustmentTableCard.style.display = 'none';
+  dashboardSelection.cancelledTableCard.style.display = 'none';
   dashboardSelection.noDashboardBox.style.display = 'flex';
   dashboardSelection.noDashboardBox.innerHTML =
     displayToast.noWarehouseMessage();
@@ -525,7 +642,13 @@ async function showTopSellingProductsSubscribe(warehouseId) {
         isActive = 'active';
       }
 
-      const itemHTML = displayToast.carouselItem(product, isActive);
+      // console.log(warehouseId, product.productId);
+
+      const itemHTML = displayToast.carouselItem(
+        warehouseId,
+        product,
+        isActive
+      );
 
       dashboardSelection.carouselItems.innerHTML += itemHTML;
     });
@@ -547,6 +670,8 @@ export {
   fetchUserAndWarehouses,
   showTransactionStatsSubscribe,
   showLowStockProducts,
+  loadMostCancelledProducts,
+  loadMostAdjustedProducts,
   showRecentTransactions,
   showTopSellingProductsSubscribe,
 };
