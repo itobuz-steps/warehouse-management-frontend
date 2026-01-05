@@ -711,6 +711,7 @@ const showProfitLossSubscribe = async (
       },
       options: {
         responsive: true,
+        tension: 0.4,
         maintainAspectRatio: false,
         plugins: { title: { display: true, text: 'Profit and Loss' } },
         scales: {
