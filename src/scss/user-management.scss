@@ -262,76 +262,76 @@
   color: $color-white;
 }
 
-//warehouse section for manager
-.warehouse-list-section {
-  @include card($radius-md, 20px 25px);
+// //warehouse section for manager
+// .warehouse-list-section {
+//   @include card($radius-md, 20px 25px);
 
-  h3 {
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: $text-primary;
-  }
+//   h3 {
+//     font-weight: 700;
+//     margin-bottom: 20px;
+//     color: $text-primary;
+//   }
 
-  .warehouse-grid {
-    .warehouse-card {
-      @include card($radius-md, 15px);
-      height: auto;
-      width: 48%;
-      transition: $transition;
-      margin-left: 10px;
-      border: none;
-      border-left: 5px solid $color-primary;
-      box-shadow: $shadow-md;
+//   .warehouse-grid {
+//     .warehouse-card {
+//       @include card($radius-md, 15px);
+//       height: auto;
+//       width: 48%;
+//       transition: $transition;
+//       margin-left: 10px;
+//       border: none;
+//       border-left: 5px solid $color-primary;
+//       box-shadow: $shadow-md;
 
-      &:hover {
-        transform: translateY(-5px);
-      }
+//       &:hover {
+//         transform: translateY(-5px);
+//       }
 
-      @media (max-width: 900px) {
-        width: 100%;
-        margin-left: 0px;
-      }
+//       @media (max-width: 900px) {
+//         width: 100%;
+//         margin-left: 0px;
+//       }
 
-      .warehouse-name {
-        font-weight: 600;
-        color: $color-primary-dark;
-      }
+//       .warehouse-name {
+//         font-weight: 600;
+//         color: $color-primary-dark;
+//       }
 
-      .warehouse-detail {
-        color: $text-secondary;
-        font-size: 1rem;
-        margin-top: 10px;
+//       .warehouse-detail {
+//         color: $text-secondary;
+//         font-size: 1rem;
+//         margin-top: 10px;
 
-        .storage {
-          color: $color-white;
-          font-size: 12px;
-          font-weight: 500;
-        }
-        .low {
-          background-color: $color-success;
-        }
-        .moderate {
-          background-color: $color-warning;
-        }
-        .high {
-          background-color: $color-danger;
-        }
-      }
+//         .storage {
+//           color: $color-white;
+//           font-size: 12px;
+//           font-weight: 500;
+//         }
+//         .low {
+//           background-color: $color-success;
+//         }
+//         .moderate {
+//           background-color: $color-warning;
+//         }
+//         .high {
+//           background-color: $color-danger;
+//         }
+//       }
 
-      .warehouse-button {
-        background-color: $color-primary;
-        border: 2px solid $color-primary;
-        color: $color-white;
-        font-weight: 500;
+//       .warehouse-button {
+//         background-color: $color-primary;
+//         border: 2px solid $color-primary;
+//         color: $color-white;
+//         font-weight: 500;
 
-        &:hover {
-          background-color: $color-primary-dark;
-          border: 2px solid $color-primary-dark;
-        }
-      }
-    }
-  }
-}
+//         &:hover {
+//           background-color: $color-primary-dark;
+//           border: 2px solid $color-primary-dark;
+//         }
+//       }
+//     }
+//   }
+// }
 
 @include responsive {
   .user-profile-card {

@@ -1,42 +1,34 @@
-const managerCard = (
-  id,
-  name,
-  email,
-  lastLogin,
-  createdOn,
-  isActive,
-  profileImage = '../../assets/images/profile_default.svg'
-) => {
+const managerCard = (data) => {
   return `<div class="user-card p-3 p-sm-4">
           <div class="user-header">
             <div class="user-avatar me-2">
               <img
-                src="${profileImage}"
+                src="${data.profileImage}"
                 alt=""
-                class="w-100 rounded-circle border border-light-subtle"
+                class="w-100 h-100 rounded-circle border border-light-subtle"
               />
             </div>
             <div class="user-info flex-fill">
-              <div class="user-name">${name}</div>
-              <div class="user-creation">Created on ${createdOn}</div>
+              <div class="user-name">${data.managerName}</div>
+              <div class="user-creation">Created on ${data.createdOn}</div>
             </div>
           </div>
 
           <div class="user-details">
             <p class="user-email mb-1">
               <i class="fas fa-envelope"></i>
-              ${email}
+              ${data.managerEmail}
             </p>
             <p class="user-email">
               <i class="fas fa-user"></i>
-              Last Login on ${lastLogin}
+              Last Login on ${data.lastLogin}
             </p>
           </div>
 
           ${
-            isActive
-              ? `<button class="btn-view w-100" onclick="changeStatus('${id}')">Block User</button>`
-              : `<button class="btn-view w-100" onclick="changeStatus('${id}')">Unblock User</button>`
+            data.isActive
+              ? `<button class="btn-view w-100" onclick="changeStatus('${data.managerId}')">Block User</button>`
+              : `<button class="btn-view w-100" onclick="changeStatus('${data.managerId}')">Unblock User</button>`
           }
         </div>
 `;
@@ -55,7 +47,7 @@ const unverifiedManagerCard = (
               <img
                 src="${profileImage}"
                 alt=""
-                class="w-100 rounded-circle border border-light-subtle"
+                class="w-100 h-100 rounded-circle border border-light-subtle"
               />
             </div>
             <div class="user-info flex-fill">

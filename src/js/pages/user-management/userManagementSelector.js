@@ -20,6 +20,8 @@ const userManagementSelection = {
   confirmUpdate: document.querySelector('#confirmUpdate'),
   profileImg: document.querySelector('#profileImg'),
   addManagerForm: document.getElementById('addManagerForm'),
+  addManagerBtn: document.querySelector('.add-manager-btn'),
+  toggleBtns: document.querySelector('.btn-group'),
   name: document.getElementById('name'),
   updateProfileForm: document.querySelector('#updateProfile'),
   toastSection: document.getElementById('toastSection'),
