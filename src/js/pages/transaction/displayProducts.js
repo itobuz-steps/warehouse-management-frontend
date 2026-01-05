@@ -177,7 +177,7 @@ function addProductRow(container, products, existingProductIds = new Set()) {
 
     <input type="number" min="1" class="form-control quantityInput h-46" placeholder="Quantity"/>
 
-    <input type="number" min="1" class="form-control limitInput h-46"  placeholder="Min Limit" style="display:none"/>
+    <input type="number" min="1" class="form-control limitInput h-46"  placeholder="Limit" style="display:none"/>
   `;
 
   // Elements
