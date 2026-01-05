@@ -167,64 +167,92 @@
 
     <main class="main-content pt-4">
       <!-- topbar -->
-      <div class="topbar">
+      <div class="topbar d-flex flex-row">
         <div class="topbar-left">
           <h1 class="page-title">User Profile</h1>
         </div>
 
-        <div class="topbar-right">
-          <!-- Add Manager -->
-          <button
-            class="add-manager-btn d-none"
-            data-bs-toggle="modal"
-            data-bs-target="#addManagerModal"
+        <div class="grp d-flex flex-row">
+          <div class="topbar-right">
+            <img
+              src="../assets/images/profile_default.svg"
+              alt="User Profile"
+              class="user-avatar-lg"
+              data-bs-toggle="modal"
+              data-bs-target="#updateProfileModal"
+            />
+          </div>
+
+          <!-- Notifications -->
+          <div
+            class="notif-bell position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNotifications"
+            aria-controls="offcanvasNotifications"
           >
-            + Manager
-          </button>
-          <img
-            src="../assets/images/profile_default.svg"
-            alt="User Profile"
-            class="user-avatar-lg"
-            data-bs-toggle="modal"
-            data-bs-target="#updateProfileModal"
-          />
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display: none"
+            >
+              0
+            </span>
+          </div>
         </div>
       </div>
 
-      <!-- toggle button -->
       <div
-        class="btn-group d-none"
-        role="group"
-        id="adminToggle"
-        aria-label="Basic radio toggle button group"
+        class="grp d-flex flex-column gap-3 flex-sm-row justify-content-between"
       >
-        <input
-          type="radio"
-          class="btn-check"
-          name="btnradio"
-          id="activeBtn"
-          autocomplete="off"
-          checked
-        />
-        <label class="btn btn-outline-primary" for="activeBtn">Active</label>
+        <!-- toggle button -->
+        <div
+          class="btn-group d-none"
+          role="group"
+          id="adminToggle"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="activeBtn"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-outline-primary" for="activeBtn">Active</label>
 
-        <input
-          type="radio"
-          class="btn-check"
-          name="btnradio"
-          id="blockedBtn"
-          autocomplete="off"
-        />
-        <label class="btn btn-outline-primary" for="blockedBtn">Blocked</label>
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="blockedBtn"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="blockedBtn"
+            >Blocked</label
+          >
 
-        <input
-          type="radio"
-          class="btn-check"
-          name="btnradio"
-          id="pendingBtn"
-          autocomplete="off"
-        />
-        <label class="btn btn-outline-primary" for="pendingBtn">Pending</label>
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="pendingBtn"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="pendingBtn"
+            >Pending</label
+          >
+        </div>
+
+        <!-- Add Manager -->
+        <button
+          class="add-manager-btn d-none"
+          data-bs-toggle="modal"
+          data-bs-target="#addManagerModal"
+        >
+          + Manager
+        </button>
       </div>
 
       <!-- Divider -->
