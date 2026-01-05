@@ -47,8 +47,26 @@ export default class Templates {
     </tr>`;
   };
 
-  noWarehouseMessage = () => {
-    return '<p><i class="fas fa-warehouse"></i> No warehouse assigned yet! wait for the admin to assign warehouse or contact admin.</p>';
+  noWarehouseMessage = (user) => {
+    // Check the user role to decide what link or button to show
+    if (user === 'admin') {
+      return `
+            <p><i class="fas fa-warehouse"></i> No warehouse assigned yet! 
+            <a href="/pages/inventory.html" class="text-info">Assign Warehouse</a> 
+            or 
+            <a
+              class="add-manager-btn text-success"
+              data-bs-toggle="modal"
+              data-bs-target="#addManagerModal"
+              title="Add Manager"
+            >
+                <i class="fa-solid fa-user-plus"></i> Add Manager
+            </a></p>`;
+    } else {
+      return `
+            <p><i class="fas fa-warehouse"></i> No warehouse assigned yet! 
+            Wait for the admin to assign a warehouse or contact the admin.</p>`;
+    }
   };
 
   recentActivityItem = ({ performedBy, actionText, time, dotClass }) => {
