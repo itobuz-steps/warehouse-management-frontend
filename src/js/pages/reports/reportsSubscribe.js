@@ -7,10 +7,23 @@ import {
 import config from '../../config/config.js';
 import reportSelection from './reportsSelectors.js';
 
-let currentWarehouseId = 'ALL'; // track of the current warehouse ID
-let currentPage = 1; // current page
-const pageSize = 10; // items per page
-let totalPages = 1; // total pages from backend
+let currentWarehouseId = 'ALL';
+let currentPage = 1;
+const pageSize = 10;
+let totalPages = 1;
+
+window.toggleDetails = function (btn) {
+  const card = btn.closest('.transaction-card');
+  const details = card.querySelector('.card-details');
+
+  details.classList.toggle('expanded');
+
+  if (details.classList.contains('expanded')) {
+    btn.innerHTML = 'Collapse Details <i class="fas fa-chevron-up"></i>';
+  } else {
+    btn.innerHTML = 'Expand Details <i class="fas fa-chevron-down"></i>';
+  }
+};
 
 async function transactionDetailsLoad() {
   try {
@@ -21,15 +34,32 @@ async function transactionDetailsLoad() {
 
     renderWarehouseDropdown(warehouses, transactionTemplate);
     attachEventListeners(user, warehouses, transactionTemplate);
+    setupMobileFiltersToggle();
 
-    // Load ALL transactions by default
     loadTransactions('ALL', user, warehouses, transactionTemplate);
   } catch (err) {
     console.error('Error loading transaction details:', err);
   }
 }
 
-// Render warehouse dropdown with specific warehouses
+function setupMobileFiltersToggle() {
+  const btn = document.getElementById('filtersToggleBtn');
+  const filters = document.querySelector('.reports-filter');
+  if (!btn || !filters) return;
+
+  btn.innerHTML = filters.classList.contains('show')
+    ? '<i class="fas fa-chevron-up"></i> Hide Filters'
+    : '<i class="fa fa-filter"></i> Filters';
+
+  btn.addEventListener('click', () => {
+    filters.classList.toggle('show');
+    const isShown = filters.classList.contains('show');
+    btn.innerHTML = isShown
+      ? '<i class="fas fa-chevron-up"></i> Hide Filters'
+      : '<i class="fa fa-filter"></i> Filters';
+  });
+}
+
 function renderWarehouseDropdown(warehouses, transactionTemplate) {
   const dropdown = document.querySelector('.warehouses-options');
   dropdown.innerHTML = `
@@ -43,25 +73,35 @@ function renderWarehouseDropdown(warehouses, transactionTemplate) {
   });
 }
 
-// Attach all necessary event listeners
 function attachEventListeners(user, warehouses, transactionTemplate) {
   attachWarehouseFilter(user, warehouses, transactionTemplate);
   attachDateFilter(user, warehouses, transactionTemplate);
   attachRadioFilter(user, warehouses, transactionTemplate);
   attachStatusFilter(user, warehouses, transactionTemplate);
+  attachCardClickListeners();
 }
 
-// Attach event listener for warehouse filter
+function attachCardClickListeners() {
+  document.addEventListener('click', (e) => {
+    const card = e.target.closest('.transaction-card');
+    if (card) {
+      if (!e.target.closest('button') && !e.target.closest('.invoice-btn')) {
+        const expandBtn = card.querySelector('.expand-btn');
+        if (expandBtn) {
+          window.toggleDetails(expandBtn);
+        }
+      }
+    }
+  });
+}
+
 function attachWarehouseFilter(user, warehouses, transactionTemplate) {
   document.querySelectorAll('.warehouse-option').forEach((option) => {
     option.addEventListener('click', () => {
-      // Update selected warehouse-id
       currentWarehouseId = option.getAttribute('data-id');
 
-      // Update UI to reflect the active warehouse
       updateActiveWarehouse(option);
 
-      // Load transactions based on the selected warehouse, passing the required parameters
       loadTransactions(
         currentWarehouseId,
         user,
@@ -72,7 +112,6 @@ function attachWarehouseFilter(user, warehouses, transactionTemplate) {
   });
 }
 
-// Update the UI when a warehouse option is clicked
 function updateActiveWarehouse(option) {
   reportSelection.dropdownBtn.textContent = option.textContent.trim();
 
@@ -82,16 +121,21 @@ function updateActiveWarehouse(option) {
 
   option.classList.add('active');
   resetDateFilter();
+
+  const filters = document.querySelector('.reports-filter');
+  const btn = document.getElementById('filtersToggleBtn');
+  if (window.innerWidth <= 991 && filters && btn) {
+    filters.classList.remove('show');
+    btn.innerHTML = '<i class="fa fa-filter"></i> Filters';
+  }
 }
 
-// Reset the date filter
 function resetDateFilter() {
   reportSelection.startDate.value = '';
   reportSelection.endDate.value = '';
   currentPage = 1;
 }
 
-// Attach event listener for date filter button
 function attachDateFilter(user, warehouses, transactionTemplate) {
   reportSelection.dateFilter.addEventListener('click', () => {
     const warehouseId = document
@@ -101,7 +145,6 @@ function attachDateFilter(user, warehouses, transactionTemplate) {
   });
 }
 
-// Attach event listener for type
 function attachRadioFilter(user, warehouses, transactionTemplate) {
   document.querySelectorAll('input[name="btnradio"]').forEach((radio) => {
     radio.addEventListener('change', () => {
@@ -119,7 +162,6 @@ function attachRadioFilter(user, warehouses, transactionTemplate) {
   toggleStatusFilter();
 }
 
-// shipment status filter
 function attachStatusFilter(user, warehouses, transactionTemplate) {
   document.querySelectorAll('input[name="statusRadio"]').forEach((radio) => {
     radio.addEventListener('change', () => {
@@ -149,13 +191,12 @@ function toggleStatusFilter() {
   }
 }
 
-// Load transactions based on filters
 async function loadTransactions(
   warehouseId,
   user,
   warehouses,
   transactionTemplate,
-  append = false // if true, append instead of replace
+  append = false
 ) {
   try {
     let result;
@@ -203,7 +244,6 @@ document.getElementById('loadMoreBtn').addEventListener('click', () => {
 });
 
 function renderTransactionsListAppend(transactions, transactionTemplate) {
-
   if (!transactions || transactions.length === 0) {
     return;
   }
@@ -229,6 +269,64 @@ function renderTransactionsListAppend(transactions, transactionTemplate) {
   });
 
   attachInvoiceListeners();
+  attachShipCancelListeners();
+}
+
+function attachShipCancelListeners() {
+  document.querySelectorAll('.ship-btn').forEach((btn) => {
+    btn.addEventListener('click', async (event) => {
+      const id = event.target.value || event.target.closest('.ship-btn').value;
+      document.getElementById('shipBtn').disabled = true;
+      try {
+        await api.patch(
+          `${config.BROWSER_NOTIFICATION_BASE_URL}/change-shipment-status/${id}`
+        );
+        const card = document.querySelector(
+          `.transaction-card[data-id="${id}"]`
+        );
+        if (card) {
+          const badge = card.querySelector('.status-badge');
+          if (badge) {
+            badge.classList.remove('pending');
+            badge.classList.add('shipped');
+            badge.textContent = 'SHIPPED';
+          }
+          const actions = card.querySelectorAll('.ship-btn, .cancel-btn');
+          actions.forEach((a) => a.remove());
+        }
+      } catch (err) {
+        console.error('Error shipping transaction:', err);
+      }
+    });
+  });
+
+  document.querySelectorAll('.cancel-btn').forEach((btn) => {
+    btn.addEventListener('click', async (event) => {
+      const id =
+        event.target.value || event.target.closest('.cancel-btn').value;
+      document.getElementById('cancelBtn').disabled = true;
+      try {
+        await api.patch(
+          `${config.BROWSER_NOTIFICATION_BASE_URL}/cancel-shipment/${id}`
+        );
+        const card = document.querySelector(
+          `.transaction-card[data-id="${id}"]`
+        );
+        if (card) {
+          const badge = card.querySelector('.status-badge');
+          if (badge) {
+            badge.classList.remove('pending');
+            badge.classList.add('cancelled');
+            badge.textContent = 'CANCELLED';
+          }
+          const actions = card.querySelectorAll('.ship-btn, .cancel-btn');
+          actions.forEach((a) => a.remove());
+        }
+      } catch (err) {
+        console.error('Error cancelling transaction:', err);
+      }
+    });
+  });
 }
 
 function buildQueryParams(page = 1) {
@@ -330,12 +428,10 @@ function renderCounts(counts) {
     }
   });
 
-  // Total status for ALL
   const totalStatus = counts.status.reduce((acc, curr) => acc + curr.count, 0);
   document.getElementById('count-all-status').textContent = totalStatus;
 }
 
-// Render list of transactions
 function renderTransactionsList(transactions, transactionTemplate) {
   reportSelection.reportSection.innerHTML = '';
 
@@ -365,14 +461,15 @@ function renderTransactionsList(transactions, transactionTemplate) {
   });
 
   attachInvoiceListeners();
+  attachShipCancelListeners();
 }
 
-// Attach listeners for invoice download buttons
 function attachInvoiceListeners() {
   document.querySelectorAll('.invoice-btn').forEach((btn) => {
     btn.addEventListener('click', async (event) => {
       try {
-        const id = event.target.value;
+        const id =
+          event.target.value || event.target.closest('.invoice-btn').value;
         const result = await api.get(
           `${config.TRANSACTION_BASE_URL}/generate-invoice/${id}`,
           { responseType: 'blob' }
@@ -383,7 +480,7 @@ function attachInvoiceListeners() {
 
         const pdfLink = document.createElement('a');
         pdfLink.href = url;
-        pdfLink.download = 'invoice.pdf';
+        pdfLink.download = `invoice-${id}.pdf`;
         pdfLink.click();
 
         window.URL.revokeObjectURL(url);
