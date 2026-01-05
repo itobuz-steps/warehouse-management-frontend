@@ -112,10 +112,6 @@ export async function renderNotifications(notifications, offset) {
         }
 
         try {
-          await api.patch(
-            `${config.NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
-          );
-
           e.target.innerText = 'Shipped';
           e.target.disabled = true;
 
@@ -124,6 +120,10 @@ export async function renderNotifications(notifications, offset) {
           if (cancelBtn) {
             cancelBtn.disabled = true;
           }
+
+          await api.patch(
+            `${config.NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
+          );
         } catch (err) {
           toastSection.innerHTML = displayToast.errorToast(err.message);
           setTimeout(() => (toastSection.innerHTML = ''), 3000);
@@ -143,10 +143,6 @@ export async function renderNotifications(notifications, offset) {
         }
 
         try {
-          await api.patch(
-            `${config.NOTIFICATION_BASE_URL}/cancel-shipment/${transactionId}`
-          );
-
           e.target.innerText = 'Cancelled';
           e.target.disabled = true;
 
@@ -155,6 +151,11 @@ export async function renderNotifications(notifications, offset) {
           if (shipBtn) {
             shipBtn.disabled = true;
           }
+
+          await api.patch(
+            `${config.NOTIFICATION_BASE_URL}/cancel-shipment/${transactionId}`
+          );
+
         } catch (err) {
           toastSection.innerHTML = displayToast.errorToast(err.message);
           setTimeout(() => (toastSection.innerHTML = ''), 3000);

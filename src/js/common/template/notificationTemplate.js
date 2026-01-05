@@ -1,5 +1,5 @@
 const createNotificationTemplate = (notification) => {
-  const unseenClass = !notification.seen ? 'bg-light' : '';
+  const cancelledClass = notification.isCancelled ? 'bg-danger-subtle' : '';
 
   const formattedDate = new Date(notification.createdAt).toLocaleString();
 
@@ -12,41 +12,37 @@ const createNotificationTemplate = (notification) => {
         <div class="mt-2 d-flex gap-2">
 
           <button 
-            class="btn btn-sm btn-primary ship-btn"
-            style="background-color: #864a5b; border-color: #2d292aff;"
+            class="btn btn-sm ship-btn"
             data-id="${notification.transactionId}">
-            Ship
+            <i class="fa-solid fa-truck-fast"></i> Ship
           </button>
 
           <button 
-            class="btn btn-sm btn-danger cancel-btn"
+            class="btn btn-sm cancel-btn"
+            style="background-color: #864a5b;"
             data-id="${notification.transactionId}">
-            Cancel
+             <i class="fa-solid fa-ban"></i> Cancel
           </button>
         </div>
       `;
     }
 
     if (notification.isShipped) {
-      shipmentDetails = `Shipped By: ${notification.reportedBy || notification.shippedBy}`;
+      shipmentDetails = `Shipped By: ${notification.reportedByName}`;
     }
 
     if (notification.isCancelled) {
-      shipmentDetails = `Cancelled By: ${notification.reportedBy}`;
+      shipmentDetails = `Cancelled By: ${notification.reportedByName}`;
     }
   }
 
   return `
- <div class="${notification.type} notif-item border-bottom py-2 px-3 ${unseenClass} ">
+ <div class="${notification.type} notif-item border-bottom py-2 px-3 ${cancelledClass}">
     <div class="fw-semibold mb-2">
     ${notification.title || 'Notification'}
     </div>
     <p class="mb-1 small text-muted">
     ${notification.message}
-    </p>
-
-    <p class="mb-1 small text-muted">
-    Transaction Id: ${notification.transactionId}
     </p>
 
     <p class="mb-1 small">
@@ -55,9 +51,9 @@ const createNotificationTemplate = (notification) => {
     
     ${buttons}
 
-    <div class="d-flex align-items-center mt-4 mb-2">
+    <div class="d-flex align-items-center mt-2 mb-2">
       <img 
-        src="${notification.performedByImage || '../../assets/images/profileImage.png'}"
+        src="${notification.performedByImage || '../../../assets/images/icon.png'}"
         alt="Profile"
         class="rounded-circle me-3"
         width="40"
