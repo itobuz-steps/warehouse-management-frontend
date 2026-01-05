@@ -215,10 +215,6 @@ $sidebar-full-width: 280px;
 
   @media (max-width: #{$desktop-breakpoint - 1px}) {
     margin-left: 0;
-
-    body.sidebar-open & {
-      margin-left: $sidebar-full-width;
-    }
   }
 }
 
