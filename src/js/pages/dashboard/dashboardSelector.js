@@ -5,6 +5,7 @@ const dashboardSelection = {
   addWarehouseButton: document.querySelector('.add-warehouse-btn'),
   addManagerOptions: document.querySelector('.managers-option'),
 
+  lineGraph: document.querySelector('#lineGraph'),
   barGraph: document.querySelector('#barGraph'),
   pieChart: document.querySelector('#pieChart'),
   lineChart: document.querySelector('#lineChart'),
