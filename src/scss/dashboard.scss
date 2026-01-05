@@ -3,7 +3,6 @@
 @import './common/variables';
 @import './common/animations';
 @import './common/root';
-@import './common/card';
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -127,9 +126,62 @@
   letter-spacing: -0.01em;
 }
 
+.dashboard-topbar {
+  @include dashboard-glass-card($radius-lg, 16px 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* LEFT */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+/* RIGHT */
+.topbar-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.topbar-hamburger {
+  width: 30px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border-radius: 10px;
+}
+
 /* Warehouse Select */
 .warehouse-select-wrapper {
   width: 100%;
+}
+
+/* Buttons */
+.dashboard-topbar .add-manager-btn {
+  @include dashboard-button($color-primary, $color-primary-dark);
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  flex: 1;
 }
 
 /* Notification Bell */
@@ -562,6 +614,7 @@
   grid-template-columns: 1fr;
   gap: 16px;
   margin-bottom: 24px;
+  margin-top: 12px;
 }
 
 .low-stock-card {
@@ -835,11 +888,27 @@
 }
 
 @media (min-width: 768px) {
-  .topbar .warehouse-select-wrapper {
+  .dashboard-topbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .topbar-hamburger {
+    top: 40px;
+  }
+
+  .topbar-right {
+    width: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+  }
+
+  .dashboard-topbar .warehouse-select-wrapper {
     width: 200px;
   }
 
-  .topbar .add-manager-btn {
+  .dashboard-topbar .add-manager-btn {
     flex: none;
   }
 
@@ -966,7 +1035,9 @@
 }
 
 @media (max-width: 400px) {
-  .table-card {
+  .low-stock-table-card,
+  .cancelled-table-card,
+  .adjustment-table-card {
     padding: 12px;
 
     table {

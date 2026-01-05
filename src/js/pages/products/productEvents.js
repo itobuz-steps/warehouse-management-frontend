@@ -1,17 +1,18 @@
+import * as bootstrap from 'bootstrap';
 import { productSelection } from './productSelector.js';
 import {
   openModal,
   closeModal,
   showToast,
-  // resetSearchFilters,
 } from '../../common/template/productTemplate.js';
 import {
   addProduct,
   deleteProduct,
   editProduct,
+  updateLimit,
 } from '../../common/api/productApiHelper.js';
 import { loadProducts } from './productSubscribe.js';
-import { getCurrentUser } from '../../common/api/HelperApi.js';
+import { getCurrentUser } from '../../common/api/helperApi.js';
 
 export const initEvents = () => {
   productSelection.addProductsButton.addEventListener('click', openModal);
@@ -35,6 +36,7 @@ export const handleAddProduct = async (e) => {
     productSelection.addProductForm.productDescription.value
   );
   formData.append('price', productSelection.addProductForm.productPrice.value);
+  formData.append('markup', productSelection.addProductForm.markup.value);
   formData.append('createdBy', user._id);
 
   [...productSelection.addProductForm.productImage.files].forEach((file) =>
@@ -59,7 +61,7 @@ export const handleAddProduct = async (e) => {
     loadProducts({ warehouseId, page: 1 });
   } catch (err) {
     console.error(err);
-    showToast('error', 'Error adding product');
+    showToast('error', err.response.data.message);
   }
 };
 
@@ -74,6 +76,8 @@ export function editProductHandler() {
     productSelection.modalCategory.textContent;
 
   productSelection.editPrice.value = productSelection.modalPrice.textContent;
+
+  productSelection.editMarkup.value = productSelection.modalMarkup.textContent;
 
   productSelection.editModal.classList.remove('hidden');
 }
@@ -96,6 +100,7 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
   formData.append('description', productSelection.editDescription.value);
   formData.append('category', productSelection.editCategory.value);
   formData.append('price', productSelection.editPrice.value);
+  formData.append('markup', productSelection.editMarkup.value);
 
   const files = productSelection.editImages.files;
 
@@ -114,7 +119,7 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
     showToast('success', res.data.message);
   } catch (err) {
     console.error(err);
-    showToast('error', 'Failed to update product');
+    showToast('error', err.response.data.message);
   }
 };
 
@@ -136,6 +141,21 @@ export async function handleDelete(selectedProductId) {
     showToast('success', res.data.message);
   } catch (err) {
     console.error(err);
-    showToast('error', 'Failed to delete product');
+    showToast('error', err.response.data.message);
+  }
+}
+
+export async function handleSaveLimit() {
+  try {
+    const res = await updateLimit(
+      productSelection.limitQuantityId.value,
+      productSelection.limitInput.value
+    );
+
+    bootstrap.Modal.getInstance(productSelection.limitModal).hide();
+    showToast('success', res.data.message);
+    productSelection.modal.classList.add('hidden');
+  } catch (err) {
+    showToast('error', err.response.data.message);
   }
 }

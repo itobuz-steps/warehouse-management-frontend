@@ -22,6 +22,8 @@ export const productSelection = {
   modalPrice: document.getElementById('modalPrice'),
   modalCategory: document.getElementById('modalCategory'),
   quantitySection: document.getElementById('quantitySection'),
+  modalMarkup: document.getElementById('modalMarkup'),
+  modalMarkupPrice: document.getElementById('modalMarkupPrice'),
 
   qrCodeSection: document.querySelector('#productQr'),
   qrCodeItem: document.querySelector('.qr-code'),
@@ -33,6 +35,7 @@ export const productSelection = {
   editDescription: document.getElementById('editDescription'),
   editCategory: document.getElementById('editCategory'),
   editPrice: document.getElementById('editPrice'),
+  editMarkup: document.getElementById('editMarkup'),
   editProductForm: document.getElementById('editProductForm'),
   editImages: document.getElementById('editImages'),
 
@@ -44,4 +47,9 @@ export const productSelection = {
   confirmDeleteModal: document.getElementById('confirmDeleteModal'),
   cancelDeleteBtn: document.getElementById('cancelDeleteBtn'),
   confirmDeleteBtn: document.getElementById('confirmDeleteBtn'),
+
+  limitQuantityId: document.getElementById('limitQuantityId'),
+  limitInput: document.getElementById('limitInput'),
+  limitModal: document.getElementById('limitModal'),
+  saveLimitBtn: document.getElementById('saveLimitBtn'),
 };

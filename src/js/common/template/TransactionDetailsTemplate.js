@@ -102,13 +102,32 @@ class TransactionDetailsTemplate {
                     Category: <span>${transaction.product.category}</span>
                   </div>
                   <div class="product-price product-item">
-                    Price: <span>₹${transaction.product.price.toFixed(2)}</span>
+                    Base Price:
+                    <span>₹${transaction.product.price.toFixed(2)}</span>
+                  </div>
+                  <div class="product-markup product-item">
+                    Markup:
+                    <span>${transaction.product.markup || 0}%</span>
+                  </div>
+                  <div class="product-price product-item">
+                    Unit Price (After Markup):
+                    <span>₹${(
+                      transaction.product.price +
+                      (transaction.product.price * (transaction.product.markup || 10)) / 100
+                    ).toFixed(2)}</span>
                   </div>
                   <div class="product-quantity product-item">
                     Quantity: <span>${transaction.quantity} unit(s)</span>
                   </div>
                   <div class="total-price product-item">
-                    Total Price: <span>₹${(transaction.quantity * transaction.product.price).toFixed(2)}</span>
+                    Total Price:
+                    <span>
+                      ₹${(
+                        (transaction.product.price +
+                          (transaction.product.price * (transaction.product.markup || 0)) / 100) *
+                        transaction.quantity
+                      ).toFixed(2)}
+                    </span>
                   </div>
                 </div>
                 <hr />
