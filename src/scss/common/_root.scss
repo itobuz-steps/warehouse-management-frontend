@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-// @import 'variables';
 
 * {
   margin: 0;
@@ -9,7 +8,7 @@
 }
 
 body {
-  font-family: "Montserrat", 'Noto Sans', sans-serif;
+  font-family: 'Montserrat', 'Noto Sans', sans-serif;
   background: linear-gradient(135deg, #f0f9ff 0%, #fde4d0 100%);
   min-height: 100vh;
   display: flex;

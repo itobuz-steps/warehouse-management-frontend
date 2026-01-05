@@ -13,6 +13,7 @@ const updateSpinner = document.getElementById('updateSpinner');
 export const updateUserSubscribe = async (event) => {
   event.preventDefault();
   const formData = new FormData(userManagementSelection.updateProfileForm);
+
   try {
     const res = await api.patch(
       `${config.PROFILE_BASE_URL}/update-profile`,
@@ -36,12 +37,22 @@ export const updateUserSubscribe = async (event) => {
     );
   } catch (err) {
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
-      err.message
+      err.response.data.message
     );
   } finally {
     setTimeout(() => {
       userManagementSelection.toastSection.innerHTML = '';
     }, 3000);
+  }
+};
+
+export const profileImagePreview = () => {
+  const file = userManagementSelection.profileImg.files[0];
+
+  userManagementSelection.confirmUpdate.disabled = false;
+
+  if (file) {
+    userManagementSelection.profileAvatar.style.backgroundImage = `url("${URL.createObjectURL(file)}")`;
   }
 };
 
