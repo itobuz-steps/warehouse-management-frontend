@@ -14,7 +14,6 @@
     />
     <script type="module" src="../js/pages/reports/reports.js" defer></script>
     <script type="module" src="../js/common/sidebar.js" defer></script>
-    <!-- <link rel="stylesheet" href="../scss/reports.scss" /> -->
   </head>
   <body>
     <div id="toastSection">
@@ -34,6 +33,10 @@
       >
         <h1 class="page-title ps-4">Transaction Reports</h1>
 
+        <button id="filtersToggleBtn" class="filters-toggle-btn d-lg-none">
+          <i class="fa fa-filter"></i> Filters
+        </button>
+
         <div class="dropdown warehouses">
           <button
             class="btn dropdown-toggle warehouse-dropdown"
@@ -51,9 +54,9 @@
         </div>
       </section>
       <div
-        class="reports-filter-details flex-column d-md-flex flex-lg-row gap-3 p-4"
+        class="reports-filter-details flex-column d-md-flex flex-lg-row gap-3 p-lg-4"
       >
-        <div class="reports-filter d-md-flex flex-column">
+        <div class="reports-filter flex-column">
           <section
             class="filter-transactions d-flex justify-content-center justify-content-lg-start align-content-center"
           >
@@ -177,10 +180,10 @@
           </section>
 
           <section
-            class="date-filter d-flex flex-column gap-md-3 gap-3 mt-3 justify-content-center justify-content-lg-start align-items-center"
+            class="date-filter d-flex flex-column gap-md-3 gap-3 mt-3 justify-content-center justify-content-lg-start align-items-start"
           >
             <div
-              class="date-input d-flex gap-1 align-items-center m-auto m-sm-0"
+              class="date-input d-flex flex-column gap-1 justify-content-start align-items-start m-sm-0"
             >
               <label for="startDate">From:</label>
               <input
@@ -192,7 +195,7 @@
             </div>
 
             <div
-              class="date-input d-flex gap-4 gap-sm-2 align-items-center m-auto m-sm-0"
+              class="date-input d-flex flex-column ms-auto gap-1 align-items-start m-sm-0"
             >
               <label for="endDate">To:</label>
               <input

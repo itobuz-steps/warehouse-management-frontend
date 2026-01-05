@@ -35,12 +35,33 @@ async function transactionDetailsLoad() {
 
     renderWarehouseDropdown(warehouses, transactionTemplate);
     attachEventListeners(user, warehouses, transactionTemplate);
+    setupMobileFiltersToggle();
 
     // Load ALL transactions by default
     loadTransactions('ALL', user, warehouses, transactionTemplate);
   } catch (err) {
     console.error('Error loading transaction details:', err);
   }
+}
+
+// Setup mobile filter toggle
+function setupMobileFiltersToggle() {
+  const btn = document.getElementById('filtersToggleBtn');
+  const filters = document.querySelector('.reports-filter');
+  if (!btn || !filters) return;
+
+  // initialize label
+  btn.innerHTML = filters.classList.contains('show')
+    ? '<i class="fas fa-chevron-up"></i> Hide Filters'
+    : '<i class="fa fa-filter"></i> Filters';
+
+  btn.addEventListener('click', () => {
+    filters.classList.toggle('show');
+    const isShown = filters.classList.contains('show');
+    btn.innerHTML = isShown
+      ? '<i class="fas fa-chevron-up"></i> Hide Filters'
+      : '<i class="fa fa-filter"></i> Filters';
+  });
 }
 
 // Render warehouse dropdown with specific warehouses
@@ -113,6 +134,14 @@ function updateActiveWarehouse(option) {
 
   option.classList.add('active');
   resetDateFilter();
+
+  // Close filters on mobile after selection
+  const filters = document.querySelector('.reports-filter');
+  const btn = document.getElementById('filtersToggleBtn');
+  if (window.innerWidth <= 991 && filters && btn) {
+    filters.classList.remove('show');
+    btn.innerHTML = '<i class="fa fa-filter"></i> Filters';
+  }
 }
 
 // Reset the date filter
