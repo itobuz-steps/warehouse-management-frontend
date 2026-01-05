@@ -71,7 +71,7 @@ const unverifiedManagerCard = (
             </p>
           </div>
 
-          <button class="btn-view w-100">Invite Again</button>
+          <button class="btn-view w-100" onclick = "sendInviteAgain('${email}')">Invite Again</button>
         </div>`;
 };
 
