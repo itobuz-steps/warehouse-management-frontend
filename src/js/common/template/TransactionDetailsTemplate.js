@@ -174,6 +174,10 @@ class TransactionDetailsTemplate {
                 <div class="detail-label">Category</div>
                 <div class="detail-value">${transaction.product.category}</div>
               </div>
+               <div class="detail-item">
+                <div class="detail-label">Markup</div>
+                <div class="detail-value">${transaction.product.markup ?? 10}</div>
+              </div>
               <div class="detail-item">
                 <div class="detail-label">Price per Unit</div>
                 <div class="detail-value">₹${transaction.product.price.toFixed(2)}</div>
@@ -235,9 +239,26 @@ class TransactionDetailsTemplate {
             </div>
           </div>
 
-          <button class="invoice-btn" value="${transaction._id}">
-            <i class="fa-solid fa-file-arrow-down"></i> Download Invoice
-          </button>
+          <div class="justify-md-between d-flex flex-column flex-md-row gap-2">
+            <button class="invoice-btn" value="${transaction._id}">
+              <i class="fa-solid fa-file-arrow-down"></i> Download Invoice
+            </button>
+
+            ${
+              !transaction.shipment ||
+              transaction.shipment.toUpperCase() === 'PENDING'
+                ? `
+            <button class="ship-btn" id="shipBtn" value="${transaction._id}">
+              <i class="fa-solid fa-truck-fast"></i> Ship
+            </button>
+
+            <button class="cancel-btn" id="cancelBtn" value="${transaction._id}">
+              <i class="fa-solid fa-ban"></i> Cancel
+            </button>
+            `
+                : ''
+            }
+          </div>
         </div>
       </div>
     `;

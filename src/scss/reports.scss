@@ -832,9 +832,10 @@ button.warehouse-dropdown {
   background-color: $color-primary-light;
 }
 
-.invoice-btn {
+.invoice-btn,
+.ship-btn,
+.cancel-btn {
   padding: 10px 24px;
-  background: $color-primary-dark;
   color: $color-white;
   border: none;
   border-radius: 6px;
@@ -851,6 +852,68 @@ button.warehouse-dropdown {
 
   i {
     margin-right: 6px;
+  }
+}
+
+.invoice-btn {
+  background: $color-primary-dark;
+}
+.ship-btn {
+  background: $color-in;
+}
+.cancel-btn {
+  background: $color-adjust;
+}
+
+/* Ship and Cancel buttons  */
+.actions-row {
+  margin-top: 12px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.actions-row .invoice-btn {
+  flex: 1.4;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.actions-row .ship-btn,
+.actions-row .cancel-btn {
+  flex: 1.4;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.actions-row .ship-btn {
+  background: $color-in;
+  color: $color-white;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+}
+
+.actions-row .cancel-btn {
+  background: $color-adjust;
+  color: $color-white;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .actions-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .actions-row .invoice-btn,
+  .actions-row .ship-btn,
+  .actions-row .cancel-btn {
+    width: 100%;
+    flex: none;
   }
 }
 
