@@ -1,67 +1,78 @@
-const verifiedManagerCard = (
-  id,
-  name,
-  email,
-  lastLogin,
-  isActive,
-  profileImage = '../../assets/images/profile_default.svg'
-) => {
-  return `<div class="manager-card">
-  <img src="${profileImage}" alt="Manager" class="manager-avatar" />
+const managerCard = (data) => {
+  return `<div class="user-card p-3 p-sm-4">
+          <div class="user-header">
+            <div class="user-avatar me-2">
+              <img
+                src="${data.profileImage}"
+                alt=""
+                class="w-100 h-100 rounded-circle border border-light-subtle"
+              />
+            </div>
+            <div class="user-info flex-fill">
+              <div class="user-name">${data.managerName}</div>
+              <div class="user-creation">Created on ${data.createdOn}</div>
+            </div>
+          </div>
 
-  <div class="manager-info">
-    <div class="manager-header">
-      <h5 class="manager-name">${name}</h5>
-      <i class="fas fa-check-circle verified"></i>
-    </div>
+          <div class="user-details">
+            <p class="user-email mb-1">
+              <i class="fas fa-envelope"></i>
+              ${data.managerEmail}
+            </p>
+            <p class="user-email">
+              <i class="fas fa-user"></i>
+              Last Login on ${data.lastLogin}
+            </p>
+          </div>
 
-    <p class="manager-email">${email}</p>
-
-    <p class="manager-last-login">
-      <i class="far fa-clock"></i> Last Login: ${lastLogin}
-    </p>
-
-
-    ${
-      isActive
-        ? `
-      <button class="block-user-btn" onclick="changeStatus('${id}')">
-        <i class="fas fa-ban"></i> Block User
-      </button>
-    `
-        : `
-      <button class="unblock-user-btn" onclick="changeStatus('${id}')">
-        <i class="fas fa-unlock"></i> Unblock User
-      </button>
-    `
-    }
-  </div>
-</div>
+          ${
+            data.isActive
+              ? `<button class="btn-view w-100" onclick="changeStatus('${data.managerId}')">Block User</button>`
+              : `<button class="btn-view w-100" onclick="changeStatus('${data.managerId}')">Unblock User</button>`
+          }
+        </div>
 `;
 };
 
 const unverifiedManagerCard = (
+  id,
+  name = 'Unverified Manager',
   email,
+  createdOn,
   profileImage = '../../assets/images/profile_default.svg'
 ) => {
-  return `<div class="manager-card">
-            <img
-              src=${profileImage}
-              alt="Manager"
-              class="manager-avatar"
-            />
-            <div class="manager-info">
-                <p class="manager-email">${email}</p>
+  return `<div class="user-card p-3 p-sm-4">
+          <div class="user-header">
+            <div class="user-avatar me-2">
+              <img
+                src="${profileImage}"
+                alt=""
+                class="w-100 h-100 rounded-circle border border-light-subtle"
+              />
             </div>
-          </div>`;
+            <div class="user-info flex-fill">
+              <div class="user-name">${name}</div>
+              <div class="user-creation">Created on ${createdOn}</div>
+            </div>
+          </div>
+
+          <div class="user-details">
+            <p class="user-email">
+              <i class="fas fa-envelope"></i>
+              ${email}
+            </p>
+          </div>
+
+          <button class="btn-view w-100" onclick = "sendInviteAgain('${email}')">Invite Again</button>
+        </div>`;
 };
 
 const emptyCard = () => {
   return `<div class="manager-card">
             <div class="manager-info">
-                <p class="manager-email">No Managers Found</p>
+                <p class="fw-semibold">No Managers Found</p>
             </div>
           </div>`;
 };
 
-export { verifiedManagerCard, unverifiedManagerCard, emptyCard };
+export { managerCard, unverifiedManagerCard, emptyCard };

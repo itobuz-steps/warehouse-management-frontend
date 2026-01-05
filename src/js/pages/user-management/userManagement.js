@@ -3,22 +3,28 @@ import '../../../scss/user-management.scss';
 import * as bootstrap from 'bootstrap';
 
 import { getUserDetailsSubscribe } from './userManagementSubscribe.js';
-import { updateUserSubscribe } from './updateProfile.js';
-import { deleteUserSubscribe } from './deleteUser.js';
+import { updateUserSubscribe, profileImagePreview } from './updateProfile.js';
 import userManagementSelection from './userManagementSelector.js';
+import toggleDisplay from './toggleDisplay.js';
+import sendInvite from './inviteManager.js';
 
+//handle toggle of button group
+toggleDisplay();
+
+// load page data
 document.addEventListener('DOMContentLoaded', getUserDetailsSubscribe);
 
-//delete profile
-userManagementSelection.confirmDelete.addEventListener('click', async () => {
-  await deleteUserSubscribe();
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-  window.location.href = '../pages/login.html';
-});
+//invite manager
+userManagementSelection.addManagerForm.addEventListener('submit', sendInvite);
 
 // update profile
 userManagementSelection.updateProfileForm.addEventListener(
   'submit',
   updateUserSubscribe
+);
+
+// preview Profile image
+userManagementSelection.profileImg.addEventListener(
+  'change',
+  profileImagePreview
 );

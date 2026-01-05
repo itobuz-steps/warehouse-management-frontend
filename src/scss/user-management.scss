@@ -3,6 +3,7 @@
 @import './common/mixins';
 @import './common/animations';
 @import './common/root';
+@import './common/card';
 
 .verified {
   color: $color-info;
@@ -14,255 +15,261 @@
   color: $color-primary-dark;
 }
 
-.user-management {
+// button group
+
+.btn-check:checked + label {
+  background-color: $color-primary !important;
+  border: 1px solid $color-primary !important;
+  font-weight: 500;
+}
+
+.btn-check:checked + label:hover {
+  background-color: $color-primary-dark !important;
+  border: 1px solid $color-primary !important;
+  font-weight: 500;
+}
+
+.btn-outline-primary {
+  border: 1px solid $color-primary !important;
+}
+
+.btn-outline-primary:hover {
+  border: 1px solid $color-primary-dark !important;
+}
+
+.btn-check:not(:checked) + label {
+  color: $color-primary;
+  font-weight: 500;
+}
+
+.btn-check:not(:checked) + label:hover {
+  color: $color-primary-dark;
+  font-weight: 500;
+}
+
+// add manager
+.add-manager-btn {
+  @include dashboard-button($color-primary, $color-primary-dark);
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  margin: 0px;
+}
+
+.user-role-badge {
+  display: inline-block;
+  background: $color-primary-dark;
+  color: $color-white;
+  padding: 5px 12px;
+  border-radius: $radius-sm;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.user-avatar-lg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: $shadow-sm;
+  border: 2px solid $color-primary-dark;
+  cursor: pointer;
+}
+
+.profile-image-container {
+  position: relative;
+  display: inline-block;
+  margin-top: -60px !important;
+  cursor: pointer;
+
+  .profile-image {
+    border-radius: 50%;
+    width: 11rem;
+    height: 11rem;
+    background-position: center;
+    background-size: cover;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 0 auto;
+  }
+
+  // Edit button overlay
+  .edit-overlay {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 11rem;
+    height: 11rem;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+
+    .edit-button {
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: #333;
+      }
+    }
+  }
+
+  // Hover effects
+  &:hover {
+    .profile-image {
+      filter: brightness(0.8);
+    }
+
+    .edit-overlay {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+
+  // Focus state for accessibility
+  &:focus-within {
+    .edit-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.status {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  line-height: 1rem;
+  margin-bottom: 1.3rem;
+}
+
+.status-value {
+  color: #212121;
+  font-weight: 700;
+}
+
+.status-text {
+  font-size: 0.8rem;
+  color: #7c7c7d;
+}
+
+.action {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+}
+
+.add-form {
+  .btn-primary {
+    @include dashboard-button($color-primary, $color-primary-dark);
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+/* User Grid */
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+}
+
+.user-card {
+  background: #ffffff;
+  border-radius: $radius-lg;
+  border: 1px solid #e8dfd8;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.user-card:hover {
+  box-shadow: 0 8px 24px rgba(30, 196, 196, 0.15);
+  transform: translateY(-2px);
+  border-color: $color-primary-light;
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #211b16;
+  margin-bottom: 0.25rem;
+}
+
+.user-creation {
+  color: $color-gray-600;
+  font-size: 0.9rem;
+}
+
+.user-email {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $color-primary;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.btn-view {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid $color-primary;
+  border-radius: $radius-sm;
+  color: $color-primary;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-view:hover {
+  background: $color-primary;
+  color: $color-white;
+}
+
+@include responsive {
   .user-profile-card {
-    @include card($radius-lg, 25px 30px, $shadow-md);
-    @include flex(space-between, center, row, 10px);
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-
-    .user-info {
-      @include flex(flex-start, center, row, 20px);
-
-      .user-avatar-lg {
-        width: 130px;
-        height: 130px;
-        border-radius: 50%;
-        object-fit: cover;
-        box-shadow: $shadow-sm;
-        border: 2px solid $color-primary-dark;
-      }
-
-      .user-details {
-        .user-name {
-          font-weight: 700;
-          font-size: 1.5rem;
-          color: $text-primary;
-        }
-        .user-email {
-          color: $text-secondary;
-          font-size: 0.95rem;
-          margin-bottom: 5px;
-
-          .mail {
-            color: $color-primary;
-          }
-        }
-        .user-role-badge {
-          display: inline-block;
-          background: $color-primary-dark;
-          color: $color-white;
-          padding: 5px 12px;
-          border-radius: $radius-sm;
-          font-size: 0.85rem;
-          font-weight: 600;
-        }
-      }
-    }
-
-    @media (max-width: 840px) {
-      .user-info {
-        @include flex(flex-start, center, column, 20px);
-      }
-    }
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
 
     .user-actions {
-      @include flex(flex-end, center, row, 10px);
-      flex-wrap: wrap;
-
-      .action {
-        @include button($color-primary, $color-primary-dark);
-      }
-    }
-  }
-
-  /* Manager Section */
-  .manager-list-section {
-    @include card($radius-md, 25px 30px);
-    h3 {
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: $text-primary;
-    }
-
-    .manager-grid {
-      @include grid(auto-fit, 220px);
-
-      .manager-card {
-        @include card($radius-md, 15px);
-        text-align: center;
-        transition: $transition;
-        &:hover {
-          transform: translateY(-5px);
-        }
-
-        .manager-avatar {
-          width: 70px;
-          height: 70px;
-          border-radius: 50%;
-          margin-bottom: 10px;
-        }
-
-        .manager-name {
-          font-weight: 600;
-          color: $text-primary;
-        }
-
-        .manager-email {
-          color: $text-secondary;
-          font-size: 0.9rem;
-        }
-        .manager-info {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .manager-header {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          margin-bottom: 5px;
-
-          .manager-name {
-            margin: 0;
-            font-size: 1.1rem;
-            line-height: 1.2;
-          }
-        }
-
-        .manager-last-login {
-          color: $text-light;
-          font-size: 0.85rem;
-          margin: 5px 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-
-          i {
-            color: $text-light;
-            font-size: 0.9rem;
-          }
-        }
-
-        .block-user-btn,
-        .unblock-user-btn {
-          background-color: $color-danger;
-          color: $color-white;
-          border: none;
-          padding: 8px 16px;
-          border-radius: 6px;
-          font-size: 0.85rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          margin-top: 5px;
-
-          i {
-            font-size: 0.9rem;
-          }
-
-          &:hover {
-            background-color: $color-primary-dark;
-          }
-        }
-
-        .unblock-user-btn {
-          background-color: $color-success;
-          &:hover {
-            background-color: darken($color: $color-success, $amount: 30%);
-          }
-        }
-      }
-    }
-  }
-
-  .warehouse-list-section {
-    @include card($radius-md, 20px 25px);
-    display: none;
-
-    h3 {
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: $text-primary;
-    }
-
-    .warehouse-grid {
-      .warehouse-card {
-        @include card($radius-md, 15px);
-        height: auto;
-        width: 48%;
-        transition: $transition;
-        margin-left: 10px;
-        border: none;
-        border-left: 5px solid $color-primary;
-        box-shadow: $shadow-md;
-
-        &:hover {
-          transform: translateY(-5px);
-        }
-
-        @media (max-width: 900px) {
-          width: 100%;
-          margin-left: 0px;
-        }
-
-        .warehouse-name {
-          font-weight: 600;
-          color: $color-primary-dark;
-        }
-
-        .warehouse-detail {
-          color: $text-secondary;
-          font-size: 1rem;
-          margin-top: 10px;
-
-          .storage {
-            color: $color-white;
-            font-size: 12px;
-            font-weight: 500;
-          }
-          .low {
-            background-color: $color-success;
-          }
-          .moderate {
-            background-color: $color-warning;
-          }
-          .high {
-            background-color: $color-danger;
-          }
-        }
-
-        .warehouse-button {
-          background-color: $color-primary;
-          border: 2px solid $color-primary;
-          color: $color-white;
-          font-weight: 500;
-
-          &:hover {
-            background-color: $color-primary-dark;
-            border: 2px solid $color-primary-dark;
-          }
-        }
-      }
-    }
-  }
-
-  @include responsive {
-    .user-profile-card {
-      flex-direction: column;
-      text-align: center;
-      align-items: center;
-
-      .user-actions {
-        justify-content: center;
-      }
+      justify-content: center;
     }
   }
 }
@@ -279,6 +286,124 @@ button.action {
   }
 }
 
+button.action:disabled {
+  background-color: $color-primary;
+  border: 1px solid $color-primary-dark;
+}
 .edit-title {
   color: $color-primary-dark;
+}
+
+.warehouse-card {
+  background: #ffffff;
+  border-radius: $radius-lg;
+  border: 1px solid #e8dfd8;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.warehouse-card:hover {
+  box-shadow: 0 8px 24px rgba($color-primary, 0.15);
+  transform: translateY(-2px);
+  border-color: $color-primary-light;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+}
+
+.warehouse-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: $color-primary;
+  line-height: 1.3;
+  flex-shrink: 0;
+}
+
+.warehouse-detail {
+  color: $color-gray-600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+}
+
+.warehouse-detail i {
+  width: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  color: $color-primary !important;
+}
+
+.scrollable-description {
+  flex: 0 0 auto;
+  overflow-y: auto;
+  padding-right: 8px;
+  margin-bottom: 1rem;
+}
+
+.description-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.location-text {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.storage {
+  font-weight: 500;
+  font-size: 0.85rem;
+  display: inline-block;
+  min-width: 70px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.storage.low {
+  background: linear-gradient(135deg, #fee 0%, #fff5f5 100%);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.storage.medium {
+  background: linear-gradient(135deg, #fff3cd 0%, #fff8e1 100%);
+  color: #856404;
+  border: 1px solid rgba(133, 100, 4, 0.2);
+}
+
+.storage.high {
+  background: linear-gradient(135deg, #d4edda 0%, #e8f5e9 100%);
+  color: #155724;
+  border: 1px solid rgba(21, 87, 36, 0.2);
+}
+
+.warehouse-button {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid $color-primary;
+  border-radius: $radius-sm;
+  color: $color-primary;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.warehouse-button:hover {
+  background: $color-primary;
+  color: $color-white;
+  transform: translateY(-1px);
+}
+
+/* For equal height cards in grid */
+.user-grid .warehouse-card {
+  height: 100%;
 }
