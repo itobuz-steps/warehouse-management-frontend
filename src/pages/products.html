@@ -12,6 +12,8 @@
     <!-- Sidebar -->
     <div id="sidebar-container"></div>
 
+    <div id="notifications-container"></div>
+
     <div class="main-content">
       <div id="toastSection">
         <!-- custom toast message -->
@@ -28,14 +30,11 @@
             <option value="">Warehouses</option>
           </select>
         </div>
-        <div class="d-flex align-items-center gap-2">
-          <button class="btn theme-button w-100" id="addProducts">
-            ✚ Add Products
-          </button>
-          <a
-            href="/pages/analytics.html"
-            class="btn theme-button"
-          >
+        <div
+          class="d-flex align-items-center justify-content-center flex-wrap gap-1"
+        >
+          <button class="btn theme-button" id="addProducts">✚ Product</button>
+          <a href="/pages/analytics.html" class="btn btn-sm theme-button">
             <i class="fa-solid fa-chart-line me-1"></i>
           </a>
           <a
@@ -45,6 +44,21 @@
           >
             <i class="fa-solid fa-trash-arrow-up"></i>
           </a>
+          <div
+            class="notif-bell position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNotifications"
+            aria-controls="offcanvasNotifications"
+          >
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display: none"
+            >
+              0
+            </span>
+          </div>
         </div>
       </div>
 
@@ -150,7 +164,7 @@
               <button
                 type="button"
                 id="closeModal"
-                class="btn btn-secondary cancel-btn"
+                class="btn cancel-btn btn-secondary"
               >
                 Cancel
               </button>
@@ -397,4 +411,5 @@
       <div id="pagination" class="pagination"></div>
     </div>
   </body>
+  <script type="module" src="../js/common/injectNotificationCanvas.js"></script>
 </html>

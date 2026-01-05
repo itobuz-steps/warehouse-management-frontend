@@ -9,15 +9,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <script type="module" src="../js/common/sidebar.js" defer></script>
-    <script
-      type="module"
-      src="../js/common/notifications/notification.js"
-    ></script>
-
-    <!-- <script
-      type="module"
-      src="../js/common/notifications/notification.js"
-    ></script> -->
 
     <link
       rel="stylesheet"
@@ -29,6 +20,8 @@
     <div id="toastSection">
       <!-- custom toast message -->
     </div>
+
+    <div id="notifications-container"></div>
 
     <!-- Add Manager Modal -->
     <div
@@ -135,45 +128,6 @@
               0
             </span>
           </div>
-        </div>
-      </div>
-
-      <!-- Notification Offcanvas -->
-      <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="offcanvasNotifications"
-        aria-labelledby="offcanvasNotificationsLabel"
-      >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNotificationsLabel">
-            Notifications
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-
-        <!-- SCROLLABLE BODY -->
-        <div class="offcanvas-body" style="overflow-y: auto">
-          <!-- Notification List -->
-          <div id="notif-list">
-            <p class="text-muted text-center">Loading notifications...</p>
-          </div>
-
-          <!-- Loader -->
-          <div
-            id="loaderContainer"
-            style="display: none; text-align: center; padding: 20px"
-          >
-            <div class="spinner-border text-primary" role="status"></div>
-          </div>
-
-          <!-- Intersection Observer Target -->
-          <div id="sentinel" style="height: 1px"></div>
         </div>
       </div>
 
@@ -372,6 +326,10 @@
     <script
       type="module"
       src="../js/pages/dashboard/dashboardSelector.js"
+    ></script>
+    <script
+      type="module"
+      src="../js/common/injectNotificationCanvas.js"
     ></script>
   </body>
 </html>

@@ -18,11 +18,29 @@
     <!-- Sidebar -->
     <div id="sidebar-container"></div>
 
+    <div id="notifications-container"></div>
+
     <!-- Main Analytics Page -->
     <main class="main-content pt-3">
       <!-- ANALYTICS TOP BAR -->
-      <div class="page-header topbar">
-        <h2>Manage Transactions</h2>
+      <div class="page-header topbar align-content-center">
+        <h2 class="text-center">Product Analytics</h2>
+
+        <div
+          class="notif-bell position-relative"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNotifications"
+          aria-controls="offcanvasNotifications"
+        >
+          <i class="fa-regular fa-bell"></i>
+          <span
+            id="notif-count"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            style="display: none"
+          >
+            0
+          </span>
+        </div>
       </div>
 
       <form id="analyticsForm" class="analytics-form">
@@ -100,4 +118,5 @@
   </body>
 
   <script type="module" src="../js/pages/analytics/analytics.js"></script>
+  <script type="module" src="../js/common/injectNotificationCanvas.js"></script>
 </html>

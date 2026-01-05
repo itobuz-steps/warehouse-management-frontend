@@ -1,11 +1,11 @@
 import notificationSelection from './notificationSelector';
-import { loadNotifications, markAllAsSeen } from './notificationSubscribe';
+import { markAllAsSeen } from './notificationSubscribe';
 
-let notificationOffset = 0;
+// let notificationOffset = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadNotifications(notificationOffset);
-  notificationOffset += 10;
+  // await loadNotifications(notificationOffset);
+  // notificationOffset += 10;
 });
 
 notificationSelection.notificationBell.addEventListener('click', async () => {

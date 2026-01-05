@@ -101,7 +101,7 @@ export async function renderNotifications(notifications, offset) {
     });
 
     // ship buttons
-    const shipButtons = document.querySelectorAll('.ship-btn');
+    const shipButtons = document.querySelectorAll('.ship-button');
 
     shipButtons.forEach((btn) => {
       btn.addEventListener('click', async (e) => {
@@ -115,7 +115,7 @@ export async function renderNotifications(notifications, offset) {
           e.target.innerText = 'Shipped';
           e.target.disabled = true;
 
-          const cancelBtn = btn.parentElement.querySelector('.cancel-btn');
+          const cancelBtn = btn.parentElement.querySelector('.cancel-button');
 
           if (cancelBtn) {
             cancelBtn.disabled = true;
@@ -132,7 +132,7 @@ export async function renderNotifications(notifications, offset) {
     });
 
     // cancel buttons
-    const cancelButtons = document.querySelectorAll('.cancel-btn');
+    const cancelButtons = document.querySelectorAll('.cancel-button');
 
     cancelButtons.forEach((btn) => {
       btn.addEventListener('click', async (e) => {
@@ -146,7 +146,7 @@ export async function renderNotifications(notifications, offset) {
           e.target.innerText = 'Cancelled';
           e.target.disabled = true;
 
-          const shipBtn = btn.parentElement.querySelector('.ship-btn');
+          const shipBtn = btn.parentElement.querySelector('.ship-button');
 
           if (shipBtn) {
             shipBtn.disabled = true;

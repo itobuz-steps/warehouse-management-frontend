@@ -12,13 +12,13 @@ const createNotificationTemplate = (notification) => {
         <div class="mt-2 d-flex gap-2">
 
           <button 
-            class="btn btn-sm ship-btn"
+            class="btn btn-sm ship-button"
             data-id="${notification.transactionId}">
             <i class="fa-solid fa-truck-fast"></i> Ship
           </button>
 
           <button 
-            class="btn btn-sm cancel-btn"
+            class="btn btn-sm cancel-button"
             style="background-color: #864a5b;"
             data-id="${notification.transactionId}">
              <i class="fa-solid fa-ban"></i> Cancel
