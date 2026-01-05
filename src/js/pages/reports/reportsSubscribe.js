@@ -48,15 +48,15 @@ function setupMobileFiltersToggle() {
   if (!btn || !filters) return;
 
   btn.innerHTML = filters.classList.contains('show')
-    ? '<i class="fas fa-chevron-up"></i> Hide Filters'
-    : '<i class="fa fa-filter"></i> Filters';
+    ? '<i class="fas fa-chevron-up"></i>'
+    : '<i class="fa fa-filter"></i>';
 
   btn.addEventListener('click', () => {
     filters.classList.toggle('show');
     const isShown = filters.classList.contains('show');
     btn.innerHTML = isShown
-      ? '<i class="fas fa-chevron-up"></i> Hide Filters'
-      : '<i class="fa fa-filter"></i> Filters';
+      ? '<i class="fas fa-chevron-up"></i>'
+      : '<i class="fa fa-filter"></i>';
   });
 }
 
