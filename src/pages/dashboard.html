@@ -76,7 +76,7 @@
     <div id="sidebar-container"></div>
 
     <!-- Main Dashboard -->
-    <main class="main-content pt-3">
+    <main class="main-content">
       <!-- DASHBOARD TOP BAR -->
       <div class="dashboard-topbar">
         <!-- Left -->
@@ -89,19 +89,35 @@
           <!-- Warehouse Select -->
           <div class="warehouse-select-wrapper">
             <select id="warehouseSelect" class="form-control warehouse-select">
-              <!-- dynamic -->
+              <option value="">No Warehouses</option>
             </select>
             <i class="select-arrow fa-solid fa-angle-down"></i>
           </div>
 
+          <a
+            href="/pages/transaction.html"
+            class="btn theme-button stocks-block"
+            title="Transactions"
+          >
+            <i class="fas fa-chart-line"></i> Stocks
+          </a>
+
           <!-- Add Manager -->
           <button
-            class="add-manager-btn"
+            class="add-manager-btn flex-none btn theme-button"
             data-bs-toggle="modal"
             data-bs-target="#addManagerModal"
+            title="Add Manager"
           >
-            + Manager
+            <i class="fa-solid fa-user-plus"></i>
           </button>
+          <a
+            href="/pages/inventory.html"
+            class="btn theme-button"
+            title="Warehouse"
+          >
+            <i class="fas fa-warehouse"></i>
+          </a>
 
           <!-- Notifications -->
           <div
@@ -278,7 +294,8 @@
             <i class="fa-solid fa-file-excel"></i> Export
           </button>
         </div>
-        <div class="table-card low-stock-card">
+
+        <div class="low-stock-table-card low-stock-card">
           <h5>LOW QUANTITY STOCK</h5>
 
           <div class="table-scroll-wrapper">
@@ -292,13 +309,45 @@
               </thead>
               <tbody id="lowStockTableBody">
                 <!-- dynamic rows -->
-                <!--
-          <tr>
-            <td>Wireless Earbuds</td>
-            <td>5 units</td>
-            <td><span class="badge">Low</span></td>
-          </tr>
-          -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="cancelled-table-card low-stock-card">
+          <h5>MOST CANCELLED PRODUCTS</h5>
+
+          <div class="table-scroll-wrapper">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody id="cancelledProductsTableBody">
+                <!-- dynamic rows will go here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="adjustment-table-card low-stock-card">
+          <h5>MOST ADJUSTED PRODUCTS</h5>
+
+          <div class="table-scroll-wrapper">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Quantity</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="adjustedProductsTableBody">
+                <!-- dynamic rows will go here -->
               </tbody>
             </table>
           </div>

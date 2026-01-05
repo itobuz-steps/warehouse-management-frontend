@@ -1,6 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import { transactionSelectors } from '../../pages/transaction/transactionSelector.js';
-import TransactionModalTemplate from '../template/transactionModalTemplate.js';
+import TransactionModalTemplate from '../template/TransactionModalTemplate.js';
 
 const template = new TransactionModalTemplate();
 
@@ -95,9 +95,6 @@ export async function confirmTransaction(type) {
         address: document.getElementById('customerAddress')
           ? document.getElementById('customerAddress').value
           : '',
-        // orderNumber: document.getElementById('orderNumber')
-        //   ? document.getElementById('orderNumber').value
-        //   : '',
       };
       const notes = document.getElementById('outNotes')
         ? document.getElementById('outNotes').value

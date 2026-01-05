@@ -18,9 +18,17 @@ const dashboardSelection = {
   inventoryInput: document.querySelector('#inventoryInput'),
   purchaseQuantity: document.querySelector('#purchaseQuantity'),
   saleQuantity: document.querySelector('#saleQuantity'),
+
   lowStockTable: document.querySelector('#lowStockTableBody'),
+  cancelledTable: document.querySelector('#cancelledProductsTableBody'),
+  adjustmentTable: document.querySelector('#adjustedProductsTableBody'),
+
   shipmentInput: document.querySelector('#shipmentInput'),
-  tableCard: document.querySelector('.table-card'),
+
+  lowStockTableCard: document.querySelector('.low-stock-table-card'),
+  adjustmentTableCard: document.querySelector('.adjustment-table-card '),
+  cancelledTableCard: document.querySelector('.cancelled-table-card'),
+
   recentActivityList: document.querySelector('#recentActivityList'),
 
   topFiveExport: document.querySelector('#exportTop5'),
