@@ -763,6 +763,84 @@ const showProfitLossSubscribe = async (
   }
 };
 
+const transactionExportSubscribe = async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-product-transaction-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'weekly-transactions.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const categoryExportSubscribe = async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-inventory-category-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'inventory-category.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const topFiveExportSubscribe = async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-top-products-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'top-products.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export {
   showTopProductsSubscribe,
   showInventoryCategorySubscribe,
@@ -775,4 +853,7 @@ export {
   showRecentTransactions,
   showTopSellingProductsSubscribe,
   showProfitLossSubscribe,
+  transactionExportSubscribe,
+  categoryExportSubscribe,
+  topFiveExportSubscribe,
 };

@@ -37,6 +37,15 @@ const dashboardSelection = {
   transactionsExport: document.querySelector('#exportTransactions'),
   chartCard: document.querySelectorAll('.chart-card'),
   noDashboardBox: document.querySelector('.no-dashboard-box'),
+
+  modeRadios: document.querySelectorAll('input[name="mode"]'),
+  dateGroup: document.getElementById('dateGroup'),
+  fromInput: document.getElementById('fromDate'),
+  toInput: document.getElementById('toDate'),
+
+  selectedMode: document.querySelector('input[name="mode"]:checked'),
+
+  weekly: document.getElementById('weekly'),
 };
 
 export default dashboardSelection;
