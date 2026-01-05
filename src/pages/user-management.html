@@ -230,6 +230,8 @@
       <!-- Divider -->
       <div class="divider w-100 border-top my-4 border-secondary-subtle"></div>
 
+      <h5 class="d-none" id="managerTitle">Your Warehouses</h5>
+
       <!-- User Grid -->
       <div class="user-grid gap-3 d-none" id="showActiveUser">
         <!-- all active user card for admin -->
@@ -243,12 +245,9 @@
         <!-- all blocked user card for admin -->
       </div>
 
-      <section class="warehouse-list-section mt-4">
-        <p class="my-5"></p>
-        <div class="warehouse-grid row" id="not-verified-manager-grid">
-          <!-- Warehouses that managers had -->
-        </div>
-      </section>
+      <div class="user-grid gap-3 d-none" id="showWarehouses">
+        <!-- all warehouses under this manager -->
+      </div>
     </main>
 
     <script

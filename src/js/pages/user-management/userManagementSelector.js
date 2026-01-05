@@ -25,10 +25,8 @@ const userManagementSelection = {
   name: document.getElementById('name'),
   updateProfileForm: document.querySelector('#updateProfile'),
   toastSection: document.getElementById('toastSection'),
-  warehouseDetailsSelection: document.querySelector('.warehouse-list-section'),
-  warehouseGrid: document.querySelector('.warehouse-grid'),
-  noWarehouseParagraph: document.querySelector('.warehouse-list-section p'),
   lastLogin: document.getElementById('lastLogin'),
+  warehouseSection: document.getElementById('showWarehouses'),
 };
 
 export default userManagementSelection;

@@ -11,7 +11,6 @@ function clearProfileData() {
   userManagementSelection.activeManagerGrid.innerHTML = '';
   userManagementSelection.blockedManagerGrid.innerHTML = '';
   userManagementSelection.pendingManagerGrid.innerHTML = '';
-  userManagementSelection.warehouseGrid.innerHTML = '';
 }
 
 export default function displayProfile(user) {

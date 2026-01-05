@@ -28,36 +28,34 @@ export const getUserDetailsSubscribe = async () => {
       displayVerifiedManagerCard(verifiedManagers);
       displayPendingManagerCard(unverifiedManagers);
     } else if (user.role === 'manager') {
-      // userManagementSelection.managerView.forEach((element) => {
-      //   element.style.display = 'none';
-      // });
-      // userManagementSelection.warehouseDetailsSelection.style.display = 'block';
-      // document.getElementById('adminToggle').style.display = 'none';
-      // const warehouses = await getUserWarehouses();
-      // if (!warehouses.length) {
-      //   userManagementSelection.noWarehouseParagraph.style.display = 'block';
-      //   userManagementSelection.noWarehouseParagraph.innerText = `No warehouse assigned yet!`;
-      //   return;
-      // }
-      // userManagementSelection.noWarehouseParagraph.style.display = 'none';
-      // warehouses.forEach(async (warehouse) => {
-      //   const res = await api.get(
-      //     `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${warehouse._id}`
-      //   );
-      //   const capacityPercentage = res.data.data.percentage;
-      //   let text;
-      //   if (capacityPercentage < 50) {
-      //     text = 'LOW';
-      //   } else if (capacityPercentage >= 50 && capacityPercentage <= 80) {
-      //     text = 'MODERATE';
-      //   } else if (capacityPercentage > 80) {
-      //     text = 'HIGH';
-      //   }
-      //   userManagementSelection.warehouseGrid.innerHTML += addWarehouseDetails(
-      //     warehouse,
-      //     text
-      //   );
-      // });
+      userManagementSelection.warehouseSection.classList.remove('d-none');
+      document.getElementById('managerTitle').classList.remove('d-none');
+
+      const warehouses = await getUserWarehouses();
+
+      if (!warehouses.length) {
+        userManagementSelection.warehouseSection.innerHTML = `No warehouse assigned yet`;
+      }
+
+      warehouses.forEach(async (warehouse) => {
+        const res = await api.get(
+          `${config.WAREHOUSE_BASE_URL}/get-warehouse-capacity/${warehouse._id}`
+        );
+
+        const capacityPercentage = res.data.data.percentage;
+        let text;
+
+        if (capacityPercentage < 50) {
+          text = 'LOW';
+        } else if (capacityPercentage >= 50 && capacityPercentage <= 80) {
+          text = 'MODERATE';
+        } else if (capacityPercentage > 80) {
+          text = 'HIGH';
+        }
+
+        userManagementSelection.warehouseSection.innerHTML +=
+          addWarehouseDetails(warehouse, text);
+      });
     }
   } catch (err) {
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
