@@ -12,11 +12,13 @@
     <script
       type="module"
       src="../js/common/browserNotifications/browserNotification.js"
+      defer
     ></script>
 
     <script
       type="module"
       src="../js/common/browserNotifications/browserNotification.js"
+      defer
     ></script>
 
     <link
@@ -350,6 +352,32 @@
                 <!-- dynamic rows will go here -->
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-3">
+        <div class="chart-card">
+          <h5>PROFIT & LOSS ANALYSIS</h5>
+
+          <div class="mode-group">
+            <input type="radio" id="weekly" name="mode" value="week" checked />
+            <label for="weekly">Weekly</label>
+
+            <input type="radio" id="monthly" name="mode" value="month" />
+            <label for="monthly">Monthly</label>
+
+            <input type="radio" id="custom" name="mode" value="custom" />
+            <label for="custom">Custom Date Range</label>
+          </div>
+
+          <div class="date-group" id="dateGroup">
+            <label>From: <input type="date" id="fromDate" /></label>
+            <label>To: <input type="date" id="toDate" /></label>
+          </div>
+
+          <div class="chart-container bar-chart-container">
+            <canvas id="lineGraph"></canvas>
           </div>
         </div>
       </section>
