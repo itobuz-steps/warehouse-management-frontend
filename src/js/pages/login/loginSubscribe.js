@@ -25,7 +25,7 @@ const loginSubscribe = async (event) => {
     localStorage.setItem('refresh_token', response.data.data.refreshToken);
 
     const subscription = await registerAndSubscribe();
-    console.log(subscription);
+    // console.log(subscription);
 
     toastSection.innerHTML = displayToast.successToast(response.data.message);
 

@@ -78,7 +78,6 @@ export const showManagerOptions = async () => {
       false
     );
 
-    console.log(response.data.message);
   } catch (error) {
     toastSection.innerHTML = displayToast.errorToast(error.message);
   } finally {

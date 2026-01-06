@@ -43,7 +43,6 @@ export async function displayWarehouse() {
     inventorySelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
-    console.log(err)
   } finally {
     setTimeout(() => {
       inventorySelection.toastSection.innerHTML = '';

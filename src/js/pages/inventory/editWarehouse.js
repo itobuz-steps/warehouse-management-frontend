@@ -74,7 +74,7 @@ export const selectedManagerOptions = async (selectedManagers) => {
       false
     );
 
-    console.log(response.data.message);
+    // console.log(response.data.message);
   } catch (error) {
     inventorySelection.toastSection.innerHTML = displayToast.errorToast(
       error.message

@@ -51,8 +51,6 @@ export default class Templates {
     if (user === 'admin') {
       return `
             <p><i class="fas fa-warehouse"></i> No warehouse assigned yet! 
-            <a href="/pages/inventory.html" class="text-info">Assign Warehouse</a> 
-            or 
             <a
               class="add-manager-btn text-success"
               data-bs-toggle="modal"
@@ -60,7 +58,9 @@ export default class Templates {
               title="Add Manager"
             >
                 <i class="fa-solid fa-user-plus"></i> Add Manager
-            </a></p>`;
+            </a>
+            or 
+            <a href="/pages/inventory.html" class="text-info">Assign Warehouse</a> </p>`;
     } else {
       return `
             <p><i class="fas fa-warehouse"></i> No warehouse assigned yet! 

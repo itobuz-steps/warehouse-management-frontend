@@ -17,13 +17,6 @@ const getProductModalElements = () => ({
 export function initTransactionProductEvents() {
   const { addBtn, closeBtn, form, modal } = getProductModalElements();
 
-  console.log('Initializing transaction product events', {
-    addBtn,
-    closeBtn,
-    form,
-    modal,
-  });
-
   if (addBtn) {
     addBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -49,7 +42,6 @@ export function initTransactionProductEvents() {
 
 export const openProductModal = () => {
   const { modal } = getProductModalElements();
-  console.log('Opening modal:', modal);
   if (modal) {
     modal.style.display = 'flex';
     modal.style.visibility = 'visible';

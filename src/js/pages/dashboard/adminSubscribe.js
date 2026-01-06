@@ -16,7 +16,6 @@ export const addManagerSubscribe = async (event) => {
       email,
     });
 
-    console.log(response);
     toastSection.innerHTML = displayToast.successToast(response.data.message);
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.response.data.message);

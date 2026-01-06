@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 notificationSelection.notificationBell.addEventListener('click', async () => {
-  console.log('mark all seen called');
+  // console.log('mark all seen called');
   await markAllAsSeen();
 });
 

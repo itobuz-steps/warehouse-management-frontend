@@ -61,8 +61,6 @@ async function changeStatus(managerId) {
     const response = await api.patch(
       `${config.PROFILE_BASE_URL}/change-user-status/${managerId}`
     );
-
-    console.log(response);
     await getUserDetailsSubscribe();
 
     userManagementSelection.toastSection.innerHTML = displayToast.successToast(
