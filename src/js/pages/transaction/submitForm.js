@@ -85,6 +85,8 @@ export default async function submitForm(type) {
 
     const res = await api.post(url, body);
 
+    transactionSelectors.form.reset();
+
     submitSpinner.classList.add('d-none');
 
     showToast('success', res.data.message);
