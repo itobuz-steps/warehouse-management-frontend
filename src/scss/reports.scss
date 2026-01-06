@@ -380,11 +380,8 @@ button.filter-btn {
 }
 
 // Load More Button
-.d-flex.justify-content-center {
-  margin-top: 30px;
-}
-
 #loadMoreBtn {
+  width: 60%;
   padding: 12px 20px;
   background: $color-primary-dark;
   color: $color-white;
