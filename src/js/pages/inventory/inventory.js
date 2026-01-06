@@ -12,18 +12,7 @@ import { updateWarehouse, selectedManagerOptions } from './editWarehouse.js';
 import inventorySelection from './inventorySelector.js';
 
 const displayToast = new Templates();
-// const toastSection = document.getElementById('toastSection');
-// const addWarehouseForm = document.getElementById('addWarehouseForm');
-// const addWarehouseButton = document.getElementById('addWarehouseBtn');
-// const deleteWarehouseBtn = document.getElementById('deleteWarehouseBtn');
-// const editWarehouseForm = document.getElementById('editWarehouseForm');
-// const editWarehouseName = document.getElementById('editWarehouseName');
-// const editWarehouseAddress = document.getElementById('editWarehouseAddress');
-// const editWarehouseDescription = document.getElementById(
-//   'editWarehouseDescription'
-// );
 
-// add warehouse
 inventorySelection.addWarehouseForm.addEventListener(
   'submit',
   addWarehouseSubscribe
@@ -31,7 +20,7 @@ inventorySelection.addWarehouseForm.addEventListener(
 inventorySelection.addWarehouseButton.addEventListener(
   'click',
   showManagerOptions
-); // Get all managers when Add-Warehouse button triggered
+);
 
 // display warehouse
 displayWarehouse();

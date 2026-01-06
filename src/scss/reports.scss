@@ -4,6 +4,7 @@
 @import './common/mixins';
 @import './common/animations';
 @import './common/card';
+@import './common/notification';
 
 $color-in: $color-success;
 $color-in-light: #dcfce7;
@@ -74,7 +75,7 @@ $color-adjust-light: #fee2e2;
   padding: 20px;
   box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
   border: 1px solid rgba(15, 23, 42, 0.06);
-  z-index: 10;
+  // z-index: 10;
   transition:
     box-shadow 160ms ease,
     transform 160ms ease;
@@ -86,7 +87,7 @@ $color-adjust-light: #fee2e2;
     padding: 14px;
     margin-bottom: 16px;
     box-shadow: 0 4px 12px rgba(16, 24, 40, 0.04);
-    z-index: 15;
+    // z-index: 15;
     display: none !important;
   }
 
@@ -484,6 +485,7 @@ body {
 
 button.warehouse-dropdown {
   @include button();
+  padding: 10px;
 }
 
 .reports-filter {
@@ -496,7 +498,7 @@ button.warehouse-dropdown {
   padding: 24px 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid #e5e7eb;
-  z-index: 10;
+  // z-index: 10;
 
   @media (max-width: 991px) {
     width: 100%;
@@ -505,7 +507,7 @@ button.warehouse-dropdown {
     padding: 16px;
     margin-bottom: 16px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    z-index: 15;
+    // z-index: 15;
   }
 }
 

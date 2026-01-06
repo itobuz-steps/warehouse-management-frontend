@@ -85,19 +85,6 @@ export default async function submitForm(type) {
 
     const res = await api.post(url, body);
 
-    // Reset form & UI
-    // transactionSelectors.form.reset();
-    // Object.values(transactionSelectors.sections).forEach((s) =>
-    //   s.classList.add('d-none')
-    // );
-    // Object.values(containers).forEach((c) => (c.innerHTML = ''));
-
-    // const warehouseDropdown = document.getElementById('warehouseDropdown');
-
-    // if (warehouseDropdown) {
-    //   warehouseDropdown.classList.add('d-none');
-    // }
-
     submitSpinner.classList.add('d-none');
 
     showToast('success', res.data.message);

@@ -7,14 +7,6 @@ import * as bootstrap from 'bootstrap';
 import inventorySelection from './inventorySelector.js';
 
 const displayToast = new Templates();
-// const toastSection = document.getElementById('toastSection');
-// const editWarehouseName = document.getElementById('editWarehouseName');
-// const editWarehouseAddress = document.getElementById('editWarehouseAddress');
-// const editWarehouseDescription = document.getElementById(
-//   'editWarehouseDescription'
-// );
-// const editWarehouseForm = document.getElementById('editWarehouseForm');
-// const editWarehouseModal = document.getElementById('editWarehouseModal');
 const editModalObject = new bootstrap.Modal(
   inventorySelection.editWarehouseModal
 );

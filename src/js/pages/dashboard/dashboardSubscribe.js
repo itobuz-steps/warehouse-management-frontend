@@ -454,8 +454,8 @@ const noWarehouseDisplay = () => {
   dashboardSelection.adjustmentTableCard.style.display = 'none';
   dashboardSelection.cancelledTableCard.style.display = 'none';
   dashboardSelection.noDashboardBox.style.display = 'flex';
-  dashboardSelection.noDashboardBox.innerHTML =
-    displayToast.noWarehouseMessage();
+  // dashboardSelection.noDashboardBox.innerHTML =
+  //   displayToast.noWarehouseMessage();
 
   dashboardSelection.chartCard.forEach((chart) => {
     chart.style.display = 'none';
@@ -600,6 +600,8 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
 
     if (!warehouses.length) {
       noWarehouseDisplay();
+      dashboardSelection.noDashboardBox.innerHTML =
+        displayToast.noWarehouseMessage(user.role);
       return false;
     }
 
