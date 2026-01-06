@@ -2,6 +2,10 @@
 import config from '../../config/config';
 import api from '../../api/interceptor';
 import { transactionSelectors } from './transactionSelector';
+import {
+  productOptionsTemplate,
+  productRowTemplate,
+} from '../../common/template/transactionDropdown';
 
 const { containers, warehouses } = transactionSelectors;
 const { sourceWarehouse, destinationWarehouse } = warehouses;
@@ -56,7 +60,6 @@ export async function displayProducts(type) {
         warehouseProducts = wpRes.data?.data || [];
       }
     } else {
-
       if (!warehouseId || warehouseId.trim() === '') {
         container.innerHTML =
           "<p class='text-muted'>Please select a warehouse first.</p>";
@@ -146,39 +149,7 @@ function addProductRow(container, products, existingProductIds = new Set()) {
   }
 
   // Dropdown + Quantity
-  row.innerHTML = `
-    <div class="custom-dropdown">
-      <button type="button" class="dropdown-toggle form-control text-start h-46" data-value="">
-        <img src="" class="dropdown-thumb d-none" />
-        <span>Select Product</span>
-      </button>
-
-      <div class="dropdown-menu p-2 border rounded bg-white shadow-sm"
-           style="display: none; max-height: 250px; overflow-y: auto;">
-        ${availableProducts
-          .map((p) => {
-            const product = isRawProduct ? p : p.product;
-            const img = product.productImage[0] || '';
-            return `
-              <div class="dropdown-item d-flex align-items-center product-option"
-                data-id="${product._id}"
-                data-name="${product.name}"
-                data-img="${img}"
-                data-qty="${isRawProduct ? '' : p.quantity}">
-                <img src="${img}" width="32" height="32"
-                     class="me-2" style="object-fit:cover;border-radius:4px;">
-                <span>${product.name}${isRawProduct ? '' : ` (Quantity: ${p.quantity})`}</span>
-              </div>
-            `;
-          })
-          .join('')}
-      </div>
-    </div>
-
-    <input type="number" min="1" class="form-control quantityInput h-46" placeholder="Quantity"/>
-
-    <input type="number" min="1" class="form-control limitInput h-46"  placeholder="Limit" style="display:none"/>
-  `;
+  row.innerHTML = productRowTemplate(availableProducts, isRawProduct);
 
   // Elements
   const toggleBtn = row.querySelector('.dropdown-toggle');
@@ -266,22 +237,7 @@ function updateAllProductDropdowns(
     });
 
     // Rebuild dropdown menu
-    menu.innerHTML = availableProducts
-      .map((p) => {
-        const product = isRawProduct ? p : p.product;
-        const img = product.productImage[0] || '';
-        return `
-          <div class="dropdown-item d-flex align-items-center product-option"
-               data-id="${product._id}"
-               data-name="${product.name}"
-               data-img="${img}"
-               data-qty="${isRawProduct ? '' : p.quantity}">
-            <img src="${img}" width="32" height="32" class="me-2" style="object-fit:cover;border-radius:4px;">
-            <span>${product.name}${isRawProduct ? '' : ` (Quantity: ${p.quantity})`}</span>
-          </div>
-        `;
-      })
-      .join('');
+    menu.innerHTML = productOptionsTemplate(availableProducts, isRawProduct);
 
     // Rebind selection logic
     menu.querySelectorAll('.product-option').forEach((item) => {

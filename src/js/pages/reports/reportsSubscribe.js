@@ -126,7 +126,7 @@ function updateActiveWarehouse(option) {
   const btn = document.getElementById('filtersToggleBtn');
   if (window.innerWidth <= 991 && filters && btn) {
     filters.classList.remove('show');
-    btn.innerHTML = '<i class="fa fa-filter"></i> Filters';
+    btn.innerHTML = '<i class="fa fa-filter"></i>';
   }
 }
 

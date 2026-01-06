@@ -48,7 +48,6 @@ export default class Templates {
   };
 
   noWarehouseMessage = (user) => {
-    // Check the user role to decide what link or button to show
     if (user === 'admin') {
       return `
             <p><i class="fas fa-warehouse"></i> No warehouse assigned yet! 

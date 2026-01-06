@@ -1,4 +1,3 @@
-// js/pages/transaction/transaction.js
 import '../../../scss/transaction.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
@@ -10,7 +9,6 @@ import {
 import { addProductRowForContainer } from './displayProducts.js';
 import submitForm from './submitForm.js';
 import { transactionSelectors } from './transactionSelector.js';
-// import Templates from '../../common/Templates';
 import { initTransactionProductEvents } from './transactionProductEvents.js';
 
 // const toastMessage = new Templates();

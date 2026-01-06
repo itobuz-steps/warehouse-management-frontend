@@ -6,9 +6,6 @@ import * as bootstrap from 'bootstrap';
 import inventorySelection from './inventorySelector.js';
 
 const displayToast = new Templates();
-// const toastSection = document.getElementById('toastSection');
-// const deleteWarehouseBtn = document.getElementById('deleteWarehouseBtn');
-// const deleteWarehouseModal = document.getElementById('deleteWarehouseModal');
 const deleteModalObject = new bootstrap.Modal(
   inventorySelection.deleteWarehouseModal
 );
