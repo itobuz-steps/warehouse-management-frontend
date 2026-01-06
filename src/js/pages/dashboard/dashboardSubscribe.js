@@ -368,8 +368,6 @@ const loadMostCancelledProducts = async (warehouseId, limit = 5) => {
       `${config.DASHBOARD_BASE_URL}/get-cancelled-orders/${warehouseId}?limit=${limit}`
     );
 
-    console.log(res);
-
     const items = res.data.data;
     dashboardSelection.cancelledTable.innerHTML = '';
 
@@ -690,13 +688,10 @@ const showProfitLossSubscribe = async (
     const res = await api.get(url);
 
     const profitLossData = res.data.data;
-    console.log(profitLossData);
 
     const labels = profitLossData.map((d) => d.label);
     const nets = profitLossData.map((d) => d.net);
 
-    console.log(labels);
-    console.log(nets);
 
     if (lineGraph2) {
       lineGraph2.destroy();

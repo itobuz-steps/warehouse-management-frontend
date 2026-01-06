@@ -66,7 +66,6 @@ class ForgotPasswordSubscribe {
         }, 1500);
       }
     } catch (err) {
-      console.log(err);
       forgotPasswordSelection.toastSection.innerHTML = toastMessage.errorToast(
         err.response.data.message
       );
@@ -88,8 +87,6 @@ class ForgotPasswordSubscribe {
         email,
       });
 
-      console.log(res);
-
       if (res.data.success) {
         forgotPasswordSelection.emailForm.style.display = 'none';
         forgotPasswordSelection.otpForm.style.display = 'block';
@@ -98,7 +95,6 @@ class ForgotPasswordSubscribe {
           toastMessage.successToast('OTP sent again! Check your Email');
       }
     } catch (err) {
-      console.log(err);
       forgotPasswordSelection.toastSection.innerHTML = toastMessage.errorToast(
         err.response.data.message
       );

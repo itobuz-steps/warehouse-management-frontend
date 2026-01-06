@@ -52,7 +52,6 @@ export async function displayProducts(type) {
       products = allRes.data?.data.products || [];
 
       if (warehouseId && warehouseId.trim() !== '') {
-        console.log(warehouseId);
         // Fetch warehouse existing products TOO
         const wpRes = await api.get(
           `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`

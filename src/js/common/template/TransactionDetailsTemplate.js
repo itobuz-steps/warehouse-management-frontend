@@ -114,8 +114,9 @@ class TransactionDetailsTemplate {
   };
 
   stockOutDetails = (transaction) => {
-    const totalPrice = (
-      transaction.quantity * transaction.product.price
+    const sellPrice = (
+      transaction.product.price +
+      (transaction.product.price * (transaction.product.markup || 10)) / 100
     ).toFixed(2);
     const date = new Date(transaction.createdAt).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -135,7 +136,7 @@ class TransactionDetailsTemplate {
             </div>
           </div>
           <div>
-            <div class="transaction-amount">₹${totalPrice}</div>
+            <div class="transaction-amount">₹${sellPrice * transaction.quantity}</div>
             <div class="status-badge ${transaction.shipment?.toLowerCase() || 'pending'}">${transaction.shipment || 'PENDING'}</div>
           </div>
         </div>
@@ -175,11 +176,11 @@ class TransactionDetailsTemplate {
                 <div class="detail-value">${transaction.product.category}</div>
               </div>
                <div class="detail-item">
-                <div class="detail-label">Markup</div>
-                <div class="detail-value">${transaction.product.markup ?? 10}</div>
+                <div class="detail-label">Selling Price</div>
+                <div class="detail-value">₹${sellPrice}</div>
               </div>
               <div class="detail-item">
-                <div class="detail-label">Price per Unit</div>
+                <div class="detail-label">Cost Price</div>
                 <div class="detail-value">₹${transaction.product.price.toFixed(2)}</div>
               </div>
               <div class="detail-item">
