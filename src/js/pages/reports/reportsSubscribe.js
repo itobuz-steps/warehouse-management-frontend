@@ -279,7 +279,7 @@ function attachShipCancelListeners() {
       document.getElementById('shipBtn').disabled = true;
       try {
         await api.patch(
-          `${config.BROWSER_NOTIFICATION_BASE_URL}/change-shipment-status/${id}`
+          `${config.NOTIFICATION_BASE_URL}/change-shipment-status/${id}`
         );
         const card = document.querySelector(
           `.transaction-card[data-id="${id}"]`
@@ -307,7 +307,7 @@ function attachShipCancelListeners() {
       document.getElementById('cancelBtn').disabled = true;
       try {
         await api.patch(
-          `${config.BROWSER_NOTIFICATION_BASE_URL}/cancel-shipment/${id}`
+          `${config.NOTIFICATION_BASE_URL}/cancel-shipment/${id}`
         );
         const card = document.querySelector(
           `.transaction-card[data-id="${id}"]`

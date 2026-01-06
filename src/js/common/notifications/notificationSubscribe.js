@@ -91,17 +91,9 @@ export async function loadNotifications(offset) {
 // Render notifications
 export async function renderNotifications(notifications, offset) {
   try {
-    // Show loading message while fetching notifications
-    notificationSelection.notificationList.innerHTML =
-      '<p class="text-muted text-center">Loading notifications...</p>';
-
-    if (offset === 0 && notifications.length === 0) {
-      notificationSelection.notificationList.innerHTML =
-        '<p class="text-muted text-center">No Notifications</p>';
-      return;
+    if (offset === 0) {
+      notificationSelection.notificationList.innerHTML = '';
     }
-
-    notificationSelection.notificationList.innerHTML = '';
 
     notifications.forEach((notification) => {
       notificationSelection.notificationList.innerHTML +=
