@@ -15,9 +15,11 @@ import {
   loadMostCancelledProducts,
   showTopSellingProductsSubscribe,
   loadMostAdjustedProducts,
+  showProfitLossSubscribe,
+  transactionExportSubscribe,
+  categoryExportSubscribe,
+  topFiveExportSubscribe,
 } from './dashboardSubscribe.js';
-import api from '../../api/interceptor.js';
-import config from '../../config/config.js';
 
 dashboardSelection.addManagerForm.addEventListener(
   'submit',
@@ -25,7 +27,6 @@ dashboardSelection.addManagerForm.addEventListener(
 );
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log(dashboardSelection.warehouseSelect);
   const warehouse = await fetchUserAndWarehouses(
     dashboardSelection.warehouseSelect
   );
@@ -42,10 +43,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadMostAdjustedProducts(firstWarehouse);
     await showRecentTransactions(firstWarehouse);
     await showTopSellingProductsSubscribe(firstWarehouse);
+    await showProfitLossSubscribe(firstWarehouse, 'week');
+
+    dashboardSelection.dateGroup.style.display = 'none';
   }
 });
 
 dashboardSelection.warehouseSelect.addEventListener('change', async () => {
+  dashboardSelection.weekly.checked = true;
+
+  // Hide custom date inputs
+  dashboardSelection.dateGroup.style.display = 'none';
+  dashboardSelection.fromInput.value = '';
+  dashboardSelection.toInput.value = '';
+
   const selectedWarehouseId = dashboardSelection.warehouseSelect.value;
   await showTopProductsSubscribe(selectedWarehouseId);
   await showInventoryCategorySubscribe(selectedWarehouseId);
@@ -53,85 +64,83 @@ dashboardSelection.warehouseSelect.addEventListener('change', async () => {
   await showTransactionStatsSubscribe(selectedWarehouseId);
   await showLowStockProducts(selectedWarehouseId);
   await loadMostCancelledProducts(selectedWarehouseId);
-  await loadMostAdjustedProducts(selectedWarehouseId)
+  await loadMostAdjustedProducts(selectedWarehouseId);
   await showRecentTransactions(selectedWarehouseId);
   await showTopSellingProductsSubscribe(selectedWarehouseId);
-});
+  await showProfitLossSubscribe(selectedWarehouseId, 'week');
 
-dashboardSelection.topFiveExport.addEventListener('click', async () => {
-  try {
-    const id = dashboardSelection.warehouseSelect.value;
+  const selectedMode = document.querySelector(
+    'input[name="mode"]:checked'
+  ).value;
 
-    const result = await api.get(
-      `${config.DASHBOARD_BASE_URL}/get-top-products-chart-data/${id}`,
-      { responseType: 'blob' }
-    );
-
-    const blob = new Blob([result.data], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
-
-    const url = window.URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'top-products.xlsx';
-    link.click();
-
-    window.URL.revokeObjectURL(url);
-  } catch (err) {
-    console.error(err);
+  if (selectedMode === 'custom') {
+    dateGroup.style.display = 'flex';
+    // reload custom chart only if both dates selected
+    if (fromInput.value && toInput.value) {
+      await showProfitLossSubscribe(
+        selectedWarehouseId,
+        null,
+        fromInput.value,
+        toInput.value
+      );
+    }
+  } else {
+    dateGroup.style.display = 'none';
+    await showProfitLossSubscribe(selectedWarehouseId, selectedMode);
   }
 });
 
-dashboardSelection.categoryExport.addEventListener('click', async () => {
-  try {
-    const id = dashboardSelection.warehouseSelect.value;
+dashboardSelection.topFiveExport.addEventListener(
+  'click',
+  topFiveExportSubscribe
+);
 
-    const result = await api.get(
-      `${config.DASHBOARD_BASE_URL}/get-inventory-category-chart-data/${id}`,
-      { responseType: 'blob' }
-    );
+dashboardSelection.categoryExport.addEventListener(
+  'click',
+  categoryExportSubscribe
+);
 
-    const blob = new Blob([result.data], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
+dashboardSelection.transactionsExport.addEventListener(
+  'click',
+  transactionExportSubscribe
+);
 
-    const url = window.URL.createObjectURL(blob);
+// Show/hide date inputs based on mode
+const modeRadios = dashboardSelection.modeRadios;
+const dateGroup = dashboardSelection.dateGroup;
+const fromInput = dashboardSelection.fromInput;
+const toInput = dashboardSelection.toInput;
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'inventory-category.xlsx';
-    link.click();
+const handleModeChange = async () => {
+  const selectedMode = document.querySelector(
+    'input[name="mode"]:checked'
+  ).value;
+  const warehouseId = dashboardSelection.warehouseSelect.value;
 
-    window.URL.revokeObjectURL(url);
-  } catch (err) {
-    console.error(err);
+  if (selectedMode === 'custom') {
+    dateGroup.style.display = 'flex'; // show date inputs
+  } else {
+    dateGroup.style.display = 'none';
+    await showProfitLossSubscribe(warehouseId, selectedMode);
   }
+};
+
+// Attach listener to radio buttons
+modeRadios.forEach((radio) => {
+  radio.addEventListener('change', handleModeChange);
 });
 
-dashboardSelection.transactionsExport.addEventListener('click', async () => {
-  try {
-    const id = dashboardSelection.warehouseSelect.value;
+// Handle custom date range submit (or on date change)
+const handleCustomDateChange = async () => {
+  const warehouseId = dashboardSelection.warehouseSelect.value;
+  const from = fromInput.value;
+  const to = toInput.value;
 
-    const result = await api.get(
-      `${config.DASHBOARD_BASE_URL}/get-product-transaction-chart-data/${id}`,
-      { responseType: 'blob' }
-    );
-
-    const blob = new Blob([result.data], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
-
-    const url = window.URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'weekly-transactions.xlsx';
-    link.click();
-
-    window.URL.revokeObjectURL(url);
-  } catch (err) {
-    console.error(err);
+  if (!from || !to) {
+    return; // wait until both dates selected
   }
-});
+  await showProfitLossSubscribe(warehouseId, null, from, to); // pass from/to
+};
+
+fromInput.addEventListener('change', handleCustomDateChange);
+toInput.addEventListener('change', handleCustomDateChange);

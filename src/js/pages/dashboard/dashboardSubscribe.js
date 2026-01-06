@@ -38,11 +38,12 @@ Chart.register(
 
 const displayToast = new Templates();
 
+let lineGraph2 = null;
 let barGraph = null;
 let doughnut = null;
 let lineGraph = null;
 
-async function showTopProductsSubscribe(warehouseId) {
+const showTopProductsSubscribe = async (warehouseId) => {
   try {
     if (!warehouseId) {
       dashboardSelection.chartCard.style.display = 'none';
@@ -135,7 +136,7 @@ async function showTopProductsSubscribe(warehouseId) {
       dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
-}
+};
 
 const showInventoryCategorySubscribe = async (warehouseId) => {
   const res = await api.get(
@@ -630,7 +631,7 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
   }
 };
 
-async function showTopSellingProductsSubscribe(warehouseId) {
+const showTopSellingProductsSubscribe = async (warehouseId) => {
   try {
     if (!warehouseId) {
       dashboardSelection.chartCard.style.display = 'none';
@@ -669,7 +670,185 @@ async function showTopSellingProductsSubscribe(warehouseId) {
       dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
-}
+};
+
+const showProfitLossSubscribe = async (
+  warehouseId,
+  option = null,
+  from = null,
+  to = null
+) => {
+  try {
+    let url = `${config.DASHBOARD_BASE_URL}/get-profit-loss?warehouseId=${warehouseId}`;
+
+    if (option) {
+      url += `&period=${option}`;
+    } else if (from && to) {
+      url += `&from=${from}&to=${to}`;
+    }
+
+    const res = await api.get(url);
+
+    const profitLossData = res.data.data;
+    console.log(profitLossData);
+
+    const labels = profitLossData.map((d) => d.label);
+    const nets = profitLossData.map((d) => d.net);
+
+    console.log(labels);
+    console.log(nets);
+
+    if (lineGraph2) {
+      lineGraph2.destroy();
+    }
+
+    lineGraph2 = new Chart(dashboardSelection.lineGraph, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Net Amount',
+            data: nets,
+            borderWidth: 2,
+            fill: false,
+            borderColor: '#055d5dff',
+            backgroundColor: '#076e6eff',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        tension: 0.4,
+        maintainAspectRatio: false,
+        plugins: { title: { display: true, text: 'Profit and Loss' } },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Days',
+              color: '#015453',
+              font: {
+                size: 15,
+              },
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Net Amount',
+              color: '#015453',
+              font: {
+                size: 15,
+              },
+            },
+            ticks: {
+              stepSize: 1,
+            },
+
+            beginAtZero: true,
+          },
+        },
+        datasets: {
+          line: {
+            segment: {
+              borderColor: (ctx) => {
+                const value = ctx.p1.parsed.y;
+                return value >= 0 ? '#0b9671ff' : '#ec0d3dff';
+              },
+            },
+          },
+        },
+      },
+    });
+  } catch (err) {
+    dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
+      err.message
+    );
+
+    setTimeout(() => {
+      dashboardSelection.toastSection.innerHTML = '';
+    }, 3000);
+  }
+};
+
+const transactionExportSubscribe = async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-product-transaction-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'weekly-transactions.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const categoryExportSubscribe = async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-inventory-category-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'inventory-category.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const topFiveExportSubscribe = async () => {
+  try {
+    const id = dashboardSelection.warehouseSelect.value;
+
+    const result = await api.get(
+      `${config.DASHBOARD_BASE_URL}/get-top-products-chart-data/${id}`,
+      { responseType: 'blob' }
+    );
+
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'top-products.xlsx';
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export {
   showTopProductsSubscribe,
@@ -682,4 +861,8 @@ export {
   loadMostAdjustedProducts,
   showRecentTransactions,
   showTopSellingProductsSubscribe,
+  showProfitLossSubscribe,
+  transactionExportSubscribe,
+  categoryExportSubscribe,
+  topFiveExportSubscribe,
 };
