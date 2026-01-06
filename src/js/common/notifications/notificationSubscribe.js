@@ -91,9 +91,17 @@ export async function loadNotifications(offset) {
 // Render notifications
 export async function renderNotifications(notifications, offset) {
   try {
-    if (offset === 0) {
-      notificationSelection.notificationList.innerHTML = '';
+    // Show loading message while fetching notifications
+    notificationSelection.notificationList.innerHTML =
+      '<p class="text-muted text-center">Loading notifications...</p>';
+
+    if (offset === 0 && notifications.length === 0) {
+      notificationSelection.notificationList.innerHTML =
+        '<p class="text-muted text-center">No Notifications</p>';
+      return;
     }
+
+    notificationSelection.notificationList.innerHTML = '';
 
     notifications.forEach((notification) => {
       notificationSelection.notificationList.innerHTML +=
@@ -155,7 +163,6 @@ export async function renderNotifications(notifications, offset) {
           await api.patch(
             `${config.NOTIFICATION_BASE_URL}/cancel-shipment/${transactionId}`
           );
-
         } catch (err) {
           toastSection.innerHTML = displayToast.errorToast(err.message);
           setTimeout(() => (toastSection.innerHTML = ''), 3000);
