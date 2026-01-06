@@ -580,6 +580,12 @@ const showRecentTransactions = async (warehouseId) => {
       dashboardSelection.toastSection.innerHTML = '';
     }, 3000);
   }
+  dashboardSelection.recentActivityList.addEventListener('click', (e) => {
+    const activityItem = e.target.closest('.activity-item');
+    if (!activityItem) return;
+
+    window.location.href = 'http://localhost:8080/pages/reports.html';
+  });
 };
 
 const fetchUserAndWarehouses = async (warehouseSelect) => {
