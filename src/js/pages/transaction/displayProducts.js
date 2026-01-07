@@ -70,7 +70,7 @@ export async function displayProducts(type) {
         `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
       );
       products = sourceRes.data?.data || [];
-      console.log(destinationWarehouse.value);
+      warehouseProducts = products;
 
       if (type === 'TRANSFER' && destinationWarehouse.value) {
         const destRes = await api.get(
@@ -78,7 +78,6 @@ export async function displayProducts(type) {
         );
         warehouseProducts = destRes.data?.data || [];
       }
-      warehouseProducts = products;
     }
 
     const existingProductIds = new Set(
