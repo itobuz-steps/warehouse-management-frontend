@@ -1,0 +1,408 @@
+// auth.scss
+@import 'bootstrap/scss/bootstrap';
+@import './common/variables';
+
+// Custom animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Main container
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  max-width: 900px;
+  width: 100%;
+  background: $color-white;
+  border-radius: $spacing-4;
+  overflow: hidden;
+  @include shadow-xl;
+  animation: fadeIn 0.8s ease-out;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    min-height: auto;
+    margin: $spacing-4;
+  }
+
+  // Left Panel - Brand/Image Section
+  .brand-section {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      $color-secondary 0%,
+      $color-primary 100%
+    );
+    padding: $spacing-12;
+    @include flex-column;
+    justify-content: space-between;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 1;
+      margin: auto auto;
+      text-align: center;
+      animation: fadeIn 1s ease-out 0.2s both;
+
+      .logo {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        @include flex-center;
+
+        img {
+          width: 150%;
+          height: 150%;
+          aspect-ratio: 1;
+        }
+      }
+
+      h1 {
+        font-size: $font-size-3xl;
+        font-weight: $font-weight-bold;
+        color: $color-white;
+        margin-bottom: $spacing-3;
+        line-height: 1.2;
+      }
+
+      .tagline {
+        font-size: $font-size-lg;
+        color: rgba($color-white, 0.9);
+        font-weight: $font-weight-normal;
+        max-width: 320px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+    }
+  }
+
+  // Right Panel - Login Form Section
+  .login-section {
+    padding: $spacing-12 $spacing-10;
+    @include flex-column;
+    justify-content: center;
+    background: $color-white;
+
+    @media (max-width: $breakpoint-lg) {
+      padding: $spacing-8 $spacing-6;
+    }
+
+    .welcome-back {
+      margin-bottom: $spacing-8;
+
+      h2 {
+        font-size: $font-size-2xl;
+        font-weight: $font-weight-bold;
+        color: $text-primary;
+        margin-bottom: $spacing-2;
+      }
+
+      .subtitle {
+        font-size: $font-size-base;
+        color: $text-secondary;
+        line-height: 1.5;
+      }
+    }
+
+    .login-form {
+      .form-group {
+        margin-bottom: $spacing-6;
+
+        label {
+          display: block;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-medium;
+          color: $text-primary;
+          margin-bottom: $spacing-2;
+        }
+
+        .input-wrapper {
+          position: relative;
+
+          .input-icon {
+            position: absolute;
+            left: $spacing-4;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $color-gray-400;
+            font-size: $font-size-lg;
+          }
+
+          input {
+            width: 100%;
+            padding: $spacing-3 $spacing-4 $spacing-3 $spacing-10;
+            border: 2px solid $color-gray-200;
+            border-radius: $spacing-2;
+            font-size: $font-size-base;
+            font-family: $font-family-base;
+            color: $text-primary;
+            background: $color-white;
+            @include transition-all;
+
+            &::placeholder {
+              color: $color-gray-400;
+            }
+
+            &:focus {
+              outline: none;
+              border-color: $color-primary;
+              box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+            }
+
+            &:hover:not(:focus) {
+              border-color: $color-gray-300;
+            }
+          }
+        }
+
+        .password-toggle {
+          position: absolute;
+          right: $spacing-4;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          color: $color-gray-400;
+          cursor: pointer;
+          padding: $spacing-1;
+          @include transition-all;
+
+          &:hover {
+            color: $color-gray-600;
+          }
+        }
+      }
+
+      .form-options {
+        @include flex-between;
+        margin-bottom: $spacing-6;
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: $spacing-3;
+        background: $color-primary;
+        color: $color-white;
+        border: none;
+        border-radius: $spacing-2;
+        font-size: $font-size-base;
+        font-weight: $font-weight-semibold;
+        cursor: pointer;
+        @include transition-all;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba($color-white, 0.3);
+          transform: translate(-50%, -50%);
+          transition:
+            width 0.6s,
+            height 0.6s;
+        }
+
+        .btn-icon {
+          margin-right: $spacing-2;
+        }
+      }
+    }
+  }
+
+  .forgot-password {
+    font-size: $font-size-sm;
+    color: $color-primary;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    @include transition-all;
+
+    &:hover {
+      color: $color-primary-dark;
+      text-decoration: underline;
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: $breakpoint-md) {
+    .main-container {
+      .brand-section {
+        padding: $spacing-8 $spacing-6;
+
+        .brand-content {
+          h1 {
+            font-size: $font-size-2xl;
+          }
+
+          .tagline {
+            font-size: $font-size-base;
+          }
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+          gap: $spacing-3;
+        }
+      }
+
+      .login-section {
+        padding: $spacing-6 $spacing-4;
+
+        .welcome-back {
+          h2 {
+            font-size: $font-size-xl;
+          }
+        }
+
+        .login-form {
+          .social-login {
+            grid-template-columns: 1fr;
+          }
+        }
+      }
+    }
+  }
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  color: $color-primary;
+  font-size: $font-size-sm;
+  border: 1px solid $color-primary;
+  border-radius: 5px;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  padding: $spacing-2;
+  text-decoration: none;
+  @include transition-all;
+
+  &:disabled {
+    color: $color-gray-400;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .btn-icon {
+    margin-right: $spacing-2;
+  }
+}
+
+/* Custom styles for unauthorized and expired messages */
+.unauthorized {
+  max-width: 600px;
+  width: 100%;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.unauthorized img {
+  max-height: 500px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+}
+
+#expiredMessage {
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  padding: $spacing-8;
+  animation: fadeIn 0.8s ease-out;
+}
+
+#expiredMessage img {
+  filter: grayscale(0.3) opacity(0.9);
+  transition: transform 0.3s ease;
+}
+
+#expiredMessage img:hover {
+  transform: scale(1.05);
+}
+
+#expiredMessage p {
+  font-size: $font-size-2xl;
+  color: $color-danger;
+  font-weight: $font-weight-bold;
+  margin-top: $spacing-6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Message container styles */
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: $spacing-6;
+  text-align: center;
+}
+
+.message-content {
+  background: $color-white;
+  border-radius: $spacing-4;
+  padding: $spacing-8;
+  @include shadow-xl;
+  max-width: 600px;
+  width: 100%;
+}
+
+.message-title {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $color-danger;
+  margin-bottom: $spacing-4;
+}
+
+.message-subtitle {
+  font-size: $font-size-lg;
+  color: $text-secondary;
+  margin-bottom: $spacing-6;
+  line-height: 1.6;
+}
+
+.message-actions {
+  margin-top: $spacing-6;
+}
+
+.message-btn {
+  padding: $spacing-3 $spacing-6;
+  background: $color-primary;
+  color: $color-white;
+  border: none;
+  border-radius: $spacing-2;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  @include transition-all;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.message-btn:hover {
+  background: $color-primary-dark;
+  transform: translateY(-2px);
+  color: $color-white;
+  text-decoration: none;
+}

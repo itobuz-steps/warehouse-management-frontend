@@ -1,0 +1,33 @@
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvasNotifications"
+  aria-labelledby="offcanvasNotificationsLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasNotificationsLabel">
+      Notifications
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+
+  <div class="offcanvas-body" style="overflow-y: auto">
+    <div id="notif-list">
+      <!-- <p class="text-muted text-center">Loading notifications...</p> -->
+    </div>
+
+    <div
+      id="loaderContainer"
+      style="display: none; text-align: center; padding: 20px"
+    >
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <div id="sentinel" style="height: 1px"></div>
+  </div>
+</div>

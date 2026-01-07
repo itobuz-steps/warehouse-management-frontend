@@ -1,0 +1,422 @@
+@import './common/colors';
+@import './common/variables';
+@import './common/mixins';
+@import './common/animations';
+@import './common/root';
+@import './common/card';
+@import './common/button';
+
+$color-border: $color-gray-700;
+
+.main-content {
+  margin-left: 250px;
+  padding: 40px;
+  min-height: 100vh;
+  background: $body-bg;
+  transition: margin-left 0.3s ease;
+
+  @media (max-width: 992px) {
+    margin-left: 0;
+    padding: 25px;
+  }
+}
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-4;
+  margin-bottom: $spacing-5;
+
+  @media (min-width: 830px) {
+    flex-direction: row;
+  }
+
+  h2 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+  }
+}
+
+/* Transaction Card  */
+.transaction-card {
+  background: $color-white;
+  margin: 0 auto;
+  border-radius: $radius-md;
+  padding: 30px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+
+  h2 {
+    color: $color-primary;
+    font-weight: 600;
+    margin-bottom: 25px;
+  }
+}
+
+/* Form Elements */
+.form-label {
+  font-weight: 500;
+  color: $text-primary;
+}
+
+.form-select,
+.form-control {
+  border-radius: 6px;
+  border: 1px solid $color-border;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  transition: $transition;
+
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.15);
+  }
+}
+
+/* Buttons */
+.btn {
+  border-radius: 6px;
+  transition: $transition;
+  font-weight: 500;
+
+  &.btn-primary {
+    background: $color-primary;
+    border: none;
+
+    &:hover {
+      background: darken($color-primary, 8%);
+    }
+
+    &:disabled {
+      background: darken($color-secondary-dark, $amount: 0);
+    }
+  }
+
+  &.btn-outline-primary {
+    border: 1px solid $color-primary;
+    color: $color-primary;
+
+    &:hover {
+      background: $color-primary;
+      color: #fff;
+    }
+  }
+}
+
+.transaction-structure {
+  display: flex;
+  width: 100%;
+
+  @media (max-width: 1024px) {
+    .img {
+      display: none;
+    }
+  }
+}
+
+.info {
+  flex: 1;
+}
+
+.img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+
+  img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* Product Containers */
+#inProductsContainer,
+#outProductsContainer,
+#transferProductsContainer,
+#adjustProductsContainer {
+  border-radius: 5px;
+  padding: 15px;
+  background: $color-white-dark;
+  margin-bottom: 20px;
+}
+
+.product-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+
+  input,
+  select {
+    flex: 1;
+  }
+
+  .remove-btn {
+    background: transparent;
+    border: none;
+    color: $color-danger;
+    font-size: 1.2rem;
+    cursor: pointer;
+
+    &:hover {
+      color: darken($color-danger, 10%);
+    }
+  }
+}
+
+button.add-product {
+  border: 1px solid $color-primary;
+  border-radius: $radius-sm;
+  color: $color-primary;
+
+  &:hover {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+}
+
+/* Modal Overlay for Add Product */
+#addProductModalTransaction.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba($text-primary, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: $z-index-modal;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: fadeIn 0.25s ease;
+  overflow-y: auto;
+
+  &.show {
+    display: flex;
+  }
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 480px;
+  background: $body-bg;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0px 8px 25px rgba($text-primary, 0.15);
+  animation: popIn 0.25s ease;
+  border: 1px solid $color-border;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  @media (min-width: 768px) {
+    padding: 30px;
+  }
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $color-primary;
+  margin-bottom: 20px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: $text-primary;
+    }
+
+    input,
+    select,
+    textarea {
+      padding: 10px 12px;
+      border: 1px solid $color-border;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: $transition;
+
+      &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.15);
+      }
+    }
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 10px;
+
+  button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: $transition;
+
+    &.cancel-butn {
+      color: $color-white;
+      border: none;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    &.submit-btn {
+      background: $color-primary;
+      color: $color-white;
+      border: none;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  display: block;
+
+  .dropdown-menu {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dropdown-thumb {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 8px;
+    display: inline-block;
+  }
+
+  .dropdown-item {
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 4px;
+
+    img {
+      width: 32px;
+      height: 32px;
+      object-fit: cover;
+      border-radius: 4px;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    &:hover {
+      background: $color-white;
+
+      img {
+        transform: scale(1.5);
+        z-index: 200;
+        position: relative;
+      }
+    }
+  }
+
+  .dropdown-toggle {
+    span {
+      display: inline-block;
+      max-width: 60%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: middle;
+    }
+  }
+}
+
+.product-row {
+  .custom-dropdown {
+    flex: 1;
+  }
+}
+
+.h-46 {
+  height: 46px;
+}
+.theme-color {
+  color: $color-primary;
+  font-weight: 600;
+
+  span {
+    color: $color-border;
+    font-weight: 400;
+  }
+}
+
+.required::after {
+  content: '*';
+  color: $color-danger;
+  margin-left: 4px;
+}
+
+th {
+  font-weight: 600;
+}
+
+.badge {
+  font-weight: 500;
+}
+.badge.badge-in {
+  color: $color-success;
+  border: 1px solid $color-success;
+  background-color: $color-success-light;
+}
+.badge.badge-out {
+  color: $color-warning;
+  border: 1px solid $color-warning;
+  background-color: $color-warning-light;
+}
+.badge.badge-transfer {
+  color: $color-info;
+  border: 1px solid $color-info;
+  background-color: $color-info-light;
+}
+.badge.badge-adjust {
+  color: $color-danger;
+  border: 1px solid $color-danger;
+  background-color: $color-danger-light;
+}

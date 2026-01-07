@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Inventory Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/loading-visualization/dist/main.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/loading-visualization/dist/main.js"></script>
+  </head>
+  <body>
+    <div id="toastSection">
+      <!-- custom toast message -->
+    </div>
+
+    <div id="notifications-container"></div>
+
+    <!-- Add Manager Modal -->
+    <div
+      class="modal fade"
+      id="addManagerModal"
+      tabindex="-1"
+      aria-labelledby="addManagerModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addManagerModalLabel">
+              Add New Manager
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addManagerForm" class="add-manager-form add-form">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Enter manager email"
+                  required
+                />
+              </div>
+
+              <button type="submit" class="btn-primary">Add Manager</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Dashboard -->
+    <main class="main-content">
+      <!-- DASHBOARD TOP BAR -->
+      <div class="dashboard-topbar">
+        <!-- Left -->
+        <div class="topbar-left justify-content-center">
+          <h1 class="page-title">Dashboard</h1>
+        </div>
+
+        <!-- Right -->
+        <div class="topbar-right">
+          <!-- Warehouse Select -->
+          <div class="warehouse-select-wrapper">
+            <select id="warehouseSelect" class="form-control warehouse-select">
+              <option value="">No Warehouses</option>
+            </select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
+
+          <a
+            href="/pages/transaction.html"
+            class="btn theme-button stocks-block"
+            title="Transactions"
+          >
+            <i class="fas fa-chart-line"></i> Stocks
+          </a>
+
+          <!-- Add Manager -->
+          <button
+            class="add-manager-btn flex-none btn theme-button"
+            data-bs-toggle="modal"
+            data-bs-target="#addManagerModal"
+            title="Add Manager"
+          >
+            <i class="fa-solid fa-user-plus"></i>
+          </button>
+          <a
+            href="/pages/inventory.html"
+            class="btn theme-button"
+            title="Warehouse"
+          >
+            <i class="fas fa-warehouse"></i>
+          </a>
+
+          <!-- Notifications -->
+          <div
+            class="notif-bell position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNotifications"
+            aria-controls="offcanvasNotifications"
+          >
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display: none"
+            >
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <section class="overview-grid my-3">
+        <div class="overview-card py-3">
+          <div class="card-title">Sales Overview</div>
+          <div class="card-value" id="salesInput">₹0</div>
+          <div class="card-sub" id="saleQuantity">0 Sales</div>
+        </div>
+        <div class="overview-card" id="Purchase">
+          <div class="card-title">Purchase Overview</div>
+          <div class="card-value" id="purchaseInput">₹0</div>
+          <div class="card-sub" id="purchaseQuantity">0 Purchases</div>
+        </div>
+        <div class="overview-card">
+          <div class="card-title">Inventory Summary</div>
+          <div class="card-value" id="inventoryInput">0</div>
+        </div>
+        <div class="overview-card">
+          <div class="card-title">Today's Shipment</div>
+          <div class="card-value" id="shipmentInput">0</div>
+        </div>
+      </section>
+
+      <div class="no-dashboard-box"></div>
+
+      <section class="stock-activity-grid">
+        <!-- Top Selling Products Carousel -->
+        <div class="carousel-container">
+          <h5>BEST SELLING PRODUCTS</h5>
+          <div
+            id="topProductsCarousel"
+            class="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-inner" id="carouselItems"></div>
+
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="3"
+                aria-label="Slide 4"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#topProductsCarousel"
+                data-bs-slide-to="4"
+                aria-label="Slide 5"
+              ></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity-card">
+          <h5>RECENT ACTIVITY</h5>
+
+          <div class="activity-list" id="recentActivityList">
+            <!-- Dynamic activity items -->
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-3">
+        <div class="chart-card">
+          <h5>PROFIT & LOSS ANALYSIS</h5>
+
+          <div class="mode-group">
+            <input type="radio" id="weekly" name="mode" value="week" checked />
+            <label for="weekly">Weekly</label>
+
+            <input type="radio" id="monthly" name="mode" value="month" />
+            <label for="monthly">Monthly</label>
+
+            <input type="radio" id="custom" name="mode" value="custom" />
+            <label for="custom">Custom Date Range</label>
+          </div>
+
+          <div class="date-group" id="dateGroup">
+            <label>From: <input type="date" id="fromDate" /></label>
+            <label>To: <input type="date" id="toDate" /></label>
+          </div>
+
+          <div class="chart-container bar-chart-container">
+            <canvas id="lineGraph"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Static Charts -->
+      <section class="charts-grid">
+        <!-- Sales & Purchase Chart -->
+        <div class="chart-card bar-chart">
+          <h5>TOP 5 PRODUCTS</h5>
+          <div class="chart-container bar-chart-container">
+            <canvas id="barGraph"></canvas>
+          </div>
+
+          <button id="exportTop5" class="btn btn-success export mt-4">
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
+        </div>
+
+        <!-- Product Category Chart -->
+        <div class="chart-card">
+          <h5>PRODUCTS CATEGORY</h5>
+          <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+          </div>
+
+          <button id="exportCategory" class="btn btn-success mt-4 export">
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
+        </div>
+
+        <!-- Order Summary Chart -->
+        <div class="chart-card">
+          <h5>TRANSACTIONS / DAY</h5>
+          <div class="line-chart chart-container">
+            <canvas id="lineChart"></canvas>
+          </div>
+          <button id="exportTransactions" class="btn btn-success mt-4 export">
+            <i class="fa-solid fa-file-excel"></i> Export
+          </button>
+        </div>
+
+        <div class="low-stock-table-card low-stock-card">
+          <h5>LOW QUANTITY STOCK</h5>
+
+          <div class="table-scroll-wrapper">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Remaining</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="lowStockTableBody">
+                <!-- dynamic rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="cancelled-table-card low-stock-card">
+          <h5>MOST CANCELLED PRODUCTS</h5>
+
+          <div class="table-scroll-wrapper">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody id="cancelledProductsTableBody">
+                <!-- dynamic rows will go here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="adjustment-table-card low-stock-card">
+          <h5>MOST ADJUSTED PRODUCTS</h5>
+
+          <div class="table-scroll-wrapper">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Quantity</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="adjustedProductsTableBody">
+                <!-- dynamic rows will go here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="../js/pages/dashboard/dashboard.js"></script>
+    <script
+      type="module"
+      src="../js/pages/dashboard/adminSubscribe.js"
+    ></script>
+    <script
+      type="module"
+      src="../js/pages/dashboard/dashboardSelector.js"
+    ></script>
+    <script
+      type="module"
+      src="../js/common/injectNotificationCanvas.js"
+    ></script>
+  </body>
+</html>

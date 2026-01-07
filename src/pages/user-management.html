@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+  </head>
+
+  <body>
+    <div id="toastSection"></div>
+
+    <div id="notifications-container"></div>
+
+    <!-- Add Manager Modal -->
+    <div
+      class="modal fade"
+      id="addManagerModal"
+      tabindex="-1"
+      aria-labelledby="addManagerModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addManagerModalLabel">
+              Add New Manager
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addManagerForm" class="add-manager-form add-form">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Enter manager email"
+                />
+              </div>
+
+              <button type="submit" class="btn-primary">Add Manager</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Edit User Profile-->
+    <div
+      class="modal fade"
+      id="updateProfileModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body edit-form">
+            <form id="updateProfile" class="update-profile-form">
+              <div class="profile-card-header d-flex flex-column">
+                <div class="profile-image-container">
+                  <label
+                    class="profile-image m-auto"
+                    for="profileImg"
+                    id="profileLabel"
+                  ></label>
+
+                  <div class="edit-overlay">
+                    <label
+                      for="profileImg"
+                      class="edit-button"
+                      title="Edit profile picture"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </label>
+                  </div>
+                  <input
+                    class="d-none"
+                    type="file"
+                    id="profileImg"
+                    name="profile-img"
+                    accept="image/*"
+                  />
+                </div>
+
+                <div class="profile-info text-center mt-2">
+                  <span>
+                    <h3
+                      class="user-name m-0 d-inline-block text-center fs-4 fw-bolder"
+                    ></h3>
+                    <p class="user-role-badge mb-0"></p>
+                  </span>
+
+                  <p
+                    class="user-email text-secondary mb-3 justify-content-center mt-3"
+                  ></p>
+                </div>
+
+                <div class="profile-card-body">
+                  <ul class="status p-0">
+                    <li>
+                      <span class="status-value">
+                        <i class="fa-regular fa-calendar-plus mx-1 verified">
+                        </i>
+                      </span>
+                      <span class="status-text created-at"></span>
+                    </li>
+
+                    <li>
+                      <span class="status-value"
+                        ><i
+                          class="fa-regular fa-calendar-check mx-1 verified"
+                        ></i
+                      ></span>
+                      <span class="status-text updated-at"></span>
+                    </li>
+
+                    <li>
+                      <span class="status-value"
+                        ><i class="fa-solid fa-user mx-1 verified"> </i
+                      ></span>
+                      <span class="status-text" id="lastLogin"></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="modal-footer my-0 pb-0">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary action"
+                  id="confirmUpdate"
+                  disabled
+                >
+                  <div
+                    class="spinner-border d-none"
+                    role="status"
+                    id="updateSpinner"
+                  ></div>
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sidebar-container"></div>
+
+    <main class="main-content pt-4">
+      <!-- topbar -->
+      <div class="topbar d-flex flex-row">
+        <div class="topbar-left">
+          <h1 class="page-title">Profile</h1>
+        </div>
+
+        <div class="grp d-flex flex-row gap-2">
+          <div class="topbar-right">
+            <img
+              src="../assets/images/profile_default.svg"
+              alt="User Profile"
+              class="user-avatar-lg"
+              data-bs-toggle="modal"
+              data-bs-target="#updateProfileModal"
+            />
+          </div>
+
+          <!-- Notifications -->
+          <div
+            class="notif-bell position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNotifications"
+            aria-controls="offcanvasNotifications"
+          >
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display: none"
+            >
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="grp d-flex flex-column gap-3 flex-sm-row justify-content-between"
+      >
+        <!-- toggle button -->
+        <div
+          class="btn-group d-none"
+          role="group"
+          id="adminToggle"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="activeBtn"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-outline-primary" for="activeBtn">Active</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="blockedBtn"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="blockedBtn"
+            >Blocked</label
+          >
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="pendingBtn"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary" for="pendingBtn"
+            >Pending</label
+          >
+        </div>
+
+        <!-- Add Manager -->
+        <button
+          class="add-manager-btn d-none"
+          data-bs-toggle="modal"
+          data-bs-target="#addManagerModal"
+        >
+          + Manager
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider w-100 border-top my-4 border-secondary-subtle"></div>
+
+      <h5 class="d-none" id="managerTitle">Your Warehouses</h5>
+
+      <!-- User Grid -->
+      <div class="user-grid gap-3 d-none" id="showActiveUser">
+        <!-- all active user card for admin -->
+      </div>
+
+      <div class="user-grid gap-3 d-none" id="showBlockedUser">
+        <!-- all blocked user card for admin -->
+      </div>
+
+      <div class="user-grid gap-3 d-none" id="showPendingUser">
+        <!-- all blocked user card for admin -->
+      </div>
+
+      <div class="user-grid gap-3 d-none" id="showWarehouses">
+        <!-- all warehouses under this manager -->
+      </div>
+    </main>
+
+    <script
+      type="module"
+      src="../js/pages/user-management/userManagement.js"
+    ></script>
+
+    <script
+      type="module"
+      src="../js/common/injectNotificationCanvas.js"
+    ></script>
+  </body>
+</html>

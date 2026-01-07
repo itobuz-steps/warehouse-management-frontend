@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Management</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <script
+      type="module"
+      src="../js/pages/transaction/transaction.js"
+      defer
+    ></script>
+    <script type="module" src="../js/common/sidebar.js" defer></script>
+  </head>
+
+  <body>
+    <!-- Toast Container -->
+    <div id="toastSection" class="toast-container"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <div id="notifications-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- TRANSACTIONS TOP BAR -->
+      <div class="page-header topbar">
+        <h2 class="text-center">Manage Transactions</h2>
+
+        <div
+          class="notif-bell position-relative"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNotifications"
+          aria-controls="offcanvasNotifications"
+        >
+          <i class="fa-regular fa-bell"></i>
+          <span
+            id="notif-count"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            style="display: none"
+          >
+            0
+          </span>
+        </div>
+      </div>
+
+      <div class="transaction-structure">
+        <div class="img">
+          <img
+            src="../assets/images/fetchpik.com-iconscout-JXxkFyKPhf.gif"
+            alt=""
+            srcset=""
+          />
+        </div>
+
+        <div class="transaction-card mt-3 info">
+          <!-- Wrap all inputs in a <form> -->
+          <form id="transactionForm">
+            <!-- Transaction Type Dropdown-->
+            <div class="mb-3">
+              <label for="transactionType" class="form-label"
+                >Transaction Type</label
+              >
+              <select id="transactionType" class="form-select">
+                <option value="" selected disabled>Select Type</option>
+                <option value="IN">Stock In</option>
+                <option value="OUT">Stock Out</option>
+                <option id="transferOption" value="TRANSFER">Transfer</option>
+                <option value="ADJUSTMENT">Adjustment</option>
+              </select>
+            </div>
+
+            <!-- Warehouse Selector Dropdown -->
+            <div class="mb-3" id="warehouseDropdown">
+              <!-- source warehouse -->
+              <label
+                id="sourceWarehouseDropdownLabel"
+                class="form-label d-none required"
+                >Source Warehouse</label
+              >
+              <select
+                id="sourceWarehouse"
+                class="form-select mb-2 d-none"
+              ></select>
+
+              <!-- Destination warehouse -->
+              <label
+                class="form-label d-none required"
+                id="destinationWarehouseDropdownLabel"
+                >Destination Warehouse</label
+              >
+              <select
+                id="destinationWarehouse"
+                class="form-select mb-2 d-none"
+              ></select>
+            </div>
+
+            <!-- IN Fields -->
+            <div id="inFields" class="d-none">
+              <div id="inProductsContainer" class="d-flex flex-column products">
+                <!-- products will displayed here -->
+              </div>
+
+              <div class="d-flex gap-2 mb-3">
+                <button
+                  type="button"
+                  id="addInProduct"
+                  class="btn btn-sm add-product"
+                  disabled
+                >
+                  + Add Product
+                </button>
+                <button
+                  type="button"
+                  id="addNewProductBtn"
+                  class="btn btn-sm add-product"
+                  disabled
+                >
+                  + Create New Product
+                </button>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label required">Supplier</label>
+                <input type="text" id="supplier" class="form-control" />
+              </div>
+
+              <input
+                type="text"
+                id="inNotes"
+                class="form-control mb-2"
+                placeholder="Notes"
+              />
+            </div>
+
+            <!-- OUT Fields -->
+            <div id="outFields" class="d-none">
+              <!-- Uses Source Warehouse selector above -->
+              <div id="outProductsContainer"></div>
+              <button
+                type="button"
+                id="addOutProduct"
+                class="btn btn-sm mb-3 add-product"
+                disabled
+              >
+                + Add Product
+              </button>
+              <div class="mb-3">
+                <label class="form-label required">Customer Details</label>
+                <input
+                  id="customerName"
+                  type="text"
+                  class="form-control mb-2"
+                  placeholder="Customer Name"
+                />
+                <input
+                  id="customerEmail"
+                  type="email"
+                  class="form-control mb-2"
+                  placeholder="Customer Email"
+                />
+                <input
+                  type="text"
+                  id="customerPhone"
+                  class="form-control mb-2"
+                  placeholder="Customer Phone"
+                />
+                <input
+                  type="text"
+                  id="customerAddress"
+                  class="form-control mb-2"
+                  placeholder="Customer Address"
+                />
+              </div>
+              <input
+                type="text"
+                id="outNotes"
+                class="form-control mb-2"
+                placeholder="Notes"
+              />
+            </div>
+
+            <!-- TRANSFER Fields -->
+            <div id="transferFields" class="d-none">
+              <!-- Uses Source + Destination Warehouse selectors above -->
+              <div id="transferProductsContainer"></div>
+              <button
+                type="button"
+                id="addTransferProduct"
+                class="btn btn-sm mb-3 add-product"
+                disabled
+              >
+                + Add Product
+              </button>
+              <input
+                type="text"
+                id="transferNotes"
+                class="form-control mb-2"
+                placeholder="Notes"
+              />
+            </div>
+
+            <!-- ADJUSTMENT Fields -->
+            <div id="adjustmentFields" class="d-none">
+              <!-- Uses Source Warehouse selector above -->
+              <div id="adjustProductsContainer"></div>
+
+              <div class="mb-3">
+                <label class="form-label required">Reason for Adjustment</label>
+                <input
+                  type="text"
+                  id="adjustReason"
+                  class="form-control mb-2"
+                  placeholder="Reason"
+                />
+              </div>
+              <input
+                id="adjustNotes"
+                type="text"
+                class="form-control mb-2"
+                placeholder="Notes"
+              />
+            </div>
+
+            <button
+              type="submit"
+              id="submitTransactionBtn"
+              class="btn btn-primary mt-3 w-100"
+            >
+              <span
+                class="spinner-border spinner-border-sm d-none"
+                aria-hidden="true"
+                id="submitSpinner"
+              ></span>
+
+              Submit Transaction
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Transaction Confirmation Modal -->
+      <div
+        class="modal fade"
+        id="confirmTransactionModal"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Confirm Transaction</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div id="transactionSummary">
+                <!-- Transaction details will be injected here -->
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="confirmTransactionBtn"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Product Modal (for Stock In) -->
+      <div id="addProductModalTransaction" class="modal-overlay">
+        <div class="modal-box">
+          <h2 class="modal-title">Add New Product</h2>
+
+          <form
+            id="addProductFormTransaction"
+            enctype="multipart/form-data"
+            class="modal-form"
+          >
+            <div class="form-group">
+              <label class="required" for="transactionProductName"
+                >Product Name</label
+              >
+              <input
+                type="text"
+                id="transactionProductName"
+                name="name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="required" for="transactionProductCategory"
+                >Category</label
+              >
+              <select id="transactionProductCategory" name="category" required>
+                <option value="">Select Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Food & Beverage">Food & Beverage</option>
+                <option value="Medical Supplies">Medical Supplies</option>
+                <option value="Industrial Tools">Industrial Tools</option>
+                <option value="Automotive Parts">Automotive Parts</option>
+                <option value="Office Supplies">Office Supplies</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="required" for="transactionProductDescription"
+                >Description</label
+              >
+              <input id="transactionProductDescription" name="description" />
+            </div>
+
+            <div class="form-group">
+              <label class="required" for="transactionProductPrice"
+                >Price</label
+              >
+              <input
+                type="number"
+                id="transactionProductPrice"
+                name="price"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="required" for="transactionProductName"
+                >Markup</label
+              >
+              <input
+                type="text"
+                id="transactionProductMarkup"
+                name="markup"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="required" for="transactionProductImage"
+                >Product Images</label
+              >
+              <input
+                type="file"
+                id="transactionProductImage"
+                name="productImage"
+                multiple
+              />
+            </div>
+
+            <p class="text-secondary small">
+              Atmost 8 images, each of max size 500KB
+            </p>
+
+            <div class="modal-actions">
+              <button
+                type="button"
+                id="closeProductModalTransaction"
+                class="btn cancel-btn btn-secondary"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn submit-btn">Add Product</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+  <script type="module" src="../js/common/injectNotificationCanvas.js"></script>
+</html>
