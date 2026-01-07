@@ -1,4 +1,5 @@
 const createNotificationTemplate = (notification) => {
+  const unseenClass = !notification.seen ? 'bg-light' : '';
   const cancelledClass = notification.isCancelled ? 'bg-danger-subtle' : '';
 
   const formattedDate = new Date(notification.createdAt).toLocaleString();
@@ -37,7 +38,7 @@ const createNotificationTemplate = (notification) => {
   }
 
   return `
- <div class="${notification.type} notif-item border-bottom py-2 px-3 ${cancelledClass}">
+ <div class="${notification.type} notif-item border-bottom py-2 px-3 ${cancelledClass} ${unseenClass}">
     <div class="fw-semibold mb-2">
     ${notification.title || 'Notification'}
     </div>
