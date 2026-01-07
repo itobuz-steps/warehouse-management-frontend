@@ -14,6 +14,18 @@ import { initTransactionProductEvents } from './transactionProductEvents.js';
 // const toastMessage = new Templates();
 const { buttons, containers, form, typeSelect } = transactionSelectors;
 
+typeSelect.value = 'IN';
+displayWarehouseDropdown();
+
+form.addEventListener('reset', () => {
+  typeSelect.value = ''; // show "Select Type"
+  Object.values(containers).forEach((c) => (c.innerHTML = ''));
+  buttons.addInProduct?.setAttribute('disabled', '');
+  buttons.addOutProduct?.setAttribute('disabled', '');
+  buttons.addTransferProduct?.setAttribute('disabled', '');
+  transactionSelectors.addNewProduct?.setAttribute('disabled', '');
+});
+
 // 1. Initial setup
 displayTransactionType();
 displayWarehouseDropdown();
