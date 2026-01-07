@@ -99,13 +99,13 @@ export function displayWarehouseDropdown() {
 
     sourceWarehouseSelector.onchange = async () => {
       await loadDestinationWarehouse();
-      await displayProducts('TRANSFER');
     };
 
     destinationWarehouseSelector.onchange = async () => {
       transactionSelectors.buttons.addTransferProduct.removeAttribute(
         'disabled'
       );
+      await displayProducts('TRANSFER');
     };
 
     destinationWarehouseDropdownLabel.classList.remove('d-none');

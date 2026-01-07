@@ -66,19 +66,24 @@ export async function displayProducts(type) {
         return;
       }
 
-      const res = await api.get(
+      const sourceRes = await api.get(
         `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
       );
+      products = sourceRes.data?.data || [];
+      console.log(destinationWarehouse.value);
 
-      products = res.data?.data || [];
-      warehouseProducts = products; // same list
+      if (type === 'TRANSFER' && destinationWarehouse.value) {
+        const destRes = await api.get(
+          `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${destinationWarehouse.value}`
+        );
+        warehouseProducts = destRes.data?.data || [];
+      }
+      warehouseProducts = products;
     }
 
     const existingProductIds = new Set(
       warehouseProducts.map((product) => product.product?._id || product._id)
     );
-    // console.log(warehouseProducts)
-    // console.log(existingProductIds);
 
     container.innerHTML = '';
 
