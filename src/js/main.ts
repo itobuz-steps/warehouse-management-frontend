@@ -1,5 +1,6 @@
 import '../scss/styles.scss';
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+// @ts-expect-error bootstrap need to be imported this way
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as bootstrap from 'bootstrap';
 
 window.location.href = '/pages/dashboard.html';

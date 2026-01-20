@@ -1,7 +1,7 @@
 import Templates from '../../common/Templates.js';
 import WarehouseTemplate from '../../common/template/WarehouseTemplate.js';
-import api from '../../api/interceptor';
-import config from '../../config/config';
+import api from '../../api/interceptor.js';
+import { config } from '../../config/config.js';
 import inventorySelection from './inventorySelector.js';
 
 const displayToast = new Templates();

@@ -1,6 +1,8 @@
 import '../../../scss/styles.scss';
 import '../../../scss/dashboard.scss';
-// eslint-disable-next-line no-unused-vars
+
+//@ts-expect-error Bootstrap import
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as bootstrap from 'bootstrap';
 import dashboardSelection from './dashboardSelector';
 import { addManagerSubscribe } from './adminSubscribe.js';

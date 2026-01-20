@@ -1,6 +1,6 @@
 // js/pages/transaction/displayProducts.js
-import config from '../../config/config';
-import api from '../../api/interceptor';
+import { config } from '../../config/config.js';
+import api from '../../api/interceptor.js';
 import { transactionSelectors } from './transactionSelector';
 import {
   productOptionsTemplate,

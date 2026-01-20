@@ -1,7 +1,7 @@
 import api from '../../api/interceptor.js';
-import AnalyticsTemplate from '../../common/template/AnalyticsTemplate.ts';
-import config from '../../config/config.ts';
-import analyticsSelection from './analyticsSelector.ts';
+import AnalyticsTemplate from '../../common/template/AnalyticsTemplate.js';
+import { config } from '../../config/config.js';
+import analyticsSelection from './analyticsSelector.js';
 import {
   Chart,
   BarController,
