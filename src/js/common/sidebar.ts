@@ -1,11 +1,13 @@
 import '../../scss/sidebar.scss';
-// eslint-disable-next-line no-unused-vars
+
+//@ts-expect-error bootstrap import
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import * as bootstrap from 'bootstrap';
-import Templates from './Templates.ts';
+import { Templates } from './Templates';
 import { getCurrentUser } from './api/helperApi.js';
 
 const toast = new Templates();
-const toastSection = document.getElementById('toastSection');
+const toastSection = document.getElementById('toastSection')!;
 
 document.addEventListener('DOMContentLoaded', showSidebar);
 
@@ -28,6 +30,10 @@ async function showSidebar() {
       archivedLi.classList.add('d-none');
     }
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     toastSection.innerHTML = toast.errorToast(err.message);
   } finally {
     setTimeout(() => {
@@ -75,7 +81,8 @@ function initializeSidebar() {
   // Close sidebar when clicking outside
   document.addEventListener('click', (e) => {
     const clickedOutside =
-      !sidebar.contains(e.target) && !toggleButton.contains(e.target);
+      !sidebar.contains(e.target as Node) &&
+      !toggleButton.contains(e.target as Node);
 
     if (sidebar.classList.contains('active') && clickedOutside) {
       sidebar.classList.remove('active');
@@ -90,7 +97,7 @@ function initializeSidebar() {
   const links = document.querySelectorAll('.sidebar-menu a');
 
   links.forEach((link) => {
-    const linkPath = link.getAttribute('href').split('/').pop();
+    const linkPath = link.getAttribute('href')?.split('/').pop();
     link.classList.toggle('active', linkPath === currentPath);
   });
 

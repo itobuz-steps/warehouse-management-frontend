@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { config } from '../../config/config.js';
-import Templates from '../../common/Templates.js';
+import { Templates } from '../../common/Templates.js';
 import { registerAndSubscribe } from '../../common/notifications/notificationSubscribe.js';
 
 const displayToast = new Templates();

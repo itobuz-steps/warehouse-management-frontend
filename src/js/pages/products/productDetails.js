@@ -11,9 +11,9 @@ import {
   handleDelete,
   handleEditProductSubmit,
   handleSaveLimit,
-} from './productEvents';
-import { productSelection } from './productSelector';
-import { getCurrentUser } from '../../common/api/helperApi';
+} from './productEvents.js';
+import { productSelection } from './productSelector.js';
+import { getCurrentUser } from '../../common/api/HelperApi.js';
 import {
   managerProductQuantity,
   removeProductIdFromUrl,

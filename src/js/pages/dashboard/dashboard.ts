@@ -4,7 +4,7 @@ import '../../../scss/dashboard.scss';
 //@ts-expect-error Bootstrap import
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as bootstrap from 'bootstrap';
-import dashboardSelection from './dashboardSelector';
+import dashboardSelection from './dashboardSelector.js';
 import { addManagerSubscribe } from './adminSubscribe.js';
 import {
   showTopProductsSubscribe,
@@ -71,9 +71,11 @@ dashboardSelection.warehouseSelect.addEventListener('change', async () => {
   await showTopSellingProductsSubscribe(selectedWarehouseId);
   await showProfitLossSubscribe(selectedWarehouseId, 'week');
 
-  const selectedMode = document.querySelector(
+  const selectedCheckbox: HTMLInputElement | null = document.querySelector(
     'input[name="mode"]:checked'
-  ).value;
+  );
+
+  const selectedMode = selectedCheckbox ? selectedCheckbox.value : null;
 
   if (selectedMode === 'custom') {
     dateGroup.style.display = 'flex';
@@ -114,9 +116,12 @@ const fromInput = dashboardSelection.fromInput;
 const toInput = dashboardSelection.toInput;
 
 const handleModeChange = async () => {
-  const selectedMode = document.querySelector(
+  const selectedCheckbox: HTMLInputElement | null = document.querySelector(
     'input[name="mode"]:checked'
-  ).value;
+  );
+
+  const selectedMode = selectedCheckbox ? selectedCheckbox.value : null;
+
   const warehouseId = dashboardSelection.warehouseSelect.value;
 
   if (selectedMode === 'custom') {

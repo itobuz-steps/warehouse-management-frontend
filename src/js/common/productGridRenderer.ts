@@ -1,9 +1,17 @@
+import type { Product } from '../types/product';
+
 export const renderProductGrid = ({
   container,
   products,
   createCardHTML,
   onViewDetails,
   emptyState,
+}: {
+  container: HTMLElement;
+  products: Product[];
+  createCardHTML: (product: Product) => string;
+  onViewDetails: (product: Product) => void;
+  emptyState: () => void;
 }) => {
   container.innerHTML = '';
 
@@ -27,7 +35,11 @@ export const renderProductGrid = ({
 
   container.querySelectorAll('#viewDetails').forEach((btn) => {
     btn.addEventListener('click', (e) => {
-      onViewDetails(JSON.parse(e.currentTarget.dataset.product));
+      const el = e.currentTarget as HTMLElement;
+
+      if (!el.dataset.product) {
+        onViewDetails(JSON.parse(el.dataset.product as string));
+      }
     });
   });
 };

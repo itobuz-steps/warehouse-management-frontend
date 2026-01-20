@@ -1,6 +1,6 @@
 import api from '../../api/interceptor.js';
 import { config } from '../../config/config.js';
-import Templates from '../../common/Templates.js';
+import { Templates } from '../../common/Templates.js';
 import userManagementSelection from './userManagementSelector.js';
 import displayProfile from './displayProfileDetails.js';
 import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';

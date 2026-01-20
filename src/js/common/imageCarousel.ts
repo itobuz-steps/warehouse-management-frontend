@@ -1,10 +1,13 @@
-let currentImages = [];
+let currentImages: string[] = [];
 let currentImageIndex = 0;
-let imageTimeout = null;
+let imageTimeout: number | null = null;
 
-function updateCarousel(imageSelector, dotsSelector) {
-  const carouselImage = document.querySelector(imageSelector);
-  const dots = document.querySelectorAll(`${dotsSelector} span`);
+function updateCarousel(imageSelector: string, dotsSelector: string) {
+  const carouselImage: HTMLImageElement | null =
+    document.querySelector(imageSelector);
+  const dots: NodeListOf<HTMLElement> | null = document.querySelectorAll(
+    `${dotsSelector} span`
+  );
 
   if (!carouselImage || !currentImages.length) {
     return;
@@ -18,8 +21,11 @@ function updateCarousel(imageSelector, dotsSelector) {
   }
 }
 
-function startAutoSlide(imageSelector, dotsSelector, interval = 5000) {
-    
+function startAutoSlide(
+  imageSelector: string,
+  dotsSelector: string,
+  interval = 5000
+) {
   if (imageTimeout) {
     clearInterval(imageTimeout);
   }
@@ -31,10 +37,15 @@ function startAutoSlide(imageSelector, dotsSelector, interval = 5000) {
 }
 
 export function initializeCarousel({
-  images,
+  images = [],
   imageSelector = '#carouselImage',
   dotsSelector = '.carousel-dots',
   interval = 5000,
+}: {
+  images?: string[];
+  imageSelector?: string;
+  dotsSelector?: string;
+  interval?: number;
 }) {
   currentImages = images?.length ? images : ['/images/placeholder.png'];
   currentImageIndex = 0;
@@ -50,9 +61,13 @@ export function initializeCarousel({
 
   currentImages.forEach((_, index) => {
     const dot = document.createElement('span');
-    dot.dataset.index = index;
+    dot.dataset.index = index + '';
 
     dot.addEventListener('click', () => {
+      if (imageTimeout === null) {
+        return;
+      }
+
       clearInterval(imageTimeout);
       currentImageIndex = index;
       updateCarousel(imageSelector, dotsSelector);

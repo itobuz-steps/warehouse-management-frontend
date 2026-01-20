@@ -3,6 +3,11 @@ export const paginationRenderer = ({
   currentPage,
   totalPages,
   onPageChange,
+}: {
+  container: HTMLElement;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }) => {
   container.innerHTML = '';
 
@@ -13,7 +18,7 @@ export const paginationRenderer = ({
 
   container.style.display = 'flex';
 
-  const createBtn = (label, page, disabled = false) => {
+  const createBtn = (label: string, page: number, disabled = false) => {
     const btn = document.createElement('button');
     btn.textContent = label;
     btn.className = 'page-btn';

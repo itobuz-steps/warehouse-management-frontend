@@ -1,5 +1,9 @@
-export function showPassToggle(passwordInput) {
+export function showPassToggle(passwordInput: HTMLInputElement) {
   const icon = document.getElementById('eyeBtn');
+
+  if (!icon) {
+    return;
+  }
 
   if (passwordInput.type === 'password') {
     passwordInput.type = 'text';
