@@ -1,5 +1,5 @@
-import api from '../../api/interceptor';
-import config from '../../config/config';
+import api from '../../api/interceptor.js';
+import { config } from '../../config/config.js';
 import Templates from '../../common/Templates.js';
 import Choices from 'choices.js';
 import { displayWarehouse } from './displayWarehouse.js';

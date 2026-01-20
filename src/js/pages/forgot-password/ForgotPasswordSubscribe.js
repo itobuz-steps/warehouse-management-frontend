@@ -1,7 +1,7 @@
 import axios from 'axios';
-import Templates from '../../common/Templates';
-import forgotPasswordSelection from './forgotPasswordSelector';
-import config from '../../config/config';
+import Templates from '../../common/Templates.js';
+import forgotPasswordSelection from './forgotPasswordSelector.js';
+import { config } from '../../config/config.js';
 
 const toastMessage = new Templates();
 

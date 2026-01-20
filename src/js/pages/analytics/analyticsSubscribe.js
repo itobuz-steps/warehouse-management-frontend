@@ -1,6 +1,6 @@
 import api from '../../api/interceptor.js';
 import AnalyticsTemplate from '../../common/template/AnalyticsTemplate.js';
-import config from '../../config/config.js';
+import { config } from '../../config/config.js';
 import analyticsSelection from './analyticsSelector.js';
 import {
   Chart,
@@ -141,7 +141,7 @@ class AnalyticsSubscribe {
         `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
       );
 
-     // console.log(response2.data.data);
+      // console.log(response2.data.data);
 
       await this.createLineChart(response2.data.data);
     } catch (err) {

@@ -1,6 +1,6 @@
-import Templates from '../../common/Templates';
-import api from '../../api/interceptor';
-import config from '../../config/config';
+import Templates from '../../common/Templates.js';
+import api from '../../api/interceptor.js';
+import { config } from '../../config/config.js';
 import { displayWarehouse } from './displayWarehouse.js';
 import * as bootstrap from 'bootstrap';
 import inventorySelection from './inventorySelector.js';

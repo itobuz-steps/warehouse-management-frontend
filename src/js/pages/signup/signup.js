@@ -2,7 +2,7 @@ import '../../../scss/auth.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
 import axios from 'axios';
-import config from '../../config/config.js';
+import { config } from '../../config/config.js';
 import signupSelection from './signupSelector.js';
 import signupSubscribe from './signupSubscribe.js';
 import { showPassToggle } from '../../common/showPasswordToggle.js';

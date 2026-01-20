@@ -2,8 +2,8 @@ import '../../../scss/inventory.scss';
 // eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
 
-import api from '../../api/interceptor';
-import config from '../../config/config';
+import api from '../../api/interceptor.js';
+import { config } from '../../config/config.js';
 import Templates from '../../common/Templates.js';
 import { addWarehouseSubscribe, showManagerOptions } from './addWarehouse.js';
 import { displayWarehouse } from './displayWarehouse.js';
