@@ -1,6 +1,6 @@
 import '../../../scss/products.scss';
 import { initializeCarousel } from '../../common/imageCarousel';
-import config from '../../config/config';
+import { config } from '../../config/config.js';
 import { productSelection } from '../products/productSelector';
 
 document.addEventListener('DOMContentLoaded', async () => {

@@ -1,7 +1,7 @@
 import api from '../../api/interceptor.js';
 import Templates from '../../common/Templates.js';
 import dashboardSelection from './dashboardSelector.js';
-import config from '../../config/config.js';
+import { config } from '../../config/config.js';
 import {
   getCurrentUser,
   getUserWarehouses,
@@ -691,7 +691,6 @@ const showProfitLossSubscribe = async (
 
     const labels = profitLossData.map((d) => d.label);
     const nets = profitLossData.map((d) => d.net);
-
 
     if (lineGraph2) {
       lineGraph2.destroy();

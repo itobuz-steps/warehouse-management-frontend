@@ -1,5 +1,10 @@
-import axios from 'axios';
-import config from '../config/config';
+import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import { config } from '../config/config.js';
+
+type FailedRequest = {
+  resolve: (token: string | null) => void;
+  reject: (error: Error) => void;
+};
 
 if (!navigator.onLine) {
   window.location.href = '/pages/connection-out.html';
@@ -21,11 +26,11 @@ api.interceptors.request.use(
 ); //before request is sent
 
 let isRefreshing = false;
-let failedQueue = [];
+let failedQueue: Array<FailedRequest> = [];
 
-const processQueue = (error, token = null) => {
+const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue.forEach((prom) => {
-    if (error) {
+    if (error && token === null) {
       prom.reject(error);
     } else {
       prom.resolve(token);
@@ -36,8 +41,10 @@ const processQueue = (error, token = null) => {
 
 api.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+  async (error: AxiosError) => {
+    const originalRequest:
+      | (InternalAxiosRequestConfig & { _retry?: boolean })
+      | undefined = error.config;
 
     // if timeout or server don't return anything
     if (error.code === 'ECONNABORTED' || error.message === 'Network Error') {
@@ -54,6 +61,7 @@ api.interceptors.response.use(
     if (
       error.response &&
       error.response.status === 401 &&
+      originalRequest &&
       !originalRequest._retry
     ) {
       if (isRefreshing) {
@@ -100,9 +108,11 @@ api.interceptors.response.use(
         processQueue(null, newAccessToken);
         return api(originalRequest);
       } catch (err) {
-        processQueue(err, null);
-        window.location.href = '/pages/login.html';
-        return Promise.reject(err);
+        if (err instanceof Error) {
+          processQueue(err, null);
+          window.location.href = '/pages/login.html';
+          return Promise.reject(err);
+        }
       } finally {
         isRefreshing = false;
       }

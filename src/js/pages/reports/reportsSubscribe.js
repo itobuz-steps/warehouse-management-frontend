@@ -4,7 +4,7 @@ import {
   getCurrentUser,
   getUserWarehouses,
 } from '../../common/api/HelperApi.js';
-import config from '../../config/config.js';
+import { config } from '../../config/config.js';
 import reportSelection from './reportsSelectors.js';
 
 let currentWarehouseId = 'ALL';

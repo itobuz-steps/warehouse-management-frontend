@@ -1,8 +1,8 @@
-import api from '../../api/interceptor';
-import Templates from '../../common/Templates';
+import api from '../../api/interceptor.js';
+import Templates from '../../common/Templates.js';
 import { transactionSelectors } from './transactionSelector.js';
 import { confirmTransaction } from '../../common/modals/confirmModal.js';
-import config from '../../config/config.js';
+import { config } from '../../config/config.js';
 
 const toastMessage = new Templates();
 const { toastSection, warehouses, containers } = transactionSelectors;
