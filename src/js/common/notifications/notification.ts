@@ -1,4 +1,4 @@
-import notificationSelection from './notificationSelector';
+import notificationSelection from './notificationSelector.js';
 import { markAllAsSeen } from './notificationSubscribe';
 
 // let notificationOffset = 0;
@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   // notificationOffset += 10;
 });
 
-notificationSelection.notificationBell.addEventListener('click', async () => {
+notificationSelection.notificationBell?.addEventListener('click', async () => {
   // console.log('mark all seen called');
   await markAllAsSeen();
 });
 
-notificationSelection.canvasClose.addEventListener('click', () => {
+notificationSelection.canvasClose?.addEventListener('click', () => {
   const notificationItems = document.querySelectorAll('.notif-item');
 
   notificationItems.forEach((item) => {

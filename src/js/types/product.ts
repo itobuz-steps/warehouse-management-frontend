@@ -1,4 +1,5 @@
 type Product = {
+  productId: string;
   name: string;
   productImage: string[];
   category: string;

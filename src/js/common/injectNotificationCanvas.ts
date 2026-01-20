@@ -1,4 +1,6 @@
-const container = document.getElementById('notifications-container');
+const container = document.getElementById(
+  'notifications-container'
+) as HTMLElement;
 
 fetch('../../pages/notification.html')
   .then((res) => res.text())
@@ -6,7 +8,7 @@ fetch('../../pages/notification.html')
     container.innerHTML = html;
 
     import('./notifications/notification.js');
-    import ('./../../scss/common/_notification.scss');
+    import('./../../scss/common/_notification.scss');
   })
   .catch((err) => {
     console.error('Failed to load notifications offcanvas:', err);
