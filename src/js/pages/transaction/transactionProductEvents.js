@@ -1,7 +1,7 @@
 // js/pages/transaction/transactionProductEvents.js
 import { addProduct } from '../../common/api/productApiHelper.js';
 import { getCurrentUser } from '../../common/api/HelperApi.js';
-import Templates from '../../common/Templates.js';
+import { Templates } from '../../common/Templates.js';
 import { displayProducts } from './displayProducts.js';
 
 const toastMessage = new Templates();

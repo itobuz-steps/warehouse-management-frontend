@@ -1,6 +1,6 @@
 import api from '../../api/interceptor.js';
 import { config } from '../../config/config.js';
-import Templates from '../../common/Templates.js';
+import { Templates } from '../../common/Templates.js';
 
 const displayToast = new Templates();
 const toastSection = document.getElementById('toastSection');

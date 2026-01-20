@@ -1,5 +1,7 @@
-class TransactionModalTemplate {
-  productTable = (products) => {
+import type { ITransactionModalTemplate } from './types';
+
+class TransactionModalTemplate implements ITransactionModalTemplate {
+  productTable = (products: { name: string; qty: number }[]) => {
     if (!products.length) {
       return `
         <div class="p-3 rounded border bg-light mb-4">
@@ -37,7 +39,7 @@ class TransactionModalTemplate {
     `;
   };
 
-  stockInDetails = (warehouseName, supplier, notes) => {
+  stockInDetails = (warehouseName: string, supplier: string, notes: string) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
         <h6 class=" mb-2 text-secondary">
@@ -52,7 +54,11 @@ class TransactionModalTemplate {
     `;
   };
 
-  stockOutDetails = (warehouseName, customer, notes) => {
+  stockOutDetails = (
+    warehouseName: string,
+    customer: { name: string; email: string; phone: string; address: string },
+    notes: string
+  ) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
         <h6 class=" mb-2 text-secondary">
@@ -70,7 +76,7 @@ class TransactionModalTemplate {
     `;
   };
 
-  transferDetails = (source, dest, notes) => {
+  transferDetails = (source: string, dest: string, notes: string) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
         <h6 class=" mb-2 text-secondary">
@@ -87,7 +93,11 @@ class TransactionModalTemplate {
     `;
   };
 
-  adjustmentDetails = (warehouseName, reason, notes) => {
+  adjustmentDetails = (
+    warehouseName: string,
+    reason: string,
+    notes: string
+  ) => {
     return `
       <div class="summary-section p-3 rounded border bg-white shadow-sm mb-3">
         <h6 class=" mb-2 text-secondary">
@@ -103,4 +113,4 @@ class TransactionModalTemplate {
   };
 }
 
-export default TransactionModalTemplate;
+export { TransactionModalTemplate };

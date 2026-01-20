@@ -1,5 +1,5 @@
 import api from '../../api/interceptor.js';
-import Templates from '../../common/Templates.js';
+import { Templates } from '../../common/Templates.js';
 import dashboardSelection from './dashboardSelector.js';
 import { config } from '../../config/config.js';
 import {

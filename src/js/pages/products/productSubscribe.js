@@ -1,7 +1,7 @@
 import { productSelection } from './productSelector.js';
 import { loadWarehouses } from './productWarehouse.js';
 import { openProductModal } from './productDetails.js';
-import { getCurrentUser } from '../../common/api/helperApi.js';
+import { getCurrentUser } from '../../common/api/HelperApi.js';
 import {
   createProductCard,
   showEmptyState,
@@ -93,9 +93,13 @@ const initializeEventListeners = () => {
     state.warehouseId = warehouseId;
 
     const url = new URL(window.location);
-    warehouseId
-      ? url.searchParams.set('warehouseId', warehouseId)
-      : url.searchParams.delete('warehouseId');
+
+    if (warehouseId) {
+      url.searchParams.set('warehouseId', warehouseId);
+    } else {
+      url.searchParams.delete('warehouseId');
+    }
+
     window.history.replaceState({}, '', url);
 
     loadProducts({ warehouseId, page: 1 });

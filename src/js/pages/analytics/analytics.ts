@@ -1,6 +1,8 @@
 import '../../../scss/styles.scss';
 import '../../../scss/analytics.scss';
-/* eslint-disable @ts-ignore @typescript-eslint/no-unused-vars */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+//@ts-expect-error Bootstrap import
 import * as bootstrap from 'bootstrap';
 
 import AnalyticsSubscribe from './analyticsSubscribe.js';

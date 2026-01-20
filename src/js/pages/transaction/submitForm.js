@@ -1,5 +1,5 @@
 import api from '../../api/interceptor.js';
-import Templates from '../../common/Templates.js';
+import { Templates } from '../../common/Templates.js';
 import { transactionSelectors } from './transactionSelector.js';
 import { confirmTransaction } from '../../common/modals/confirmModal.js';
 import { config } from '../../config/config.js';

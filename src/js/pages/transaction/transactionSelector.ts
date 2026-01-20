@@ -1,8 +1,9 @@
-// js/pages/transaction/transactionSelector.js
-export const transactionSelectors = {
-  form: document.getElementById('transactionForm'),
+import type { TransactionSelectors } from './types/transactionSelector';
+
+export const transactionSelectors: TransactionSelectors = {
+  form: document.getElementById('transactionForm') as HTMLFormElement,
   toastSection: document.getElementById('toastSection'),
-  typeSelect: document.getElementById('transactionType'),
+  typeSelect: document.getElementById('transactionType') as HTMLElement,
 
   sections: {
     IN: document.getElementById('inFields'),
@@ -18,8 +19,12 @@ export const transactionSelectors = {
   },
 
   warehouses: {
-    sourceWarehouse: document.getElementById('sourceWarehouse'),
-    destinationWarehouse: document.getElementById('destinationWarehouse'),
+    sourceWarehouse: document.getElementById(
+      'sourceWarehouse'
+    ) as HTMLSelectElement,
+    destinationWarehouse: document.getElementById(
+      'destinationWarehouse'
+    ) as HTMLSelectElement,
   },
 
   containers: {
