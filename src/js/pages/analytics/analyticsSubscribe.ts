@@ -1,7 +1,7 @@
 import api from '../../api/interceptor.js';
-import AnalyticsTemplate from '../../common/template/AnalyticsTemplate.js';
-import config from '../../config/config.js';
-import analyticsSelection from './analyticsSelector.js';
+import AnalyticsTemplate from '../../common/template/AnalyticsTemplate.ts';
+import config from '../../config/config.ts';
+import analyticsSelection from './analyticsSelector.ts';
 import {
   Chart,
   BarController,
@@ -31,8 +31,83 @@ Chart.register(
   PointElement
 );
 
-let barGraph = null;
-let lineGraph = null;
+interface Manager {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
+interface Warehouse {
+  _id: string;
+  name: string;
+  address: string;
+  description: string;
+  managerIds: string;
+  capacity: number;
+  managers: Manager[];
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+interface ProductDetails {
+  _id: string;
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  markup: number;
+  isArchived: boolean;
+  productImage: string[];
+
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+interface InventoryProduct {
+  _id: string;
+  productId: string;
+  warehouseId: string;
+  quantity: number;
+  limit: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  product: ProductDetails;
+}
+
+interface barChartData {
+  warehouse: string;
+  productA: {
+    name: string;
+    quantity: number;
+  };
+  productB: {
+    name: string;
+    quantity: number;
+  };
+}
+
+interface ProductHistoryItem {
+  date: string;
+  transactions: number;
+}
+interface ProductAnalytics {
+  id: string;
+  name: string;
+  history: ProductHistoryItem[];
+}
+interface LineChartResponse {
+  productA: ProductAnalytics;
+  productB: ProductAnalytics;
+  warehouse: string;
+}
+
+let barGraph: Chart;
+let lineGraph: Chart;
 
 class AnalyticsSubscribe {
   analyticsTemplate = new AnalyticsTemplate();
@@ -43,7 +118,7 @@ class AnalyticsSubscribe {
         `${config.WAREHOUSE_BASE_URL}/get-warehouses`
       );
 
-      const warehouses = result.data.data;
+      const warehouses: Warehouse[] = result.data.data;
 
       warehouses.forEach((warehouse) => {
         analyticsSelection.warehouseSelect.innerHTML +=
@@ -56,7 +131,7 @@ class AnalyticsSubscribe {
       const result2 = await api.get(
         `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${defaultWarehouseId}`
       );
-      const products = result2.data.data;
+      const products: InventoryProduct[] = result2.data.data;
 
       if (products.length <= 1) {
         analyticsSelection.noDataSection.classList.remove('d-none');
@@ -86,7 +161,8 @@ class AnalyticsSubscribe {
 
       // On change option result flow
       analyticsSelection.warehouseSelect.addEventListener('change', (event) => {
-        const selected = event.target.selectedOptions[0];
+        const select = event.currentTarget as HTMLSelectElement;
+        const selected = select.selectedOptions[0];
         const warehouseId = selected.id;
 
         this.loadProductOptions(warehouseId);
@@ -96,7 +172,7 @@ class AnalyticsSubscribe {
     }
   };
 
-  loadProductOptions = async (warehouseId) => {
+  loadProductOptions = async (warehouseId: string) => {
     try {
       const result = await api.get(
         `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${warehouseId}`
@@ -105,7 +181,7 @@ class AnalyticsSubscribe {
       analyticsSelection.productSelect1.innerHTML = '';
       analyticsSelection.productSelect2.innerHTML = '';
 
-      const productDetails = result.data.data;
+      const productDetails: ProductDetails[] = result.data.data;
 
       productDetails.forEach((product) => {
         const productOption = this.analyticsTemplate.productOptions(product);
@@ -118,9 +194,13 @@ class AnalyticsSubscribe {
     }
   };
 
-  getComparisonData = async (event) => {
+  getComparisonData = async (event: SubmitEvent) => {
     try {
       event.preventDefault();
+
+      if (!(event.target instanceof HTMLFormElement)) {
+        throw new Error('Event target is not an HTMLFormElement');
+      }
 
       const formData = new FormData(event.target);
 
@@ -141,7 +221,7 @@ class AnalyticsSubscribe {
         `${config.PRODUCT_ANALYTICS_URL}/product-comparison-history?warehouseId=${warehouseId}&productA=${product1}&productB=${product2}`
       );
 
-     // console.log(response2.data.data);
+      // console.log(response2.data.data);
 
       await this.createLineChart(response2.data.data);
     } catch (err) {
@@ -149,7 +229,7 @@ class AnalyticsSubscribe {
     }
   };
 
-  createBarChart = async (data) => {
+  createBarChart = async (data: barChartData) => {
     const barChart = analyticsSelection.barChart;
 
     let labels = new Array(data.productA.name, data.productB.name);
@@ -205,7 +285,7 @@ class AnalyticsSubscribe {
     });
   };
 
-  createLineChart = async (data) => {
+  createLineChart = async (data: LineChartResponse) => {
     const dates = data.productA.history.map((item) => item.date);
 
     const productATransactions = data.productA.history.map(

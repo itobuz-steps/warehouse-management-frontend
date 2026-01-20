@@ -1,9 +1,10 @@
 import '../../../scss/styles.scss';
 import '../../../scss/analytics.scss';
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+/* eslint-disable @ts-ignore @typescript-eslint/no-unused-vars */
 import * as bootstrap from 'bootstrap';
-import AnalyticsSubscribe from './AnalyticsSubscribe.js';
-import analyticsSelection from './analyticsSelector.js';
+
+import AnalyticsSubscribe from './analyticsSubscribe.js';
+import analyticsSelection from './analyticsSelector.ts';
 
 const analyticsSubscribe = new AnalyticsSubscribe();
 
@@ -11,17 +12,17 @@ document.addEventListener('DOMContentLoaded', () => {
   analyticsSubscribe.loadOptions();
 });
 
-analyticsSelection.analyticsForm.addEventListener(
+analyticsSelection.analyticsForm?.addEventListener(
   'submit',
   analyticsSubscribe.getComparisonData
 );
 
-analyticsSelection.transactionExcel.addEventListener(
+analyticsSelection.transactionExcel?.addEventListener(
   'click',
   analyticsSubscribe.getTwoProductTransactionExcel
 );
 
-analyticsSelection.quantityExcel.addEventListener(
+analyticsSelection.quantityExcel?.addEventListener(
   'click',
   analyticsSubscribe.getTwoProductQuantityExcel
 );
