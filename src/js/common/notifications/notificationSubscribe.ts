@@ -3,9 +3,10 @@ import { config } from '../../config/config.js';
 import Templates from '../Templates.ts';
 import notificationSelection from './notificationSelector.ts';
 import createNotificationTemplate from '../template/notificationTemplate.js';
+import type { Notification } from '../../types/notification.ts';
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
+const toastSection = document.getElementById('toastSection') as HTMLDivElement;
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
@@ -49,13 +50,15 @@ async function registerAndSubscribe() {
 
     return subscription;
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
-    setTimeout(() => (toastSection.innerHTML = ''), 3000);
+    if (err instanceof Error) {
+      toastSection.innerHTML = displayToast.errorToast(err.message);
+      setTimeout(() => (toastSection.innerHTML = ''), 3000);
+    }
   }
 }
 
 // Load Notifications with Loader
-export async function loadNotifications(offset) {
+export async function loadNotifications(offset: number) {
   // show loader while loading
   notificationSelection.loaderContainer.style.display = 'block';
 
@@ -74,14 +77,16 @@ export async function loadNotifications(offset) {
       notificationSelection.notificationCount.textContent = unseenCount;
       notificationSelection.notificationCount.style.display = 'inline-block';
     } else {
-      notificationSelection.notificationCount.textContent = 0;
+      notificationSelection.notificationCount.textContent = '0';
       notificationSelection.notificationCount.style.display = 'none';
     }
 
     renderNotifications(notifications, offset);
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
-    setTimeout(() => (toastSection.innerHTML = ''), 3000);
+    if (err instanceof Error) {
+      toastSection.innerHTML = displayToast.errorToast(err.message);
+      setTimeout(() => (toastSection.innerHTML = ''), 3000);
+    }
   } finally {
     // hide loader after loading completes
     notificationSelection.loaderContainer.style.display = 'none';
@@ -89,7 +94,10 @@ export async function loadNotifications(offset) {
 }
 
 // Render notifications
-export async function renderNotifications(notifications, offset) {
+export async function renderNotifications(
+  notifications: Notification[],
+  offset: number
+) {
   try {
     if (offset === 0) {
       notificationSelection.notificationList.innerHTML = '';
@@ -105,17 +113,25 @@ export async function renderNotifications(notifications, offset) {
 
     shipButtons.forEach((btn) => {
       btn.addEventListener('click', async (e) => {
-        const transactionId = e.target.dataset.id;
+        const target = e.currentTarget;
+
+        if (!(target instanceof HTMLButtonElement)) {
+          return;
+        }
+        const transactionId = target.dataset.id;
 
         if (!transactionId) {
           return;
         }
 
         try {
-          e.target.innerText = 'Shipped';
-          e.target.disabled = true;
+          target.innerText = 'Shipped';
+          target.disabled = true;
 
-          const cancelBtn = btn.parentElement.querySelector('.cancel-button');
+          const cancelBtn =
+            btn.parentElement?.querySelector<HTMLButtonElement>(
+              '.cancel-button'
+            );
 
           if (cancelBtn) {
             cancelBtn.disabled = true;
@@ -125,8 +141,10 @@ export async function renderNotifications(notifications, offset) {
             `${config.NOTIFICATION_BASE_URL}/change-shipment-status/${transactionId}`
           );
         } catch (err) {
-          toastSection.innerHTML = displayToast.errorToast(err.message);
-          setTimeout(() => (toastSection.innerHTML = ''), 3000);
+          if (err instanceof Error) {
+            toastSection.innerHTML = displayToast.errorToast(err.message);
+            setTimeout(() => (toastSection.innerHTML = ''), 3000);
+          }
         }
       });
     });
@@ -136,17 +154,23 @@ export async function renderNotifications(notifications, offset) {
 
     cancelButtons.forEach((btn) => {
       btn.addEventListener('click', async (e) => {
-        const transactionId = e.target.dataset.id;
+        const target = e.currentTarget;
+
+        if (!(target instanceof HTMLButtonElement)) {
+          return;
+        }
+        const transactionId = target.dataset.id;
 
         if (!transactionId) {
           return;
         }
 
         try {
-          e.target.innerText = 'Cancelled';
-          e.target.disabled = true;
+          target.innerText = 'Cancelled';
+          target.disabled = true;
 
-          const shipBtn = btn.parentElement.querySelector('.ship-button');
+          const shipBtn =
+            btn.parentElement?.querySelector<HTMLButtonElement>('.ship-button');
 
           if (shipBtn) {
             shipBtn.disabled = true;
@@ -156,21 +180,25 @@ export async function renderNotifications(notifications, offset) {
             `${config.NOTIFICATION_BASE_URL}/cancel-shipment/${transactionId}`
           );
         } catch (err) {
-          toastSection.innerHTML = displayToast.errorToast(err.message);
-          setTimeout(() => (toastSection.innerHTML = ''), 3000);
+          if (err instanceof Error) {
+            toastSection.innerHTML = displayToast.errorToast(err.message);
+            setTimeout(() => (toastSection.innerHTML = ''), 3000);
+          }
         }
       });
     });
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
-    setTimeout(() => (toastSection.innerHTML = ''), 3000);
+    if (err instanceof Error) {
+      toastSection.innerHTML = displayToast.errorToast(err.message);
+      setTimeout(() => (toastSection.innerHTML = ''), 3000);
+    }
   }
 }
 
 //  Mark all seen
 export async function markAllAsSeen() {
   try {
-    if (notificationSelection.notificationCount.innerHTML == 0) {
+    if (notificationSelection.notificationCount.innerHTML == '0') {
       return;
     }
 
@@ -178,42 +206,43 @@ export async function markAllAsSeen() {
 
     notificationSelection.notificationCount.style.display = 'none';
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.message);
-    setTimeout(() => (toastSection.innerHTML = ''), 3000);
-  }
-}
-
-//  Infinite Scroll Observer
-let isLoading = false;
-
-const callback = async (entries) => {
-  for (const entry of entries) {
-    if (entry.isIntersecting && !isLoading) {
-      isLoading = true;
-
-      notificationSelection.loaderContainer.style.display = 'block';
-
-      const offset = notificationSelection.notificationList.children.length;
-
-      await loadNotifications(offset);
-
-      notificationSelection.loaderContainer.style.display = 'none';
-      isLoading = false;
+    if (err instanceof Error) {
+      toastSection.innerHTML = displayToast.errorToast(err.message);
+      setTimeout(() => (toastSection.innerHTML = ''), 3000);
     }
   }
-};
 
-// Offcanvas body is scrollable, so we use it as the root
-const observer = new IntersectionObserver(callback, {
-  root: document.querySelector('.offcanvas-body'),
-  rootMargin: '0px',
-  threshold: 0.1,
-});
+  //  Infinite Scroll Observer
+  let isLoading = false;
 
-const sentinel = document.querySelector('#sentinel');
+  const callback = async (entries: IntersectionObserverEntry[]) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting && !isLoading) {
+        isLoading = true;
 
-if (sentinel) {
-  observer.observe(sentinel);
+        notificationSelection.loaderContainer.style.display = 'block';
+
+        const offset = notificationSelection.notificationList.children.length;
+
+        await loadNotifications(offset);
+
+        notificationSelection.loaderContainer.style.display = 'none';
+        isLoading = false;
+      }
+    }
+  };
+
+  // Offcanvas body is scrollable, so we use it as the root
+  const observer = new IntersectionObserver(callback, {
+    root: document.querySelector('.offcanvas-body'),
+    rootMargin: '0px',
+    threshold: 0.1,
+  });
+
+  const sentinel = document.querySelector('#sentinel');
+
+  if (sentinel) {
+    observer.observe(sentinel);
+  }
 }
-
 export { registerAndSubscribe };

@@ -1,5 +1,6 @@
 import '../../../scss/auth.scss';
-// eslint-disable-next-line no-unused-vars
+// @ts-expect-error bootstrap need to be imported this way
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as bootstrap from 'bootstrap';
 import forgotPasswordSelection from './forgotPasswordSelector.js';
 import ForgotPasswordSubscribe from './ForgotPasswordSubscribe.js';
@@ -24,7 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 });
 
-const toggleNewPassword = document.getElementById('toggleNewPassword');
+const toggleNewPassword = document.getElementById(
+  'toggleNewPassword'
+) as HTMLButtonElement;
 
 toggleNewPassword.addEventListener('click', () => {
   const newPasswordInput = document.getElementById('newPassword');
