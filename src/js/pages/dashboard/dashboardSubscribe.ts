@@ -21,6 +21,7 @@ import {
   LineElement,
   PointElement,
 } from 'chart.js';
+import type { TransactionPopulated } from '../../common/template/types.js';
 
 Chart.register(
   BarController,
@@ -38,15 +39,15 @@ Chart.register(
 
 const displayToast = new Templates();
 
-let lineGraph2 = null;
-let barGraph = null;
-let doughnut = null;
-let lineGraph = null;
+let lineGraph2: Chart<'line'> | null = null;
+let barGraph: Chart<'bar'> | null = null;
+let doughnut: Chart<'doughnut'> | null = null;
+let lineGraph: Chart<'line'> | null = null;
 
-const showTopProductsSubscribe = async (warehouseId) => {
+const showTopProductsSubscribe = async (warehouseId: string) => {
   try {
     if (!warehouseId) {
-      dashboardSelection.chartCard.style.display = 'none';
+      dashboardSelection.chartCard[0].style.display = 'none';
       return;
     }
 
@@ -57,8 +58,12 @@ const showTopProductsSubscribe = async (warehouseId) => {
 
     const products = res.data.data;
 
-    const labels = products.map((item) => item.productName);
-    const quantities = products.map((item) => item.totalQuantity);
+    const labels = products.map(
+      (item: { productName: string }) => item.productName
+    );
+    const quantities = products.map(
+      (item: { totalQuantity: number }) => item.totalQuantity
+    );
 
     if (barGraph) {
       barGraph.destroy();
@@ -118,7 +123,7 @@ const showTopProductsSubscribe = async (warehouseId) => {
             beginAtZero: true,
           },
         },
-        onClick: (evt, elements) => {
+        onClick: (_evt, elements) => {
           if (!elements.length) {
             return;
           }
@@ -128,6 +133,10 @@ const showTopProductsSubscribe = async (warehouseId) => {
       },
     });
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
@@ -138,8 +147,8 @@ const showTopProductsSubscribe = async (warehouseId) => {
   }
 };
 
-const showInventoryCategorySubscribe = async (warehouseId) => {
-  const res = await api.get(
+const showInventoryCategorySubscribe = async (warehouseId: string) => {
+  const res = await api.get<{ data: { _id: string; totalProducts: number }[] }>(
     `${config.DASHBOARD_BASE_URL}/get-inventory-category/${warehouseId}`
   );
 
@@ -179,7 +188,7 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      onClick: (evt, elements) => {
+      onClick: (_evt, elements) => {
         if (!elements.length) {
           return;
         }
@@ -190,11 +199,11 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
   });
 };
 
-const showProductTransactionSubscribe = async (warehouseId) => {
+const showProductTransactionSubscribe = async (warehouseId: string) => {
   try {
-    const res = await api.get(
-      `${config.DASHBOARD_BASE_URL}/get-product-transaction/${warehouseId}`
-    );
+    const res = await api.get<{
+      data: { _id: string; IN: number; OUT: number }[];
+    }>(`${config.DASHBOARD_BASE_URL}/get-product-transaction/${warehouseId}`);
 
     const transactionDetails = res.data.data;
 
@@ -263,6 +272,10 @@ const showProductTransactionSubscribe = async (warehouseId) => {
       },
     });
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
@@ -273,7 +286,7 @@ const showProductTransactionSubscribe = async (warehouseId) => {
   }
 };
 
-const showTransactionStatsSubscribe = async (warehouseId) => {
+const showTransactionStatsSubscribe = async (warehouseId: string) => {
   try {
     const res = await api.get(
       `${config.DASHBOARD_BASE_URL}/get-transaction-stats/${warehouseId}`
@@ -310,6 +323,10 @@ const showTransactionStatsSubscribe = async (warehouseId) => {
     dashboardSelection.inventoryInput.innerText = `${totalInventory.toLocaleString('hi-IN')} items left`;
     dashboardSelection.shipmentInput.innerText = `${todayShipment.toLocaleString('hi-IN')}`;
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
@@ -320,11 +337,17 @@ const showTransactionStatsSubscribe = async (warehouseId) => {
   }
 };
 
-const showLowStockProducts = async (warehouseId) => {
+const showLowStockProducts = async (warehouseId: string) => {
   try {
-    const res = await api.get(
-      `${config.DASHBOARD_BASE_URL}/get-low-stock-products/${warehouseId}`
-    );
+    const res = await api.get<{
+      data: {
+        lowStockProducts: {
+          productId: string;
+          productName: string;
+          quantity: number;
+        }[];
+      };
+    }>(`${config.DASHBOARD_BASE_URL}/get-low-stock-products/${warehouseId}`);
 
     const items = res.data.data.lowStockProducts;
     dashboardSelection.lowStockTable.innerHTML = '';
@@ -341,7 +364,7 @@ const showLowStockProducts = async (warehouseId) => {
 
       const temp = document.createElement('tbody');
       temp.innerHTML = rowHTML;
-      const row = temp.firstElementChild;
+      const row = temp.firstElementChild as HTMLElement;
 
       row.style.cursor = 'pointer';
       row.addEventListener('click', () => {
@@ -351,6 +374,10 @@ const showLowStockProducts = async (warehouseId) => {
       dashboardSelection.lowStockTable.appendChild(row);
     });
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
@@ -362,9 +389,19 @@ const showLowStockProducts = async (warehouseId) => {
 };
 
 // Cancelled Products
-const loadMostCancelledProducts = async (warehouseId, limit = 5) => {
+const loadMostCancelledProducts = async (
+  warehouseId: string,
+  limit: number = 5
+) => {
   try {
-    const res = await api.get(
+    const res = await api.get<{
+      data: {
+        productId: string;
+        productName: string;
+        category: string;
+        totalCancelledQuantity: number;
+      }[];
+    }>(
       `${config.DASHBOARD_BASE_URL}/get-cancelled-orders/${warehouseId}?limit=${limit}`
     );
 
@@ -383,8 +420,7 @@ const loadMostCancelledProducts = async (warehouseId, limit = 5) => {
 
       const temp = document.createElement('tbody');
       temp.innerHTML = rowHTML;
-      const row = temp.firstElementChild;
-
+      const row = temp.firstElementChild as HTMLElement;
       row.style.cursor = 'pointer';
       row.addEventListener('click', () => {
         window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
@@ -393,6 +429,10 @@ const loadMostCancelledProducts = async (warehouseId, limit = 5) => {
       dashboardSelection.cancelledTable.appendChild(row);
     });
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
@@ -404,9 +444,20 @@ const loadMostCancelledProducts = async (warehouseId, limit = 5) => {
 };
 
 // Adjusted Products
-const loadMostAdjustedProducts = async (warehouseId, limit = 5) => {
+const loadMostAdjustedProducts = async (
+  warehouseId: string,
+  limit: number = 5
+) => {
   try {
-    const res = await api.get(
+    const res = await api.get<{
+      data: {
+        productId: string;
+        productName: string;
+        category: string;
+        totalAdjustedQuantity: number;
+        reason: string;
+      }[];
+    }>(
       `${config.DASHBOARD_BASE_URL}/get-most-adjusted-products/${warehouseId}?limit=${limit}`
     );
 
@@ -425,7 +476,7 @@ const loadMostAdjustedProducts = async (warehouseId, limit = 5) => {
 
       const temp = document.createElement('tbody');
       temp.innerHTML = rowHTML;
-      const row = temp.firstElementChild;
+      const row = temp.firstElementChild as HTMLElement;
 
       row.style.cursor = 'pointer';
       row.addEventListener('click', () => {
@@ -435,6 +486,10 @@ const loadMostAdjustedProducts = async (warehouseId, limit = 5) => {
       dashboardSelection.adjustmentTable.appendChild(row);
     });
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
@@ -464,11 +519,24 @@ const warehouseDisplay = () => {
   dashboardSelection.noDashboardBox.style.display = 'none';
 };
 
-const showRecentTransactions = async (warehouseId) => {
+const showRecentTransactions = async (warehouseId: string) => {
   try {
     if (!warehouseId) return;
 
-    const res = await api.get(
+    const res = await api.get<{
+      data: {
+        transactions: (TransactionPopulated & {
+          product: {
+            productName: string;
+          };
+          performedBy: {
+            fullName: string;
+          };
+          _doc: { type: string };
+          qty: number;
+        })[];
+      };
+    }>(
       `${config.TRANSACTION_BASE_URL}/warehouse-specific-transaction/${warehouseId}?page=1&limit=10`
     );
 
@@ -569,6 +637,10 @@ const showRecentTransactions = async (warehouseId) => {
         });
     });
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.recentActivityList.innerHTML =
       displayToast.noRecentActivity();
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
@@ -579,14 +651,14 @@ const showRecentTransactions = async (warehouseId) => {
     }, 3000);
   }
   dashboardSelection.recentActivityList.addEventListener('click', (e) => {
-    const activityItem = e.target.closest('.activity-item');
+    const activityItem = (e.target as HTMLElement).closest('.activity-item');
     if (!activityItem) return;
 
     window.location.href = 'http://localhost:8080/pages/reports.html';
   });
 };
 
-const fetchUserAndWarehouses = async (warehouseSelect) => {
+const fetchUserAndWarehouses = async (warehouseSelect: HTMLSelectElement) => {
   try {
     //fetching user details.
     const user = await getCurrentUser();
@@ -619,6 +691,10 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
 
     return true;
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
@@ -629,10 +705,10 @@ const fetchUserAndWarehouses = async (warehouseSelect) => {
   }
 };
 
-const showTopSellingProductsSubscribe = async (warehouseId) => {
+const showTopSellingProductsSubscribe = async (warehouseId: string) => {
   try {
     if (!warehouseId) {
-      dashboardSelection.chartCard.style.display = 'none';
+      dashboardSelection.chartCard[0].style.display = 'none';
       return;
     }
     const res = await api.get(
@@ -643,23 +719,39 @@ const showTopSellingProductsSubscribe = async (warehouseId) => {
 
     dashboardSelection.carouselItems.innerHTML = '';
 
-    products.forEach((product, index) => {
-      let isActive = '';
-      if (index === 0) {
-        isActive = 'active';
+    products.forEach(
+      (
+        product: {
+          productId: string;
+          productImage: string;
+          productName: string;
+          category: string;
+          price: number;
+          totalSalesAmount: number;
+        },
+        index: number
+      ) => {
+        let isActive = false;
+        if (index === 0) {
+          isActive = true;
+        }
+
+        // console.log(warehouseId, product.productId);
+
+        const itemHTML = displayToast.carouselItem(
+          warehouseId,
+          product,
+          isActive
+        );
+
+        dashboardSelection.carouselItems.innerHTML += itemHTML;
       }
-
-      // console.log(warehouseId, product.productId);
-
-      const itemHTML = displayToast.carouselItem(
-        warehouseId,
-        product,
-        isActive
-      );
-
-      dashboardSelection.carouselItems.innerHTML += itemHTML;
-    });
+    );
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
@@ -671,10 +763,10 @@ const showTopSellingProductsSubscribe = async (warehouseId) => {
 };
 
 const showProfitLossSubscribe = async (
-  warehouseId,
-  option = null,
-  from = null,
-  to = null
+  warehouseId: string,
+  option: string | null = null,
+  from: string | null = null,
+  to: string | null = null
 ) => {
   try {
     let url = `${config.DASHBOARD_BASE_URL}/get-profit-loss?warehouseId=${warehouseId}`;
@@ -685,7 +777,12 @@ const showProfitLossSubscribe = async (
       url += `&from=${from}&to=${to}`;
     }
 
-    const res = await api.get(url);
+    const res = await api.get<{
+      data: Array<{
+        label: string;
+        net: number;
+      }>;
+    }>(url);
 
     const profitLossData = res.data.data;
 
@@ -713,7 +810,6 @@ const showProfitLossSubscribe = async (
       },
       options: {
         responsive: true,
-        tension: 0.4,
         maintainAspectRatio: false,
         plugins: { title: { display: true, text: 'Profit and Loss' } },
         scales: {
@@ -748,7 +844,7 @@ const showProfitLossSubscribe = async (
             segment: {
               borderColor: (ctx) => {
                 const value = ctx.p1.parsed.y;
-                return value >= 0 ? '#0b9671ff' : '#ec0d3dff';
+                return value && value >= 0 ? '#0b9671ff' : '#ec0d3dff';
               },
             },
           },
@@ -756,6 +852,10 @@ const showProfitLossSubscribe = async (
       },
     });
   } catch (err) {
+    if (!(err instanceof Error)) {
+      return;
+    }
+
     dashboardSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );
