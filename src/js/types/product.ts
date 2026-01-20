@@ -1,4 +1,7 @@
+import type { Warehouse } from './warehouse';
+
 type Product = {
+  _id: string;
   name: string;
   productImage: string[];
   category: string;
@@ -9,6 +12,7 @@ type Product = {
   createdBy?: string | null;
   createdAt: Date;
   updatedAt: Date;
+  warehouseId?: Warehouse;
 };
 
 export type { Product };
