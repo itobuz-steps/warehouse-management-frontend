@@ -14,8 +14,8 @@ import {
   fetchAllProducts,
   fetchProductsHavingQuantity,
 } from '../../common/api/productApiHelper.js';
-import { paginationRenderer } from '../../common/paginationRenderer.js';
-import { renderProductGrid } from '../../common/productGridRenderer.js';
+import { paginationRenderer } from '../../common/paginationRenderer.ts';
+import { renderProductGrid } from '../../common/productGridRenderer.ts';
 
 const state = {
   page: 1,

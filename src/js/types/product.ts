@@ -2,6 +2,7 @@ import type { Warehouse } from './warehouse';
 
 type Product = {
   _id: string;
+  productId: string;
   name: string;
   productImage: string[];
   category: string;

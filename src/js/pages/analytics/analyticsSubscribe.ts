@@ -31,53 +31,35 @@ Chart.register(
   PointElement
 );
 
-interface Manager {
-  _id: string;
-  name: string;
-  email: string;
-  role: string;
-}
+import type { Warehouse } from '../../types/warehouse.js';
+import type { InventoryProduct } from '../../types/productDetail.js';
 
-interface Warehouse {
-  _id: string;
-  name: string;
-  address: string;
-  description: string;
-  managerIds: string;
-  capacity: number;
-  managers: Manager[];
-  active: boolean;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
+// export interface ProductDetails {
+//   _id: string;
+//   name: string;
+//   description: string;
+//   category: string;
+//   price: number;
+//   markup: number;
+//   isArchived: boolean;
+//   productImage: string[];
 
-interface ProductDetails {
-  _id: string;
-  name: string;
-  description: string;
-  category: string;
-  price: number;
-  markup: number;
-  isArchived: boolean;
-  productImage: string[];
-
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
-interface InventoryProduct {
-  _id: string;
-  productId: string;
-  warehouseId: string;
-  quantity: number;
-  limit: number;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-  product: ProductDetails;
-}
+//   createdBy: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   __v: number;
+// }
+// export interface InventoryProduct {
+//   _id: string;
+//   productId: string;
+//   warehouseId: string;
+//   quantity: number;
+//   limit: number;
+//   createdAt: string;
+//   updatedAt: string;
+//   __v: number;
+//   product: ProductDetails;
+// }
 
 interface barChartData {
   warehouse: string;
@@ -181,7 +163,7 @@ class AnalyticsSubscribe {
       analyticsSelection.productSelect1.innerHTML = '';
       analyticsSelection.productSelect2.innerHTML = '';
 
-      const productDetails: ProductDetails[] = result.data.data;
+      const productDetails: InventoryProduct[] = result.data.data;
 
       productDetails.forEach((product) => {
         const productOption = this.analyticsTemplate.productOptions(product);

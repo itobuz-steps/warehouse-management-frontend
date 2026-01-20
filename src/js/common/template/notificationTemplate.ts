@@ -1,4 +1,6 @@
-const createNotificationTemplate = (notification) => {
+import type { Notification } from '../../types/notification';
+
+const createNotificationTemplate = (notification: Notification) => {
   const unseenClass = !notification.seen ? 'bg-light' : '';
   const cancelledClass = notification.isCancelled ? 'bg-danger-subtle' : '';
 
