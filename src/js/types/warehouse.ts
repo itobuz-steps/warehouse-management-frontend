@@ -1,4 +1,5 @@
 type Warehouse = {
+  _id: string;
   name: string;
   address: string;
   managerIds: string[];

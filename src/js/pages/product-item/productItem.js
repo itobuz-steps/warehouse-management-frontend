@@ -1,7 +1,7 @@
 import '../../../scss/products.scss';
-import { initializeCarousel } from '../../common/imageCarousel';
+import { initializeCarousel } from '../../common/imageCarousel.js';
 import { config } from '../../config/config.js';
-import { productSelection } from '../products/productSelector';
+import { productSelection } from '../products/productSelector.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const searchParams = new URLSearchParams(window.location.search);

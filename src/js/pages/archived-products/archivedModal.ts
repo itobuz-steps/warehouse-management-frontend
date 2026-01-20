@@ -2,9 +2,9 @@ import { setSelectedProduct } from './archivedEvents.js';
 import { qrCodeFetch } from '../../common/api/productApiHelper.js';
 import archivedSelection from './archivedSelector.js';
 import { initializeCarousel } from '../../common/imageCarousel.js';
+import type { ProductDetails } from '../../types/productDetail.js';
 
-export const openArchivedModal = async (product) => {
-  
+export const openArchivedModal = async (product: ProductDetails) => {
   setSelectedProduct(product._id);
 
   // Use the common carousel utility
@@ -15,10 +15,12 @@ export const openArchivedModal = async (product) => {
   archivedSelection.modalProductName.textContent = product.name;
   archivedSelection.modalDescription.textContent =
     product.description || 'No description available.';
-  archivedSelection.modalPrice.textContent = product.price ?? 'N/A';
+  archivedSelection.modalPrice.textContent =
+    product.price != null ? `${product.price}` : 'N/A';
   archivedSelection.modalCategory.textContent =
     product.category ?? 'Not categorized';
-  archivedSelection.modalMarkup.textContent = product.markup ?? '10';
+  archivedSelection.modalMarkup.textContent =
+    product.markup != null ? `${product.markup}` : '10';
   archivedSelection.modalMarkupPrice.textContent = (
     product.price +
     (product.price * (product.markup || 10)) / 100

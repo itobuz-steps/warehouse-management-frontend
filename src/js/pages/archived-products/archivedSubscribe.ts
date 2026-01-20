@@ -1,13 +1,16 @@
 import { fetchArchivedProducts } from '../../common/api/productApiHelper.js';
-import { paginationRenderer } from '../../common/paginationRenderer.js';
-import { renderProductGrid } from '../../common/productGridRenderer.js';
+import { paginationRenderer } from '../../common/paginationRenderer.ts';
+import { renderProductGrid } from '../../common/productGridRenderer.ts';
 import {
   createProductCard,
   showEmptyState,
   showErrorState,
-} from '../../common/template/productTemplate.js';
-import { openArchivedModal } from './archivedModal.js';
+} from '../../common/template/productTemplate.ts';
+
+import { openArchivedModal } from './archivedModal.ts';
 import archivedSelection from './archivedSelector.js';
+
+import type { Product } from '../../types/product.js';
 
 const state = {
   page: 1,
@@ -34,7 +37,6 @@ export const loadArchivedProducts = async () => {
     });
 
     const { products, totalPages, currentPage } = res.data.data;
-
     state.totalPages = totalPages;
     state.page = currentPage;
 
@@ -52,7 +54,7 @@ export const loadArchivedProducts = async () => {
   }
 };
 
-const renderProducts = (products) => {
+const renderProducts = (products: Product[]) => {
   renderProductGrid({
     container: archivedSelection.productGrid,
     products,
@@ -62,12 +64,13 @@ const renderProducts = (products) => {
   });
 };
 
-const renderPagination = (totalPages) => {
+const renderPagination = (totalPages: number) => {
+  console.log('pagination pages', totalPages);
   paginationRenderer({
     container: archivedSelection.pagination,
     currentPage: state.page,
     totalPages,
-    onPageChange: async (page) => {
+    onPageChange: async (page: number) => {
       state.page = page;
       await loadArchivedProducts();
     },
@@ -75,19 +78,21 @@ const renderPagination = (totalPages) => {
 };
 
 const initSearchControls = () => {
-
-  archivedSelection.searchInput.addEventListener('input', (e) => {
-    state.search = e.target.value.trim();
+  archivedSelection.searchInput?.addEventListener('input', (e: Event) => {
+    if (!(e.currentTarget instanceof HTMLInputElement)) return;
+    state.search = e.currentTarget?.value.trim();
     resetPageAndFetch();
   });
 
-  archivedSelection.categoryFilter.addEventListener('change', (e) => {
-    state.category = e.target.value;
+  archivedSelection.categoryFilter?.addEventListener('change', (e: Event) => {
+    if (!(e.currentTarget instanceof HTMLSelectElement)) return;
+    state.category = e.currentTarget?.value;
     resetPageAndFetch();
   });
 
-  archivedSelection.sortSelect.addEventListener('change', (e) => {
-    state.sort = e.target.value;
+  archivedSelection.sortSelect?.addEventListener('change', (e: Event) => {
+    if (!(e.currentTarget instanceof HTMLSelectElement)) return;
+    state.sort = e.currentTarget?.value;
     resetPageAndFetch();
   });
 };
