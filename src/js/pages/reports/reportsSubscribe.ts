@@ -248,8 +248,8 @@ function toggleStatusFilter() {
 
 async function loadTransactions(
   warehouseId: string,
-  user: User | null,
-  warehouses: Warehouse[] | null,
+  _user: User | null,
+  _warehouses: Warehouse[] | null,
   transactionTemplate: TransactionDetailsTemplate,
   append = false
 ) {
