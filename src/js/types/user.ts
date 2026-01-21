@@ -1,6 +1,7 @@
 import type { Role } from './role';
 
 type User = {
+  _id: string;
   email: string;
   role: Role;
   isVerified: boolean;

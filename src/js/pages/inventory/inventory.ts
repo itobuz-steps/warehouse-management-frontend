@@ -1,5 +1,8 @@
+// can't fix this pages error
+
 import '../../../scss/inventory.scss';
-// eslint-disable-next-line no-unused-vars
+// @ts-expect-error bootstrap need to be imported this way
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as bootstrap from 'bootstrap';
 
 import api from '../../api/interceptor.js';
@@ -9,15 +12,15 @@ import { addWarehouseSubscribe, showManagerOptions } from './addWarehouse.js';
 import { displayWarehouse } from './displayWarehouse.js';
 import { confirmDelete } from './deleteWarehouse.js';
 import { updateWarehouse, selectedManagerOptions } from './editWarehouse.js';
-import inventorySelection from './inventorySelector.js';
+import inventorySelection from './inventorySelector.ts';
 
 const displayToast = new Templates();
 
-inventorySelection.addWarehouseForm.addEventListener(
+inventorySelection.addWarehouseForm?.addEventListener(
   'submit',
   addWarehouseSubscribe
 );
-inventorySelection.addWarehouseButton.addEventListener(
+inventorySelection.addWarehouseButton?.addEventListener(
   'click',
   showManagerOptions
 );
@@ -26,20 +29,21 @@ inventorySelection.addWarehouseButton.addEventListener(
 displayWarehouse();
 
 //delete warehouse
-function deleteWarehouse(id) {
-  inventorySelection.deleteWarehouseBtn.setAttribute('data-id', id);
-  inventorySelection.deleteWarehouseBtn.addEventListener(
+function deleteWarehouse(id: string) {
+  inventorySelection.deleteWarehouseBtn?.setAttribute('data-id', id);
+  inventorySelection.deleteWarehouseBtn?.addEventListener(
     'click',
     confirmDelete
   );
 }
 
+//can't fix this
 window.deleteWarehouse = deleteWarehouse;
 
 //edit warehouse
-async function editWarehouse(warehouseId) {
+async function editWarehouse(warehouseId: string) {
   try {
-    inventorySelection.editWarehouseForm.setAttribute('data-id', warehouseId);
+    inventorySelection.editWarehouseForm?.setAttribute('data-id', warehouseId);
 
     const warehouseDetails = await api.get(
       `${config.WAREHOUSE_BASE_URL}/get-warehouses/${warehouseId}`
@@ -50,14 +54,16 @@ async function editWarehouse(warehouseId) {
     inventorySelection.editWarehouseDescription.value = warehouse.description;
     selectedManagerOptions(warehouse.managerIds);
 
-    inventorySelection.editWarehouseForm.addEventListener(
+    inventorySelection.editWarehouseForm?.addEventListener(
       'submit',
       updateWarehouse
     );
   } catch (err) {
-    inventorySelection.toastSection.innerHTML = displayToast.errorToast(
-      err.message
-    );
+    if (err instanceof Error) {
+      inventorySelection.toastSection.innerHTML = displayToast.errorToast(
+        err.message
+      );
+    }
   } finally {
     setTimeout(() => {
       inventorySelection.toastSection.innerHTML = '';

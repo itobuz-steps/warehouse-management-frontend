@@ -1,3 +1,5 @@
+//global errors can't be fixed
+
 import api from '../../api/interceptor.js';
 import TransactionDetailsTemplate from '../../common/template/TransactionDetailsTemplate.js';
 import {

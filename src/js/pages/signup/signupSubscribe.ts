@@ -1,16 +1,17 @@
 import { config } from '../../config/config.js';
-import axios from 'axios';
-import token from './signup';
+import axios, { AxiosError } from 'axios';
+import token from './signup.js';
 import Templates from '../../common/Templates.js';
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
+const toastSection = document.getElementById('toastSection') as HTMLDivElement;
 
-const signupSubscribe = async (event) => {
+const signupSubscribe = async (event: SubmitEvent) => {
   try {
     event.preventDefault();
+    if (!(event.currentTarget instanceof HTMLFormElement)) return;
 
-    const signupFormData = new FormData(event.target);
+    const signupFormData = new FormData(event.currentTarget);
     const name = signupFormData.get('name');
     const password = signupFormData.get('password');
     const signupData = { name, password };
@@ -31,7 +32,11 @@ const signupSubscribe = async (event) => {
       window.location.href = '/pages/login.html';
     }, 1000);
   } catch (err) {
-    toastSection.innerHTML = displayToast.errorToast(err.response.data.message);
+    if (err instanceof AxiosError && err.response) {
+      toastSection.innerHTML = displayToast.errorToast(
+        err.response.data.message
+      );
+    }
   } finally {
     setTimeout(() => {
       toastSection.innerHTML = '';
