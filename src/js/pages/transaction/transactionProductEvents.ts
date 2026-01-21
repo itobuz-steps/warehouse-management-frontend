@@ -1,17 +1,20 @@
 // js/pages/transaction/transactionProductEvents.js
 import { addProduct } from '../../common/api/productApiHelper.js';
-import { getCurrentUser } from '../../common/api/HelperApi.js';
+import { getCurrentUser } from '../../common/api/helperApi.js';
 import { Templates } from '../../common/Templates.js';
 import { displayProducts } from './displayProducts.js';
+import { AxiosError } from 'axios';
 
 const toastMessage = new Templates();
 
 const getProductModalElements = () => ({
-  modal: document.getElementById('addProductModalTransaction'),
-  form: document.getElementById('addProductFormTransaction'),
-  closeBtn: document.getElementById('closeProductModalTransaction'),
-  addBtn: document.getElementById('addNewProductBtn'),
-  toastSection: document.getElementById('toastSection'),
+  modal: document.getElementById('addProductModalTransaction') as HTMLElement,
+  form: document.getElementById('addProductFormTransaction') as HTMLFormElement,
+  closeBtn: document.getElementById(
+    'closeProductModalTransaction'
+  ) as HTMLButtonElement,
+  addBtn: document.getElementById('addNewProductBtn') as HTMLButtonElement,
+  toastSection: document.getElementById('toastSection') as HTMLElement,
 });
 
 export function initTransactionProductEvents() {
@@ -59,7 +62,7 @@ export const closeProductModal = () => {
   }
 };
 
-export const showToast = (type, msg) => {
+export const showToast = (type: 'success' | 'error', msg: string) => {
   const { toastSection } = getProductModalElements();
   if (toastSection) {
     toastSection.innerHTML =
@@ -70,7 +73,7 @@ export const showToast = (type, msg) => {
   }
 };
 
-export const handleAddProductTransaction = async (e) => {
+export const handleAddProductTransaction = async (e: Event) => {
   e.preventDefault();
 
   const { form } = getProductModalElements();
@@ -79,27 +82,37 @@ export const handleAddProductTransaction = async (e) => {
 
   formData.append(
     'name',
-    document.getElementById('transactionProductName').value
+    (document.getElementById('transactionProductName') as HTMLInputElement)
+      ?.value
   );
   formData.append(
     'category',
-    document.getElementById('transactionProductCategory').value
+    (document.getElementById('transactionProductCategory') as HTMLInputElement)
+      ?.value
   );
   formData.append(
     'description',
-    document.getElementById('transactionProductDescription').value
+    (
+      document.getElementById(
+        'transactionProductDescription'
+      ) as HTMLInputElement
+    )?.value
   );
   formData.append(
     'price',
-    document.getElementById('transactionProductPrice').value
+    (document.getElementById('transactionProductPrice') as HTMLInputElement)
+      ?.value
   );
   formData.append(
     'markup',
-    document.getElementById('transactionProductMarkup').value
+    (document.getElementById('transactionProductMarkup') as HTMLInputElement)
+      ?.value
   );
   formData.append('createdBy', user._id);
 
-  const productImageInput = document.getElementById('transactionProductImage');
+  const productImageInput = document.getElementById(
+    'transactionProductImage'
+  ) as HTMLInputElement;
   if (productImageInput && productImageInput.files) {
     [...productImageInput.files].forEach((file) =>
       formData.append('productImage', file)
@@ -122,12 +135,19 @@ export const handleAddProductTransaction = async (e) => {
     closeProductModal();
 
     // Refresh products for the current transaction type and warehouse
-    const transactionType = document.getElementById('transactionType').value;
+    const transactionType = (
+      document.getElementById('transactionType') as HTMLSelectElement
+    ).value;
 
     if (transactionType === 'IN') {
       displayProducts('IN');
     }
   } catch (err) {
+    if (!(err instanceof AxiosError)) {
+      console.error(err);
+      return;
+    }
+
     console.error(err);
     showToast('error', err.response?.data?.message || 'Error adding product');
   }

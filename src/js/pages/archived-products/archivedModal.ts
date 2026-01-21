@@ -2,9 +2,9 @@ import { setSelectedProduct } from './archivedEvents.js';
 import { qrCodeFetch } from '../../common/api/productApiHelper.js';
 import archivedSelection from './archivedSelector.js';
 import { initializeCarousel } from '../../common/imageCarousel.js';
-import type { ProductDetails } from '../../types/productDetail.js';
+import type { Product } from '../../types/product.js';
 
-export const openArchivedModal = async (product: ProductDetails) => {
+export const openArchivedModal = async (product: Product) => {
   setSelectedProduct(product._id);
 
   // Use the common carousel utility

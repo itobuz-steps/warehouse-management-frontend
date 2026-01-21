@@ -13,8 +13,8 @@ const { containers, warehouses } = transactionSelectors;
 const { sourceWarehouse, destinationWarehouse } = warehouses;
 
 // store last loaded products per container
-const lastLoadedProductsByContainer = {};
-const existingProductIdsByContainer = {};
+const lastLoadedProductsByContainer: Record<string, InventoryProduct[]> = {};
+const existingProductIdsByContainer: Record<string, Set<string>> = {};
 
 export async function displayProducts(type: string) {
   let warehouseId = null;
@@ -23,13 +23,13 @@ export async function displayProducts(type: string) {
   switch (type) {
     case 'IN':
       containerId = 'inProductsContainer';
-      warehouseId = destinationWarehouse.value;
+      warehouseId = destinationWarehouse?.value;
       break;
 
     case 'OUT':
     case 'TRANSFER':
     case 'ADJUSTMENT':
-      warehouseId = sourceWarehouse.value;
+      warehouseId = sourceWarehouse?.value;
       containerId = {
         OUT: 'outProductsContainer',
         TRANSFER: 'transferProductsContainer',
@@ -41,12 +41,14 @@ export async function displayProducts(type: string) {
       return;
   }
 
-  const container = containers[containerId];
+  const container = containers[
+    containerId as keyof typeof containers
+  ] as HTMLElement;
   container.innerHTML = '<em>Loading products...</em>';
 
   try {
-    let products = [];
-    let warehouseProducts = [];
+    let products: InventoryProduct[] = [];
+    let warehouseProducts: InventoryProduct[] = [];
 
     if (type === 'IN') {
       // Fetch all products
@@ -74,7 +76,7 @@ export async function displayProducts(type: string) {
       products = sourceRes.data?.data || [];
       warehouseProducts = products;
 
-      if (type === 'TRANSFER' && destinationWarehouse.value) {
+      if (type === 'TRANSFER' && destinationWarehouse?.value) {
         const destRes = await api.get(
           `${config.QUANTITY_BASE_URL}/warehouse-specific-products/${destinationWarehouse.value}`
         );
@@ -111,7 +113,7 @@ export async function displayProducts(type: string) {
 }
 
 export function addProductRowForContainer(containerId: string) {
-  const container = containers[containerId];
+  const container = containers[containerId as keyof typeof containers];
   const products = lastLoadedProductsByContainer[containerId];
   const existingProductIds = existingProductIdsByContainer[containerId];
 
@@ -123,14 +125,22 @@ export function addProductRowForContainer(containerId: string) {
 }
 
 // Helper function to get all currently selected product IDs in a container
-function getSelectedProductIds(container) {
+function getSelectedProductIds(container: HTMLElement) {
   console.log('container', container);
-  return [...container.querySelectorAll('.dropdown-toggle')]
-    .map((btn) => btn.dataset.value)
+  return [
+    ...(container.querySelectorAll(
+      '.dropdown-toggle'
+    ) as NodeListOf<HTMLButtonElement>),
+  ]
+    .map((btn: HTMLButtonElement) => btn.dataset.value)
     .filter((value) => value);
 }
 
-function addProductRow(container, products, existingProductIds = new Set()) {
+function addProductRow(
+  container: HTMLElement,
+  products: InventoryProduct[],
+  existingProductIds: Set<string> = new Set()
+) {
   const row = document.createElement('div');
   row.className = 'product-row mb-2 d-flex flex-column flex-sm-row';
 
@@ -159,86 +169,90 @@ function addProductRow(container, products, existingProductIds = new Set()) {
   }
 
   // Dropdown + Quantity
+  //@ts-expect-error ignoring ts error here
   row.innerHTML = productRowTemplate(availableProducts, isRawProduct);
 
   // Elements
-  const toggleBtn = row.querySelector('.dropdown-toggle');
-  const menu = row.querySelector('.dropdown-menu');
-  const thumb = row.querySelector('.dropdown-thumb');
-  const limitInput = row.querySelector('.limitInput');
+  const toggleBtn = row.querySelector('.dropdown-toggle') as HTMLButtonElement;
+  const menu = row.querySelector('.dropdown-menu') as HTMLElement;
+  const thumb = row.querySelector('.dropdown-thumb') as HTMLImageElement;
+  const limitInput = row.querySelector('.limitInput') as HTMLInputElement;
 
   // Toggle dropdown
-  toggleBtn.addEventListener('click', () => {
+  toggleBtn?.addEventListener('click', () => {
     menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
   });
 
   // Selection logic
-  menu.querySelectorAll('.product-option').forEach((item) => {
-    item.addEventListener('click', () => {
-      const id = item.dataset.id;
-      const name = item.dataset.name;
-      const img = item.dataset.img || '';
-      const qty = item.dataset.qty;
+  (menu.querySelectorAll('.product-option') as NodeListOf<HTMLElement>).forEach(
+    (item) => {
+      item.addEventListener('click', () => {
+        const id = item.dataset.id;
+        const name = item.dataset.name;
+        const img = item.dataset.img || '';
+        const qty = item.dataset.qty;
 
-      // Set product ID
-      toggleBtn.dataset.value = id;
+        // Set product ID
+        toggleBtn.dataset.value = id;
 
-      if (!isRawProduct) {
-        toggleBtn.querySelector('span').textContent =
-          `${name} (Quantity: ${qty})`;
-      } else {
-        toggleBtn.querySelector('span').textContent = name;
-      }
+        if (!isRawProduct) {
+          toggleBtn.querySelector('span')!.textContent =
+            `${name} (Quantity: ${qty})`;
+        } else {
+          toggleBtn.querySelector('span')!.textContent = name ? name : null;
+        }
 
-      // Set product image correctly
-      if (img.trim() !== '') {
-        thumb.src = img;
-        thumb.classList.remove('d-none');
-      } else {
-        thumb.classList.add('d-none');
-      }
+        // Set product image correctly
+        if (img.trim() !== '') {
+          thumb.src = img;
+          thumb.classList.remove('d-none');
+        } else {
+          thumb.classList.add('d-none');
+        }
 
-      // Close menu
-      menu.style.display = 'none';
+        // Close menu
+        menu.style.display = 'none';
 
-      const exists = existingProductIds.has(id);
+        if (!id) return;
+        const exists = existingProductIds.has(id);
 
-      // Add/remove limit input dynamically
-      if (!exists) {
-        limitInput.style.display = 'block';
-      } else {
-        limitInput.style.display = 'none';
-      }
+        // Add/remove limit input dynamically
+        if (!exists) {
+          limitInput.style.display = 'block';
+        } else {
+          limitInput.style.display = 'none';
+        }
 
-      // Refresh other dropdowns
-      updateAllProductDropdowns(
-        container,
-        products,
-        isRawProduct,
-        existingProductIds
-      );
-    });
-  });
+        // Refresh other dropdowns
+        updateAllProductDropdowns(
+          container,
+          products,
+          Boolean(isRawProduct),
+          existingProductIds
+        );
+      });
+    }
+  );
 
   container.appendChild(row);
 }
 
 // Update all product dropdowns to reflect current selections
 function updateAllProductDropdowns(
-  container,
-  products,
-  isRawProduct,
-  existingProductIds
+  container: HTMLElement,
+  products: InventoryProduct[],
+  isRawProduct: boolean,
+  existingProductIds: Set<string>
 ) {
   const selectedIds = getSelectedProductIds(container);
 
   const rows = container.querySelectorAll('.product-row');
 
   rows.forEach((row) => {
-    const btn = row.querySelector('.dropdown-toggle');
+    const btn = row.querySelector('.dropdown-toggle') as HTMLButtonElement;
     const currentValue = btn.dataset.value;
-    const menu = row.querySelector('.dropdown-menu');
-    const limitInput = row.querySelector('.limitInput');
+    const menu = row.querySelector('.dropdown-menu') as HTMLElement;
+    const limitInput = row.querySelector('.limitInput') as HTMLInputElement;
 
     // Compute available products for this row
     const availableProducts = products.filter((p) => {
@@ -247,10 +261,13 @@ function updateAllProductDropdowns(
     });
 
     // Rebuild dropdown menu
+    //@ts-expect-error ignoring ts error here
     menu.innerHTML = productOptionsTemplate(availableProducts, isRawProduct);
 
     // Rebind selection logic
-    menu.querySelectorAll('.product-option').forEach((item) => {
+    (
+      menu.querySelectorAll('.product-option') as NodeListOf<HTMLElement>
+    ).forEach((item) => {
       item.addEventListener('click', () => {
         const id = item.dataset.id;
         const name = item.dataset.name;
@@ -258,13 +275,13 @@ function updateAllProductDropdowns(
         const qty = item.dataset.qty;
 
         btn.dataset.value = id;
-        btn.querySelector('span').textContent = isRawProduct
-          ? name
+        btn.querySelector('span')!.textContent = isRawProduct
+          ? name + ''
           : `${name} (Quantity: ${qty})`;
 
-        const thumb = btn.querySelector('.dropdown-thumb');
+        const thumb = btn.querySelector('.dropdown-thumb') as HTMLImageElement;
 
-        if (img.trim() !== '') {
+        if (img && img.trim() !== '') {
           thumb.src = img;
           thumb.classList.remove('d-none');
         } else {
@@ -274,6 +291,8 @@ function updateAllProductDropdowns(
         menu.style.display = 'none';
 
         //Update limit input dynamically
+        if (!id) return;
+
         const exists = existingProductIds.has(id);
         if (!exists) {
           limitInput.style.display = 'block';

@@ -1,3 +1,4 @@
+import type { User } from '../../types/user.js';
 import userManagementSelection from './userManagementSelector.js';
 
 function clearProfileData() {
@@ -13,7 +14,7 @@ function clearProfileData() {
   userManagementSelection.pendingManagerGrid.innerHTML = '';
 }
 
-export default function displayProfile(user) {
+export default function displayProfile(user: User) {
   clearProfileData();
   //profile operations
   userManagementSelection.userName.innerHTML = user.name; //set name to profile card
@@ -22,7 +23,15 @@ export default function displayProfile(user) {
 
   userManagementSelection.userEmail.innerHTML += `<i class="fa-solid fa-envelope mail"></i> ${user.email}`; // set email to profile card
   userManagementSelection.profileAvatar.style.backgroundImage = `url(${user.profileImage})`; // profile card image label
-  userManagementSelection.userImg.src = user.profileImage; // profile card modal open avatar
+
+  if (user.profileImage) {
+    userManagementSelection.profileImg.setAttribute('src', user.profileImage);
+  } else {
+    userManagementSelection.profileImg.setAttribute(
+      'src',
+      '../../assets/images/profile_default.svg'
+    );
+  }
 
   userManagementSelection.createdAt.innerHTML = new Date(
     user.createdAt
@@ -30,7 +39,10 @@ export default function displayProfile(user) {
   userManagementSelection.updatedAt.innerHTML = new Date(
     user.updatedAt
   ).toDateString();
-  userManagementSelection.lastLogin.innerHTML = new Date(
-    user.lastLogin
-  ).toDateString();
+
+  if (user.lastLogin) {
+    userManagementSelection.lastLogin.innerHTML = new Date(
+      user.lastLogin
+    ).toDateString();
+  }
 }

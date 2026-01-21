@@ -2,20 +2,26 @@ import type { TransactionSelectors } from './types/transactionSelector';
 
 export const transactionSelectors: TransactionSelectors = {
   form: document.getElementById('transactionForm') as HTMLFormElement,
-  toastSection: document.getElementById('toastSection'),
-  typeSelect: document.getElementById('transactionType') as HTMLElement,
+  toastSection: document.getElementById('toastSection') as HTMLElement,
+  typeSelect: document.getElementById('transactionType') as HTMLSelectElement,
 
   sections: {
-    IN: document.getElementById('inFields'),
-    OUT: document.getElementById('outFields'),
-    TRANSFER: document.getElementById('transferFields'),
-    ADJUSTMENT: document.getElementById('adjustmentFields'),
+    IN: document.getElementById('inFields') as HTMLElement,
+    OUT: document.getElementById('outFields') as HTMLElement,
+    TRANSFER: document.getElementById('transferFields') as HTMLElement,
+    ADJUSTMENT: document.getElementById('adjustmentFields') as HTMLElement,
   },
 
-  warehouseDropdown: document.getElementById('warehouseDropdown'),
+  warehouseDropdown: document.getElementById(
+    'warehouseDropdown'
+  ) as HTMLElement,
   warehouseLabels: {
-    source: document.getElementById('sourceWarehouseDropdownLabel'),
-    destination: document.getElementById('destinationWarehouseDropdownLabel'),
+    source: document.getElementById(
+      'sourceWarehouseDropdownLabel'
+    ) as HTMLElement,
+    destination: document.getElementById(
+      'destinationWarehouseDropdownLabel'
+    ) as HTMLElement,
   },
 
   warehouses: {
@@ -28,20 +34,34 @@ export const transactionSelectors: TransactionSelectors = {
   },
 
   containers: {
-    inProductsContainer: document.getElementById('inProductsContainer'),
-    outProductsContainer: document.getElementById('outProductsContainer'),
+    inProductsContainer: document.getElementById(
+      'inProductsContainer'
+    ) as HTMLElement,
+    outProductsContainer: document.getElementById(
+      'outProductsContainer'
+    ) as HTMLElement,
     transferProductsContainer: document.getElementById(
       'transferProductsContainer'
-    ),
-    adjustProductsContainer: document.getElementById('adjustProductsContainer'),
+    ) as HTMLElement,
+    adjustProductsContainer: document.getElementById(
+      'adjustProductsContainer'
+    ) as HTMLElement,
   },
 
   buttons: {
-    addInProduct: document.getElementById('addInProduct'),
-    addOutProduct: document.getElementById('addOutProduct'),
-    addTransferProduct: document.getElementById('addTransferProduct'),
+    addInProduct: document.getElementById('addInProduct') as HTMLButtonElement,
+    addOutProduct: document.getElementById(
+      'addOutProduct'
+    ) as HTMLButtonElement,
+    addTransferProduct: document.getElementById(
+      'addTransferProduct'
+    ) as HTMLButtonElement,
   },
 
-  addNewProduct: document.getElementById('addNewProductBtn'),
-  submitTransactionBtn: document.getElementById('submitTransactionBtn'),
+  addNewProduct: document.getElementById(
+    'addNewProductBtn'
+  ) as HTMLButtonElement,
+  submitTransactionBtn: document.getElementById(
+    'submitTransactionBtn'
+  ) as HTMLButtonElement,
 };

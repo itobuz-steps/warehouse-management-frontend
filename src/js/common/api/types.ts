@@ -38,7 +38,7 @@ type FetchProductsParams = {
 };
 
 type QuantityResponse = {
-  data: Quantity;
+  data: (Product & Quantity)[];
   success: boolean;
   message: string;
 };

@@ -1,5 +1,6 @@
 import '../../../scss/transaction.scss';
-// eslint-disable-next-line no-unused-vars
+//@ts-expect-error bootstrap import
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import * as bootstrap from 'bootstrap';
 
 import {
@@ -10,6 +11,7 @@ import { addProductRowForContainer } from './displayProducts.js';
 import submitForm from './submitForm.js';
 import { transactionSelectors } from './transactionSelector.js';
 import { initTransactionProductEvents } from './transactionProductEvents.js';
+import type { TransactionType } from '../../types/transactionType.js';
 
 // const toastMessage = new Templates();
 const { buttons, containers, form, typeSelect } = transactionSelectors;
@@ -62,6 +64,6 @@ if (buttons.addTransferProduct) {
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  const type = typeSelect.value;
+  const type = typeSelect.value as TransactionType;
   submitForm(type);
 });

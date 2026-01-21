@@ -7,7 +7,6 @@ import type {
   QuantityResponse,
   ProductsListResponse,
   ProductResponse,
-  WarehouseListResponse,
 } from './types.js';
 
 export const addProduct = (
@@ -86,8 +85,8 @@ export const fetchTotalProductQuantity = (
 
 export const fetchProductSpecificWarehouses = (
   productId: string
-): Promise<AxiosResponse<WarehouseListResponse>> =>
-  api.get<WarehouseListResponse>(
+): Promise<AxiosResponse<QuantityResponse>> =>
+  api.get<QuantityResponse>(
     `${config.QUANTITY_BASE_URL}/product-specific-warehouses/${productId}`
   );
 

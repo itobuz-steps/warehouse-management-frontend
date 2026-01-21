@@ -56,7 +56,7 @@ export const loadArchivedProducts = async () => {
 
 const renderProducts = (products: Product[]) => {
   renderProductGrid({
-    container: archivedSelection.productGrid,
+    container: archivedSelection.productGrid as HTMLDivElement,
     products,
     createCardHTML: createProductCard,
     onViewDetails: openArchivedModal,
@@ -67,7 +67,7 @@ const renderProducts = (products: Product[]) => {
 const renderPagination = (totalPages: number) => {
   console.log('pagination pages', totalPages);
   paginationRenderer({
-    container: archivedSelection.pagination,
+    container: archivedSelection.pagination as HTMLDivElement,
     currentPage: state.page,
     totalPages,
     onPageChange: async (page: number) => {

@@ -13,6 +13,7 @@ import {
 } from '../../common/api/productApiHelper.js';
 import { loadProducts } from './productSubscribe.js';
 import { getCurrentUser } from '../../common/api/helperApi.js';
+import { AxiosError } from 'axios';
 
 export const initEvents = () => {
   productSelection.addProductsButton.addEventListener('click', openModal);
@@ -20,7 +21,7 @@ export const initEvents = () => {
   productSelection.addProductForm.addEventListener('submit', handleAddProduct);
 };
 
-export const handleAddProduct = async (e) => {
+export const handleAddProduct = async (e: Event) => {
   e.preventDefault();
 
   const formData = new FormData();
@@ -60,8 +61,12 @@ export const handleAddProduct = async (e) => {
 
     loadProducts({ warehouseId, page: 1 });
   } catch (err) {
+    if (!(err instanceof AxiosError)) {
+      return;
+    }
+
     console.error(err);
-    showToast('error', err.response.data.message);
+    showToast('error', err.response?.data.message);
   }
 };
 
@@ -92,7 +97,10 @@ window.addEventListener('click', (e) => {
   }
 });
 
-export const handleEditProductSubmit = async (e, selectedProductId) => {
+export const handleEditProductSubmit = async (
+  e: Event,
+  selectedProductId: string
+) => {
   e.preventDefault();
 
   const formData = new FormData();
@@ -103,6 +111,11 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
   formData.append('markup', productSelection.editMarkup.value);
 
   const files = productSelection.editImages.files;
+
+  if (!files) {
+    showToast('error', 'No files selected');
+    return;
+  }
 
   for (let i = 0; i < files.length; i++) {
     formData.append('productImage', files[i]);
@@ -118,8 +131,10 @@ export const handleEditProductSubmit = async (e, selectedProductId) => {
 
     showToast('success', res.data.message);
   } catch (err) {
-    console.error(err);
-    showToast('error', err.response.data.message);
+    if (!(err instanceof AxiosError)) {
+      return;
+    }
+    showToast('error', err.response?.data.message);
   }
 };
 
@@ -127,7 +142,7 @@ export function deleteProductHandler() {
   productSelection.confirmDeleteModal.classList.remove('hidden');
 }
 
-export async function handleDelete(selectedProductId) {
+export async function handleDelete(selectedProductId: string) {
   try {
     const res = await deleteProduct(selectedProductId);
 
@@ -140,8 +155,12 @@ export async function handleDelete(selectedProductId) {
     loadProducts({ warehouseId, page: 1 });
     showToast('success', res.data.message);
   } catch (err) {
+    if (!(err instanceof AxiosError)) {
+      return;
+    }
+
     console.error(err);
-    showToast('error', err.response.data.message);
+    showToast('error', err.response?.data.message);
   }
 }
 
@@ -149,13 +168,18 @@ export async function handleSaveLimit() {
   try {
     const res = await updateLimit(
       productSelection.limitQuantityId.value,
-      productSelection.limitInput.value
+      +productSelection.limitInput.value
     );
 
-    bootstrap.Modal.getInstance(productSelection.limitModal).hide();
-    showToast('success', res.data.message);
-    productSelection.modal.classList.add('hidden');
+    if (bootstrap.Modal.getInstance(productSelection.limitModal)) {
+      bootstrap.Modal.getInstance(productSelection.limitModal)!.hide();
+      showToast('success', res.data.message);
+      productSelection.modal.classList.add('hidden');
+    }
   } catch (err) {
-    showToast('error', err.response.data.message);
+    if (!(err instanceof AxiosError)) {
+      return;
+    }
+    showToast('error', err.response?.data.message);
   }
 }

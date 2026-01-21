@@ -4,13 +4,18 @@ import { Templates } from '../../common/Templates.js';
 import userManagementSelection from './userManagementSelector.js';
 import { getUserDetailsSubscribe } from './userManagementSubscribe.js';
 import * as bootstrap from 'bootstrap';
+import { AxiosError } from 'axios';
 
 const displayToast = new Templates();
 const updateModal = document.getElementById('updateProfileModal');
+
+if (!updateModal) {
+  throw new Error('Update Profile Modal not found');
+}
 const updateModalObj = new bootstrap.Modal(updateModal);
 const updateSpinner = document.getElementById('updateSpinner');
 
-export const updateUserSubscribe = async (event) => {
+export const updateUserSubscribe = async (event: Event) => {
   event.preventDefault();
   const formData = new FormData(userManagementSelection.updateProfileForm);
 
@@ -25,19 +30,24 @@ export const updateUserSubscribe = async (event) => {
       }
     );
 
-    updateSpinner.classList.remove('d-none');
+    updateSpinner?.classList.remove('d-none');
 
     updateModalObj.hide();
     userManagementSelection.updateProfileForm.reset();
     await getUserDetailsSubscribe();
 
-    updateSpinner.classList.add('d-none');
+    updateSpinner?.classList.add('d-none');
     userManagementSelection.toastSection.innerHTML = displayToast.successToast(
       res.data.message
     );
   } catch (err) {
+    if (!(err instanceof AxiosError)) {
+      console.error(err);
+      return;
+    }
+
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
-      err.response.data.message
+      err.response?.data.message
     );
   } finally {
     setTimeout(() => {
@@ -47,7 +57,7 @@ export const updateUserSubscribe = async (event) => {
 };
 
 export const profileImagePreview = () => {
-  const file = userManagementSelection.profileImg.files[0];
+  const file = userManagementSelection.profileImg.files?.[0];
 
   userManagementSelection.confirmUpdate.disabled = false;
 
@@ -56,7 +66,7 @@ export const profileImagePreview = () => {
   }
 };
 
-async function changeStatus(managerId) {
+async function changeStatus(managerId: string) {
   try {
     const response = await api.patch(
       `${config.PROFILE_BASE_URL}/change-user-status/${managerId}`
@@ -67,8 +77,13 @@ async function changeStatus(managerId) {
       response.data.message
     );
   } catch (err) {
+    if (!(err instanceof AxiosError)) {
+      console.error(err);
+      return;
+    }
+
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
-      err.response.message
+      err.response?.data.message
     );
   }
 }

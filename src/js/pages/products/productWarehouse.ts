@@ -2,7 +2,7 @@ import { productSelection } from './productSelector.js';
 import {
   getCurrentUser,
   getUserWarehouses,
-} from '../../common/api/HelperApi.js';
+} from '../../common/api/helperApi.js';
 import {
   populateWarehouseSelect,
   showEmptyState,
@@ -40,7 +40,7 @@ export const loadWarehouses = async () => {
         const userWarehouse = warehouses[0];
         productSelection.warehouseSelect.value = userWarehouse._id;
 
-        const url = new URL(window.location);
+        const url = new URL(window.location.toString());
         url.searchParams.set('warehouseId', userWarehouse._id);
         window.history.replaceState({}, '', url);
       }
@@ -52,7 +52,6 @@ export const loadWarehouses = async () => {
     if (selectedId) {
       productSelection.warehouseSelect.value = selectedId;
     }
-    
   } catch (err) {
     console.error(err);
     showToast('error', 'Error fetching warehouses');

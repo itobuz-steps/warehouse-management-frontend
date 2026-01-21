@@ -1,7 +1,7 @@
 import { productSelection } from './productSelector.js';
-import { loadWarehouses } from './productWarehouse.js';
+import { loadWarehouses } from './productWarehouse.ts';
 import { openProductModal } from './productDetails.js';
-import { getCurrentUser } from '../../common/api/HelperApi.js';
+import { getCurrentUser } from '../../common/api/helperApi.js';
 import {
   createProductCard,
   showEmptyState,
@@ -16,8 +16,19 @@ import {
 } from '../../common/api/productApiHelper.js';
 import { paginationRenderer } from '../../common/paginationRenderer.ts';
 import { renderProductGrid } from '../../common/productGridRenderer.ts';
-
-const state = {
+import type { User } from '../../types/user.ts';
+import type { Product } from '../../types/product.ts';
+type State = {
+  page: number;
+  limit: number;
+  search: string;
+  category: string;
+  sort: string;
+  warehouseId: string;
+  filter: string;
+  user?: User | null;
+};
+const state: State = {
   page: 1,
   limit: 12,
   search: '',
@@ -31,7 +42,7 @@ const state = {
 let eventsListener = false;
 
 export const initProductLoader = async () => {
-  const url = new URL(window.location);
+  const url = new URL(window.location.toString());
 
   state.filter = url.searchParams.get('filter') || 'products';
   state.warehouseId = url.searchParams.get('warehouseId') || '';
@@ -56,7 +67,7 @@ export const initProductLoader = async () => {
     if (!state.warehouseId && productSelection.warehouseSelect.value) {
       state.warehouseId = productSelection.warehouseSelect.value;
 
-      const url = new URL(window.location);
+      const url = new URL(window.location.toString());
       url.searchParams.set('warehouseId', state.warehouseId);
       window.history.replaceState({}, '', url);
     }
@@ -74,25 +85,28 @@ const initializeEventListeners = () => {
 
   // Search input
   productSelection.searchInput.addEventListener('input', (e) => {
-    loadProducts({ search: e.target.value.trim(), page: 1 });
+    loadProducts({
+      search: (e.target as HTMLInputElement).value.trim(),
+      page: 1,
+    });
   });
 
   // Category filter
   productSelection.categoryFilter.addEventListener('change', (e) => {
-    loadProducts({ category: e.target.value, page: 1 });
+    loadProducts({ category: (e.target as HTMLSelectElement).value, page: 1 });
   });
 
   // Sorting
   productSelection.sortSelect.addEventListener('change', (e) => {
-    loadProducts({ sort: e.target.value, page: 1 });
+    loadProducts({ sort: (e.target as HTMLSelectElement).value, page: 1 });
   });
 
   // Warehouse selection
   productSelection.warehouseSelect?.addEventListener('change', (e) => {
-    const warehouseId = e.target.value;
+    const warehouseId = (e.target as HTMLSelectElement).value;
     state.warehouseId = warehouseId;
 
-    const url = new URL(window.location);
+    const url = new URL(window.location.toString());
 
     if (warehouseId) {
       url.searchParams.set('warehouseId', warehouseId);
@@ -110,7 +124,7 @@ const initializeEventListeners = () => {
     updateWarehouseVisibility(state.filter);
     resetSearchFilters();
 
-    const url = new URL(window.location);
+    const url = new URL(window.location.toString());
     url.searchParams.set('filter', state.filter);
     url.searchParams.delete('warehouseId');
     window.history.replaceState({}, '', url);
@@ -142,7 +156,7 @@ export const loadProducts = async (overrides = {}) => {
 
     // Manager must select a warehouse
     if (
-      state.user.role === 'manager' &&
+      state.user?.role === 'manager' &&
       state.filter === 'warehouses' &&
       !state.warehouseId
     ) {
@@ -179,7 +193,7 @@ export const loadProducts = async (overrides = {}) => {
     renderProducts(products);
     renderPagination(totalPages);
 
-    const url = new URL(window.location);
+    const url = new URL(window.location.toString());
     const productId = url.searchParams.get('productId');
 
     if (productId) {
@@ -195,7 +209,7 @@ export const loadProducts = async (overrides = {}) => {
   }
 };
 
-const renderProducts = (products) => {
+const renderProducts = (products: Product[]) => {
   renderProductGrid({
     container: productSelection.productGrid,
     products,
@@ -205,7 +219,7 @@ const renderProducts = (products) => {
   });
 };
 
-const renderPagination = (totalPages) => {
+const renderPagination = (totalPages: number) => {
   paginationRenderer({
     container: productSelection.pagination,
     currentPage: state.page,
