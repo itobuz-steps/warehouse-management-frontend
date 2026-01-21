@@ -1,15 +1,18 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { config } from '../../config/config.js';
 import { Templates } from '../../common/Templates.js';
 import { registerAndSubscribe } from '../../common/notifications/notificationSubscribe.js';
 
 const displayToast = new Templates();
-const toastSection = document.getElementById('toastSection');
+const toastSection = document.getElementById('toastSection') as HTMLDivElement;
 
-const loginSubscribe = async (event) => {
+const loginSubscribe = async (event: Event) => {
   try {
     event.preventDefault();
-    const loginFormData = new FormData(event.target);
+    if (!(event.currentTarget instanceof HTMLFormElement)) {
+      return;
+    }
+    const loginFormData = new FormData(event.currentTarget);
 
     const email = loginFormData.get('email');
     const password = loginFormData.get('password');
@@ -33,8 +36,12 @@ const loginSubscribe = async (event) => {
       window.location.href = '/pages/dashboard.html';
     }, 1000);
   } catch (err) {
-    console.log(err);
-    toastSection.innerHTML = displayToast.errorToast(err.response.data.message);
+    if (err instanceof AxiosError && err.response) {
+      console.log(err);
+      toastSection.innerHTML = displayToast.errorToast(
+        err.response.data.message
+      );
+    }
   } finally {
     setTimeout(() => {
       toastSection.innerHTML = '';

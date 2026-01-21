@@ -1,11 +1,13 @@
 // js/pages/transaction/displayProducts.js
 import { config } from '../../config/config.js';
 import api from '../../api/interceptor.js';
-import { transactionSelectors } from './transactionSelector';
+import { transactionSelectors } from './transactionSelector.js';
 import {
   productOptionsTemplate,
   productRowTemplate,
-} from '../../common/template/transactionDropdown';
+} from '../../common/template/transactionDropdown.js';
+import type { InventoryProduct } from '../../types/productDetail.js';
+import { AxiosError } from 'axios';
 
 const { containers, warehouses } = transactionSelectors;
 const { sourceWarehouse, destinationWarehouse } = warehouses;
@@ -14,7 +16,7 @@ const { sourceWarehouse, destinationWarehouse } = warehouses;
 const lastLoadedProductsByContainer = {};
 const existingProductIdsByContainer = {};
 
-export async function displayProducts(type) {
+export async function displayProducts(type: string) {
   let warehouseId = null;
   let containerId;
 
@@ -81,7 +83,9 @@ export async function displayProducts(type) {
     }
 
     const existingProductIds = new Set(
-      warehouseProducts.map((product) => product.product?._id || product._id)
+      warehouseProducts.map(
+        (product: InventoryProduct) => product.product?._id || product._id
+      )
     );
 
     container.innerHTML = '';
@@ -96,15 +100,17 @@ export async function displayProducts(type) {
     existingProductIdsByContainer[containerId] = existingProductIds;
     addProductRow(container, products, existingProductIds);
   } catch (err) {
-    console.error(err);
-    container.innerHTML = `<p class="text-danger">Failed to load products: ${
-      err.response?.data?.message || err.message
-    }</p>`;
-    lastLoadedProductsByContainer[containerId] = [];
+    if (err instanceof AxiosError && err.response) {
+      console.error(err);
+      container.innerHTML = `<p class="text-danger">Failed to load products: ${
+        err.response?.data?.message || err.message
+      }</p>`;
+      lastLoadedProductsByContainer[containerId] = [];
+    }
   }
 }
 
-export function addProductRowForContainer(containerId) {
+export function addProductRowForContainer(containerId: string) {
   const container = containers[containerId];
   const products = lastLoadedProductsByContainer[containerId];
   const existingProductIds = existingProductIdsByContainer[containerId];
@@ -118,6 +124,7 @@ export function addProductRowForContainer(containerId) {
 
 // Helper function to get all currently selected product IDs in a container
 function getSelectedProductIds(container) {
+  console.log('container', container);
   return [...container.querySelectorAll('.dropdown-toggle')]
     .map((btn) => btn.dataset.value)
     .filter((value) => value);

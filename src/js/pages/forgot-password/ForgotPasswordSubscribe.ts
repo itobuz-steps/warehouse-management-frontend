@@ -2,11 +2,12 @@ import axios from 'axios';
 import { Templates } from '../../common/Templates.js';
 import forgotPasswordSelection from './forgotPasswordSelector.js';
 import { config } from '../../config/config.js';
+import { AxiosError } from 'axios';
 
 const toastMessage = new Templates();
 
 class ForgotPasswordSubscribe {
-  sendOtp = async (event) => {
+  sendOtp = async (event: Event) => {
     event.preventDefault();
     const email = forgotPasswordSelection.emailInput.value.trim();
     try {
@@ -24,9 +25,10 @@ class ForgotPasswordSubscribe {
 
       this.timer();
     } catch (err) {
-      forgotPasswordSelection.toastSection.innerHTML = toastMessage.errorToast(
-        err.response.data.message
-      );
+      if (err instanceof Error) {
+        forgotPasswordSelection.toastSection.innerHTML =
+          toastMessage.errorToast(err.message);
+      }
     } finally {
       setTimeout(() => {
         forgotPasswordSelection.toastSection.innerHTML = '';
@@ -34,7 +36,7 @@ class ForgotPasswordSubscribe {
     }
   };
 
-  resetPassword = async (event) => {
+  resetPassword = async (event: Event) => {
     event.preventDefault();
     const email = forgotPasswordSelection.emailInput.value.trim();
     const otp = forgotPasswordSelection.otpInput.value.trim();
@@ -66,9 +68,10 @@ class ForgotPasswordSubscribe {
         }, 1500);
       }
     } catch (err) {
-      forgotPasswordSelection.toastSection.innerHTML = toastMessage.errorToast(
-        err.response.data.message
-      );
+      if (err instanceof AxiosError && err.response) {
+        forgotPasswordSelection.toastSection.innerHTML =
+          toastMessage.errorToast(err.response.data.message);
+      }
     } finally {
       setTimeout(() => {
         forgotPasswordSelection.toastSection.innerHTML = '';
@@ -95,9 +98,10 @@ class ForgotPasswordSubscribe {
           toastMessage.successToast('OTP sent again! Check your Email');
       }
     } catch (err) {
-      forgotPasswordSelection.toastSection.innerHTML = toastMessage.errorToast(
-        err.response.data.message
-      );
+      if (err instanceof AxiosError && err.response) {
+        forgotPasswordSelection.toastSection.innerHTML =
+          toastMessage.errorToast(err.response.data.message);
+      }
     } finally {
       setTimeout(() => {
         forgotPasswordSelection.toastSection.innerHTML = '';
@@ -106,10 +110,12 @@ class ForgotPasswordSubscribe {
   };
 
   timer = () => {
-    let time = forgotPasswordSelection.otpCounter.innerHTML.split(':')[1];
+    let time = Number(
+      forgotPasswordSelection.otpCounter.innerHTML.split(':')[1]
+    );
 
-    let counter = setInterval(() => {
-      if (time == '00') {
+    const counter = setInterval(() => {
+      if (time <= 0) {
         clearInterval(counter);
         forgotPasswordSelection.resendButton.classList.remove('d-none');
       } else {

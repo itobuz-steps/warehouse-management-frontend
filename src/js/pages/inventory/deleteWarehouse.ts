@@ -23,9 +23,11 @@ export async function confirmDelete() {
       response.data.message
     );
   } catch (err) {
-    inventorySelection.toastSection.innerHTML = displayToast.errorToast(
-      err.message
-    );
+    if (err instanceof Error) {
+      inventorySelection.toastSection.innerHTML = displayToast.errorToast(
+        err.message
+      );
+    }
   } finally {
     setTimeout(() => {
       inventorySelection.toastSection.innerHTML = '';

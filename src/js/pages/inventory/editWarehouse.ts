@@ -5,6 +5,7 @@ import Choices from 'choices.js';
 import { displayWarehouse } from './displayWarehouse.js';
 import * as bootstrap from 'bootstrap';
 import inventorySelection from './inventorySelector.js';
+import type { User } from '../../types/user.js';
 
 const displayToast = new Templates();
 const editModalObject = new bootstrap.Modal(
@@ -18,7 +19,7 @@ const managerSelect = new Choices('#editManagers', {
   noResultsText: 'No managers found',
 });
 
-export async function updateWarehouse(event) {
+export async function updateWarehouse(event: SubmitEvent) {
   try {
     event.preventDefault();
 
@@ -44,9 +45,11 @@ export async function updateWarehouse(event) {
       response.data.message
     );
   } catch (err) {
-    inventorySelection.toastSection.innerHTML = displayToast.errorToast(
-      err.message
-    );
+    if (err instanceof Error) {
+      inventorySelection.toastSection.innerHTML = displayToast.errorToast(
+        err.message
+      );
+    }
   } finally {
     setTimeout(() => {
       inventorySelection.toastSection.innerHTML = '';
@@ -54,7 +57,7 @@ export async function updateWarehouse(event) {
   }
 }
 
-export const selectedManagerOptions = async (selectedManagers) => {
+export const selectedManagerOptions = async (selectedManagers: User[]) => {
   try {
     const response = await api.get(`${config.ADMIN_BASE_URL}/get-managers`);
     const managers = response.data.data;
@@ -63,7 +66,7 @@ export const selectedManagerOptions = async (selectedManagers) => {
     managerSelect.clearStore(); // clear previous ones
 
     managerSelect.setChoices(
-      managers.map((manager) => ({
+      managers.map((manager: User) => ({
         value: manager._id,
         label: manager.name,
         selected: selectedIds.includes(manager._id),
@@ -73,12 +76,12 @@ export const selectedManagerOptions = async (selectedManagers) => {
       'label',
       false
     );
-
-    // console.log(response.data.message);
   } catch (error) {
-    inventorySelection.toastSection.innerHTML = displayToast.errorToast(
-      error.message
-    );
+    if (error instanceof Error) {
+      inventorySelection.toastSection.innerHTML = displayToast.errorToast(
+        error.message
+      );
+    }
   } finally {
     setTimeout(() => {
       inventorySelection.toastSection.innerHTML = '';

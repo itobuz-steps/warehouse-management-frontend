@@ -1,11 +1,13 @@
 import '../../../scss/auth.scss';
-// eslint-disable-next-line no-unused-vars
+// @ts-expect-error bootstrap need to be imported this way
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as bootstrap from 'bootstrap';
 import axios from 'axios';
 import { config } from '../../config/config.js';
 import signupSelection from './signupSelector.js';
 import signupSubscribe from './signupSubscribe.js';
 import { showPassToggle } from '../../common/showPasswordToggle.js';
+import { AxiosError } from 'axios';
 
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get('token');
@@ -26,15 +28,16 @@ if (!token) {
 
 signupSelection.signupForm.addEventListener('submit', signupSubscribe);
 
-async function tokenValidator(token) {
+async function tokenValidator(token: string) {
   try {
     await axios.post(`${config.AUTH_BASE_URL}/signup/${token}`);
   } catch (err) {
-    if (err.response.data.message == 'Link Expired') {
-      signupSelection.expiredMessage.classList.remove('d-none');
-      signupSelection.signupContainer.classList.add('d-none');
+    if (err instanceof AxiosError && err.response) {
+      if (err.response.data.message == 'Link Expired') {
+        signupSelection.expiredMessage.classList.remove('d-none');
+        signupSelection.signupContainer.classList.add('d-none');
+      }
     }
   }
 }
-
 export default token;
