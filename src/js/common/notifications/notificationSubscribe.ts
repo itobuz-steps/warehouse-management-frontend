@@ -1,7 +1,7 @@
 import api from '../../api/interceptor.js';
 import { config } from '../../config/config.js';
-import Templates from '../Templates.ts';
-import notificationSelection from './notificationSelector.ts';
+import { Templates } from '../Templates.js';
+import notificationSelection from './notificationSelector.js';
 import createNotificationTemplate from '../template/notificationTemplate.js';
 import type { Notification } from '../../types/notification.ts';
 

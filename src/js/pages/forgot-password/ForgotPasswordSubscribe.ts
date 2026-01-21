@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Templates from '../../common/Templates.js';
+import { Templates } from '../../common/Templates.js';
 import forgotPasswordSelection from './forgotPasswordSelector.js';
 import { config } from '../../config/config.js';
 import { AxiosError } from 'axios';

@@ -1,5 +1,8 @@
+import type { Warehouse } from '../../types/warehouse';
+import type { TransactionPopulated } from './types';
+
 class TransactionDetailsTemplate {
-  stockInDetails = (transaction) => {
+  stockInDetails = (transaction: TransactionPopulated): string => {
     const totalPrice = (
       transaction.quantity * transaction.product.price
     ).toFixed(2);
@@ -113,7 +116,7 @@ class TransactionDetailsTemplate {
     `;
   };
 
-  stockOutDetails = (transaction) => {
+  stockOutDetails = (transaction: TransactionPopulated) => {
     const sellPrice = (
       transaction.product.price +
       (transaction.product.price * (transaction.product.markup || 10)) / 100
@@ -136,7 +139,7 @@ class TransactionDetailsTemplate {
             </div>
           </div>
           <div>
-            <div class="transaction-amount">₹${sellPrice * transaction.quantity}</div>
+            <div class="transaction-amount">₹${+sellPrice * transaction.quantity}</div>
             <div class="status-badge ${transaction.shipment?.toLowerCase() || 'pending'}">${transaction.shipment || 'PENDING'}</div>
           </div>
         </div>
@@ -265,7 +268,7 @@ class TransactionDetailsTemplate {
     `;
   };
 
-  stockAdjustDetails = (transaction) => {
+  stockAdjustDetails = (transaction: TransactionPopulated) => {
     const totalPrice = (
       transaction.quantity * transaction.product.price
     ).toFixed(2);
@@ -373,7 +376,7 @@ class TransactionDetailsTemplate {
     `;
   };
 
-  stockTransferDetails = (transaction) => {
+  stockTransferDetails = (transaction: TransactionPopulated) => {
     const totalPrice = (
       transaction.quantity * transaction.product.price
     ).toFixed(2);
@@ -491,7 +494,7 @@ class TransactionDetailsTemplate {
     `;
   };
 
-  warehouseOptions = (warehouse) => {
+  warehouseOptions = (warehouse: Warehouse) => {
     return `<li><a class="dropdown-item warehouse-option" data-id="${warehouse._id}" id="${warehouse._id}">${warehouse.name}</a></li>`;
   };
 

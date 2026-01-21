@@ -1,4 +1,13 @@
-const managerCard = (data) => {
+import type { User } from '../../types/user';
+
+const managerCard = (
+  data: Pick<User, 'profileImage' | 'lastLogin' | 'isActive'> & {
+    managerName: string;
+    managerEmail: string;
+    createdOn: string;
+    managerId: string;
+  }
+) => {
   return `<div class="user-card p-3 p-sm-4">
           <div class="user-header">
             <div class="user-avatar me-2">
@@ -35,10 +44,9 @@ const managerCard = (data) => {
 };
 
 const unverifiedManagerCard = (
-  id,
-  name = 'Unverified Manager',
-  email,
-  createdOn,
+  name: string = 'Unverified Manager',
+  email: string,
+  createdOn: string,
   profileImage = '../../assets/images/profile_default.svg'
 ) => {
   return `<div class="user-card p-3 p-sm-4">

@@ -1,9 +1,12 @@
-import Templates from '../Templates.js';
+import { Templates } from '../Templates.js';
 import { productSelection } from '../../pages/products/productSelector.js';
+import type { Warehouse } from '../../types/warehouse.js';
+import type { Product } from '../../types/product.js';
+import type { Quantity } from '../../types/quantity.js';
 
 const templates = new Templates();
 
-export const showToast = (type, msg) => {
+export const showToast = (type: 'success' | 'error', msg: string) => {
   productSelection.toastSection.innerHTML =
     type === 'success'
       ? templates.successToast(msg)
@@ -18,7 +21,7 @@ export const resetSearchFilters = () => {
   productSelection.sortSelect.value = '';
 };
 
-export const updateWarehouseVisibility = (filter) => {
+export const updateWarehouseVisibility = (filter: string) => {
   productSelection.warehouseSelect.disabled = filter !== 'warehouses';
 
   Array.from(productSelection.sortSelect.options).forEach((option) => {
@@ -49,14 +52,14 @@ export const closeModal = () => {
 };
 
 export const removeProductIdFromUrl = () => {
-  const url = new URL(window.location);
+  const url = new URL(window.location.toString());
   url.searchParams.delete('productId');
   window.history.replaceState({}, '', url);
 };
 
 export const populateWarehouseSelect = (
-  warehouses,
-  element,
+  warehouses: Warehouse[],
+  element: HTMLSelectElement,
   defaultOption = false
 ) => {
   if (!defaultOption) {
@@ -71,7 +74,7 @@ export const populateWarehouseSelect = (
   });
 };
 
-export function createProductCard(product) {
+export function createProductCard(product: Product) {
   const imgSrc = product.productImage?.[0] ?? '/images/placeholder.png';
 
   return `
@@ -102,7 +105,7 @@ export function createProductCard(product) {
   `;
 }
 
-export function managerProductQuantity(product) {
+export function managerProductQuantity(product: Product & Quantity) {
   const isLow = product.quantity <= product.limit;
 
   return `
@@ -132,7 +135,7 @@ export function managerProductQuantity(product) {
   `;
 }
 
-export function warehouseProductList(products) {
+export function warehouseProductList(products: (Product & Quantity)[]) {
   return products
     .map(
       (product) => `

@@ -1,6 +1,14 @@
+import type { User } from '../../types/user';
+import type { Warehouse } from '../../types/warehouse';
+
+type ActiveWarehouseData = Omit<Warehouse, 'managerIds'> & {
+  storagePercentage: number | null;
+  managerIds: User[];
+};
+
 export default class WarehouseTemplate {
-  activeWarehouse = (data) => {
-    let storageLabel = `${data.storagePercentage}%`;
+  activeWarehouse = (data: ActiveWarehouseData) => {
+    const storageLabel = `${data.storagePercentage}%`;
     let storageColor = '#6c757d';
 
     if (data.storagePercentage !== null) {

@@ -1,19 +1,22 @@
-export default class Templates {
-  successToast = (msg) => {
+import type { Warehouse } from '../types/warehouse';
+import type { ITemplates } from './types/ITemplate';
+
+export class Templates implements ITemplates {
+  successToast = (msg: string) => {
     return `  <div class="toast text-bg-success d-flex justify-content-center align-items-center p-2 gap-2" >
     <i class="fa fa-check-circle"></i>
     <p class="m-0">${msg}</p>
   </div>`;
   };
 
-  errorToast = (msg) => {
+  errorToast = (msg: string) => {
     return `  <div class="toast text-bg-danger d-flex justify-content-center align-items-center p-2 gap-2">
     <i class="fa fa-times-circle"></i>
     <p class="m-0">${msg}</p>
   </div>`;
   };
 
-  lowStockRow = (item) => {
+  lowStockRow = (item: { productName: string; quantity: number }) => {
     return `
     <tr>
       <td>${item.productName}</td>
@@ -24,7 +27,11 @@ export default class Templates {
     </tr>`;
   };
 
-  cancelledShipmentRow = (item) => {
+  cancelledShipmentRow = (item: {
+    productName: string;
+    category: string;
+    totalCancelledQuantity: number;
+  }) => {
     return `
     <tr>
       <td>${item.productName}</td>
@@ -35,7 +42,12 @@ export default class Templates {
     </tr>`;
   };
 
-  adjustmentProductsRow = (item) => {
+  adjustmentProductsRow = (item: {
+    productName: string;
+    category: string;
+    totalAdjustedQuantity: number;
+    reason: string;
+  }) => {
     return `
     <tr>
       <td>${item.productName}</td>
@@ -47,7 +59,7 @@ export default class Templates {
     </tr>`;
   };
 
-  noWarehouseMessage = (user) => {
+  noWarehouseMessage = (user: string) => {
     if (user === 'admin') {
       return `
             <p><i class="fas fa-warehouse"></i> No warehouse assigned yet! 
@@ -68,7 +80,17 @@ export default class Templates {
     }
   };
 
-  recentActivityItem = ({ performedBy, actionText, time, dotClass }) => {
+  recentActivityItem = ({
+    performedBy,
+    actionText,
+    time,
+    dotClass,
+  }: {
+    performedBy: string;
+    actionText: string;
+    time: string;
+    dotClass: string;
+  }) => {
     return `
       <div class="activity-item">
         <span class="dot ${dotClass}"></span>
@@ -83,11 +105,22 @@ export default class Templates {
     return '<p class="text-muted">No recent activity</p>';
   };
 
-  warehouseOption = (warehouse, selected = false) => {
+  warehouseOption = (warehouse: Warehouse, selected: boolean = false) => {
     return `<option value="${warehouse._id}" ${selected ? 'selected' : ''}>${warehouse.name}</option>`;
   };
 
-  carouselItem = (warehouseId, product, isActive = false) => {
+  carouselItem = (
+    warehouseId: string,
+    product: {
+      productId: string;
+      productImage: string;
+      productName: string;
+      category: string;
+      price: number;
+      totalSalesAmount: number;
+    },
+    isActive: boolean = false
+  ) => {
     const active = isActive ? 'active' : '';
     return `
   <div class="carousel-item ${active}">
@@ -120,35 +153,39 @@ export default class Templates {
 `;
   };
 
-  transactionIN = (productName, qty) => {
+  transactionIN = (productName: string, qty: number) => {
     return {
       dotClass: 'success',
       actionText: `Stock In of <strong>${productName}</strong> (${qty} units)`,
     };
   };
 
-  transactionOUT = (productName, qty) => {
+  transactionOUT = (productName: string, qty: number) => {
     return {
       dotClass: 'info',
       actionText: `Stock Out of <strong>${productName}</strong> (${qty} units)`,
     };
   };
 
-  transactionTRANSFER = (productName, qty, targetWarehouse) => {
+  transactionTRANSFER = (
+    productName: string,
+    qty: number,
+    targetWarehouse: string
+  ) => {
     return {
       dotClass: 'warning',
       actionText: `Transfer <strong>${productName}</strong> (${qty} units) to ${targetWarehouse}`,
     };
   };
 
-  transactionADJUSTMENT = (productName, qty) => {
+  transactionADJUSTMENT = (productName: string, qty: number) => {
     return {
       dotClass: 'danger',
       actionText: `Adjustment made on <strong>${productName}</strong> (${qty} units)`,
     };
   };
 
-  transactionDEFAULT = (productName, qty) => {
+  transactionDEFAULT = (productName: string, qty: number) => {
     return {
       dotClass: 'info',
       actionText: `<strong>${productName}</strong> (${qty} units)`,

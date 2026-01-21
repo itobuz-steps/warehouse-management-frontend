@@ -1,7 +1,7 @@
 import api from '../../api/interceptor.js';
 import { config } from '../../config/config.js';
 import Choices from 'choices.js';
-import Templates from '../../common/Templates.js';
+import { Templates } from '../../common/Templates.js';
 import { displayWarehouse } from './displayWarehouse.js';
 import * as bootstrap from 'bootstrap';
 import type { User } from '../../types/user.js';

@@ -1,4 +1,6 @@
-const addWarehouseDetails = (warehouse, text) => {
+import type { Warehouse } from '../../types/warehouse';
+
+const addWarehouseDetails = (warehouse: Warehouse, text: string) => {
   return `
   <div class="warehouse-card card mt-3 h-100 d-flex flex-column">
   <div class="card-body flex-grow-1">

@@ -1,4 +1,22 @@
-export function productRowTemplate(availableProducts, isRawProduct) {
+import type { Product } from '../../types/product';
+import type { Quantity } from '../../types/quantity';
+
+export function productRowTemplate(
+  availableProducts: (Product & Quantity)[],
+  isRawProduct: false
+): string;
+
+export function productRowTemplate(
+  availableProducts: (Quantity & { product: Product })[],
+  isRawProduct: true
+): string;
+
+export function productRowTemplate(
+  availableProducts:
+    | (Product & Quantity)[]
+    | (Quantity & { product: Product })[],
+  isRawProduct: boolean
+): string {
   return `
     <div class="custom-dropdown">
       <button type="button"
@@ -12,7 +30,9 @@ export function productRowTemplate(availableProducts, isRawProduct) {
            style="display:none; max-height:250px; overflow-y:auto;">
         ${availableProducts
           .map((p) => {
-            const product = isRawProduct ? p : p.product;
+            const product = isRawProduct
+              ? (p as Product & Quantity)
+              : (p as Quantity & { product: Product }).product;
             const img = product.productImage?.[0] || '';
 
             return `
@@ -49,10 +69,25 @@ export function productRowTemplate(availableProducts, isRawProduct) {
   `;
 }
 
-export function productOptionsTemplate(products, isRawProduct) {
+export function productOptionsTemplate(
+  availableProducts: (Product & Quantity)[],
+  isRawProduct: false
+): string;
+
+export function productOptionsTemplate(
+  availableProducts: (Quantity & { product: Product })[],
+  isRawProduct: true
+): string;
+
+export function productOptionsTemplate(
+  products: (Product & Quantity)[] | (Quantity & { product: Product })[],
+  isRawProduct: boolean
+): string {
   return products
     .map((p) => {
-      const product = isRawProduct ? p : p.product;
+      const product = isRawProduct
+        ? (p as Product & Quantity)
+        : (p as Quantity & { product: Product }).product;
       const img = product.productImage?.[0] || '';
 
       return `
