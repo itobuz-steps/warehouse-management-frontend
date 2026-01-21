@@ -22,7 +22,7 @@ export type ProductSelection = {
   modalMarkup: HTMLElement;
   modalMarkupPrice: HTMLElement;
   qrCodeSection: HTMLElement;
-  qrCodeItem: HTMLElement;
+  qrCodeItem: HTMLImageElement;
   editModal: HTMLElement;
   closeEditModal: HTMLElement;
   editProductBtn: HTMLButtonElement;

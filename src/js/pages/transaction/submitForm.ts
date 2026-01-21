@@ -3,12 +3,14 @@ import { Templates } from '../../common/Templates.js';
 import { transactionSelectors } from './transactionSelector.js';
 import { confirmTransaction } from '../../common/modals/confirmModal.js';
 import { config } from '../../config/config.js';
+import type { TransactionType } from '../../types/transactionType.js';
+import { AxiosError } from 'axios';
 
 const toastMessage = new Templates();
 const { toastSection, warehouses, containers } = transactionSelectors;
-const submitSpinner = document.getElementById('submitSpinner');
+const submitSpinner = document.getElementById('submitSpinner') as HTMLElement;
 
-export default async function submitForm(type) {
+export default async function submitForm(type: TransactionType) {
   const confirmed = await confirmTransaction(type);
 
   if (!confirmed) {
@@ -30,9 +32,10 @@ export default async function submitForm(type) {
       url = `${config.TRANSACTION_BASE_URL}/stock-in`;
       body = {
         products,
-        supplier: document.getElementById('supplier').value,
+        supplier: (document.getElementById('supplier') as HTMLInputElement)
+          ?.value,
         destinationWarehouse: warehouses.destinationWarehouse.value,
-        notes: document.getElementById('inNotes').value,
+        notes: (document.getElementById('inNotes') as HTMLInputElement)?.value,
       };
       break;
     }
@@ -42,12 +45,20 @@ export default async function submitForm(type) {
 
       body = {
         products: await collectProducts('outProductsContainer'),
-        customerName: document.getElementById('customerName').value,
-        customerEmail: document.getElementById('customerEmail').value,
-        customerPhone: document.getElementById('customerPhone').value,
-        customerAddress: document.getElementById('customerAddress').value,
-        sourceWarehouse: warehouses.sourceWarehouse.value,
-        notes: document.getElementById('outNotes').value,
+        customerName: (
+          document.getElementById('customerName') as HTMLInputElement
+        )?.value,
+        customerEmail: (
+          document.getElementById('customerEmail') as HTMLInputElement
+        )?.value,
+        customerPhone: (
+          document.getElementById('customerPhone') as HTMLInputElement
+        )?.value,
+        customerAddress: (
+          document.getElementById('customerAddress') as HTMLInputElement
+        )?.value,
+        sourceWarehouse: warehouses.sourceWarehouse?.value,
+        notes: (document.getElementById('outNotes') as HTMLInputElement)?.value,
       };
       break;
     }
@@ -56,9 +67,10 @@ export default async function submitForm(type) {
       url = `${config.TRANSACTION_BASE_URL}/transfer`;
       body = {
         products: await collectProducts('transferProductsContainer'),
-        sourceWarehouse: warehouses.sourceWarehouse.value,
-        destinationWarehouse: warehouses.destinationWarehouse.value,
-        notes: document.getElementById('transferNotes').value,
+        sourceWarehouse: warehouses.sourceWarehouse?.value,
+        destinationWarehouse: warehouses.destinationWarehouse?.value,
+        notes: (document.getElementById('transferNotes') as HTMLInputElement)
+          .value,
       };
       break;
     }
@@ -67,10 +79,12 @@ export default async function submitForm(type) {
       url = `${config.TRANSACTION_BASE_URL}/adjustment`;
       body = {
         products: await collectProducts('adjustProductsContainer'),
-        reason: document.getElementById('adjustReason').value,
-        notes: document.getElementById('adjustNotes').value,
+        reason: (document.getElementById('adjustReason') as HTMLInputElement)
+          .value,
+        notes: (document.getElementById('adjustNotes') as HTMLInputElement)
+          .value,
         // using common sourceWarehouse as adjustment warehouse
-        warehouseId: warehouses.sourceWarehouse.value,
+        warehouseId: warehouses.sourceWarehouse?.value,
       };
       break;
     }
@@ -91,19 +105,22 @@ export default async function submitForm(type) {
 
     showToast('success', res.data.message);
   } catch (err) {
+    if (!(err instanceof AxiosError)) {
+      return;
+    }
     submitSpinner.classList.add('d-none');
-    showToast('error', err.response.data.message);
+    showToast('error', err.response?.data.message);
   } finally {
     transactionSelectors.submitTransactionBtn.disabled = false;
     transactionSelectors.typeSelect.onchange = () => {
-      document
-        .querySelectorAll(
+      (
+        document.querySelectorAll(
           `#transactionForm input[type="text"],
        #transactionForm input[type="email"]`
-        )
-        .forEach((input) => {
-          input.value = '';
-        });
+        ) as NodeListOf<HTMLInputElement>
+      ).forEach((input) => {
+        input.value = '';
+      });
       transactionSelectors.buttons.addInProduct.disabled = true;
       transactionSelectors.buttons.addOutProduct.disabled = true;
       transactionSelectors.buttons.addTransferProduct.disabled = true;
@@ -112,8 +129,8 @@ export default async function submitForm(type) {
   }
 }
 
-async function collectProducts(containerId) {
-  const container = containers[containerId];
+async function collectProducts(containerId: string) {
+  const container = containers[containerId as keyof typeof containers];
 
   if (!container) {
     return [];
@@ -139,15 +156,19 @@ async function collectProducts(containerId) {
   const products = [];
 
   for (const row of container.querySelectorAll('.product-row')) {
-    const toggleBtn = row.querySelector('.dropdown-toggle');
+    const toggleBtn = row.querySelector(
+      '.dropdown-toggle'
+    ) as HTMLButtonElement;
     const productId = toggleBtn ? toggleBtn.dataset.value : null;
 
-    const quantityInput = row.querySelector('.quantityInput');
+    const quantityInput = row.querySelector(
+      '.quantityInput'
+    ) as HTMLInputElement;
     const quantity = quantityInput
       ? parseInt(quantityInput.value || '0', 10)
       : 0;
 
-    const limitInput = row.querySelector('.limitInput');
+    const limitInput = row.querySelector('.limitInput') as HTMLInputElement;
     const limit = limitInput ? parseInt(limitInput.value || '1', 10) : 1;
 
     // check warehouse capacity
@@ -170,7 +191,7 @@ async function collectProducts(containerId) {
   return products;
 }
 
-function showToast(type, message) {
+function showToast(type: 'success' | 'error', message: string) {
   toastSection.innerHTML =
     type === 'success'
       ? toastMessage.successToast(message)

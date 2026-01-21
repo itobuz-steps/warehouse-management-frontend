@@ -4,19 +4,36 @@ import {
   unverifiedManagerCard,
   emptyCard,
 } from '../../common/template/profileTemplate.js';
+import type { User } from '../../types/user.js';
 
-export function displayVerifiedManagerCard(verifiedManagers) {
+export function displayVerifiedManagerCard(verifiedManagers: User[]) {
   let blockedManagerCount = 0;
   let activeManagerCount = 0;
 
   verifiedManagers.forEach((manager) => {
+    if (manager.lastLogin === undefined) {
+      manager.lastLogin = new Date();
+    }
+
+    if (manager.name === undefined || manager.name === null) {
+      manager.name = 'No Name';
+    }
+
     const lastLogin = new Date(manager.lastLogin).toLocaleDateString();
     const createdOn = new Date(manager.createdAt).toLocaleDateString();
-    const cardData = {
+    const cardData: {
+      managerId: string;
+      managerName: string;
+      managerEmail: string;
+      lastLogin: Date;
+      createdOn: string;
+      isActive: boolean;
+      profileImage: string;
+    } = {
       managerId: manager._id,
       managerName: manager.name,
       managerEmail: manager.email,
-      lastLogin,
+      lastLogin: new Date(lastLogin),
       createdOn,
       isActive: manager.isActive,
       profileImage:
@@ -45,13 +62,19 @@ export function displayVerifiedManagerCard(verifiedManagers) {
   }
 }
 
-export function displayPendingManagerCard(unverifiedManagers) {
+export function displayPendingManagerCard(unverifiedManagers: User[]) {
   if (unverifiedManagers.length) {
     unverifiedManagers.forEach((manager) => {
       const createdOn = new Date(manager.createdAt).toLocaleDateString();
 
+      if (manager.name === undefined || manager.name === null) {
+        manager.name = 'No Name';
+      }
+      if (manager.profileImage === undefined || manager.profileImage === null) {
+        manager.profileImage = '../../assets/images/profile_default.svg';
+      }
+
       const card = unverifiedManagerCard(
-        manager._id,
         manager.name,
         manager.email,
         createdOn,

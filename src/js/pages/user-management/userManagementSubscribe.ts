@@ -3,8 +3,8 @@ import { config } from '../../config/config.js';
 import { Templates } from '../../common/Templates.js';
 import userManagementSelection from './userManagementSelector.js';
 import displayProfile from './displayProfileDetails.js';
-import addWarehouseDetails from '../../common/template/warehouseDetailsTemplate.js';
-import { getUserWarehouses } from '../../common/api/HelperApi.js';
+import addWarehouseDetails from '../../common/template/warehouseDetailstemplate.js';
+import { getUserWarehouses } from '../../common/api/helperApi.js';
 import {
   displayVerifiedManagerCard,
   displayPendingManagerCard,
@@ -29,7 +29,7 @@ export const getUserDetailsSubscribe = async () => {
       displayPendingManagerCard(unverifiedManagers);
     } else if (user.role === 'manager') {
       userManagementSelection.warehouseSection.classList.remove('d-none');
-      document.getElementById('managerTitle').classList.remove('d-none');
+      document.getElementById('managerTitle')?.classList.remove('d-none');
 
       const warehouses = await getUserWarehouses();
 
@@ -43,7 +43,8 @@ export const getUserDetailsSubscribe = async () => {
         );
 
         const capacityPercentage = res.data.data.percentage;
-        let text;
+
+        let text: string = 'LOW';
 
         if (capacityPercentage < 50) {
           text = 'LOW';
@@ -58,6 +59,11 @@ export const getUserDetailsSubscribe = async () => {
       });
     }
   } catch (err) {
+    if (!(err instanceof Error)) {
+      console.error(err);
+      return;
+    }
+
     userManagementSelection.toastSection.innerHTML = displayToast.errorToast(
       err.message
     );

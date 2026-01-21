@@ -1,12 +1,14 @@
-import { getUserWarehouses } from '../../common/api/HelperApi';
+import { getUserWarehouses } from '../../common/api/helperApi';
 
-const sourceWarehouseSelector = document.getElementById('sourceWarehouse');
+const sourceWarehouseSelector = document.getElementById(
+  'sourceWarehouse'
+) as HTMLSelectElement;
 const destinationWarehouseSelector = document.getElementById(
   'destinationWarehouse'
-);
+) as HTMLSelectElement;
 const destinationWarehouseDropdownLabel = document.getElementById(
   'destinationWarehouseDropdownLabel'
-);
+) as HTMLElement;
 
 export async function loadWarehouses() {
   try {
@@ -23,7 +25,7 @@ export async function loadWarehouses() {
       destinationWarehouseSelector.innerHTML += `<option value="${w._id}">${w.name}</option>`;
     });
   } catch (err) {
-    console.log(err.message);
+    console.log((err as Error).message);
   }
 }
 
@@ -46,6 +48,6 @@ export async function loadDestinationWarehouse() {
       }
     });
   } catch (err) {
-    console.log(err.message);
+    console.log((err as Error).message);
   }
 }

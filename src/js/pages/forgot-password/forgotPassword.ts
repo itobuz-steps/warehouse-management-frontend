@@ -30,7 +30,9 @@ const toggleNewPassword = document.getElementById(
 ) as HTMLButtonElement;
 
 toggleNewPassword.addEventListener('click', () => {
-  const newPasswordInput = document.getElementById('newPassword');
+  const newPasswordInput = document.getElementById(
+    'newPassword'
+  ) as HTMLInputElement;
 
   showPassToggle(newPasswordInput);
 });

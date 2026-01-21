@@ -7,12 +7,13 @@ type User = {
   isVerified: boolean;
   isActive: boolean;
   isDeleted: boolean;
-  name?: string | null;
+  name: string;
   password?: string | null;
   profileImage?: string | null;
   lastLogin?: Date;
   createdAt: Date;
   updatedAt: Date;
+  warehouseId?: string | null;
 };
 
 export type { User };

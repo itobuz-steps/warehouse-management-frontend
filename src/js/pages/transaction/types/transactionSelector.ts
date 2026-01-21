@@ -1,45 +1,45 @@
 type TransactionSections = {
-  IN: HTMLElement | null;
-  OUT: HTMLElement | null;
-  TRANSFER: HTMLElement | null;
-  ADJUSTMENT: HTMLElement | null;
+  IN: HTMLElement;
+  OUT: HTMLElement;
+  TRANSFER: HTMLElement;
+  ADJUSTMENT: HTMLElement;
 };
 
 type WarehouseLabels = {
-  source: HTMLElement | null;
-  destination: HTMLElement | null;
+  source: HTMLElement;
+  destination: HTMLElement;
 };
 
 type Warehouses = {
-  sourceWarehouse: HTMLSelectElement | null;
-  destinationWarehouse: HTMLSelectElement | null;
+  sourceWarehouse: HTMLSelectElement;
+  destinationWarehouse: HTMLSelectElement;
 };
 
 type ProductContainers = {
-  inProductsContainer: HTMLElement | null;
-  outProductsContainer: HTMLElement | null;
-  transferProductsContainer: HTMLElement | null;
-  adjustProductsContainer: HTMLElement | null;
+  inProductsContainer: HTMLElement;
+  outProductsContainer: HTMLElement;
+  transferProductsContainer: HTMLElement;
+  adjustProductsContainer: HTMLElement;
 };
 
 type TransactionButtons = {
-  addInProduct: HTMLElement | null;
-  addOutProduct: HTMLElement | null;
-  addTransferProduct: HTMLElement | null;
+  addInProduct: HTMLButtonElement;
+  addOutProduct: HTMLButtonElement;
+  addTransferProduct: HTMLButtonElement;
 };
 
 type TransactionSelectors = {
-  form: HTMLFormElement | null;
-  toastSection: HTMLElement | null;
-  typeSelect: HTMLElement | null;
+  form: HTMLFormElement;
+  toastSection: HTMLElement;
+  typeSelect: HTMLSelectElement;
   sections: TransactionSections;
-  warehouseDropdown: HTMLElement | null;
+  warehouseDropdown: HTMLElement;
   warehouseLabels: WarehouseLabels;
   warehouses: Warehouses;
   containers: ProductContainers;
   buttons: TransactionButtons;
-  addNewProduct: HTMLElement | null;
-  submitTransactionBtn: HTMLElement | null;
+  addNewProduct: HTMLButtonElement;
+  submitTransactionBtn: HTMLButtonElement;
 };
 
 export type { TransactionSelectors };

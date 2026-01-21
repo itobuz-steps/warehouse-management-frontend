@@ -1,15 +1,33 @@
 const inventorySelection = {
-  toastSection: document.getElementById('toastSection'),
-  addWarehouseForm: document.getElementById('addWarehouseForm'),
-  addWarehouseButton: document.getElementById('addWarehouseBtn'),
-  deleteWarehouseBtn: document.getElementById('deleteWarehouseBtn'),
-  deleteWarehouseModal: document.getElementById('deleteWarehouseModal'),
-  editWarehouseForm: document.getElementById('editWarehouseForm'),
-  editWarehouseModal: document.getElementById('editWarehouseModal'),
-  editWarehouseName: document.getElementById('editWarehouseName'),
-  editWarehouseAddress: document.getElementById('editWarehouseAddress'),
-  editWarehouseDescription: document.getElementById('editWarehouseDescription'),
-  warehouseCards: document.getElementById('warehouseCards'),
+  toastSection: document.getElementById('toastSection') as HTMLElement,
+  addWarehouseForm: document.getElementById(
+    'addWarehouseForm'
+  ) as HTMLFormElement,
+  addWarehouseButton: document.getElementById(
+    'addWarehouseBtn'
+  ) as HTMLButtonElement,
+  deleteWarehouseBtn: document.getElementById(
+    'deleteWarehouseBtn'
+  ) as HTMLButtonElement,
+  deleteWarehouseModal: document.getElementById(
+    'deleteWarehouseModal'
+  ) as HTMLElement,
+  editWarehouseForm: document.getElementById(
+    'editWarehouseForm'
+  ) as HTMLFormElement,
+  editWarehouseModal: document.getElementById(
+    'editWarehouseModal'
+  ) as HTMLElement,
+  editWarehouseName: document.getElementById(
+    'editWarehouseName'
+  ) as HTMLInputElement,
+  editWarehouseAddress: document.getElementById(
+    'editWarehouseAddress'
+  ) as HTMLInputElement,
+  editWarehouseDescription: document.getElementById(
+    'editWarehouseDescription'
+  ) as HTMLInputElement,
+  warehouseCards: document.getElementById('warehouseCards') as HTMLElement,
 };
 
 export default inventorySelection;

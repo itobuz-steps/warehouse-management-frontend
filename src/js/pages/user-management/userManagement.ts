@@ -1,5 +1,7 @@
 import '../../../scss/user-management.scss';
-// eslint-disable-next-line no-unused-vars
+
+//@ts-expect-error bootstrap import
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import * as bootstrap from 'bootstrap';
 
 import { getUserDetailsSubscribe } from './userManagementSubscribe.js';
