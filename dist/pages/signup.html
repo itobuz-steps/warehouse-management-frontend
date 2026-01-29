@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="../assets/pages/signup-BbG1hzK1.js"></script>
+    <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="../assets/showPasswordToggle-bpwKeFfH.js">
+    <link rel="modulepreload" crossorigin href="../assets/bootstrap.esm-C02OvDcj.js">
+    <link rel="modulepreload" crossorigin href="../assets/index-C0eOhpfv.js">
+    <link rel="modulepreload" crossorigin href="../assets/config-D1K7ByuX.js">
+    <link rel="stylesheet" crossorigin href="../assets/showPasswordToggle-BaXilxFG.css">
+  </head>
+  <body>
+    <!-- Toast Container -->
+    <div id="toastSection"></div>
+
+    <!-- Unauthorized Message -->
+    <div id="unauthorizedMessage" class="d-none unauthorized">
+      <div class="message-content">
+        <img
+          src="../assets/unauthorized-iqZblM9I.svg"
+          class="w-100 d-block mb-4"
+          alt="Unauthorized Access"
+        />
+        <h2 class="message-title">Access Denied</h2>
+        <p class="message-subtitle">
+          You don't have permission to access this page. Please contact your
+          administrator or sign in with an authorized account.
+        </p>
+        <div class="message-actions">
+          <a href="/pages/login.html" class="message-btn hover-lift">
+            <i class="fas fa-sign-in-alt me-2"></i>Go to Login
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expired Message -->
+    <div id="expiredMessage" class="d-none">
+      <div class="message-content">
+        <img
+          src="../assets/expired-H8XDFZjx.png"
+          class="d-block mx-auto mb-4"
+          height="300"
+          width="300"
+          alt="Link Expired"
+        />
+        <p class="message-subtitle">
+          This invitation link has expired or is no longer valid.
+        </p>
+        <div class="message-actions">
+          <button
+            onclick="window.location.href='/pages/login.html'"
+            class="message-btn hover-lift me-3"
+          >
+            <i class="fas fa-home me-2"></i>Return to Home
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Signup Container -->
+    <div class="main-container d-none" id="signupContainer">
+      <!-- Left Brand Section -->
+      <div class="brand-section">
+        <div class="brand-content">
+          <div class="logo">
+            <img src="../assets/logo-CZXaKSAx.png" alt="Lynch Logistics Logo" />
+          </div>
+          <p class="tagline">
+            Join Lynch Logistics for intelligent warehouse management solutions
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Signup Section -->
+      <div class="login-section">
+        <div class="welcome-back">
+          <h2>Get Started</h2>
+          <p class="subtitle">
+            Create your account to access the warehouse management system
+          </p>
+        </div>
+
+        <form id="signupForm" class="login-form">
+          <!-- Name Field -->
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <div class="input-wrapper">
+              <i class="input-icon fas fa-user"></i>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <i class="input-icon fas fa-lock"></i>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password should be 6 characters of letters and numbers"
+                autocomplete="new-password"
+                required
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                id="togglePassword"
+                aria-label="Toggle password visibility"
+              >
+                <i class="fas fa-eye" id="eyeBtn"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="login-btn hover-lift mb-4">
+            <i class="btn-icon fas fa-user-plus"></i>
+            Create Account
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

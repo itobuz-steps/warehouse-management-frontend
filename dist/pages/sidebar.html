@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <script src="../js/common/sidebar.js" defer></script>
+  </head>
+  <body>
+    <button
+      id="sidebarToggle"
+      class="sidebar-toggle topbar-hamburger"
+      aria-label="Toggle sidebar"
+    >
+      <i class="fa-solid fa-angles-right"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand text-center">
+        <img src="../assets/icon-C593Sews.png" alt="Logo" />
+      </div>
+
+      <ul class="sidebar-menu d-flex flex-column justify-content-between">
+        <div>
+          <li>
+            <a href="dashboard.html" class="active">
+              <i class="fas fa-dashboard"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li id="manageWarehouse">
+            <a href="inventory.html">
+              <i class="fas fa-warehouse"></i>
+              <span>Manage Warehouse</span>
+            </a>
+          </li>
+          <li>
+            <a href="user-management.html">
+              <i class="fas fa-user"></i>
+              <span>User Management</span>
+            </a>
+          </li>
+          <li>
+            <a href="products.html">
+              <i class="fas fa-store"></i>
+              <span>Products</span>
+            </a>
+          </li>
+          <!-- <li id="archivedProducts">
+            <a href="restore-products.html">
+              <i class="fa-solid fa-box-archive"></i>
+              <span>Archived Products</span>
+            </a>
+          </li> -->
+          <li>
+            <a href="reports.html">
+              <i class="fas fa-chart-bar"></i>
+              <span>Reports</span>
+            </a>
+          </li>
+          <li>
+            <a href="transaction.html">
+              <i class="fas fa-chart-line"></i>
+              <span>Manage Stocks</span>
+            </a>
+          </li>
+          <!-- <li>
+          <a href="analytics.html"
+            ><i class="fa-solid fa-boxes-stacked pr-2"></i>Product Analytics</a
+          >
+        </li> -->
+        </div>
+        <div>
+          <li class="logout-button">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </li>
+        </div>
+      </ul>
+    </aside>
+  </body>
+</html>

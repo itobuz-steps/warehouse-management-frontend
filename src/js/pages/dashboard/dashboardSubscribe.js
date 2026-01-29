@@ -123,7 +123,7 @@ const showTopProductsSubscribe = async (warehouseId) => {
             return;
           }
 
-          window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}`;
+          window.location.href = `./products.html?filter=warehouses&warehouseId=${warehouseId}`;
         },
       },
     });
@@ -184,7 +184,7 @@ const showInventoryCategorySubscribe = async (warehouseId) => {
           return;
         }
 
-        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}`;
+        window.location.href = `./products.html?filter=warehouses&warehouseId=${warehouseId}`;
       },
     },
   });
@@ -345,7 +345,7 @@ const showLowStockProducts = async (warehouseId) => {
 
       row.style.cursor = 'pointer';
       row.addEventListener('click', () => {
-        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
+        window.location.href = `./products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
       });
 
       dashboardSelection.lowStockTable.appendChild(row);
@@ -387,7 +387,7 @@ const loadMostCancelledProducts = async (warehouseId, limit = 5) => {
 
       row.style.cursor = 'pointer';
       row.addEventListener('click', () => {
-        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
+        window.location.href = `./products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
       });
 
       dashboardSelection.cancelledTable.appendChild(row);
@@ -429,7 +429,7 @@ const loadMostAdjustedProducts = async (warehouseId, limit = 5) => {
 
       row.style.cursor = 'pointer';
       row.addEventListener('click', () => {
-        window.location.href = `/pages/products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
+        window.location.href = `./products.html?filter=warehouses&warehouseId=${warehouseId}&productId=${item.productId}`;
       });
 
       dashboardSelection.adjustmentTable.appendChild(row);

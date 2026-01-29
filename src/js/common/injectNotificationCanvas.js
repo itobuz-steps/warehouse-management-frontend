@@ -1,6 +1,7 @@
 const container = document.getElementById('notifications-container');
 
-fetch('../../pages/notification.html')
+// Use relative path that works in built environment
+fetch('./notification.html')
   .then((res) => res.text())
   .then((html) => {
     container.innerHTML = html;

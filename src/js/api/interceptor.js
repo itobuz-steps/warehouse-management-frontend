@@ -1,9 +1,10 @@
 import axios from 'axios';
 import config from '../config/config';
 
-if (!navigator.onLine) {
-  window.location.href = '/pages/connection-out.html';
-}
+// Comment out offline check for static build
+// if (!navigator.onLine) {
+//   window.location.href = './connection-out.html';
+// }
 
 const api = axios.create({
   baseURL: `${config.BASE_URL}/user`,
@@ -39,16 +40,19 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    // Comment out redirects for static build - let the app handle API failures gracefully
     // if timeout or server don't return anything
     if (error.code === 'ECONNABORTED' || error.message === 'Network Error') {
-      window.location.href = '/pages/connection-out.html';
-      // return Promise.reject(new Error('Server Unreachable'));
+      console.warn('API call failed:', error.message);
+      // For static build, return a rejected promise instead of redirecting
+      return Promise.reject(new Error('Server Unreachable'));
     }
 
     //server crash or any server related issue
     if (error.response && error.response.status >= 500) {
-      window.location.href = '/pages/connection-out.html';
-      // return Promise.reject(new Error('Server Error'));
+      console.warn('Server error:', error.response.status);
+      // For static build, return a rejected promise instead of redirecting
+      return Promise.reject(new Error('Server Error'));
     }
 
     if (
@@ -84,7 +88,8 @@ api.interceptors.response.use(
 
         if (!newAccessToken) {
           processQueue(new Error('No access token in refresh response'), null);
-          window.location.href = '/pages/login.html';
+          console.warn('Authentication failed - no access token');
+          // For static build, return rejected promise instead of redirecting
           return Promise.reject(
             new Error('No access token in refresh response')
           );
@@ -100,7 +105,8 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (err) {
         processQueue(err, null);
-        window.location.href = '/pages/login.html';
+        console.warn('Authentication refresh failed:', err.message);
+        // For static build, return rejected promise instead of redirecting
         return Promise.reject(err);
       } finally {
         isRefreshing = false;

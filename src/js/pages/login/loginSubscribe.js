@@ -30,7 +30,7 @@ const loginSubscribe = async (event) => {
     toastSection.innerHTML = displayToast.successToast(response.data.message);
 
     setTimeout(() => {
-      window.location.href = '/pages/dashboard.html';
+      window.location.href = './dashboard.html';
     }, 1000);
   } catch (err) {
     console.log(err);

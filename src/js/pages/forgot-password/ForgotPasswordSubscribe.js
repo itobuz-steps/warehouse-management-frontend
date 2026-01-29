@@ -62,7 +62,7 @@ class ForgotPasswordSubscribe {
             'Password Reset Successful. Redirecting to Login Page..'
           );
         setTimeout(() => {
-          window.location.href = '/pages/login.html';
+          window.location.href = './login.html';
         }, 1500);
       }
     } catch (err) {

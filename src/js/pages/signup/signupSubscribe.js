@@ -28,7 +28,7 @@ const signupSubscribe = async (event) => {
     toastSection.innerHTML = displayToast.successToast(response.data.message);
 
     setTimeout(() => {
-      window.location.href = '/pages/login.html';
+      window.location.href = './login.html';
     }, 1000);
   } catch (err) {
     toastSection.innerHTML = displayToast.errorToast(err.response.data.message);
