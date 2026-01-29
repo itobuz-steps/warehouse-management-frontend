@@ -54,7 +54,7 @@ const createNotificationTemplate = (notification) => {
 
     <div class="d-flex align-items-center mt-2 mb-2">
       <img 
-        src="${notification.performedByImage || '../../../assets/images/icon.png'}"
+        src="${notification.performedByImage || './assets/images/icon.png'}"
         alt="Profile"
         class="rounded-circle me-3"
         width="40"

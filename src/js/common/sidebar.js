@@ -98,6 +98,6 @@ function initializeSidebar() {
   logoutButton?.addEventListener('click', () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    window.location.href = '../../pages/login.html';
+    window.location.href = './login.html';
   });
 }
