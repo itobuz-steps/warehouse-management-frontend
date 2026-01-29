@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory Products</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+
+    <script type="module" crossorigin src="../assets/pages/products-B3c-FPVU.js"></script>
+    <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="../assets/bootstrap.esm-C02OvDcj.js">
+    <link rel="modulepreload" crossorigin href="../assets/index-C0eOhpfv.js">
+    <link rel="modulepreload" crossorigin href="../assets/config-D1K7ByuX.js">
+    <link rel="modulepreload" crossorigin href="../assets/interceptor-D8J117qD.js">
+    <link rel="modulepreload" crossorigin href="../assets/injectNotificationCanvas-Bpr8SS4b.js">
+    <link rel="modulepreload" crossorigin href="../assets/imageCarousel-Dy8HoRmN.js">
+    <link rel="modulepreload" crossorigin href="../assets/productGridRenderer-SpLrnwr9.js">
+    <link rel="modulepreload" crossorigin href="../assets/productApiHelper-BmMB7QXX.js">
+    <link rel="stylesheet" crossorigin href="../assets/injectNotificationCanvas-SX0d0E82.css">
+    <link rel="stylesheet" crossorigin href="../assets/imageCarousel-DNAHim7q.css">
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <div id="notifications-container"></div>
+
+    <div class="main-content">
+      <div id="toastSection">
+        <!-- custom toast message -->
+      </div>
+      <div class="page-header topbar">
+        <h2 class="mb-0">Products</h2>
+        <div class="filter-bar">
+          <select id="filterTypeSelect" class="filterTypeSelect">
+            <option value="products">All Products</option>
+            <option value="warehouses">Show Warehouses</option>
+          </select>
+
+          <select id="warehouseSelect" class="warehouseSelect">
+            <option value="">Warehouses</option>
+          </select>
+        </div>
+        <div
+          class="d-flex align-items-center justify-content-center flex-wrap gap-1"
+        >
+          <button class="btn theme-button" id="addProducts">✚ Product</button>
+          <a href="/pages/analytics.html" class="btn btn-sm theme-button">
+            <i class="fa-solid fa-chart-line me-1"></i>
+          </a>
+          <a
+            href="/pages/restore-products.html"
+            class="btn theme-button"
+            id="archivedProducts"
+          >
+            <i class="fa-solid fa-trash-arrow-up"></i>
+          </a>
+          <div
+            class="notif-bell position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNotifications"
+            aria-controls="offcanvasNotifications"
+          >
+            <i class="fa-regular fa-bell"></i>
+            <span
+              id="notif-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="display: none"
+            >
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- search-filter-bar -->
+      <div class="search-filter-bar d-flex flex-sm-row flex-column gap-1 pb-3">
+        <input
+          type="text"
+          id="searchInput"
+          class="form-control my-1"
+          placeholder="Search products..."
+        />
+
+        <div class="d-flex gap-2 gap-sm-1">
+          <div class="custom-select-wrapper">
+            <select id="categoryFilter" class="form-control my-1">
+              <option value="">All Categories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Food & Beverage">Food & Beverage</option>
+              <option value="Medical Supplies">Medical Supplies</option>
+              <option value="Industrial Tools">Industrial Tools</option>
+              <option value="Automotive Parts">Automotive Parts</option>
+              <option value="Office Supplies">Office Supplies</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Others">Others</option>
+            </select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
+
+          <div class="custom-select-wrapper">
+            <select id="sortSelect" class="form-control my-1">
+              <option value="">Sort By</option>
+              <option value="name_asc">Name (A–Z)</option>
+              <option value="name_desc">Name (Z–A)</option>
+              <option value="quantity_asc">Quantity (Low → High)</option>
+              <option value="quantity_desc">Quantity (High → Low)</option>
+              <option value="category_asc">Category (A–Z)</option>
+            </select>
+            <i class="select-arrow fa-solid fa-angle-down"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Product Modal -->
+      <div id="addProductModal" class="addProductModal modal-overlay">
+        <div class="modal-box">
+          <h2 class="modal-title">Add New Product</h2>
+
+          <form
+            id="addProductForm"
+            enctype="multipart/form-data"
+            class="modal-form"
+          >
+            <div class="form-group">
+              <label for="productName">Product Name</label>
+              <input type="text" id="productName" name="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="productCategory">Category</label>
+              <select id="productCategory" name="category" required>
+                <option value="">Select Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Food & Beverage">Food & Beverage</option>
+                <option value="Medical Supplies">Medical Supplies</option>
+                <option value="Industrial Tools">Industrial Tools</option>
+                <option value="Automotive Parts">Automotive Parts</option>
+                <option value="Office Supplies">Office Supplies</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="productDescription">Description</label>
+              <input id="productDescription" name="description" />
+            </div>
+
+            <div class="form-group">
+              <label for="productPrice">Price</label>
+              <input type="number" id="productPrice" name="price" required />
+            </div>
+
+            <div class="form-group">
+              <label for="markup">Markup</label>
+              <input type="number" id="markup" name="markup" />
+            </div>
+
+            <div class="form-group">
+              <label for="productImage">Product Images</label>
+              <input
+                type="file"
+                id="productImage"
+                name="productImage"
+                multiple
+              />
+            </div>
+            <p class="text-secondary small">Atmost 8 images, each of max size 500KB</p>
+
+            <div class="modal-actions">
+              <button
+                type="button"
+                id="closeModal"
+                class="btn cancel-btn btn-secondary"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn submit-btn">Add Product</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Show Product Modal -->
+      <div id="productModal" class="product-modal hidden">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+
+          <div class="modal-header-section">
+            <div
+              class="product-title-row d-flex align-items-center flex-wrap gap-1 gap-md-2"
+            >
+              <h2 id="modalProductName" class="product-name mb-0"></h2>
+              <span
+                id="modalCategory"
+                class="category-badge-premium product-category"
+              ></span>
+            </div>
+            <p id="modalDescription" class="product-description mb-1"></p>
+          </div>
+
+          <div
+            class="modal-body d-flex justify-content-evenly align-content-center"
+          >
+            <div class="carousel-container">
+              <img
+                id="carouselImage"
+                src=""
+                alt="Product Image"
+                class="carousel-image"
+              />
+              <div class="carousel-dots">
+                <!-- Dynamic dots will be inserted here -->
+              </div>
+            </div>
+
+            <div class="product-info align-content-center">
+              <div class="info-card pricing-card">
+                <div
+                  class="card-header d-flex flex-column flex-sm-row align-items-center justify-content-between"
+                >
+                  <div class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-box-open"></i>
+                    <h3 class="mb-0">Product Details</h3>
+                  </div>
+                  <div class="modal-action-buttons d-flex align-content-center">
+                    <button id="editProductBtn" class="btn theme-button">
+                      <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                    <button id="deleteProductBtn" class="btn btn-danger">
+                      <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  class="card-content d-flex flex-wrap justify-content-between align-items-center gap-3 pricing-content-row"
+                >
+                  <div class="pricing-fields flex-grow-1">
+                    <div
+                      class="price-row d-flex justify-content-between align-items-center"
+                    >
+                      <span class="label">Cost Price</span>
+                      <span class="value">₹<span id="modalPrice"></span></span>
+                    </div>
+
+                    <div
+                      class="price-row d-flex justify-content-between align-items-center"
+                    >
+                      <span class="label">Markup</span>
+                      <span
+                        class="value markup-value d-flex align-items-center gap-1"
+                      >
+                        <span id="modalMarkup"></span>%
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                      </span>
+                    </div>
+
+                    <div
+                      class="price-row highlight d-flex justify-content-between align-items-center"
+                    >
+                      <span class="label">Selling Price: </span>
+                      <span class="value selling-price">
+                        ₹<span id="modalMarkupPrice"></span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Right: QR code -->
+                  <div
+                    id="productQr"
+                    class="qr-wrapper d-flex justify-content-center align-items-center"
+                  >
+                    <img
+                      id="modalQrImage"
+                      class="qr-code"
+                      src=""
+                      alt="QR Code"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div id="quantitySection"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Product Modal -->
+      <div id="editProductModal" class="product-modal hidden editProductModal">
+        <div class="modal-content">
+          <span class="close-edit-modal">&times;</span>
+          <h2>Edit Product</h2>
+
+          <form
+            class="modal-form"
+            id="editProductForm"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group">
+              <label for="editName">Name:</label>
+              <input
+                type="text"
+                id="editName"
+                name="name"
+                class="form-control"
+                placeholder="Product Name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editDescription">Description:</label>
+              <textarea
+                id="editDescription"
+                name="description"
+                class="form-control"
+                placeholder="Description"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="editCategory">Category:</label>
+              <select id="editCategory" name="category" required>
+                <option value="">Select Category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Food & Beverage">Food & Beverage</option>
+                <option value="Medical Supplies">Medical Supplies</option>
+                <option value="Industrial Tools">Industrial Tools</option>
+                <option value="Automotive Parts">Automotive Parts</option>
+                <option value="Office Supplies">Office Supplies</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editPrice">Price:</label>
+              <input
+                type="number"
+                id="editPrice"
+                name="price"
+                class="form-control"
+                placeholder="Price"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editMarkup">Markup</label>
+              <input type="number" id="editMarkup" name="Markup" />
+            </div>
+            <div class="form-group">
+              <label>Upload New Images</label>
+              <input
+                type="file"
+                id="editImages"
+                name="productImage"
+                multiple
+                class="form-control"
+              />
+            </div>
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn w-100 theme-button">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Edit Product Modal -->
+      <div class="modal fade limitModal" id="limitModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <h5 class="modal-title">Edit Product Limit</h5>
+
+            <div class="form-group">
+              <input type="hidden" id="limitQuantityId" />
+
+              <label class="form-label fw-bold">Limit</label>
+              <input
+                type="number"
+                id="limitInput"
+                class="form-control"
+                min="0"
+              />
+            </div>
+
+            <div class="d-flex justify-content-center pt-3">
+              <button class="btn theme-button w-100" id="saveLimitBtn">
+                Update Limit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirm Modal -->
+      <div
+        id="confirmDeleteModal"
+        class="product-modal hidden confirmDeleteModal"
+      >
+        <div class="modal-content">
+          <h3>Confirm Delete</h3>
+          <p>Are you sure you want to archive this product?</p>
+
+          <div class="modal-footer justify-content-around">
+            <button id="cancelDeleteBtn" class="btn btn-secondary">
+              Cancel
+            </button>
+            <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="productGrid" class="product-grid">
+        <!-- Cards will load dynamically -->
+      </div>
+
+      <div id="pagination" class="pagination"></div>
+    </div>
+  </body>
+</html>

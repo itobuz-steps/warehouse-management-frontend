@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+    <script type="module" crossorigin src="../assets/pages/qr-product-DQzbbNUS.js"></script>
+    <link rel="modulepreload" crossorigin href="../assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="../assets/imageCarousel-Dy8HoRmN.js">
+    <link rel="modulepreload" crossorigin href="../assets/config-D1K7ByuX.js">
+    <link rel="stylesheet" crossorigin href="../assets/imageCarousel-DNAHim7q.css">
+  </head>
+  <body>
+    <div id="productModal" class="product-modal">
+      <div class="modal-content">
+        <div class="modal-header-section">
+          <div
+            class="product-title-row d-flex align-items-center flex-wrap gap-1 gap-md-2"
+          >
+            <h2 id="modalProductName" class="product-name mb-0"></h2>
+            <span
+              id="modalCategory"
+              class="category-badge-premium product-category"
+            ></span>
+          </div>
+          <p id="modalDescription" class="product-description mb-1"></p>
+        </div>
+
+        <div
+          class="modal-body d-flex justify-content-evenly align-content-center"
+        >
+          <div class="carousel-container">
+            <img
+              id="carouselImage"
+              src=""
+              alt="Product Image"
+              class="carousel-image"
+            />
+            <div class="carousel-dots">
+              <!-- Dynamic dots will be inserted here -->
+            </div>
+          </div>
+
+          <div class="product-info align-content-center">
+            <div class="info-card pricing-card">
+              <div
+                class="card-header d-flex flex-column flex-sm-row align-items-center justify-content-between"
+              >
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fa-solid fa-box-open"></i>
+                  <h3 class="mb-0">Product Details</h3>
+                </div>
+              </div>
+
+              <div
+                class="card-content d-flex flex-wrap justify-content-between align-items-center gap-3 pricing-content-row"
+              >
+                <div class="pricing-fields flex-grow-1">
+                  <div
+                    class="price-row highlight d-flex justify-content-between align-items-center"
+                  >
+                    <span class="label">Selling Price: </span>
+                    <span class="value selling-price">
+                      ₹<span id="modalMarkupPrice"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
