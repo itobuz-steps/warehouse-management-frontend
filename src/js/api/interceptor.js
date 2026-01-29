@@ -84,7 +84,8 @@ api.interceptors.response.use(
           }
         );
 
-        const newAccessToken = res.data.data.accessToken || res.data.data.access_token;
+        const newAccessToken =
+          res.data.data.accessToken || res.data.data.access_token;
 
         if (!newAccessToken) {
           processQueue(new Error('No access token in refresh response'), null);

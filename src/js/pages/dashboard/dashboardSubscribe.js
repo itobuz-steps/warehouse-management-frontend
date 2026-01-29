@@ -692,7 +692,6 @@ const showProfitLossSubscribe = async (
     const labels = profitLossData.map((d) => d.label);
     const nets = profitLossData.map((d) => d.net);
 
-
     if (lineGraph2) {
       lineGraph2.destroy();
     }

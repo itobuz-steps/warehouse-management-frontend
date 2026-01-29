@@ -7,7 +7,7 @@ fetch('./notification.html')
     container.innerHTML = html;
 
     import('./notifications/notification.js');
-    import ('./../../scss/common/_notification.scss');
+    import('./../../scss/common/_notification.scss');
   })
   .catch((err) => {
     console.error('Failed to load notifications offcanvas:', err);
